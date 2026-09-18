@@ -4,50 +4,52 @@ Projeto da **MAYAA STUDIO** para a **Nação Verde**: assinatura recorrente para
 o catálogo de suplementos, dentro da loja **Shopify** que o cliente já opera,
 com **PagBank** como meio de pagamento.
 
-**Etapa atual: orçamento.** O desenvolvimento só começa depois do valor
-fechado — decisão do Victor em 18/09/2026.
+**Etapa atual: proposta entregue, aguardando aceite do cliente.** O
+desenvolvimento só começa depois do aceite e da verificação do meio de
+pagamento.
 
-| Pasta | O que é | Estado |
-|---|---|---|
-| [`proposta/`](proposta/) | O documento de fechamento que vai ao cliente | 🟡 rascunho — refazer no padrão MAYAA |
-| [`sistema/`](sistema/) | [`ARQUITETURA.md`](sistema/ARQUITETURA.md) — decisão técnica. Código, só depois | ✅ arquitetura escrita |
-
----
-
-## Valor proposto, à espera de confirmação
-
-Calibrado pelo precedente real da MAYAA (fechamento França & Bisordi,
-14/09/2026: R$ 2.000 + R$ 1.500/mês), não por tabela de mercado.
-
-| Cenário | Implantação | Mensal | Mínimo |
-|---|---|---|---|
-| **A** — PagBank suporta recorrência no Shopify | **R$ 6.000** | R$ 1.200/mês | 3 meses |
-| **B** — exige motor de recorrência próprio | R$ 18.000 | R$ 1.500/mês | 6 meses |
-
-Se cair no cenário B, a recomendação é **somar um gateway que suporte
-assinatura só no fluxo recorrente**, mantendo o PagBank no avulso — sai muito
-mais barato que construir motor próprio.
+| Arquivo | O que é |
+|---|---|
+| [`proposta/MAYAA-Fechamento-Nacao-Verde.pdf`](proposta/MAYAA-Fechamento-Nacao-Verde.pdf) | O documento de fechamento, 3 páginas. **Pronto para enviar.** |
+| [`proposta/MAYAA-Apresentacao-Nacao-Verde.pdf`](proposta/MAYAA-Apresentacao-Nacao-Verde.pdf) | A apresentação, 11 slides em 16:9. **Pronta para apresentar.** |
+| [`proposta/fechamento.html`](proposta/fechamento.html) · [`apresentacao.html`](proposta/apresentacao.html) | As fontes dos dois PDFs. Editar aqui e re-renderizar |
+| [`sistema/ARQUITETURA.md`](sistema/ARQUITETURA.md) | Decisão técnica interna. Código, só depois do aceite |
 
 ---
 
-## O que falta para gerar o PDF final
+## Valor fechado
 
-1. **Confirmar o valor e o prazo** a praticar.
-2. **Responder a pergunta do PagBank** — ver
+**R$ 6.000, valor único.** Sem mensalidade, revisões ilimitadas dentro do
+escopo, prazo de 15 dias úteis do último insumo. Decidido pelo Victor em
+18/09/2026.
+
+Calibrado pelo precedente real do estúdio — fechamento França & Bisordi,
+14/09/2026, R$ 2.000 + R$ 1.500/mês — e não por tabela de agência.
+
+O valor cobre o **cenário A** (o meio de pagamento suporta recorrência dentro
+da Shopify). No cenário B o escopo não cabe neste valor, e o documento diz
+isso: escopo e valor são revistos antes de começar. A recomendação, nesse
+caso, é somar um segundo meio de pagamento só para o fluxo de assinatura.
+
+---
+
+## O que ainda depende de terceiros
+
+1. **A pergunta do PagBank** — ver
    [`sistema/ARQUITETURA.md`](sistema/ARQUITETURA.md#1--a-pergunta-que-decide-tudo).
-   Decide entre os dois cenários e, portanto, o orçamento inteiro.
-3. **Ver o layout da página de produto** — prints bastam. Não foi possível
+   Precede o início e decide entre os dois cenários.
+2. **O layout da página de produto** — prints bastam. Não foi possível
    analisar nesta sessão (egresso bloqueado).
-4. **Confirmar a fonte serifada** do padrão MAYAA. O PDF de referência usa uma
-   serifa mincho; a reprodução vai de Shippori Mincho, que é a que o site
-   declara na classe `.jp`.
+3. **Planos, descontos e regras** de pausa, troca e cancelamento — a etapa 1
+   do próprio projeto.
 
 ---
 
 ## O padrão do PDF
 
 Referência: `MAYAA-Fechamento-Franca-Bisordi.pdf` (enviado pelo Victor, não
-versionado aqui por ser documento de outro cliente).
+versionado aqui por ser documento de outro cliente). Reproduzido em
+`fechamento.html`.
 
 Fundo `paper` `#F6F4EF`, texto `ink` `#0B0B0B`, display em serifa mincho,
 corpo em Archivo. Tarja de cabeçalho, marca do gato, bloco
@@ -56,9 +58,24 @@ corpo em Archivo. Tarja de cabeçalho, marca do gato, bloco
 serifa grande. Rodapé centralizado. Fechamento na página 1, anexos depois,
 assinados *Victor · MAYAA STUDIO*.
 
-As fontes ficam em [`proposta/assets/fonts/`](proposta/assets/fonts/) — vêm do
-npm (Fontsource, licença SIL OFL) porque este ambiente não alcança o Google
-Fonts.
+As fontes ficam em [`proposta/assets/fonts/`](proposta/assets/fonts/) — Shippori
+Mincho no display e Archivo no texto, vindas do npm (Fontsource, licença SIL
+OFL) porque este ambiente não alcança o Google Fonts. O subconjunto japonês
+tem só os cinco glifos de まやー工房, 1,6 KB em vez de 1,4 MB.
+
+### Como regerar os PDFs
+
+```bash
+cd nacao-verde/proposta
+CHROME=/caminho/para/chrome   # no Mac: "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+"$CHROME" --headless --no-pdf-header-footer \
+  --print-to-pdf="MAYAA-Fechamento-Nacao-Verde.pdf" fechamento.html
+"$CHROME" --headless --no-pdf-header-footer \
+  --print-to-pdf="MAYAA-Apresentacao-Nacao-Verde.pdf" apresentacao.html
+```
+
+O documento sai em A4 e a apresentação em 16:9 — o tamanho vem do `@page` de
+cada arquivo, não da linha de comando.
 
 ---
 
