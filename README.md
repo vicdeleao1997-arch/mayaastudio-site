@@ -1,12 +1,12 @@
 # mayaastudio-site
 
-Repositório único da MAYAA STUDIO. Reúne dois projetos que antes viviam em
-repositórios separados; cada um ocupa sua própria pasta.
+Repositório único da MAYAA STUDIO. Cada projeto ocupa sua própria pasta.
 
 | Pasta | Projeto | O que é |
 |---|---|---|
 | [`site/`](site/) | **Site MAYAA STUDIO** | A página pública de mayaastudio.com.br — `index.html` e `assets/`. |
 | [`bvba/`](bvba/) | **BVBA Supply®** | O antigo `bvba-qa`: agente de drop da Nuvemshop (Python), plano de marketing, QA de imagens, pesquisa e o material de imigração canadense. Ver [`bvba/README.md`](bvba/README.md). |
+| [`nacao-verde/`](nacao-verde/) | **Nação Verde** | Sistema de assinatura recorrente e a proposta comercial que o descreve. Em desenvolvimento. Ver [`nacao-verde/README.md`](nacao-verde/README.md). |
 
 ## Como o site é publicado
 

@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<title>Assinatura Recorrente · Nação Verde · MAYAA STUDIO</title>
+<style>
+@font-face{font-family:'Mincho';src:url('assets/fonts/shippori-mincho-latin-400-normal.woff2') format('woff2');font-weight:400;font-display:block}
+@font-face{font-family:'Mincho';src:url('assets/fonts/shippori-mincho-latin-600-normal.woff2') format('woff2');font-weight:600;font-display:block}
+@font-face{font-family:'MinchoJP';src:url('assets/fonts/shippori-mincho-jp-subset.woff2') format('woff2');font-weight:400;font-display:block}
+@font-face{font-family:'Archivo';src:url('assets/fonts/archivo-latin-300-normal.woff2') format('woff2');font-weight:300;font-display:block}
+@font-face{font-family:'Archivo';src:url('assets/fonts/archivo-latin-400-normal.woff2') format('woff2');font-weight:400;font-display:block}
+@font-face{font-family:'Archivo';src:url('assets/fonts/archivo-latin-500-normal.woff2') format('woff2');font-weight:500;font-display:block}
+@font-face{font-family:'Archivo';src:url('assets/fonts/archivo-latin-600-normal.woff2') format('woff2');font-weight:600;font-display:block}
+
+:root{ --ink:#0B0B0B; --paper:#F6F4EF; --smoke:#8A8680; --body:#2B2A27; --line:#DAD5CB; }
+*{ box-sizing:border-box; margin:0; padding:0; }
+@page{ size:338.67mm 190.5mm; margin:0; }
+body{ font-family:'Archivo',sans-serif; color:var(--body); background:var(--paper);
+      -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+
+.s{ width:338.67mm; height:190.5mm; padding:17mm 20mm 14mm; background:var(--paper);
+    page-break-after:always; display:flex; flex-direction:column; position:relative; overflow:hidden; }
+.s:last-child{ page-break-after:auto; }
+.s.dark{ background:var(--ink); color:var(--paper); }
+
+.serif{ font-family:'Mincho','MinchoJP',serif; font-weight:400; }
+.jp{ font-family:'MinchoJP','Mincho',serif; }
+.tag{ font-weight:500; font-size:8pt; letter-spacing:.3em; text-transform:uppercase; color:var(--smoke); }
+.dark .tag{ color:rgba(246,244,239,.55); }
+
+.top{ display:flex; justify-content:space-between; align-items:baseline;
+      border-bottom:1px solid var(--line); padding-bottom:4mm; margin-bottom:11mm; }
+.dark .top{ border-color:rgba(246,244,239,.2); }
+
+h2{ font-family:'Mincho',serif; font-weight:400; font-size:30pt; line-height:1.14; color:var(--ink); letter-spacing:-.005em; }
+.dark h2{ color:var(--paper); }
+.sub{ font-size:12.5pt; font-weight:300; line-height:1.55; color:var(--body); max-width:44em; margin-top:7mm; }
+.dark .sub{ color:rgba(246,244,239,.72); }
+
+.mid{ flex:1; display:flex; flex-direction:column; justify-content:center; }
+.foot{ margin-top:auto; border-top:1px solid var(--line); padding-top:4mm;
+       display:flex; justify-content:space-between; font-size:7.4pt; letter-spacing:.22em;
+       text-transform:uppercase; color:var(--smoke); }
+.dark .foot{ border-color:rgba(246,244,239,.2); color:rgba(246,244,239,.45); }
+
+/* capa */
+.mark{ width:24mm; }
+.dark .mark{ filter:invert(1); opacity:.95; }
+.cover-t{ font-family:'Mincho',serif; font-size:46pt; line-height:1.1; letter-spacing:-.01em; }
+
+/* colunas */
+.cols{ display:flex; gap:14mm; margin-top:4mm; }
+.col{ flex:1; }
+.col .n{ font-family:'Mincho',serif; font-size:17pt; color:var(--smoke); display:block; margin-bottom:3mm; }
+.col h3{ font-weight:600; font-size:12pt; color:var(--ink); margin-bottom:2.5mm; line-height:1.28; }
+.dark .col h3{ color:var(--paper); }
+.col p{ font-size:10pt; font-weight:300; line-height:1.5; color:#4A4844; }
+.dark .col p{ color:rgba(246,244,239,.66); }
+
+/* lista de etapas */
+.steps{ display:grid; grid-template-columns:1fr 1fr; gap:6mm 14mm; margin-top:4mm; }
+.st{ display:flex; gap:5mm; padding:4.6mm 0; border-top:1px solid var(--line); }
+.st .n{ font-family:'Mincho',serif; font-size:13pt; color:var(--smoke); width:8mm; flex:none; }
+.st .t{ font-weight:600; font-size:10.4pt; color:var(--ink); line-height:1.3; }
+.st .d{ font-size:9pt; font-weight:300; color:#55534F; line-height:1.45; margin-top:1mm; }
+
+/* contraste antes/depois */
+.vs{ display:flex; gap:0; margin-top:6mm; border:1px solid var(--line); }
+.vs > div{ flex:1; padding:9mm 10mm; }
+.vs > div:first-child{ border-right:1px solid var(--line); }
+.vs .lab{ margin-bottom:4mm; }
+.vs .big{ font-family:'Mincho',serif; font-size:21pt; line-height:1.24; color:var(--ink); }
+.vs .note{ font-size:9.4pt; font-weight:300; color:#55534F; margin-top:4mm; line-height:1.5; }
+
+/* preço */
+.price{ font-family:'Mincho',serif; font-size:78pt; line-height:1; letter-spacing:-.015em; color:var(--paper); }
+.price-note{ font-size:10.5pt; font-weight:300; color:rgba(246,244,239,.6); margin-top:6mm; letter-spacing:.02em; }
+
+.pills{ display:flex; gap:4mm; margin-top:9mm; flex-wrap:wrap; }
+.pill{ border:1px solid rgba(246,244,239,.32); border-radius:999px; padding:2.6mm 6mm;
+       font-size:9.4pt; font-weight:400; color:rgba(246,244,239,.82); }
+.s:not(.dark) .pill{ border-color:var(--line); color:#4A4844; }
+
+.rule{ height:1px; background:var(--line); margin:7mm 0; }
+</style>
+</head>
+<body>
+
+<!-- 01 CAPA -->
+<section class="s dark">
+  <div class="top"><span class="tag">Fechamento de serviço</span><span class="tag">Proposta · 2026</span></div>
+  <div class="mid">
+    <img class="mark" src="assets/mayaa-mark-ink.png" alt="" style="margin-bottom:12mm" />
+    <div class="tag" style="margin-bottom:6mm">Nação Verde · Assinatura recorrente</div>
+    <div class="cover-t">Proposta de<br/>Fechamento.</div>
+  </div>
+  <div class="foot"><span><span class="jp">まやー工房</span> · MAYAA STUDIO</span><span>18 de setembro de 2026</span></div>
+</section>
+
+<!-- 02 O QUE ESTE DOCUMENTO FECHA · mecanismo + preço no primeiro parágrafo -->
+<section class="s">
+  <div class="top"><span class="tag">O que este documento fecha</span><span class="tag">01</span></div>
+  <div class="mid">
+    <h2>Escopo e investimento<br/>do sistema de assinatura.</h2>
+    <p class="sub">O cliente escolhe uma vez na página de produto e passa a receber todo mês, com a cobrança acontecendo sozinha dentro da Shopify — <strong>para a loja faturar de quem já comprou, em vez de reconquistar a mesma pessoa todo mês.</strong></p>
+    <p class="sub" style="margin-top:6mm; font-weight:500; color:var(--ink)">R$ 6.000, valor único. Sem mensalidade. 15 dias úteis.</p>
+  </div>
+  <div class="foot"><span>Assinatura recorrente · Nação Verde</span><span>MAYAA STUDIO</span></div>
+</section>
+
+<!-- 03 ELOGIO ESPECÍFICO · o movimento mais forte do padrão -->
+<!-- QUANDO OS PRINTS DA PÁGINA DE PRODUTO CHEGAREM: acrescentar aqui uma terceira
+     coluna citando um elemento concreto do layout. Elogio genérico enfraquece o slide. -->
+<section class="s">
+  <div class="top"><span class="tag">O ponto de partida</span><span class="tag">02</span></div>
+  <div class="mid">
+    <h2>A loja já tem<br/>a parte difícil pronta.</h2>
+    <div class="cols" style="margin-top:9mm">
+      <div class="col">
+        <span class="n">01</span>
+        <h3>O catálogo é de uso contínuo</h3>
+        <p>NAC e o resto da prateleira são produtos que a pessoa toma mês após mês. A intenção de recompra já existe — ela só não está sendo capturada. A maioria das lojas que tenta assinatura não tem essa condição, e é ela que decide se o modelo funciona.</p>
+      </div>
+      <div class="col">
+        <span class="n">02</span>
+        <h3>A página de produto foi construída internamente</h3>
+        <p>O layout é de vocês e conhecido por vocês. O bloco de assinatura entra <strong>dentro</strong> dele, peça por peça — não por cima, e não substituindo nada do que já converte hoje.</p>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>Assinatura recorrente · Nação Verde</span><span>MAYAA STUDIO</span></div>
+</section>
+
+<!-- 04 INCLUSO NO SERVIÇO -->
+<section class="s">
+  <div class="top"><span class="tag">Incluso no serviço</span><span class="tag">03</span></div>
+  <div class="mid">
+  <h2 style="font-size:25pt; margin-bottom:7mm">Cinco entregas.</h2>
+  <div class="steps" style="grid-template-columns:1fr 1fr 1fr">
+    <div class="st"><div class="n">01</div><div><div class="t">Planos configurados na loja</div><div class="d">Cada produto ganha a opção de assinatura ao lado da compra avulsa. O que já vende continua vendendo do mesmo jeito.</div></div></div>
+    <div class="st"><div class="n">02</div><div><div class="t">Bloco na página de produto</div><div class="d">Integrado ao tema atual peça por peça. É a etapa mais demorada das cinco, e é o que impede a assinatura de parecer enxerto.</div></div></div>
+    <div class="st"><div class="n">03</div><div><div class="t">Cobrança e recuperação de falha</div><div class="d">Cobra sozinho a cada ciclo. Cartão recusado entra em régua de novas tentativas com aviso — é onde a receita recorrente se sustenta ou se perde.</div></div></div>
+    <div class="st"><div class="n">04</div><div><div class="t">Área do assinante e avisos</div><div class="d">Pausar, trocar, cancelar sem abrir chamado. E-mail antes de cobrar, recibo e aviso de falha, porque cliente avisado não contesta no cartão.</div></div></div>
+    <div class="st"><div class="n">05</div><div><div class="t">Homologação e publicação</div><div class="d">Ciclo real com cobrança simbólica antes de abrir ao público. Assinatura só se prova virando o mês.</div></div></div>
+  </div>
+  </div>
+  <div class="foot"><span>Assinatura recorrente · Nação Verde</span><span>MAYAA STUDIO</span></div>
+</section>
+
+<!-- 05 COMO FUNCIONA 1 -->
+<section class="s">
+  <div class="top"><span class="tag">Como funciona · parte 1</span><span class="tag">04</span></div>
+  <div class="mid">
+  <h2 style="font-size:25pt; margin-bottom:6mm">Da definição ao primeiro teste.</h2>
+  <div class="steps">
+    <div class="st"><div class="n">01</div><div><div class="t">Definir o que o cliente assina</div><div class="d">Produtos, frequência, desconto e regras de pausa e troca. Aprovado por escrito antes de começar.</div></div></div>
+    <div class="st"><div class="n">02</div><div><div class="t">Preparar os produtos na loja</div><div class="d">A opção de assinatura aparece ao lado da compra avulsa. Nada do que já vende é alterado.</div></div></div>
+    <div class="st"><div class="n">03</div><div><div class="t">Colocar a escolha na página</div><div class="d">Um bloco no layout atual: comprar uma vez, ou assinar e economizar.</div></div></div>
+    <div class="st"><div class="n">04</div><div><div class="t">Ligar a cobrança automática</div><div class="d">O meio de pagamento guarda o cartão. Ele nunca passa pela loja nem pelo estúdio.</div></div></div>
+  </div>
+  </div>
+  <div class="foot"><span>Assinatura recorrente · Nação Verde</span><span>MAYAA STUDIO</span></div>
+</section>
+
+<!-- 06 COMO FUNCIONA 2 -->
+<section class="s">
+  <div class="top"><span class="tag">Como funciona · parte 2</span><span class="tag">05</span></div>
+  <div class="mid">
+  <h2 style="font-size:25pt; margin-bottom:6mm">Do assinante ao primeiro mês.</h2>
+  <div class="steps">
+    <div class="st"><div class="n">05</div><div><div class="t">Tratar quem não pagou</div><div class="d">Cartão falha o tempo todo. O sistema tenta de novo, avisa e só corta depois do prazo combinado.</div></div></div>
+    <div class="st"><div class="n">06</div><div><div class="t">Dar autonomia ao assinante</div><div class="d">Pausar, trocar produto, mudar cartão ou cancelar sozinho, sem passar pelo atendimento.</div></div></div>
+    <div class="st"><div class="n">07</div><div><div class="t">Avisar nas horas certas</div><div class="d">Antes de cobrar, ao cobrar, quando falha e ao cancelar.</div></div></div>
+    <div class="st"><div class="n">08</div><div><div class="t">Testar virando o ciclo</div><div class="d">Melhor descobrir o que quebra com R$ 1,00 do que com a base inteira.</div></div></div>
+    <div class="st"><div class="n">09</div><div><div class="t">Abrir e acompanhar</div><div class="d">Publicação e primeira renovação acompanhada. O primeiro ciclo é o que ensina.</div></div></div>
+  </div>
+  </div>
+  <div class="foot"><span>Assinatura recorrente · Nação Verde</span><span>MAYAA STUDIO</span></div>
+</section>
+
+<!-- 07 OBJEÇÕES RESPONDIDAS ANTES -->
+<section class="s">
+  <div class="top"><span class="tag">Respondido antes da pergunta</span><span class="tag">06</span></div>
+  <div class="mid">
+  <h2 style="font-size:25pt; margin-bottom:7mm">As três dúvidas de sempre.</h2>
+  <div class="cols">
+    <div class="col">
+      <span class="n">01</span>
+      <h3>“Isso vai quebrar o layout da página?”</h3>
+      <p>Não. O bloco é construído dentro do tema atual, elemento por elemento. É justamente por isso que essa é a etapa mais demorada — e o motivo de não usarmos um widget genérico por cima do design.</p>
+    </div>
+    <div class="col">
+      <span class="n">02</span>
+      <h3>“Facilitar o cancelamento não aumenta o cancelamento?”</h3>
+      <p>Cancelamento difícil não retém ninguém: vira contestação no cartão, e aí a loja perde a venda, paga a taxa e ainda piora o histórico com a operadora. Autonomia é proteção, não perda.</p>
+    </div>
+    <div class="col">
+      <span class="n">03</span>
+      <h3>“E quando o cartão falhar?”</h3>
+      <p>Falha é rotina, não exceção — cartão vence, é bloqueado, fica sem limite. A régua de novas tentativas com aviso ao assinante é o que separa receita recorrente de cancelamento em massa no terceiro mês.</p>
+    </div>
+  </div>
+  </div>
+  <div class="foot"><span>Assinatura recorrente · Nação Verde</span><span>MAYAA STUDIO</span></div>
+</section>
+
+<!-- 08 VERIFICAÇÃO -->
+<section class="s">
+  <div class="top"><span class="tag">Antes de começar</span><span class="tag">07</span></div>
+  <div class="mid">
+    <h2>Uma verificação<br/>precede o início.</h2>
+    <p class="sub">O meio de pagamento da loja consegue fazer cobrança recorrente dentro da Shopify? Assinatura não é apenas cobrar de novo: o gateway precisa guardar o cartão e aceitar uma cobrança disparada com o cliente ausente.</p>
+    <div class="cols" style="margin-top:9mm">
+      <div class="col">
+        <span class="n">A</span>
+        <h3>Suporta — é o escopo desta proposta</h3>
+        <p>Usamos a estrutura de assinatura da própria Shopify. Cenário previsto, coberto pelo valor.</p>
+      </div>
+      <div class="col">
+        <span class="n">B</span>
+        <h3>Não suporta — revemos antes de começar</h3>
+        <p>A recomendação passa a ser somar um segundo meio de pagamento só para a assinatura, mantendo o atual na compra avulsa. Escopo e valor são revistos antes, nunca no meio.</p>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>Assinatura recorrente · Nação Verde</span><span>MAYAA STUDIO</span></div>
+</section>
+
+<!-- 09 CONDIÇÕES -->
+<section class="s">
+  <div class="top"><span class="tag">Condições</span><span class="tag">08</span></div>
+  <div class="mid">
+    <h2>O combinado,<br/>por escrito.</h2>
+    <div class="cols" style="margin-top:9mm">
+      <div class="col"><span class="n">01</span><h3>15 dias úteis do último insumo</h3><p>O relógio começa quando o último acesso e a última definição chegam — não na assinatura desta proposta.</p></div>
+      <div class="col"><span class="n">02</span><h3>Revisões ilimitadas dentro do escopo</h3><p>Ajustar o que está nas cinco entregas, quantas vezes for preciso. Item novo que não conste ali entra como orçamento à parte.</p></div>
+      <div class="col"><span class="n">03</span><h3>Custos de terceiros por conta da loja</h3><p>Taxa do meio de pagamento, taxa adicional da Shopify por gateway externo e mensalidade do aplicativo de assinatura.</p></div>
+    </div>
+  </div>
+  <div class="foot"><span>Assinatura recorrente · Nação Verde</span><span>MAYAA STUDIO</span></div>
+</section>
+
+<!-- 10 INVESTIMENTO -->
+<section class="s dark">
+  <div class="top"><span class="tag">Investimento</span><span class="tag">09</span></div>
+  <div class="mid">
+    <div class="tag" style="margin-bottom:7mm">Valor único</div>
+    <div class="price">R$ 6.000</div>
+    <p class="price-note">Sem mensalidade. Revisões ilimitadas dentro do escopo.</p>
+    <div class="pills">
+      <span class="pill">15 dias úteis</span>
+      <span class="pill">Publicação inclusa</span>
+      <span class="pill">Primeira renovação acompanhada</span>
+    </div>
+  </div>
+  <div class="foot"><span><span class="jp">まやー工房</span> · MAYAA STUDIO</span><span>Nação Verde</span></div>
+</section>
+
+<!-- 11 PRÓXIMO PASSO -->
+<section class="s">
+  <div class="top"><span class="tag">Próximo passo</span><span class="tag">10</span></div>
+  <div class="mid">
+    <h2>Três movimentos<br/>para começar.</h2>
+    <div class="cols" style="margin-top:9mm">
+      <div class="col"><span class="n">01</span><h3>Confirmar o meio de pagamento</h3><p>A verificação da página anterior. Define o escopo antes de qualquer linha de código.</p></div>
+      <div class="col"><span class="n">02</span><h3>Fechar planos e regras</h3><p>Duas conversas: produtos, frequência, desconto, pausa e cancelamento.</p></div>
+      <div class="col"><span class="n">03</span><h3>Liberar os acessos</h3><p>Colaborador na Shopify e na conta do meio de pagamento. A partir daí, os 15 dias correm.</p></div>
+    </div>
+    <div style="margin-top:12mm">
+      <div style="width:52mm; border-top:1px solid var(--line); margin-bottom:2mm"></div>
+      <div class="serif" style="font-size:13pt; color:var(--ink)">Victor</div>
+      <div class="tag" style="margin-top:1mm">MAYAA STUDIO</div>
+    </div>
+  </div>
+  <div class="foot"><span><span class="jp">まやー工房</span> · MAYAA STUDIO · mayaastudio.com.br</span><span>18 de setembro de 2026</span></div>
+</section>
+
+</body>
+</html>
