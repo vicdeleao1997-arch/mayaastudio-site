@@ -1,0 +1,46 @@
+name: Publicar site
+
+# O site mora em site/, nao na raiz. O GitHub Pages servindo direto de uma
+# branch so aceita a raiz ou /docs, entao a publicacao passa por aqui: este
+# workflow empacota a pasta site/ e a entrega ao Pages.
+#
+# Para isso valer, Settings > Pages > Build and deployment > Source precisa
+# estar em "GitHub Actions" (e nao em "Deploy from a branch"). O dominio
+# mayaastudio.com.br continua vindo do site/CNAME, que viaja dentro do
+# artefato.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "site/**"
+      - ".github/workflows/deploy-pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Uma publicacao por vez, sem cancelar a que ja esta no ar.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.publicacao.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+      - id: publicacao
+        uses: actions/deploy-pages@v4
