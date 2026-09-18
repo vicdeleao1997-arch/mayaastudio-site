@@ -1,145 +1,114 @@
-# Arquitetura — sistema de assinatura Nação Verde
+# Arquitetura — assinatura Nação Verde (Shopify + PagBank)
 
-Documento de decisão técnica. O que está aqui é o que a proposta comercial
-pode prometer; o que não está aqui não deve ser prometido.
+Documento interno. Sustenta o que o orçamento promete; o que não está aqui não
+deve ser prometido.
 
----
-
-## 1 · A decisão de fundo: isto é nuvem, não tem escolha
-
-Uma assinatura recorrente não é um formulário de pagamento. É um processo que
-continua rodando depois que o cliente fecha o navegador:
-
-- o gateway precisa de **um endereço público** para avisar que a fatura foi
-  paga, que o cartão falhou, que o assinante cancelou;
-- alguém precisa estar de pé no **dia da renovação**, todo mês, sem ninguém
-  clicar em nada;
-- quando a cobrança falha, alguém precisa **tentar de novo**, avisar o
-  assinante e, no fim do prazo, **cortar o acesso**.
-
-Máquina local não faz isso. Ela dorme, troca de IP, fica atrás de NAT e não
-recebe conexão de entrada. Local serve para desenvolver; produção é nuvem.
+> **Reescrito em 18/09/2026.** A versão anterior deste arquivo supunha site
+> estático e backend próprio. Errado: a loja é **Shopify** e o gateway é
+> **PagBank**. Isso muda a arquitetura inteira — e muda o orçamento.
 
 ---
 
-## 2 · Desenho
+## 1 · A pergunta que decide tudo
 
-| Camada | Onde | Por quê |
+**O PagBank suporta contrato de assinatura dentro do Shopify?**
+
+Não é detalhe de implementação. É a pergunta que separa um projeto de porte
+médio de um projeto duas a três vezes maior, e precisa ser respondida **antes**
+de fechar o valor.
+
+Por quê: no Shopify, assinatura recorrente não é "cobrar de novo". O gateway
+precisa **guardar o meio de pagamento** (tokenização/*vaulting*) e aceitar que
+a loja dispare a cobrança sozinha, sem o cliente presente — o que o Shopify
+chama de *subscription contract*. Nem todo gateway integrado ao Shopify faz
+isso. No Brasil, poucos fazem.
+
+| | Cenário A — o PagBank suporta | Cenário B — não suporta |
 |---|---|---|
-| Site / landing | GitHub Pages, como o `site/` já é | Estático, rápido, sem custo, nada muda no que existe |
-| Checkout | Página **hospedada pelo gateway** | O cartão nunca toca o nosso servidor — tira quase todo o peso de PCI-DSS |
-| Backend (webhook + API) | Serverless: Vercel, Cloudflare Workers ou Supabase Edge | Endereço público com HTTPS, sem servidor para administrar |
-| Banco | Postgres gerenciado (Supabase/Neon) | Fonte da verdade de quem está ativo |
-| Área do assinante | Front no site, sessão contra o backend | Libera e bloqueia conforme o status |
+| Como funciona | App de assinatura do ecossistema Shopify, cobrando pelo PagBank | Plataforma de recorrência por fora, devolvendo o pedido ao Shopify a cada ciclo |
+| O que construímos | Planos, vitrine, portal do assinante, régua de comunicação | Tudo do A **mais** o motor de recorrência, a sincronia de pedidos e a auditoria |
+| Esforço | Médio | **2 a 3 vezes maior** |
+| Risco | Baixo | Médio — duas fontes de verdade para manter em acordo |
+
+**Como responder:** confirmar com o suporte do PagBank e com a documentação do
+app dele no Shopify se há suporte a *subscriptions / pagamento recorrente com
+cartão tokenizado*. Não dá para responder desta sessão — o ambiente remoto tem
+egresso negado (403 no CONNECT, verificado em 18/09/2026).
+
+Se a resposta for não, há três saídas, em ordem de preferência:
+1. **Adicionar** um gateway que suporte assinatura só para o fluxo recorrente,
+   mantendo o PagBank no avulso;
+2. plataforma de recorrência externa (cenário B);
+3. trocar de gateway — o mais caro em negociação, o mais barato em código.
+
+---
+
+## 2 · Desenho no cenário A
+
+| Camada | Onde | Observação |
+|---|---|---|
+| Loja e checkout | Shopify | Nada é reconstruído. O checkout continua o do Shopify. |
+| Planos de assinatura | *Selling plans* do Shopify | Ficam presos ao produto — o mesmo NAC vende avulso e assinatura |
+| Vitrine da assinatura | Tema, na página de produto | É onde o layout já construído entra |
+| Cobrança e guarda do cartão | PagBank | Cartão nunca toca nosso código |
+| Portal do assinante | App + tema | Pausar, trocar, cancelar sem abrir chamado |
+| Comunicação | E-mail transacional | Aviso antes de cobrar, recibo, falha, cancelamento |
 
 > **Regra que não se negocia:** dado de cartão não passa pelo nosso código, não
-> entra no nosso banco, não aparece em log. Quem guarda cartão é o gateway.
-> Isso não é preciosismo — é o que mantém o escopo de PCI no mínimo e o risco
-> fora do colo da MAYAA e do cliente.
+> entra em banco nosso, não aparece em log. Quem guarda cartão é o gateway.
 
 ---
 
-## 3 · A máquina de estados da assinatura
+## 3 · A máquina de estados
 
-É o coração do sistema, e é a parte que independe de qual gateway vencer.
+Vale nos dois cenários. É a regra de negócio que o cliente precisa aprovar por
+escrito antes de qualquer linha de código.
 
 ```
-                 pagamento aprovado
-   [ pendente ] ────────────────────> [ ativa ]
-        │                              │   ▲
-        │ falhou / expirou             │   │ cobrança recuperada
-        ▼                              ▼   │
-   [ cancelada ] <──────────── [ inadimplente ]
+                 1ª cobrança aprovada
+   [ pendente ] ────────────────────> [ ativa ] <──── [ pausada ]
+        │                              │   ▲              ▲
+        │ falhou                       │   │ recuperada   │ a pedido
+        ▼                              ▼   │              │
+   [ cancelada ] <──────────── [ inadimplente ] ──────────┘
         ▲                              │
-        │  fim do prazo de tolerância  │
+        │   fim da tolerância          │
         └──────────── [ suspensa ] <───┘
-                          │
-                          └── acesso bloqueado, cadastro preservado
 ```
 
-- **pendente** — checkout aberto, primeira cobrança ainda não confirmada.
-- **ativa** — em dia. É o único estado que libera acesso.
-- **inadimplente** — cobrança falhou; acesso segue liberado durante a
-  tolerância enquanto o sistema tenta de novo (*dunning*).
-- **suspensa** — acabou a tolerância. Acesso bloqueado, cadastro e histórico
-  preservados para reativação sem recomeço.
-- **cancelada** — por pedido do assinante ou por desistência da cobrança.
-  Acesso vale até o fim do ciclo já pago.
-
-**[A DEFINIR] com o cliente:** quantos dias de tolerância, quantas tentativas
-de recobrança e se o cancelamento corta na hora ou no fim do ciclo pago. São
-decisões de negócio, não técnicas — e cada uma vira uma linha da proposta.
+Decisões pendentes com o cliente, cada uma vira linha do orçamento:
+- quantos dias de tolerância antes de suspender;
+- quantas tentativas de recobrança, e em que intervalo;
+- cancelamento corta na hora ou no fim do ciclo já pago;
+- pode pausar? por quantos ciclos?
+- troca de produto dentro do mesmo plano é permitida?
 
 ---
 
-## 4 · Escolha do gateway
+## 4 · Particularidades de Shopify que afetam o custo
 
-Decisão pendente. O que pesa:
-
-| Critério | Caminho brasileiro (Asaas, Pagar.me, Mercado Pago) | Stripe |
-|---|---|---|
-| Pix recorrente e boleto | Nativo, é o forte deles | Suporte limitado no Brasil |
-| Emissão de NF-e / NFS-e | Alguns já fazem junto | Não faz — precisa de terceiro |
-| Cartão internacional, cobrança em dólar | Fraco | É o forte dele |
-| Qualidade de API e documentação | Varia bastante entre eles | Referência do mercado |
-| Antifraude e disputa | Varia | Maduro |
-
-**Recomendação:** se o assinante da Nação Verde é pessoa física no Brasil
-pagando em real, com Pix e boleto na mesa, o caminho brasileiro tem menos
-atrito — e a emissão de nota junto economiza um integrador inteiro. Stripe
-entra se houver cobrança internacional.
-
-> **Taxas:** deliberadamente não estão nesta tabela. Elas mudam por contrato e
-> por volume, e este ambiente não alcança o site dos gateways (egresso 403)
-> para conferir. Número de taxa entra na proposta **só** depois de confirmado
-> na fonte ou no contrato — proposta comercial com taxa errada é problema que
-> aparece no primeiro fechamento de mês.
-
-O código isola a cobrança atrás de uma interface (`criar_assinatura`,
-`cancelar`, `consultar`, `tratar_evento`), então trocar de gateway depois é
-caro mas não é reescrever. Ainda assim vale decidir antes: o formato do
-webhook e o modelo de ciclo de cada um são diferentes o bastante para mudar os
-testes.
+- **Taxa adicional por gateway externo.** O Shopify cobra um percentual extra
+  quando a loja não usa o Shopify Payments. O valor muda conforme o plano da
+  loja — **confirmar no painel do cliente**, não estimar.
+- **Tema.** Se o tema for personalizado (e o layout indica que é), o widget de
+  assinatura não "cai pronto": precisa ser integrado à mão para não quebrar o
+  design. É a maior parte do trabalho de front.
+- **App de assinatura** costuma ter mensalidade própria, às vezes com
+  percentual sobre a receita recorrente. Entra como custo do cliente, não como
+  receita da MAYAA.
+- **Checkout Extensibility.** Personalização no checkout só é possível dentro
+  do que o Shopify permite. Promessa de customização de checkout precisa ser
+  verificada antes de virar escopo.
 
 ---
 
-## 5 · Modelo de dados (esboço)
+## 5 · O que este ambiente não alcança
 
-| Tabela | Guarda | Observação |
-|---|---|---|
-| `assinante` | pessoa, contato, identificação fiscal | LGPD: só o necessário, e com prazo de descarte definido |
-| `plano` | nome, preço, ciclo, benefícios | Espelha o que existe no gateway, não substitui |
-| `assinatura` | assinante + plano + estado + datas do ciclo | O estado da seção 3 mora aqui |
-| `evento_cobranca` | todo webhook recebido, cru, com o resultado | Trilha de auditoria: sem ela, discussão de cobrança vira palavra contra palavra |
+Verificado em 18/09/2026: proxy devolve `403 Forbidden` no CONNECT para
+`api.stripe.com`, `api.asaas.com`, `api.pagar.me`, `api.mercadopago.com`,
+`example.com` e para **`nacaoverde.com.br`**. Só GitHub e registries passam.
 
----
-
-## 6 · Segurança e conformidade
-
-- **Verificação de assinatura do webhook** (HMAC) em toda requisição recebida.
-  Endpoint de webhook é endereço público: sem verificar, qualquer um libera
-  assinatura mandando um POST.
-- **Idempotência.** Gateway reenvia evento. Processar duas vezes não pode
-  cobrar duas vezes nem duplicar acesso.
-- **Segredos em variável de ambiente**, nunca no repositório. Chave de API de
-  gateway commitada é incidente, não deslize.
-- **LGPD.** Dado pessoal de assinante tem base legal (execução de contrato),
-  finalidade declarada e prazo. O cliente precisa de política de privacidade no
-  ar antes do primeiro pagamento real — **[A DEFINIR]** se a MAYAA redige ou o
-  jurídico do cliente.
-
----
-
-## 7 · O que só é testável com rede aberta
-
-Verificado nesta sessão (18/09/2026): este ambiente remoto tem egresso negado.
-
-| Consigo aqui | Não consigo aqui |
-|---|---|
-| Lógica de estados, regra de negócio | Chamar a API do gateway |
-| Handler de webhook com payload simulado | Receber webhook de verdade |
-| Testes automatizados, sem rede | `stripe listen` / túnel |
-| Modelo de dados, migrations | Criar plano na conta real do cliente |
-
-O teste ponta a ponta acontece contra um **staging publicado** — que é como
-vai rodar em produção de qualquer forma.
+Consequência: o layout de referência da página de produto **não pôde ser
+analisado** nesta sessão. As estimativas de front assumem tema personalizado de
+complexidade média. Ver o layout pode mexer nessa linha — para cima ou para
+baixo.
