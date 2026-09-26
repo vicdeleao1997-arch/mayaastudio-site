@@ -10,7 +10,16 @@
 <meta property="og:description" content="Estúdio de tráfego pago com IA em São Paulo. Anúncio medido em resultado de caixa, não em curtida. Performance · Marketing · IA · Tráfego pago · Audiovisual." />
 <meta property="og:type" content="website" />
 <meta property="og:locale" content="pt_BR" />
+<meta property="og:url" content="https://mayaastudio.com.br/" />
+<meta property="og:image" content="https://mayaastudio.com.br/assets/og/og-mayaa.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://mayaastudio.com.br/" />
 <link rel="icon" href="assets/mayaa-mark-ink.png" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","@id":"https://mayaastudio.com.br/#org","name":"MAYAA STUDIO","url":"https://mayaastudio.com.br/","logo":"https://mayaastudio.com.br/assets/mayaa-mark-ink.png","email":"contato@mayaastudio.com.br","sameAs":["https://www.instagram.com/mayaastudio.br/"]}
+</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -148,10 +157,18 @@ select.field option{ color:#0B0B0B; }
 /* focus a11y */
 a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{ outline:2px solid currentColor; outline-offset:3px; }
 
-/* Reduced motion */
-.rm .reveal,.rm .reveal-line>span,.rm .pl-word span,.rm .menu-link>span{ opacity:1 !important; transform:none !important; }
-.rm .mock-fill{ transform:none; } .rm .chart-path{ stroke-dashoffset:0; } .rm #chartDot{ opacity:1; }
-@media (prefers-reduced-motion:reduce){ .reel::after,.grain{ animation:none; } }
+/* Movimento reduzido = "movimento suave" (v17). As entradas continuam (fade e máscara curtos, sem deslocamento grande);
+   só sai o movimento contínuo forte: parallax, tilt 3D, WebGL, partículas, Lenis e autoplay do vídeo.
+   O estado inicial escondido vem do JS (GSAP), que também o revela; ver .no-anim abaixo para quando o GSAP não carrega. */
+.rm .reveal{ transform:none; }
+.rm .reveal-line>span,.rm .menu-link>span{ transform:none; }
+.rm #menu{ transform:none; opacity:0; transition:opacity .35s ease,visibility .35s; }
+.rm #menu.open{ opacity:1; }
+@media (prefers-reduced-motion:reduce){ .grain{ animation:none; } }
+/* sem GSAP (CDN fora do ar): nada fica escondido à espera de animação */
+.no-anim .reveal,.no-anim .reveal-line>span,.no-anim .pl-word span,.no-anim .menu-link>span{ opacity:1 !important; transform:none !important; }
+.no-anim .mock-fill{ transform:none; } .no-anim .chart-path{ stroke-dashoffset:0; } .no-anim #chartDot{ opacity:1; }
+.no-anim #preloader{ display:none !important; }
 ::selection{ background:#F6F4EF; color:#0B0B0B; }
 .sec--light ::selection{ background:#0B0B0B; color:#F6F4EF; }
 
@@ -164,7 +181,7 @@ body.cursor-label #cursorLabel{ opacity:1; transform:translate(-50%,-50%) scale(
 body.cursor-label #cursor{ opacity:0; }
 [data-tilt3d]{ transform-style:preserve-3d; will-change:transform; }
 [data-hoverscale]{ will-change:transform; }
-@media (prefers-reduced-motion:reduce){ #grainOverlay{ animation:none; } }
+@media (prefers-reduced-motion:reduce){ #grainOverlay{ animation:none; } } /* grão de tela cheia tremendo: fica parado */
 @media (hover:none){ #cursorLabel{ display:none; } }
 
 /* --- v4 motion (ref. editorial/racing, adaptado) --- */
@@ -172,7 +189,6 @@ body.cursor-label #cursor{ opacity:0; }
 .chip-dot{ position:relative; width:7px; height:7px; border-radius:50%; background:var(--paper); flex-shrink:0; }
 .chip-dot::after{ content:''; position:absolute; inset:-5px; border-radius:50%; border:1px solid rgba(246,244,239,.55); animation:chippulse 2.2s var(--ease) infinite; }
 @keyframes chippulse{ 0%{ transform:scale(.35); opacity:1 } 100%{ transform:scale(1.45); opacity:0 } }
-@media (prefers-reduced-motion:reduce){ .chip-dot::after{ animation:none } }
 
 /* Filmstrip horizontal */
 #fsPin{ position:relative; display:flex; flex-direction:column; justify-content:center; padding:11vh 0; }
@@ -183,7 +199,6 @@ body.cursor-label #cursor{ opacity:0; }
 @media (min-width:768px){ .fs-frame{ min-height:58svh; } }
 .rec-dot{ animation:recblink 1.6s steps(1) infinite; }
 @keyframes recblink{ 50%{ opacity:.15 } }
-@media (prefers-reduced-motion:reduce){ .rec-dot{ animation:none } }
 .bar{ height:var(--h); transform-origin:bottom; will-change:transform; }
 .fs-big{ will-change:transform; }
 .fs-scrollable{ overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch; }
@@ -221,6 +236,7 @@ body.cursor-label #cursor{ opacity:0; }
 .client-cell{ background:var(--paper); min-height:7.5rem; display:flex; align-items:center; justify-content:center; padding:1.6rem 1.4rem; }
 .client-cell img{ max-height:2.6rem; max-width:78%; width:auto; height:auto; object-fit:contain; filter:grayscale(1); opacity:.68; transition:filter .45s ease, opacity .45s ease, transform .45s var(--ease); }
 @media (min-width:768px){ .client-cell{ min-height:8.5rem; } .client-cell img{ max-height:2.9rem; } }
+@media (max-width:639px){ .client-cell{ min-height:88px; padding:16px; } .client-cell img{ max-height:34px; } }
 @media (hover:hover){ .client-cell:hover img{ filter:grayscale(0); opacity:1; } }
 #inkTrail{ position:fixed; left:0; top:0; width:100vw; height:100vh; z-index:9996; pointer-events:none; mix-blend-mode:difference; }
 .case-shine{ position:absolute; inset:0; z-index:3; pointer-events:none; opacity:0; transition:opacity .4s ease; background:radial-gradient(420px circle at var(--cx,50%) var(--cy,50%), rgba(11,11,11,.10), transparent 55%); }
@@ -303,8 +319,6 @@ body.cursor-label #cursor{ opacity:0; }
 .reel-play:focus-visible{ outline:none; }
 .reel-play:focus-visible .reel-ring{ outline:2px solid var(--paper); outline-offset:6px; }
 .reel-modal.ig-failed #reelFallbackMsg{ color:var(--paper); }
-@media (prefers-reduced-motion:reduce){ .reel-ring::after{ animation:none !important; } }
-.rm .reel-ring::after{ animation:none !important; }
 
 /* Modal do reel (embed oficial do Instagram, carregado só ao abrir) */
 .reel-modal{ position:fixed; inset:0; z-index:9995; display:none; align-items:center; justify-content:center; padding:16px; }
@@ -333,8 +347,6 @@ body.modal-open{ overflow:hidden; }
 .ana-img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; will-change:transform; filter:grayscale(1) contrast(1.04); transition:filter 1.2s var(--ease); }
 .ana-card.is-on .ana-img{ filter:none; }
 @media (hover:hover){ .ana-card:hover .ana-img{ filter:none; } }
-.rm .ana-img{ filter:none; transition:none; }
-@media (prefers-reduced-motion:reduce){ .ana-img{ filter:none; transition:none; } }
 .ana-tag{ position:absolute; top:12px; left:12px; z-index:3; font:500 10px/1 'Archivo',sans-serif; letter-spacing:.22em; text-transform:uppercase; color:var(--ink); background:var(--paper); padding:7px 10px; border-radius:999px; pointer-events:none; }
 
 /* --- v16: reel nativo, Alumee no Cases, WebGL (OGL), partículas do manifesto, reveals por view() --- */
@@ -376,14 +388,22 @@ main#top{ overflow-x:clip; }
   @media (prefers-reduced-motion:no-preference){
     #estudio .bg-paper svg{ animation:vtMark linear both; animation-timeline:view(); animation-range:entry 10% cover 45%; }
     #metodo .jp{ animation:vtKanji linear both; animation-timeline:view(); animation-range:entry 0% cover 50%; }
-    .ana-card figcaption{ animation:vtWipe linear both; animation-timeline:view(); animation-range:entry 20% cover 40%; }
     .client-cell img{ animation:vtLogo linear both; animation-timeline:view(); animation-range:entry 5% cover 35%; }
   }
+  /* movimento suave: as mesmas entradas, sem giro e com escala curta */
+  @media (prefers-reduced-motion:reduce){
+    #estudio .bg-paper svg{ animation:vtMarkSoft linear both; animation-timeline:view(); animation-range:entry 10% cover 40%; }
+    #metodo .jp{ animation:vtKanji linear both; animation-timeline:view(); animation-range:entry 0% cover 45%; }
+    .client-cell img{ animation:vtLogoSoft linear both; animation-timeline:view(); animation-range:entry 5% cover 30%; }
+  }
 }
+/* (v17) a legenda das fotos da Ana saiu do view(): a seção tem overflow:hidden e no celular a galeria rola na horizontal,
+   então a linha do tempo ficava presa e a legenda parava cortada no meio. Agora a máscara é feita no JS (script v15). */
 @keyframes vtMark{ from{ rotate:-28deg; scale:.62; } to{ rotate:0deg; scale:1; } }
 @keyframes vtKanji{ from{ letter-spacing:.7em; } to{ letter-spacing:0em; } }
-@keyframes vtWipe{ from{ clip-path:inset(0 100% 0 0); } to{ clip-path:inset(0 0 0 0); } }
 @keyframes vtLogo{ from{ scale:.84; translate:0 16px; } to{ scale:1; translate:0 0; } }
+@keyframes vtMarkSoft{ from{ scale:.9; } to{ scale:1; } }
+@keyframes vtLogoSoft{ from{ scale:.94; } to{ scale:1; } }
 </style>
 </head>
 
@@ -504,9 +524,11 @@ main#top{ overflow-x:clip; }
     <span class="display font-extrabold text-[15px] tracking-tight leading-none hidden sm:inline">MAYAA <span class="font-normal">STUDIO</span></span>
   </a>
 
-  <nav class="hidden lg:flex items-center gap-9 text-[13px] font-normal tracking-wide">
+  <nav class="hidden lg:flex items-center gap-7 xl:gap-8 2xl:gap-9 text-[13px] font-normal tracking-wide">
     <a href="#manifesto" class="nav-link" data-i18n="nav.manifesto">Manifesto</a>
     <a href="#servicos" class="nav-link" data-i18n="nav.services">Serviços</a>
+    <a href="/portfolio/" class="nav-link" data-i18n="nav.portfolio">Portfólio</a>
+    <a href="/trafego-pago-com-ia/" class="nav-link hidden xl:inline whitespace-nowrap" data-i18n="nav.ads">Tráfego pago com IA</a>
     <a href="#metodo" class="nav-link" data-i18n="nav.method">Método</a>
     <a href="#estudio" class="nav-link" data-i18n="nav.studio">Estúdio</a>
     <a href="#contato" class="nav-link" data-i18n="nav.contact">Contato</a>
@@ -531,6 +553,10 @@ main#top{ overflow-x:clip; }
     <a href="#metodo" class="menu-link display text-[13vw] leading-tight"><span data-i18n="nav.method">Método</span></a>
     <a href="#estudio" class="menu-link display text-[13vw] leading-tight"><span data-i18n="nav.studio">Estúdio</span></a>
     <a href="#contato" class="menu-link display text-[13vw] leading-tight"><span data-i18n="nav.contact">Contato</span></a>
+    <div class="border-t border-white/15 mt-5 pt-5 flex flex-col gap-1.5">
+      <a href="/portfolio/" class="menu-link display text-[7.2vw] leading-tight text-paper/85"><span><span data-i18n="nav.portfolio">Portfólio</span> →</span></a>
+      <a href="/trafego-pago-com-ia/" class="menu-link display text-[7.2vw] leading-tight text-paper/85"><span><span data-i18n="nav.ads">Tráfego pago com IA</span> →</span></a>
+    </div>
   </nav>
   <div class="flex items-center justify-between">
     <a href="mailto:contato@mayaastudio.com.br" class="text-paper/70 text-sm">contato@mayaastudio.com.br</a>
@@ -594,6 +620,28 @@ main#top{ overflow-x:clip; }
     <span class="display text-paper/80 text-[7vw] md:text-[3.4vw] font-extrabold tracking-[-0.005em]">CRIAR<span class="opacity-40 mx-[3.2vw] md:mx-[1.7vw]">✦</span>CONSTRUIR<span class="opacity-40 mx-[3.2vw] md:mx-[1.7vw]">✦</span>ESCALAR<span class="opacity-40 mx-[3.2vw] md:mx-[1.7vw]">✦</span>OTIMIZAR<span class="opacity-40 mx-[3.2vw] md:mx-[1.7vw]">✦</span></span>
   </div>
 </div>
+
+<!-- ===================== CLIENTES [LIGHT] · faixa de logos logo abaixo do hero (v18) ===================== -->
+<section id="clientes" class="sec sec--light py-16 md:py-24 px-5 md:px-9">
+  <div class="max-w-[1500px] mx-auto">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6 mb-9 md:mb-12">
+      <div><div class="kicker u-smoke reveal mb-4" data-i18n="clients.kicker">Clientes</div><h2 class="display text-ink text-[9vw] md:text-[3.4vw] leading-none"><span class="reveal-line"><span data-i18n="clients.title">Marcas que já passaram pelo estúdio</span></span></h2></div>
+      <p class="reveal max-w-[34ch] text-ink/55 text-[15px] font-light" data-i18n="clients.sub">Marcas diferentes, o mesmo rigor.</p>
+    </div>
+    <div class="client-grid grid grid-cols-2 sm:grid-cols-5 gap-px bg-line border border-line">
+      <div class="client-cell reveal" data-tilt3d><img width="145" height="160" class="fdepth" src="assets/clients/daterrinha.png" alt="Da Terrinha Alimentos" loading="lazy" decoding="async" /></div>
+      <div class="client-cell reveal" data-tilt3d><img width="384" height="160" class="fdepth" src="assets/clients/laurenti.png" alt="Laurenti" loading="lazy" decoding="async" /></div>
+      <div class="client-cell reveal" data-tilt3d><img width="352" height="98" class="fdepth" src="assets/clients/fink.png" alt="Fink Mobility" loading="lazy" decoding="async" /></div>
+      <div class="client-cell reveal" data-tilt3d><img width="680" height="160" class="fdepth" src="assets/clients/buyticket.png" alt="BuyTicket" loading="lazy" decoding="async" /></div>
+      <div class="client-cell reveal" data-tilt3d><img width="463" height="160" class="fdepth" src="assets/clients/seal.png" alt="Seal Sistemas" loading="lazy" decoding="async" /></div>
+      <div class="client-cell reveal" data-tilt3d><img width="374" height="96" class="fdepth" src="assets/clients/ondaeco.png" alt="Onda Eco" loading="lazy" decoding="async" /></div>
+      <div class="client-cell reveal" data-tilt3d><img width="350" height="160" class="fdepth" src="assets/clients/paluama.png" alt="Paluama Corretora de Seguros" loading="lazy" decoding="async" /></div>
+      <div class="client-cell reveal" data-tilt3d><img width="1187" height="160" class="fdepth" src="assets/clients/osetor.png" alt="Grupo O Setor Elétrico" loading="lazy" decoding="async" /></div>
+      <div class="client-cell reveal" data-tilt3d><img width="481" height="160" class="fdepth" src="assets/clients/bvba.png" alt="BVBA Supply" loading="lazy" decoding="async" /></div>
+      <div class="client-cell reveal" data-tilt3d><img width="300" height="160" class="fdepth" src="assets/clients/uma.png" alt="UMA Raquel Blay" loading="lazy" decoding="async" /></div>
+    </div>
+  </div>
+</section>
 
 <!-- ===================== FILMSTRIP [DARK] — rolo horizontal do processo ===================== -->
 <section id="filmstrip" class="sec sec--dark relative overflow-hidden">
@@ -853,9 +901,12 @@ main#top{ overflow-x:clip; }
           <p class="text-paper/75 text-[12.5px] md:text-[13.5px] leading-snug mt-2 max-w-[44ch] font-light" data-i18n="reel2.label">Filme com IA · tinta dourada escorre do quadro para o piso espelhado</p>
         </div>
       </div>
-      <div class="w-full max-w-[540px] md:ml-auto mt-4 flex items-center justify-between gap-4 kicker u-smoke text-[10px] sm:text-[0.7rem] tracking-[0.16em] sm:tracking-[0.34em]">
+      <div class="w-full max-w-[540px] md:ml-auto mt-4 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 kicker u-smoke text-[10px] sm:text-[0.7rem] tracking-[0.16em] sm:tracking-[0.34em]">
         <span class="whitespace-nowrap" data-i18n="reel2.meta">Instagram · 02/08/2026</span>
-        <a href="https://www.instagram.com/reel/DbjBnflO0AR/" target="_blank" rel="noopener" class="nav-link text-paper/80 whitespace-nowrap"><span data-i18n="reel.ig">Ver no Instagram</span> ↗</a>
+        <span class="ml-auto flex items-center gap-4 sm:gap-6">
+          <a href="/cases/bvba-surrealismo/" class="nav-link text-paper whitespace-nowrap"><span data-i18n="cases.view">Ver case</span> →</a>
+          <a href="https://www.instagram.com/reel/DbjBnflO0AR/" target="_blank" rel="noopener" class="nav-link text-paper/80 whitespace-nowrap"><span data-i18n="reel.ig">Ver no Instagram</span> ↗</a>
+        </span>
       </div>
     </div>
   </div>
@@ -867,12 +918,13 @@ main#top{ overflow-x:clip; }
   <div class="max-w-[1500px] mx-auto">
     <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
       <div><div class="kicker u-smoke reveal mb-4">Trabalhos</div><h2 class="display text-ink text-[13vw] md:text-[6vw] leading-none"><span class="reveal-line"><span data-i18n="cases.title">Cases</span></span></h2></div>
-      <p class="reveal max-w-[36ch] text-ink/55 text-[15px] font-light" data-i18n="cases.sub">Loja no ar e campanha lida uma por uma. Conta de cliente aparece sem nome.</p>
+      <p class="reveal max-w-[36ch] text-ink/55 text-[15px] font-light" data-i18n="cases.sub">Filme com IA e campanha lida uma por uma. Números de conta aparecem sem o nome do cliente.</p>
     </div>
     <div class="draw-line text-ink -mt-6 mb-10"></div>
+    <!-- v18: grade de Cases com links para as páginas de case. Desktop 4 col x 3 linhas; tablet 2 col; celular 1 col. Sem buracos. -->
     <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      <a class="case-tile block aspect-[4/5] flex items-center justify-center reveal" href="https://www.bvbasupply.com.br" target="_blank" rel="noopener" data-tilt3d data-cursor="Visitar ↗" data-i18n-cursor="cases.visit"><div class="case-shine" aria-hidden="true"></div><div class="case-main relative z-[2] w-full h-full flex flex-col justify-between text-left p-6 md:p-7"><div class="kicker u-smoke" data-i18n="cases.c1k">Marketing · site &amp; loja</div><div class="fdepth flex items-center justify-center"><img width="481" height="160" src="assets/clients/bvba.png" alt="BVBA Supply" class="w-[72%] max-w-[220px] h-auto" loading="lazy" decoding="async" /></div><div><div class="display text-ink text-xl leading-tight">BVBA Supply®</div><div class="u-smoke text-[12px] mt-1" data-i18n="cases.c1d">Loja no ar</div></div></div><div class="case-alt"><img width="481" height="160" src="assets/clients/bvba.png" alt="" class="w-[56%] max-w-[180px] h-auto invert" loading="lazy" decoding="async" /><div class="kicker text-paper/80 mt-3">bvbasupply.com.br ↗</div></div></a>
-      <div class="case-tile aspect-[4/5] flex items-center justify-center reveal" data-tilt3d data-cursor="ROAS 12,55×"><div class="case-shine" aria-hidden="true"></div><div class="case-main relative z-[2] w-full h-full flex flex-col justify-between text-left p-6 md:p-7"><div class="kicker u-smoke" data-i18n="cases.mp">Tráfego pago · conta anonimizada</div><div class="fdepth"><div class="display text-ink font-extrabold text-6xl md:text-5xl lg:text-6xl leading-none" data-count="12.55" data-suffix="×" data-decimals="2" data-dec=",">12,55×</div><div class="kicker u-smoke mt-3" data-i18n="cases.roas">ROAS · relatório da plataforma</div></div><div><div class="display text-ink text-xl leading-tight" data-i18n="cases.c2n">Maior ROAS entre 45 campanhas</div><div class="u-smoke text-[12px] mt-1" data-i18n="cases.c2d">Venda, não lucro. Topo, não média.</div></div></div><div class="case-alt"><div class="display text-paper text-5xl font-extrabold">12,55×</div><div class="kicker text-paper/70 mt-3 px-6" data-i18n="cases.c2alt">Para cada R$ 1, R$ 12,55 em vendas</div></div></div>
+      <div class="case-tile aspect-[4/5] flex items-center justify-center reveal" data-tilt3d data-cursor="ROAS 12,55×"><div class="case-shine" aria-hidden="true"></div><div class="case-main relative z-[2] w-full h-full flex flex-col justify-between text-left p-6 md:p-7"><div class="kicker u-smoke" data-i18n="cases.mp">Conta anonimizada · Tráfego pago</div><div class="fdepth"><div class="display text-ink font-extrabold text-6xl md:text-5xl lg:text-6xl leading-none" data-count="12.55" data-suffix="×" data-decimals="2" data-dec=",">12,55×</div><div class="kicker u-smoke mt-3" data-i18n="cases.roas">ROAS · relatório da plataforma</div></div><div><div class="display text-ink text-xl leading-tight" data-i18n="cases.c2n">Maior ROAS entre 45 campanhas</div><div class="u-smoke text-[12px] mt-1" data-i18n="cases.c2d">Venda, não lucro. Topo, não média.</div></div></div><div class="case-alt"><div class="display text-paper text-5xl font-extrabold">12,55×</div><div class="kicker text-paper/70 mt-3 px-6" data-i18n="cases.c2alt">Para cada R$ 1, R$ 12,55 em vendas</div></div></div>
+      <div class="case-tile aspect-[4/5] flex items-center justify-center reveal" data-tilt3d data-cursor="45"><div class="case-shine" aria-hidden="true"></div><div class="case-main relative z-[2] w-full h-full flex flex-col justify-between text-left p-6 md:p-7"><div class="kicker u-smoke" data-i18n="cases.mp">Conta anonimizada · Tráfego pago</div><div class="fdepth"><div class="display text-ink font-extrabold text-6xl md:text-5xl lg:text-6xl leading-none" data-count="45" data-decimals="0">45</div><div class="kicker u-smoke mt-3" data-i18n="cases.c3k">Campanhas lidas</div></div><div><div class="display text-ink text-xl leading-tight" data-i18n="cases.c3n">Lidas uma por uma</div><div class="u-smoke text-[12px] mt-1" data-i18n="cases.c3d">set/2025 a ago/2026</div></div></div><div class="case-alt"><div class="display text-paper text-5xl font-extrabold">45</div><div class="kicker text-paper/70 mt-3 px-6" data-i18n="cases.c3alt">Nenhuma lida só pelo total do mês</div></div></div>
       <!-- CASE ALUMEE · vela Mel · reel instagram.com/reel/DbZFaIlBBCR (29/07/2026). Saiu do bloco do reel (agora BVBA em vídeo nativo)
            e virou o card de mídia do Cases: 2x2 no desktop, largura cheia no tablet. O botão abre o modal com o embed oficial. -->
       <div class="case-tile case-media reveal aspect-[4/5] sm:col-span-2 sm:aspect-[16/10] lg:col-span-2 lg:row-span-2 lg:col-start-3 lg:row-start-1 lg:aspect-auto" data-tilt3d data-cursor="Assistir" data-i18n-cursor="reel.cursor">
@@ -888,55 +940,38 @@ main#top{ overflow-x:clip; }
           <span class="reel-ring"><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5l11 6.5-11 6.5z" fill="#F6F4EF"/></svg></span>
         </button>
         <div class="absolute bottom-0 left-0 right-0 z-[5] p-5 md:p-7 pointer-events-none text-left">
-          <div class="kicker text-paper/65 mb-2" data-i18n="reel.k">Case · Audiovisual com IA</div>
+          <div class="kicker text-paper/65 mb-2" data-i18n="cases.alk">Velas artesanais · Campanha com IA</div>
           <p class="display text-paper text-[7vw] sm:text-3xl md:text-[2.1rem] leading-[1.02] font-extrabold" data-i18n="reel.title">Alumee · vela Mel</p>
-          <p class="text-paper/75 text-[12.5px] md:text-[13.5px] leading-snug mt-2 max-w-[44ch] font-light" data-i18n="reel.label">Campanha de lançamento · cena com IA a partir do produto real</p>
-          <div class="mt-4 flex items-center justify-between gap-4 kicker text-paper/60 text-[10px] sm:text-[0.7rem] tracking-[0.16em] sm:tracking-[0.3em]">
-            <span class="whitespace-nowrap" data-i18n="reel.meta">Instagram · 29/07/2026</span>
-            <a href="https://www.instagram.com/reel/DbZFaIlBBCR/" target="_blank" rel="noopener" class="nav-link text-paper/85 whitespace-nowrap pointer-events-auto relative z-[6]"><span data-i18n="reel.ig">Ver no Instagram</span> ↗</a>
+          <p class="hidden sm:block text-paper/75 text-[12.5px] md:text-[13.5px] leading-snug mt-2 max-w-[44ch] font-light" data-i18n="reel.label">Campanha de lançamento · cena com IA a partir do produto real</p>
+          <div class="mt-4 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 kicker text-paper/60 text-[10px] sm:text-[0.7rem] tracking-[0.16em] sm:tracking-[0.3em]">
+            <span class="hidden sm:inline whitespace-nowrap" data-i18n="reel.meta">Instagram · 29/07/2026</span>
+            <span class="ml-auto flex items-center gap-4 sm:gap-6">
+              <a href="/cases/alumee-vela-mel/" class="nav-link text-paper whitespace-nowrap pointer-events-auto relative z-[6]"><span data-i18n="cases.view">Ver case</span> →</a>
+              <a href="https://www.instagram.com/reel/DbZFaIlBBCR/" target="_blank" rel="noopener" class="nav-link text-paper/85 whitespace-nowrap pointer-events-auto relative z-[6]"><span data-i18n="reel.ig">Ver no Instagram</span> ↗</a>
+            </span>
           </div>
         </div>
       </div>
-      <div class="case-tile aspect-[4/5] flex items-center justify-center reveal" data-tilt3d data-cursor="45"><div class="case-shine" aria-hidden="true"></div><div class="case-main relative z-[2] w-full h-full flex flex-col justify-between text-left p-6 md:p-7"><div class="kicker u-smoke" data-i18n="cases.mp">Tráfego pago · conta anonimizada</div><div class="fdepth"><div class="display text-ink font-extrabold text-6xl md:text-5xl lg:text-6xl leading-none" data-count="45" data-decimals="0">45</div><div class="kicker u-smoke mt-3" data-i18n="cases.c3k">Campanhas lidas</div></div><div><div class="display text-ink text-xl leading-tight" data-i18n="cases.c3n">Lidas uma por uma</div><div class="u-smoke text-[12px] mt-1" data-i18n="cases.c3d">set/2025 a ago/2026</div></div></div><div class="case-alt"><div class="display text-paper text-5xl font-extrabold">45</div><div class="kicker text-paper/70 mt-3 px-6" data-i18n="cases.c3alt">Nenhuma lida só pelo total do mês</div></div></div>
-      <a class="case-tile block aspect-[4/5] flex items-center justify-center reveal" href="#contato" data-tilt3d data-cursor="Pedir diagnóstico" data-i18n-cursor="cases.c4alt"><div class="case-shine" aria-hidden="true"></div><div class="case-main relative z-[2] w-full h-full flex flex-col justify-between text-left p-6 md:p-7"><div class="kicker u-smoke" data-i18n="cases.c4k">Próximo case</div><div class="fdepth display text-ink font-extrabold text-6xl md:text-5xl lg:text-6xl leading-none" aria-hidden="true">→</div><div><div class="display text-ink text-xl leading-tight" data-i18n="cases.alt">Seu projeto aqui</div><div class="u-smoke text-[12px] mt-1" data-i18n="cases.c4d">Já anuncia? Começa pelo diagnóstico.</div></div></div><div class="case-alt"><div class="display text-paper text-4xl font-extrabold" data-i18n="cases.c4alt">Pedir diagnóstico</div></div></a>
+      <a class="case-tile block aspect-[4/5] flex items-center justify-center reveal" href="/cases/bvba-surrealismo/" data-tilt3d data-cursor="Ver case" data-i18n-cursor="cases.view"><div class="case-shine" aria-hidden="true"></div><div class="case-main relative z-[2] w-full h-full flex flex-col justify-between text-left p-6 md:p-7"><div class="kicker u-smoke" data-i18n="cases.c1k">Moda · Fashion film com IA</div><div class="fdepth flex items-center justify-center"><img width="481" height="160" src="assets/clients/bvba.png" alt="BVBA Supply" class="w-[72%] max-w-[220px] h-auto" loading="lazy" decoding="async" /></div><div><div class="display text-ink text-xl leading-tight">BVBA Supply®</div><div class="u-smoke text-[12px] mt-1" data-i18n="cases.c1d">O surrealismo</div></div></div><div class="case-alt"><img width="481" height="160" src="assets/clients/bvba.png" alt="" class="w-[56%] max-w-[180px] h-auto invert" loading="lazy" decoding="async" /><div class="kicker text-paper/80 mt-3"><span data-i18n="cases.view">Ver case</span> →</div></div></a>
+      <!-- CASE IOSE · longe dos tiles 12,55× e 45 (conta anonimizada) de propósito: no desktop fica no canto oposto, no tablet e no celular o card da Alumee separa os dois -->
+      <a class="case-tile block reveal aspect-[4/5] lg:col-span-2 lg:col-start-3 lg:row-start-3 lg:aspect-[8/5]" href="/cases/iose-trafego-pago/" data-tilt3d data-cursor="Ver case" data-i18n-cursor="cases.view"><div class="case-shine" aria-hidden="true"></div><div class="case-main relative z-[2] w-full h-full flex flex-col lg:flex-row text-left"><div class="fdepth relative overflow-hidden flex-1 min-h-0 border-b border-line lg:flex-none lg:h-full lg:aspect-[4/5] lg:border-b-0 lg:border-r"><img src="assets/cases/iose-trafego-pago/cover.jpg" width="800" height="1000" alt="Anúncio do IOSE para o curso Projeto de Linhas de Transmissão, com o professor em frente a uma torre" data-i18n-alt="cases.ioa" class="absolute inset-0 w-full h-full object-cover object-top" loading="lazy" decoding="async" /></div><div class="flex flex-col justify-between gap-3 p-6 md:p-7 lg:flex-1"><div class="kicker u-smoke" data-i18n="cases.iok">Educação técnica · Gestão de tráfego pago</div><div><div class="display text-ink text-xl leading-tight">IOSE</div><div class="u-smoke text-[12px] mt-1" data-i18n="cases.iod">Estrutura por curso e criativo por formato</div></div></div></div><div class="case-alt"><div class="display text-paper text-5xl font-extrabold">IOSE</div><div class="kicker text-paper/80 mt-3"><span data-i18n="cases.view">Ver case</span> →</div></div></a>
+      <a class="case-tile block aspect-[4/5] flex items-center justify-center reveal" href="/portfolio/" data-tilt3d data-cursor="Portfólio" data-i18n-cursor="nav.portfolio"><div class="case-shine" aria-hidden="true"></div><div class="case-main relative z-[2] w-full h-full flex flex-col justify-between text-left p-6 md:p-7"><div class="kicker u-smoke" data-i18n="cases.pk">Portfólio completo</div><div class="fdepth jp text-ink font-bold text-6xl md:text-5xl lg:text-6xl leading-none" aria-hidden="true">作</div><div><div class="display text-ink text-xl leading-tight" data-i18n="cases.pt">Ver todo o portfólio</div><div class="u-smoke text-[12px] mt-1" data-i18n="cases.pd">Cada case com desafio, solução e o que foi feito</div></div></div><div class="case-alt"><div class="display text-paper text-4xl font-extrabold px-6" data-i18n="cases.pt">Ver todo o portfólio</div></div></a>
+      <a class="case-tile block aspect-[4/5] lg:col-span-2 lg:col-start-1 lg:row-start-3 lg:aspect-[8/5] flex items-center justify-center reveal" href="#contato" data-tilt3d data-cursor="Pedir diagnóstico" data-i18n-cursor="cases.c4alt"><div class="case-shine" aria-hidden="true"></div><div class="case-main relative z-[2] w-full h-full flex flex-col justify-between text-left p-6 md:p-7"><div class="kicker u-smoke" data-i18n="cases.c4k">Próximo case</div><div class="fdepth display text-ink font-extrabold text-6xl md:text-5xl lg:text-6xl leading-none" aria-hidden="true">→</div><div><div class="display text-ink text-xl leading-tight" data-i18n="cases.alt">Seu projeto aqui</div><div class="u-smoke text-[12px] mt-1" data-i18n="cases.c4d">Já anuncia? Começa pelo diagnóstico.</div></div></div><div class="case-alt"><div class="display text-paper text-4xl font-extrabold" data-i18n="cases.c4alt">Pedir diagnóstico</div></div></a>
     </div>
   </div>
 </section>
 
-<!-- ===================== MA · interlúdio [LIGHT] ===================== -->
-<section id="ma" class="sec sec--light relative overflow-hidden text-center py-24 md:py-32 px-5">
-  <span class="jp absolute left-[8%] top-[14%] text-ink/[0.05] text-6xl md:text-8xl pointer-events-none select-none" data-parallax="0.22" data-depth="0.8" aria-hidden="true">創</span>
-  <span class="jp absolute right-[10%] top-[22%] text-ink/[0.04] text-5xl md:text-7xl pointer-events-none select-none" data-parallax="0.3" data-depth="1.1" aria-hidden="true">知</span>
-  <span class="jp absolute left-[16%] bottom-[12%] text-ink/[0.05] text-5xl md:text-7xl pointer-events-none select-none" data-parallax="0.16" data-depth="0.6" aria-hidden="true">光</span>
-  <div id="maKanji" class="jp text-ink/[0.06] leading-none select-none pointer-events-none mx-auto" style="font-size:min(52vw,30rem)" aria-hidden="true">間</div>
+<!-- ===================== MA · interlúdio [DARK] · separa Cases e Modelo (claros) ===================== -->
+<section id="ma" class="sec sec--dark relative overflow-hidden text-center py-24 md:py-32 px-5">
+  <span class="jp absolute left-[8%] top-[14%] text-paper/[0.05] text-6xl md:text-8xl pointer-events-none select-none" data-parallax="0.22" data-depth="0.8" aria-hidden="true">創</span>
+  <span class="jp absolute right-[10%] top-[22%] text-paper/[0.05] text-5xl md:text-7xl pointer-events-none select-none" data-parallax="0.3" data-depth="1.1" aria-hidden="true">知</span>
+  <span class="jp absolute left-[16%] bottom-[12%] text-paper/[0.05] text-5xl md:text-7xl pointer-events-none select-none" data-parallax="0.16" data-depth="0.6" aria-hidden="true">光</span>
+  <div id="maKanji" class="jp text-paper/[0.07] leading-none select-none pointer-events-none mx-auto" style="font-size:min(52vw,30rem)" aria-hidden="true">間</div>
   <p id="maLine" class="kicker u-smoke absolute inset-0 flex items-center justify-center px-6" data-i18n="ma.line">O espaço entre o conceito e a conversão</p>
 </section>
 
-<!-- ===================== MUSA [DARK] · direcao de arte ===================== -->
-<section id="musa" class="sec sec--dark relative overflow-hidden py-24 md:py-36 px-5 md:px-9">
-  <div class="max-w-[1500px] mx-auto grid md:grid-cols-12 gap-12 items-center">
-    <div class="md:col-span-5 relative z-10">
-      <div class="kicker u-smoke reveal mb-6" data-i18n="musa.k">Audiovisual · Direção de arte</div>
-      <h2 class="display text-paper text-[11vw] md:text-[4.4vw] leading-[0.95] mb-6">
-        <span class="reveal-line"><span data-i18n="musa.l1">O detalhe</span></span>
-        <span class="reveal-line"><span class="italic font-normal" data-i18n="musa.l2">é o luxo.</span></span>
-      </h2>
-      <p class="reveal text-paper/60 text-[15px] md:text-[16px] leading-relaxed max-w-[40ch] font-light" data-i18n="musa.sub">Direção de arte com assinatura, do rascunho em nanquim ao último frame do anúncio.</p>
-      <div class="reveal mt-6 jp text-paper/25 text-2xl" aria-hidden="true">美</div>
-    </div>
-    <div class="md:col-span-7 flex justify-center md:justify-end">
-      <div id="musaSheet" class="relative w-[82vw] max-w-[440px] md:w-[30vw]" data-tilt3d data-cursor="Art direction">
-        <div class="absolute inset-0 translate-x-3 translate-y-4 bg-black/40 blur-lg rounded-sm" aria-hidden="true"></div>
-        <img id="musaA" width="1000" height="1325" src="assets/musa-1.jpg" alt="Ilustração em nanquim de uma jovem okinawana mostrando as unhas em vinho" class="fdepth relative w-full h-auto rounded-sm border border-white/10" loading="lazy" decoding="async" />
-        <img id="musaB" width="1000" height="1325" src="assets/musa-2.jpg" alt="" class="fdepth absolute inset-0 w-full h-auto rounded-sm border border-white/10 opacity-0" loading="lazy" decoding="async" aria-hidden="true" />
-        <div class="absolute -bottom-8 left-0 kicker u-smoke" aria-hidden="true">MAYAA · <span class="jp" lang="ja">まやー</span> MUSE · 01</div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ===================== MODELO IA [LIGHT] · Ana Lauren, 100% IA (collab @analauren.ai, post 24/09/2026) =====================
-     Seção própria ao lado da Musa: a Musa é direção de arte (ilustração); a Ana é oferta licenciável, com CTA próprio. -->
+     Seção própria: a Ana é oferta licenciável, com CTA próprio. -->
 <section id="modelo" class="sec sec--light relative overflow-hidden py-24 md:py-36 px-5 md:px-9">
   <span class="jp absolute right-[6%] top-[8%] text-ink/[0.05] text-7xl md:text-9xl pointer-events-none select-none" data-parallax="0.2" data-depth="0.9" aria-hidden="true">像</span>
   <div class="max-w-[1500px] mx-auto relative">
@@ -954,7 +989,7 @@ main#top{ overflow-x:clip; }
           <span class="text-[11px] tracking-[0.18em] uppercase text-ink/80" data-i18n="ana.badge">Nenhuma pessoa real nestas fotos</span>
         </div>
         <p class="reveal text-ink/65 text-[15px] md:text-[16px] leading-relaxed max-w-[44ch] font-light mb-5" data-i18n="ana.sub">Modelo sintética criada do zero pela MAYAA com IA. Licenciável para criativo de anúncio e UGC da sua marca, com o mesmo rosto em cada cena.</p>
-        <p class="reveal text-ink/60 text-[13.5px] font-light"><span data-i18n="ana.collab">Collab no Instagram com</span> <a href="https://www.instagram.com/analauren.ai/" target="_blank" rel="noopener" class="nav-link text-ink font-normal">@analauren.ai</a> <span class="mx-1.5 opacity-40">·</span> <a href="https://www.instagram.com/p/DdreKmjFWqC/" target="_blank" rel="noopener" class="nav-link text-ink font-normal"><span data-i18n="ana.post">Ver o post</span> ↗</a></p>
+        <p class="reveal text-ink/60 text-[13.5px] font-light"><span data-i18n="ana.collab">Collab no Instagram com</span> <a href="https://www.instagram.com/analauren.ai/" target="_blank" rel="noopener" class="nav-link text-ink font-normal">@analauren.ai</a> <span class="mx-1.5 opacity-40">·</span> <a href="https://www.instagram.com/p/DdreKmjFWqC/" target="_blank" rel="noopener" class="nav-link text-ink font-normal"><span data-i18n="ana.post">Ver o post</span> ↗</a> <span class="mx-1.5 opacity-40 hidden xl:inline">·</span><br class="xl:hidden" /> <a href="/cases/ana-lauren-modelo-ia/" class="nav-link text-ink font-normal whitespace-nowrap"><span data-i18n="cases.view">Ver case</span> →</a></p>
       </div>
     </div>
 
@@ -1034,28 +1069,6 @@ main#top{ overflow-x:clip; }
   </div>
 </section>
 
-<!-- ===================== CLIENTES [LIGHT] ===================== -->
-<section id="clientes" class="sec sec--light border-t border-line py-24 md:py-32 px-5 md:px-9">
-  <div class="max-w-[1500px] mx-auto">
-    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
-      <div><div class="kicker u-smoke reveal mb-4" data-i18n="clients.kicker">Portfólio</div><h2 class="display text-ink text-[9vw] md:text-[3.8vw] leading-none"><span class="reveal-line"><span data-i18n="clients.title">Marcas que já passaram pelo estúdio</span></span></h2></div>
-      <p class="reveal max-w-[34ch] text-ink/55 text-[15px] font-light" data-i18n="clients.sub">Marcas diferentes, o mesmo rigor.</p>
-    </div>
-    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-px bg-line border border-line">
-      <div class="client-cell reveal" data-tilt3d><img width="145" height="160" class="fdepth" src="assets/clients/daterrinha.png" alt="Da Terrinha Alimentos" loading="lazy" decoding="async" /></div>
-      <div class="client-cell reveal" data-tilt3d><img width="384" height="160" class="fdepth" src="assets/clients/laurenti.png" alt="Laurenti" loading="lazy" decoding="async" /></div>
-      <div class="client-cell reveal" data-tilt3d><img width="352" height="98" class="fdepth" src="assets/clients/fink.png" alt="Fink Mobility" loading="lazy" decoding="async" /></div>
-      <div class="client-cell reveal" data-tilt3d><img width="680" height="160" class="fdepth" src="assets/clients/buyticket.png" alt="BuyTicket" loading="lazy" decoding="async" /></div>
-      <div class="client-cell reveal" data-tilt3d><img width="463" height="160" class="fdepth" src="assets/clients/seal.png" alt="Seal Sistemas" loading="lazy" decoding="async" /></div>
-      <div class="client-cell reveal" data-tilt3d><img width="374" height="96" class="fdepth" src="assets/clients/ondaeco.png" alt="Onda Eco" loading="lazy" decoding="async" /></div>
-      <div class="client-cell reveal" data-tilt3d><img width="350" height="160" class="fdepth" src="assets/clients/paluama.png" alt="Paluama Corretora de Seguros" loading="lazy" decoding="async" /></div>
-      <div class="client-cell reveal" data-tilt3d><img width="1187" height="160" class="fdepth" src="assets/clients/osetor.png" alt="Grupo O Setor Elétrico" loading="lazy" decoding="async" /></div>
-      <div class="client-cell reveal" data-tilt3d><img width="481" height="160" class="fdepth" src="assets/clients/bvba.png" alt="BVBA Supply" loading="lazy" decoding="async" /></div>
-      <div class="client-cell reveal" data-tilt3d><img width="300" height="160" class="fdepth" src="assets/clients/uma.png" alt="UMA Raquel Blay" loading="lazy" decoding="async" /></div>
-    </div>
-  </div>
-</section>
-
 <!-- ===================== CONTATO [DARK] ===================== -->
 <section id="contato" class="sec sec--dark py-24 md:py-36 px-5 md:px-9 relative overflow-hidden">
   <div class="ticker absolute top-0 left-0 opacity-[0.05] pointer-events-none" data-speed="-0.9" aria-hidden="true"><span class="display text-[16vw] leading-none font-extrabold">TRAZ PRA MESA · TRAZ PRA MESA · </span></div>
@@ -1105,7 +1118,7 @@ main#top{ overflow-x:clip; }
     <div class="md:col-span-3 reveal">
       <div class="kicker u-smoke mb-4" data-i18n="footer.nav">Navegar</div>
       <ul class="space-y-2 text-paper/75 text-[14px]">
-        <li><a href="#servicos" class="nav-link" data-i18n="nav.services">Serviços</a></li><li><a href="#metodo" class="nav-link" data-i18n="nav.method">Método</a></li><li><a href="#estudio" class="nav-link" data-i18n="nav.studio">Estúdio</a></li><li><a href="#contato" class="nav-link" data-i18n="nav.contact">Contato</a></li>
+        <li><a href="#servicos" class="nav-link" data-i18n="nav.services">Serviços</a></li><li><a href="/portfolio/" class="nav-link" data-i18n="nav.portfolio">Portfólio</a></li><li><a href="/trafego-pago-com-ia/" class="nav-link" data-i18n="nav.ads">Tráfego pago com IA</a></li><li><a href="#metodo" class="nav-link" data-i18n="nav.method">Método</a></li><li><a href="#estudio" class="nav-link" data-i18n="nav.studio">Estúdio</a></li><li><a href="#contato" class="nav-link" data-i18n="nav.contact">Contato</a></li>
       </ul>
     </div>
     <div class="md:col-span-4 reveal">
@@ -1116,7 +1129,7 @@ main#top{ overflow-x:clip; }
     </div>
   </div>
   <div class="px-5 md:px-9 pb-8 flex flex-col md:flex-row justify-between gap-3 text-paper/40 text-[12px] tracking-wide reveal">
-    <span>© 2026 MAYAA STUDIO · <span class="jp" lang="ja">まやー工房</span></span>
+    <span>© 2026 MAYAA STUDIO · <span class="jp" lang="ja">まやー工房</span> · <a href="/privacidade/" class="nav-link hover:text-paper/80" data-i18n="nav.privacy">Privacidade</a></span>
     <span data-i18n="footer.rights">Feito no estúdio. Do primeiro frame à última conversão.</span>
   </div>
 </footer>
@@ -1155,7 +1168,7 @@ main#top{ overflow-x:clip; }
 /* ---------- i18n ---------- */
 const I18N = {
   'pt-BR': {
-    'nav.manifesto':'Manifesto','nav.services':'Serviços','nav.method':'Método','nav.studio':'Estúdio','nav.contact':'Contato',
+    'nav.manifesto':'Manifesto','nav.services':'Serviços','nav.method':'Método','nav.studio':'Estúdio','nav.contact':'Contato','nav.portfolio':'Portfólio','nav.ads':'Tráfego pago com IA','nav.privacy':'Privacidade',
     'cta.start':'Pedir diagnóstico','cta.startProject':'Pedir diagnóstico',
     'hero.eyebrow':'Performance · Marketing · IA · Tráfego pago · Audiovisual','hero.l1':'Do primeiro frame','hero.l2':'à última','hero.l3':'conversão.',
     'hero.sub':'Gestão de tráfego pago com IA e produção audiovisual. Anúncio medido em resultado de caixa, não em curtida.','hero.scroll':'Role para começar','hero.status':'Diagnóstico para quem já anuncia',
@@ -1166,12 +1179,12 @@ const I18N = {
     'svc.ai.k':'Ofício','svc.ai.title':'IA','svc.ai.verb':'Potencializamos.','svc.ai.value':'IA é o ofício, não o produto. Entra no roteiro, no criativo e na leitura de campanha. Quem decide é sempre uma pessoa.','svc.ai.d1':'Roteiro & variações de criativo','svc.ai.d2':'Leitura de campanha','svc.ai.d3':'Relatório que vira decisão','svc.ai.cta':'Levar IA pro anúncio','svc.ai.panel':'Onde a IA entra','svc.ai.s1':'Roteiro','svc.ai.s2':'Criativo','svc.ai.s3':'Campanha','svc.ai.s4':'Relatório','svc.ai.human':'Direção humana em cada etapa.',
     'svc.ads.k':'Aquisição','svc.ads.title':'Tráfego pago','svc.ads.verb':'Escalamos.','svc.ads.value':'Gestão de campanhas com a venda como régua. Verba lida campanha por campanha, não no total do mês.','svc.ads.d1':'Meta & Google Ads','svc.ads.d2':'Estrutura & rastreamento','svc.ads.d3':'Criativos para anúncio','svc.ads.cta':'Diagnóstico da conta','svc.ads.m1':'Campanhas lidas','svc.ads.m2':'Meses lidos','svc.ads.m3':'Campanha por campanha','svc.ads.note':'Uma conta de cliente, anonimizada · set/2025 a ago/2026 · leitura do relatório da plataforma.',
     'svc.av.k':'Estúdio','svc.av.title':'Audiovisual','svc.av.verb':'Criamos.','svc.av.value':'Câmera, direção e movimento. Criativo em vídeo feito para anúncio, que se assiste inteiro.','svc.av.d1':'Direção & roteiro','svc.av.d2':'Produção & captação','svc.av.d3':'Motion & finalização','svc.av.cta':'Colocar em movimento',
-    'cases.title':'Cases','cases.sub':'Loja no ar e campanha lida uma por uma. Conta de cliente aparece sem nome.','cases.visit':'Visitar ↗','cases.c1k':'Marketing · site & loja','cases.c1d':'Loja no ar',
-    'cases.mp':'Tráfego pago · conta anonimizada','cases.roas':'ROAS · relatório da plataforma','cases.c2n':'Maior ROAS entre 45 campanhas','cases.c2d':'Venda, não lucro. Topo, não média.','cases.c2alt':'Para cada R$ 1, R$ 12,55 em vendas',
+    'cases.title':'Cases','cases.sub':'Filme com IA e campanha lida uma por uma. Números de conta aparecem sem o nome do cliente.','cases.visit':'Visitar ↗','cases.view':'Ver case','cases.c1k':'Moda · Fashion film com IA','cases.c1d':'O surrealismo',
+    'cases.alk':'Velas artesanais · Campanha com IA','cases.iok':'Educação técnica · Gestão de tráfego pago','cases.iod':'Estrutura por curso e criativo por formato','cases.ioa':'Anúncio do IOSE para o curso Projeto de Linhas de Transmissão, com o professor em frente a uma torre','cases.pk':'Portfólio completo','cases.pt':'Ver todo o portfólio','cases.pd':'Cada case com desafio, solução e o que foi feito',
+    'cases.mp':'Conta anonimizada · Tráfego pago','cases.roas':'ROAS · relatório da plataforma','cases.c2n':'Maior ROAS entre 45 campanhas','cases.c2d':'Venda, não lucro. Topo, não média.','cases.c2alt':'Para cada R$ 1, R$ 12,55 em vendas',
     'cases.c3k':'Campanhas lidas','cases.c3n':'Lidas uma por uma','cases.c3d':'set/2025 a ago/2026','cases.c3alt':'Nenhuma lida só pelo total do mês',
     'cases.c4k':'Próximo case','cases.alt':'Seu projeto aqui','cases.c4d':'Já anuncia? Começa pelo diagnóstico.','cases.c4alt':'Pedir diagnóstico',
     'ma.line':'O espaço entre o conceito e a conversão',
-    'musa.k':'Audiovisual · Direção de arte','musa.l1':'O detalhe','musa.l2':'é o luxo.','musa.sub':'Direção de arte com assinatura, do rascunho em nanquim ao último frame do anúncio.',
     'reel.cursor':'Assistir','reel.play':'Assistir o reel da Alumee','reel.k':'Case · Audiovisual com IA','reel.title':'Alumee · vela Mel','reel.label':'Campanha de lançamento · cena com IA a partir do produto real','reel.meta':'Instagram · 29/07/2026','reel.ig':'Ver no Instagram','reel.close':'Fechar','reel.loading':'Carregando o reel do Instagram','reel.fallback':'Não carregou? Assista direto no Instagram.',
     'reel2.title':'BVBA Supply · O surrealismo','reel2.label':'Filme com IA · tinta dourada escorre do quadro para o piso espelhado','reel2.meta':'Instagram · 02/08/2026','reel2.aria':'Filme com IA para a BVBA Supply: um gato numa galeria vê tinta dourada escorrer de um quadro para um piso espelhado','reel2.pause':'Pausar o vídeo','reel2.sound':'Som do vídeo','reel2.expand':'Ver em tela cheia','alumee.a1':'Vela Mel da Alumee com mel escorrendo sobre a tampa, cena criada com IA a partir do produto real',
     'ana.k':'IA · Audiovisual · Modelo sintética','ana.l1':'Ana Lauren','ana.l2':'é 100% IA.','ana.badge':'Nenhuma pessoa real nestas fotos','ana.sub':'Modelo sintética criada do zero pela MAYAA com IA. Licenciável para criativo de anúncio e UGC da sua marca, com o mesmo rosto em cada cena.','ana.collab':'Collab no Instagram com','ana.post':'Ver o post','ana.gallery':'Galeria Ana Lauren, fotos 100% geradas por IA','ana.tag':'100% IA',
@@ -1180,13 +1193,13 @@ const I18N = {
     'method.ai.t':'IA','method.ai.d':'IA é o ofício, não o produto. Usamos os melhores modelos em cada etapa: roteiro, criativo, mídia e análise. Sempre com direção humana e rigor de estúdio.',
     'studio.l1':'Tráfego pago com IA,','studio.l2':'de ponta a ponta.','studio.p1':'MAYAA nasce da ideia de que criativo, página e mídia não deveriam viver em agências separadas. Aqui, o mesmo time que dirige o vídeo monta o funil e cuida da campanha.','studio.p2':'Estética japonesa do 間 (ma): o valor do espaço, do silêncio e da precisão. Menos ruído, mais intenção.','studio.p3':'E IA como ofício: os melhores modelos, aplicados com rigor. Direção humana, execução aumentada.',
     'studio.founders':'Fundadores · Operação fixa','studio.f1role':'Direção criativa & audiovisual','studio.f2role':'Tráfego pago & performance','studio.fixed':'Aqui não existe o rodízio típico de agência, com profissionais que trocam a cada três meses. Quem assina seu projeto no primeiro dia é quem está operando um ano depois: Tsu e Victor, do briefing ao relatório.',
-    'clients.kicker':'Portfólio','clients.title':'Marcas que já passaram pelo estúdio','clients.sub':'Marcas diferentes, o mesmo rigor.',
+    'clients.kicker':'Clientes','clients.title':'Marcas que já passaram pelo estúdio','clients.sub':'Marcas diferentes, o mesmo rigor.',
     'contact.l1':'Já anuncia?','contact.l2':'Traz a conta pra mesa.','contact.sub':'Manda a palavra CONTA no direct do Instagram. A gente começa pelo diagnóstico do que já roda. Prefere e-mail? Usa o formulário.','contact.ig':'Manda CONTA no direct','contact.email':'contato@mayaastudio.com.br',
     'form.name':'Nome','form.email':'E-mail','form.type':'Tipo de projeto','form.opt1':'Performance','form.opt2':'Marketing','form.opt3':'IA','form.opt4':'Tráfego pago','form.opt5':'Audiovisual','form.opt6':'Projeto completo','form.msg':'Mensagem','form.send':'Traz pra mesa','form.thanks':'Obrigado. Abrimos seu e-mail, é só enviar.',
     'footer.tag':'Estúdio de tráfego pago com IA em São Paulo. Do conceito à conversão.','footer.nav':'Navegar','footer.social':'Redes','footer.rights':'Feito no estúdio. Do primeiro frame à última conversão.'
   },
   'en': {
-    'nav.manifesto':'Manifesto','nav.services':'Services','nav.method':'Method','nav.studio':'Studio','nav.contact':'Contact',
+    'nav.manifesto':'Manifesto','nav.services':'Services','nav.method':'Method','nav.studio':'Studio','nav.contact':'Contact','nav.portfolio':'Portfolio','nav.ads':'Paid media with AI','nav.privacy':'Privacy',
     'cta.start':'Request an audit','cta.startProject':'Request an audit',
     'hero.eyebrow':'Performance · Marketing · AI · Paid media · Audiovisual','hero.l1':'From the first frame','hero.l2':'to the final','hero.l3':'conversion.',
     'hero.sub':'Paid media management with AI, plus in-house video production. Ads measured in revenue, not in likes.','hero.scroll':'Scroll to begin','hero.status':'Audits for brands already running ads',
@@ -1197,12 +1210,12 @@ const I18N = {
     'svc.ai.k':'Craft','svc.ai.title':'AI','svc.ai.verb':'We amplify.','svc.ai.value':'AI is the craft, not the product. It works on scripts, creative and campaign reading. A person always makes the call.','svc.ai.d1':'Scripts & creative variations','svc.ai.d2':'Campaign reading','svc.ai.d3':'Reports that become decisions','svc.ai.cta':'Put AI to work on your ads','svc.ai.panel':'Where AI comes in','svc.ai.s1':'Script','svc.ai.s2':'Creative','svc.ai.s3':'Campaign','svc.ai.s4':'Report','svc.ai.human':'Human direction at every step.',
     'svc.ads.k':'Acquisition','svc.ads.title':'Paid media','svc.ads.verb':'We scale.','svc.ads.value':'Campaign management with sales as the yardstick. Budget read campaign by campaign, not as a monthly total.','svc.ads.d1':'Meta & Google Ads','svc.ads.d2':'Structure & tracking','svc.ads.d3':'Ad creative','svc.ads.cta':'Audit my account','svc.ads.m1':'Campaigns read','svc.ads.m2':'Months read','svc.ads.m3':'Campaign by campaign','svc.ads.note':'One client account, anonymized · Sep 2025 to Aug 2026 · read from the platform report.',
     'svc.av.k':'Studio','svc.av.title':'Audiovisual','svc.av.verb':'We create.','svc.av.value':'Camera, direction and motion. Video creative made for ads, watched all the way through.','svc.av.d1':'Direction & script','svc.av.d2':'Production & capture','svc.av.d3':'Motion & finishing','svc.av.cta':'Put it in motion',
-    'cases.title':'Work','cases.sub':'A store live and campaigns read one by one. Client accounts appear without names.','cases.visit':'Visit ↗','cases.c1k':'Marketing · site & store','cases.c1d':'Store live',
-    'cases.mp':'Paid media · anonymized account','cases.roas':'ROAS · platform report','cases.c2n':'Top ROAS across 45 campaigns','cases.c2d':'Sales, not profit. The top, not the average.','cases.c2alt':'For every R$ 1, R$ 12.55 in sales',
+    'cases.title':'Work','cases.sub':'AI film and campaigns read one by one. Account numbers appear without the client’s name.','cases.visit':'Visit ↗','cases.view':'View case','cases.c1k':'Fashion · AI fashion film','cases.c1d':'Surrealism',
+    'cases.alk':'Handmade candles · AI campaign','cases.iok':'Technical education · Paid media management','cases.iod':'Structure per course, creative per format','cases.ioa':'IOSE ad for the Transmission Line Design course, with the instructor in front of a tower','cases.pk':'Full portfolio','cases.pt':'See the full portfolio','cases.pd':'Each case with the challenge, the solution and what we made',
+    'cases.mp':'Anonymized account · Paid media','cases.roas':'ROAS · platform report','cases.c2n':'Top ROAS across 45 campaigns','cases.c2d':'Sales, not profit. The top, not the average.','cases.c2alt':'For every R$ 1, R$ 12.55 in sales',
     'cases.c3k':'Campaigns read','cases.c3n':'Read one by one','cases.c3d':'Sep 2025 to Aug 2026','cases.c3alt':'None judged by the monthly total alone',
     'cases.c4k':'Next case','cases.alt':'Your project here','cases.c4d':'Already running ads? Start with an audit.','cases.c4alt':'Request an audit',
     'ma.line':'The space between concept and conversion',
-    'musa.k':'Audiovisual · Art direction','musa.l1':'The detail','musa.l2':'is the luxury.','musa.sub':'Art direction with a signature, from the ink sketch to the ad’s final frame.',
     'reel.cursor':'Watch','reel.play':'Watch the Alumee reel','reel.k':'Case · Audiovisual with AI','reel.title':'Alumee · Mel candle','reel.label':'Launch campaign · AI scene built from the real product','reel.meta':'Instagram · Jul 29, 2026','reel.ig':'View on Instagram','reel.close':'Close','reel.loading':'Loading the Instagram reel','reel.fallback':'Didn’t load? Watch it on Instagram.',
     'reel2.title':'BVBA Supply · Surrealism','reel2.label':'AI film · golden paint drips from the painting onto a mirrored floor','reel2.meta':'Instagram · Aug 2, 2026','reel2.aria':'AI film for BVBA Supply: a cat in a gallery watches golden paint drip from a painting onto a mirrored floor','reel2.pause':'Pause the video','reel2.sound':'Video sound','reel2.expand':'View full screen','alumee.a1':'Alumee Mel candle with honey dripping over the lid, AI scene built from the real product',
     'ana.k':'AI · Audiovisual · Synthetic model','ana.l1':'Ana Lauren','ana.l2':'is 100% AI.','ana.badge':'No real person in these photos','ana.sub':'A synthetic model built from scratch by MAYAA with AI. Licensable for your brand’s ad creative and UGC, with the same face in every scene.','ana.collab':'Instagram collab with','ana.post':'See the post','ana.gallery':'Ana Lauren gallery, photos 100% AI generated','ana.tag':'100% AI',
@@ -1211,7 +1224,7 @@ const I18N = {
     'method.ai.t':'AI','method.ai.d':'AI is the craft, not the product. We use the best models at every step: script, creative, media and analysis. Always with human direction and studio rigor.',
     'studio.l1':'Paid media with AI,','studio.l2':'end to end.','studio.p1':'MAYAA is born from the idea that creative, pages and media shouldn’t live in separate agencies. Here, the same team that directs the video builds the funnel and runs the campaign.','studio.p2':'Japanese aesthetics of 間 (ma): the value of space, silence and precision. Less noise, more intent.','studio.p3':'And AI as craft: the best models, applied with rigor. Human direction, augmented execution.',
     'studio.founders':'Founders · Fixed crew','studio.f1role':'Creative direction & film','studio.f2role':'Paid media & performance','studio.fixed':'None of the typical agency churn, where teams rotate every three months. Whoever signs your project on day one is still running it a year later: Tsu and Victor, from brief to report.',
-    'clients.kicker':'Portfolio','clients.title':'Brands that have been through the studio','clients.sub':'Different brands, the same rigor.',
+    'clients.kicker':'Clients','clients.title':'Brands that have been through the studio','clients.sub':'Different brands, the same rigor.',
     'contact.l1':'Already running ads?','contact.l2':'Bring your account to the table.','contact.sub':'Send the word CONTA to our Instagram DMs. We start with an audit of what’s already running. Prefer email? Use the form.','contact.ig':'Send CONTA in a DM','contact.email':'contato@mayaastudio.com.br',
     'form.name':'Name','form.email':'Email','form.type':'Project type','form.opt1':'Performance','form.opt2':'Marketing','form.opt3':'AI','form.opt4':'Paid media','form.opt5':'Audiovisual','form.opt6':'Full project','form.msg':'Message','form.send':'Bring it to the table','form.thanks':'Thanks. We opened your email, just hit send.',
     'footer.tag':'Paid media studio with AI in São Paulo. From concept to conversion.','footer.nav':'Navigate','footer.social':'Social','footer.rights':'Made in the studio. From the first frame to the final conversion.'
@@ -1221,6 +1234,8 @@ const I18N = {
 const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const TOUCH = window.matchMedia('(hover: none)').matches;
 if (REDUCED) document.documentElement.classList.add('rm');
+/* v17: prefers-reduced-motion virou "movimento suave" (reduzir, não eliminar). Entradas continuam, mais curtas e sem
+   deslocamento grande; saem parallax, tilt 3D, WebGL, partículas, Lenis e autoplay do vídeo. */
 
 let lang='pt-BR';
 function applyLang(l){
@@ -1234,7 +1249,19 @@ function applyLang(l){
 
 /* ---------- preloader ---------- */
 function runPreloader(done){
-  if(REDUCED){ gsap.set('#preloader',{autoAlpha:0,display:'none'}); done(); return; }
+  if(!window.gsap){ document.documentElement.classList.add('no-anim'); done(); return; }
+  if(REDUCED){
+    /* versão curta (~1,3 s): só fade, sem a cortina subindo */
+    gsap.set('#hero .reveal-line span',{ y:'30%', opacity:0 });
+    gsap.set('#plMark',{ opacity:0 }); gsap.set('#preloader .pl-word span',{ y:'0%', opacity:0 });
+    gsap.timeline()
+      .to('#plMark',{ opacity:1, duration:.45, ease:'power2.out' })
+      .to('#preloader .pl-word span',{ opacity:1, duration:.4, stagger:.06, ease:'power2.out' },'-=0.2')
+      .to('#preloader',{ autoAlpha:0, duration:.45, ease:'power2.inOut' },'+=0.25')
+      .call(done,null,'-=0.3')
+      .set('#preloader',{ display:'none' });
+    return;
+  }
   gsap.set('#plMark',{ clipPath:'inset(100% 0% 0% 0%)', y:24 });
   const tl=gsap.timeline();
   tl.to('#plMark',{ clipPath:'inset(0% 0% 0% 0%)', y:0, duration:1.05, ease:'power3.out' })
@@ -1244,7 +1271,14 @@ function runPreloader(done){
     .set('#preloader',{ display:'none' });
 }
 function heroIntro(){
+  if(!window.gsap){ window.__heroReady=true; return; }
   const tl=gsap.timeline({ onComplete:()=>{ window.__heroReady=true; } });
+  if(REDUCED){
+    tl.fromTo('#hero .reveal-line span',{ y:'30%', opacity:0 },{ y:'0%', opacity:1, duration:.7, stagger:.08, ease:'power2.out' })
+      .to('#hero .reveal',{ opacity:1, duration:.6, stagger:.06, ease:'power2.out' },'-=0.45')
+      .fromTo('#heroMark',{ opacity:0 },{ opacity:0.1, duration:.9, ease:'power2.out' },'-=0.6');
+    return;
+  }
   tl.fromTo('#hero .reveal-line span',{ y:'110%', rotateX:-55, transformOrigin:'0% 100%', transformPerspective:520 },{ y:'0%', rotateX:0, duration:1.1, stagger:0.09, ease:'expo.out' })
     .to('#hero .reveal',{ y:0, opacity:1, duration:0.9, stagger:0.08, ease:'power3.out' },'-=0.7')
     .fromTo('#heroMark',{ opacity:0, scale:1.06 },{ opacity:0.1, scale:1, duration:1.4, ease:'power2.out' },'-=1');
@@ -1276,6 +1310,7 @@ window.addEventListener('load',()=>{
     if(typeof applyHeaderTheme==='function') applyHeaderTheme();
     if(lenis){ open?lenis.stop():lenis.start(); }
     if(open && !REDUCED) gsap.fromTo('#menu .menu-link span',{y:'110%'},{y:'0%',duration:0.6,stagger:0.06,ease:'expo.out',delay:0.15});
+    else if(open) gsap.fromTo('#menu .menu-link span',{opacity:0},{opacity:1,duration:0.4,stagger:0.05,ease:'power2.out',delay:0.1});
   }
   burger.addEventListener('click',()=>toggleMenu(!menuOpen));
 
@@ -1318,6 +1353,14 @@ window.addEventListener('load',()=>{
       gsap.utils.toArray('.bar').forEach((b,i)=>{ gsap.fromTo(b,{ scaleY:0 },{ scaleY:1, duration:0.9, delay:i*0.08, ease:'power3.out', scrollTrigger:{ trigger:b, start:'top 92%' }, onComplete:()=>{ gsap.to(b,{ scaleY:0.9+Math.random()*0.08, duration:1.5+Math.random(), yoyo:true, repeat:-1, ease:'sine.inOut' }); } }); });
       const cp=document.querySelector('.chart-path');
       if(cp){ gsap.to(cp,{ strokeDashoffset:0, duration:1.6, ease:'power2.inOut', scrollTrigger:{ trigger:cp, start:'top 85%' }}); gsap.to('#chartDot',{ opacity:1, duration:0.4, delay:1.4, scrollTrigger:{ trigger:cp, start:'top 85%' }}); gsap.to('#chartDot',{ attr:{ r:8 }, yoyo:true, repeat:-1, duration:0.9, ease:'sine.inOut', delay:2 }); }
+    } else {
+      /* movimento suave: as mesmas entradas (títulos, fades, barras, linhas, gráfico), curtas e sem giro nem deslocamento grande */
+      gsap.utils.toArray('.reveal-line span').forEach(s=>{ if(s.closest('#hero')||s.closest('#manifesto')) return; gsap.fromTo(s,{ y:'30%', opacity:0 },{ y:'0%', opacity:1, duration:0.7, ease:'power2.out', scrollTrigger:{ trigger:s, start:'top 92%' }}); });
+      ScrollTrigger.batch('.reveal',{ start:'top 94%', onEnter:b=>gsap.to(b,{ opacity:1, duration:0.55, stagger:0.05, ease:'power2.out', overwrite:true }) });
+      gsap.utils.toArray('[data-fill]').forEach((el,i)=>{ gsap.to(el,{ scaleX:1, duration:0.5, delay:i*0.04, ease:'power2.out', scrollTrigger:{ trigger:el, start:'top 94%' }}); });
+      gsap.utils.toArray('.bar').forEach((b,i)=>{ gsap.fromTo(b,{ scaleY:0 },{ scaleY:1, duration:0.6, delay:i*0.05, ease:'power2.out', scrollTrigger:{ trigger:b, start:'top 94%' } }); });
+      const cp=document.querySelector('.chart-path');
+      if(cp){ gsap.to(cp,{ strokeDashoffset:0, duration:1.1, ease:'power2.inOut', scrollTrigger:{ trigger:cp, start:'top 88%' }}); gsap.to('#chartDot',{ opacity:1, duration:0.3, delay:1, scrollTrigger:{ trigger:cp, start:'top 88%' }}); }
     }
 
     /* marquees seamless — duplica o conteúdo até cada metade cobrir a viewport (também em reduced-motion,
@@ -1330,8 +1373,8 @@ window.addEventListener('load',()=>{
       const w=t.scrollWidth; let k=1;
       while(w>0 && w*k<innerWidth*1.2) k++;
       t.innerHTML=unit.repeat(k)+unit.repeat(k);
-      if(REDUCED) return;
-      const dur=(t.scrollWidth/2)/(90*Math.abs(sp||1));
+      /* movimento suave: o letreiro corre a menos da metade da velocidade (38 px/s em vez de 90) */
+      const dur=(t.scrollWidth/2)/((REDUCED?38:90)*Math.abs(sp||1));
       const tw=(Math.sign(sp||1)>0)
         ? gsap.fromTo(t,{xPercent:0},{ xPercent:-50, duration:dur, ease:'none', repeat:-1 })
         : gsap.fromTo(t,{xPercent:-50},{ xPercent:0, duration:dur, ease:'none', repeat:-1 });
@@ -1342,10 +1385,9 @@ window.addEventListener('load',()=>{
 
     /* count-up */
     gsap.utils.toArray('[data-count]').forEach(el=>{ const end=parseFloat(el.dataset.count); const suf=el.dataset.suffix||''; const dec=(el.dataset.decimals!==undefined)?parseInt(el.dataset.decimals):((end%1!==0)?1:0); const sep=el.dataset.dec||'.'; const fmt=v=>v.toFixed(dec).replace('.',sep)+suf; const o={v:0};
-      /* o HTML já traz o número real (sem JS / reduced-motion fica visível); só zera quando vai animar */
-      if(REDUCED){ el.textContent=fmt(end); return; }
+      /* o HTML já traz o número real (sem JS fica visível); só zera quando vai animar. Em movimento suave conta mais rápido */
       el.textContent=fmt(0);
-      ScrollTrigger.create({ trigger:el, start:'top 90%', once:true, onEnter:()=>{ gsap.to(o,{ v:end, duration:1.6, ease:'power2.out', onUpdate:()=>{ el.textContent=fmt(o.v); }}); }}); });
+      ScrollTrigger.create({ trigger:el, start:'top 90%', once:true, onEnter:()=>{ gsap.to(o,{ v:end, duration:REDUCED?1.1:1.6, ease:'power2.out', onUpdate:()=>{ el.textContent=fmt(o.v); }, onComplete:()=>{ el.textContent=fmt(end); }}); }}); });
 
     /* active nav */
     document.querySelectorAll('section[id]').forEach(sec=>{
@@ -1360,7 +1402,10 @@ window.addEventListener('load',()=>{
       const fsScroller=document.getElementById('fsScroller');
       const setCount=p=>{ if(fsCount) fsCount.textContent=String(Math.round(p*(frames-1))+1).padStart(2,'0')+' / '+String(frames).padStart(2,'0'); };
       const fsmm=gsap.matchMedia();
-      fsmm.add('(min-width:768px) and (prefers-reduced-motion:no-preference)',()=>{
+      /* desktop: fita pinada que anda com a rolagem. Em movimento suave ela anda reta: sem skew, sem giro/profundidade 3D
+         e sem contra-parallax dos kanjis */
+      fsmm.add('(min-width:768px)',()=>{
+        const soft=REDUCED;
         const getW=()=>Math.max(0, fsTrack.scrollWidth-innerWidth);
         const fsFrames=gsap.utils.toArray('.fs-frame');
         const skewTo=gsap.quickTo(fsTrack,'skewX',{ duration:.55, ease:'power3.out' });
@@ -1368,21 +1413,25 @@ window.addEventListener('load',()=>{
         const fsCache=()=>{ fsW=getW(); fsOff=fsFrames.map(f=>f.offsetLeft+f.offsetWidth/2); };
         fsCache();
         const fsTween=gsap.to(fsTrack,{ x:()=>-getW(), ease:'none',
-          scrollTrigger:{ trigger:'#filmstrip', start:'top top', end:()=>'+='+getW(), scrub:1.6, pin:true, anticipatePin:1, invalidateOnRefresh:true,
+          /* refreshPriority (v17): o pin é criado DEPOIS dos reveals da página; sem prioridade, o ScrollTrigger calculava
+             os gatilhos abaixo da fita sem o espaço do pin (~3.000 px) e tudo abaixo dela animava fora da tela, antes de chegar */
+          scrollTrigger:{ trigger:'#filmstrip', start:'top top', end:()=>'+='+getW(), scrub:soft?0.8:1.6, pin:true, anticipatePin:1, invalidateOnRefresh:true, refreshPriority:1,
             snap:{ snapTo:1/(frames-1), duration:{ min:.35, max:.95 }, ease:'power2.inOut', delay:.12 },
             onRefresh:fsCache,
             onUpdate:self=>{ setCount(self.progress);
+              if(soft) return;
               /* skew liquido pela velocidade do scroll */
               skewTo(gsap.utils.clamp(-7,7,self.getVelocity()/-380));
               /* fita organica: gira, afunda e cai nas bordas como filme de verdade */
               const tx=-self.progress*fsW, hw=innerWidth/2;
               fsFrames.forEach((f,i)=>{ const c=(fsOff[i]+tx-hw)/innerWidth; gsap.set(f,{ rotateY:c*-13, z:-Math.abs(c)*110, y:Math.abs(c)*36, rotation:c*-1.8, opacity:1-Math.min(.5,Math.abs(c)*.72) }); });
             } }});
+        if(soft) return;
         /* kanjis em contra-parallax dentro dos frames (profundidade interna) */
         gsap.utils.toArray('.fs-frame > .jp').forEach(el=>{ gsap.fromTo(el,{ xPercent:-46 },{ xPercent:46, ease:'none', scrollTrigger:{ trigger:el, containerAnimation:fsTween, start:'left right', end:'right left', scrub:true } }); });
         gsap.utils.toArray('.fs-big').forEach(el=>{ gsap.fromTo(el,{xPercent:6},{ xPercent:-6, ease:'none', scrollTrigger:{ trigger:el, containerAnimation:fsTween, start:'left right', end:'right left', scrub:true } }); });
       });
-      fsmm.add('(max-width:767px), (prefers-reduced-motion:reduce)',()=>{
+      fsmm.add('(max-width:767px)',()=>{
         fsScroller.classList.add('fs-scrollable');
         const onS=()=>{ const max=fsScroller.scrollWidth-fsScroller.clientWidth; setCount(max>0?fsScroller.scrollLeft/max:0); };
         fsScroller.addEventListener('scroll',onS,{passive:true});
@@ -1391,7 +1440,10 @@ window.addEventListener('load',()=>{
     }
 
     /* ---------- v4: saída parallax do hero ---------- */
-    if(!REDUCED){
+    if(REDUCED){
+      /* movimento suave: o hero só esmaece ao sair, sem parallax */
+      gsap.to('#heroContent',{ opacity:0.35, ease:'none', scrollTrigger:{ trigger:'#hero', start:'top top', end:'bottom top', scrub:true } });
+    } else {
       gsap.to('#heroContent',{ yPercent:-16, opacity:0.25, ease:'none', scrollTrigger:{ trigger:'#hero', start:'top top', end:'bottom top', scrub:true } });
       ScrollTrigger.create({ trigger:'#hero', start:'top top', end:'bottom top', scrub:true, onUpdate:s=>{ window.__dustZ=s.progress; } });
       gsap.to('#heroMark',{ scale:1.14, ease:'none', scrollTrigger:{ trigger:'#hero', start:'top top', end:'bottom top', scrub:true } });
@@ -1399,16 +1451,9 @@ window.addEventListener('load',()=>{
 
     /* ---------- v10: paineis no espaco (secoes entram em Z) ---------- */
     if(!REDUCED){
-      gsap.utils.toArray('#manifesto, #servicos > article, #cases, #ma, #musa, #modelo, #metodo, #estudio, #clientes, #contato').forEach(sec=>{
+      gsap.utils.toArray('#manifesto, #servicos > article, #cases, #ma, #modelo, #metodo, #estudio, #clientes, #contato').forEach(sec=>{
         gsap.fromTo(sec,{ scale:.965, rotateX:2.4, y:26, transformOrigin:'50% 0%', transformPerspective:1400 },{ scale:1, rotateX:0, y:0, ease:'none', scrollTrigger:{ trigger:sec, start:'top 96%', end:'top 42%', scrub:.6 } });
       });
-    }
-
-    /* ---------- v14: musa em movimento com a rolagem ---------- */
-    if(!REDUCED && document.getElementById('musaSheet')){
-      gsap.fromTo('#musaSheet',{ rotateY:-14, rotateX:4, y:70, transformPerspective:1000 },{ rotateY:10, rotateX:-3, y:-40, ease:'none', scrollTrigger:{ trigger:'#musa', start:'top bottom', end:'bottom top', scrub:1 } });
-      gsap.fromTo('#musaB',{ opacity:0 },{ opacity:1, ease:'none', scrollTrigger:{ trigger:'#musa', start:'top 45%', end:'bottom 55%', scrub:.6 } });
-      gsap.fromTo('#musaSheet img',{ clipPath:'inset(12% 8% 12% 8%)' },{ clipPath:'inset(0% 0% 0% 0%)', ease:'none', scrollTrigger:{ trigger:'#musa', start:'top 90%', end:'top 35%', scrub:.6 } });
     }
 
     /* ---------- v8: interludio MA + assinatura do gato ---------- */
@@ -1420,6 +1465,12 @@ window.addEventListener('load',()=>{
       ScrollTrigger.batch('#metodo .card3d',{ start:'top 88%', onEnter:b=>gsap.to(b,{ opacity:1, rotateX:0, y:0, duration:1, stagger:0.1, ease:'power3.out', overwrite:true }) });
       /* flutuacao dimensional continua (reel e mockup respiram em 3D) */
       gsap.utils.toArray('[data-float3d]').forEach((el,i)=>{ gsap.to(el,{ rotateY:2.2, rotateX:-1.5, transformPerspective:950, duration:3.8, yoyo:true, repeat:-1, ease:'sine.inOut', delay:i*0.9 }); });
+    } else {
+      /* movimento suave: a frase do MA abre o espaçamento, o kanji aparece em fade, as cartas do método entram em fade */
+      gsap.fromTo('#maLine',{ letterSpacing:'0.16em', opacity:.4 },{ letterSpacing:'0.3em', opacity:1, ease:'none', scrollTrigger:{ trigger:'#ma', start:'top 78%', end:'center 40%', scrub:true } });
+      gsap.fromTo('#maKanji',{ opacity:0 },{ opacity:1, duration:1, ease:'power2.out', scrollTrigger:{ trigger:'#ma', start:'top 75%' } });
+      gsap.set('#metodo .card3d',{ opacity:0 });
+      ScrollTrigger.batch('#metodo .card3d',{ start:'top 92%', onEnter:b=>gsap.to(b,{ opacity:1, duration:0.55, stagger:0.07, ease:'power2.out', overwrite:true }) });
     }
 
     /* ---------- v4: manifesto — scrub palavra a palavra ---------- */
@@ -1429,10 +1480,11 @@ window.addEventListener('load',()=>{
       if(!spans.length) return;
       if(window.__manTween){ if(window.__manTween.scrollTrigger) window.__manTween.scrollTrigger.kill(); window.__manTween.kill(); window.__manTween=null; }
       spans.forEach(s=>{ s.style.transform='none'; s.innerHTML=s.textContent.trim().split(/\s+/).map(w=>'<span class="w">'+w+'</span>').join(' '); });
-      if(REDUCED) return;
-      gsap.set('#manifesto .w',{ opacity:0.12, '--mw':430, rotateX:-38, transformOrigin:'50% 100%', transformPerspective:420 });
-      window.__manTween=gsap.to('#manifesto .w',{ opacity:1, '--mw':800, rotateX:0, duration:1, stagger:0.4, ease:'none',
-        scrollTrigger:{ trigger:'#manifesto', start:'top 75%', end:'top 12%', scrub:0.5 } });
+      /* movimento suave: as palavras acendem (opacidade e peso) sem girar */
+      if(REDUCED) gsap.set('#manifesto .w',{ opacity:0.12, '--mw':430 });
+      else gsap.set('#manifesto .w',{ opacity:0.12, '--mw':430, rotateX:-38, transformOrigin:'50% 100%', transformPerspective:420 });
+      window.__manTween=gsap.to('#manifesto .w',Object.assign({ opacity:1, '--mw':800, duration:1, stagger:0.4, ease:'none',
+        scrollTrigger:{ trigger:'#manifesto', start:'top 75%', end:'top 12%', scrub:0.5 } }, REDUCED?{}:{ rotateX:0 }));
     };
     window.__splitManifesto();
 
@@ -1448,8 +1500,8 @@ window.addEventListener('load',()=>{
     }
   }
 
-  /* cursor + magnetic + cat tilt */
-  if(!TOUCH && !REDUCED){
+  /* cursor + magnetic + cat tilt (movimento suave: cursor sem esticar, ímã fraco, sem inclinação 3D) */
+  if(!TOUCH){
     /* v12: engine do cursor — crescimento por scale (sempre centrado), squash&stretch
        direcional pela velocidade (estica como tinta e relaxa ao parar), pressao no clique,
        label com fisica propria no mesmo loop */
@@ -1461,7 +1513,7 @@ window.addEventListener('load',()=>{
     (function loop(){
       const dx2=mx-cx, dy2=my-cy;
       cx+=dx2*0.18; cy+=dy2*0.18;
-      const sp=Math.min(1, Math.hypot(dx2,dy2)/150);
+      const sp=REDUCED?0:Math.min(1, Math.hypot(dx2,dy2)/150);
       const ang=Math.atan2(dy2,dx2);
       const tg=document.body.classList.contains('cursor-hover')?1.8:1;
       g+=(tg*press-g)*0.16;
@@ -1471,16 +1523,16 @@ window.addEventListener('load',()=>{
       requestAnimationFrame(loop);
     })();
     document.querySelectorAll('a,button,[data-magnetic],input,textarea,select').forEach(el=>{ el.addEventListener('mouseenter',()=>document.body.classList.add('cursor-hover')); el.addEventListener('mouseleave',()=>document.body.classList.remove('cursor-hover')); });
-    document.querySelectorAll('[data-magnetic]').forEach(el=>{ el.addEventListener('mousemove',e=>{ const r=el.getBoundingClientRect(); const x=e.clientX-r.left-r.width/2; const y=e.clientY-r.top-r.height/2; el.style.transform=`translate(${x*0.26}px,${y*0.26}px)`; }); el.addEventListener('mouseleave',()=>{ el.style.transform='translate(0,0)'; }); });
+    document.querySelectorAll('[data-magnetic]').forEach(el=>{ el.addEventListener('mousemove',e=>{ const r=el.getBoundingClientRect(); const x=e.clientX-r.left-r.width/2; const y=e.clientY-r.top-r.height/2; const k=REDUCED?0.12:0.26; el.style.transform=`translate(${x*k}px,${y*k}px)`; }); el.addEventListener('mouseleave',()=>{ el.style.transform='translate(0,0)'; }); });
     /* headline magnetica: cada linha inclina em 3D na direcao do cursor */
-    const h1=document.querySelector('#hero h1');
+    const h1=REDUCED?null:document.querySelector('#hero h1');
     if(h1){
       const lines=h1.querySelectorAll('.reveal-line > span');
       h1.addEventListener('mousemove',e=>{ if(!window.__heroReady) return; lines.forEach(sp=>{ const r=sp.getBoundingClientRect(); const dx=(e.clientX-(r.left+r.width/2))/r.width; const dy=(e.clientY-(r.top+r.height/2))/r.height; gsap.to(sp,{ rotateY:dx*7, rotateX:-dy*6, z:12, transformPerspective:620, duration:.5, ease:'power2.out', overwrite:'auto' }); }); });
       h1.addEventListener('mouseleave',()=>{ if(!window.__heroReady) return; lines.forEach(sp=>gsap.to(sp,{ rotateY:0, rotateX:0, z:0, duration:.85, ease:'power3.out' })); });
     }
     /* hero cat parallax tilt toward cursor */
-    const hm=document.getElementById('heroMark');
+    const hm=REDUCED?null:document.getElementById('heroMark');
     if(hm){ addEventListener('mousemove',e=>{ const dx=(e.clientX/innerWidth-0.5); const dy=(e.clientY/innerHeight-0.5); gsap.to(hm,{ x:dx*-30, y:dy*-20, rotateY:dx*16, rotateX:-dy*11, transformPerspective:950, duration:0.9, ease:'power2.out', overwrite:'auto' }); }); }
   }
 
@@ -1590,7 +1642,7 @@ window.addEventListener('load',()=>{
   const cue=document.getElementById('scrollCue');
   if(cue){
     cue.addEventListener('click',()=>{ const t=document.getElementById('filmstrip')||document.getElementById('manifesto'); if(t) scrollTo(t); });
-    if(!REDUCED && window.gsap) gsap.to('#cueDot',{ attr:{ cy:13 }, duration:1.05, ease:'power2.inOut', repeat:-1, yoyo:true });
+    if(window.gsap) gsap.to('#cueDot',{ attr:{ cy:13 }, duration:REDUCED?1.6:1.05, ease:'power2.inOut', repeat:-1, yoyo:true });
   }
 
   document.getElementById('langToggle').addEventListener('click',()=>{ applyLang(lang==='pt-BR'?'en':'pt-BR'); if(window.__splitManifesto) window.__splitManifesto(); if(window.ScrollTrigger) ScrollTrigger.refresh(); });
@@ -1601,15 +1653,15 @@ window.addEventListener('load',()=>{
 (function(){
   const RM=matchMedia('(prefers-reduced-motion:reduce)').matches, TOUCH=matchMedia('(hover:none)').matches;
   window.addEventListener('load',()=>{
-    const g=window.gsap; if(!g||RM||TOUCH) return;
+    const g=window.gsap; if(!g||TOUCH) return;
     // cursor label
     const lab=document.createElement('div'); lab.id='cursorLabel'; document.body.appendChild(lab); window.__cursorLabel=lab;
     document.querySelectorAll('[data-cursor]').forEach(el=>{
       el.addEventListener('mouseenter',()=>{ lab.textContent=el.getAttribute('data-cursor'); document.body.classList.add('cursor-label'); });
       el.addEventListener('mouseleave',()=>document.body.classList.remove('cursor-label'));
     });
-    // 3D tilt cards
-    document.querySelectorAll('[data-tilt3d]').forEach(el=>{
+    // 3D tilt cards (fora no movimento suave)
+    if(!RM) document.querySelectorAll('[data-tilt3d]').forEach(el=>{
       el.addEventListener('mousemove',e=>{ const r=el.getBoundingClientRect(); const px=(e.clientX-r.left)/r.width-.5, py=(e.clientY-r.top)/r.height-.5;
         g.to(el,{ rotateY:px*11, rotateX:-py*11, transformPerspective:900, duration:.5, ease:'power2.out', overwrite:'auto' }); });
       el.addEventListener('mouseleave',()=>g.to(el,{ rotateY:0, rotateX:0, duration:.7, ease:'power3.out' }));
@@ -1658,12 +1710,14 @@ window.addEventListener('load',()=>{
         loadIG();
         clearTimeout(fbTimer); fbTimer=setTimeout(()=>{ if(!embed.querySelector('iframe')) modal.classList.add('ig-failed'); },7000);
         if(g && !RM){ g.fromTo(bg,{opacity:0},{opacity:1,duration:.45,ease:'power2.out'}); g.fromTo(panel,{opacity:0,y:40,scale:.96},{opacity:1,y:0,scale:1,duration:.75,ease:'expo.out'}); }
+        else if(g){ g.fromTo([bg,panel],{opacity:0},{opacity:1,duration:.3,ease:'power2.out'}); }
         const cb=modal.querySelector('.reel-modal__close'); if(cb) cb.focus({preventScroll:true});
       };
       const close=()=>{
         if(!modal.classList.contains('open')) return;
         const done=()=>{ modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); document.body.classList.remove('modal-open'); if(window.__lenis) window.__lenis.start(); if(lastFocus && lastFocus.focus) lastFocus.focus({preventScroll:true}); };
-        if(g && !RM){ g.to(panel,{opacity:0,y:24,duration:.28,ease:'power2.in'}); g.to(bg,{opacity:0,duration:.34,ease:'power2.in',onComplete:done}); } else done();
+        if(g && !RM){ g.to(panel,{opacity:0,y:24,duration:.28,ease:'power2.in'}); g.to(bg,{opacity:0,duration:.34,ease:'power2.in',onComplete:done}); }
+        else if(g){ g.to(panel,{opacity:0,duration:.2}); g.to(bg,{opacity:0,duration:.24,onComplete:done}); } else done();
       };
       openBtn.addEventListener('click',open);
       modal.querySelectorAll('[data-reel-close]').forEach(el=>el.addEventListener('click',close));
@@ -1679,7 +1733,7 @@ window.addEventListener('load',()=>{
     /* modelo IA: a cor "revela" quando a foto chega na faixa central; contador do carrossel no celular */
     const track=document.getElementById('anaTrack');
     const cards=track ? [...track.querySelectorAll('.ana-card')] : [];
-    if(track && !RM && 'IntersectionObserver' in window){
+    if(track && 'IntersectionObserver' in window){
       const io=new IntersectionObserver(es=>es.forEach(en=>en.target.classList.toggle('is-on',en.isIntersecting)),{ rootMargin:'-20% 0px -20% 0px', threshold:0.3 });
       cards.forEach(c=>io.observe(c));
     }
@@ -1688,38 +1742,40 @@ window.addEventListener('load',()=>{
       track.addEventListener('scroll',()=>{ const step=(cards[1].offsetLeft-cards[0].offsetLeft)||1; const i=Math.min(cards.length-1,Math.max(0,Math.round(track.scrollLeft/step))); cnt.textContent=String(i+1).padStart(2,'0')+' / '+String(cards.length).padStart(2,'0'); },{ passive:true });
     }
 
-    if(!g || !ST || RM) return;   /* daqui pra baixo é só movimento: em reduced-motion tudo já está visível */
+    if(!g || !ST) return;   /* daqui pra baixo é movimento; em movimento suave (RM) só entram as máscaras e fades, curtos */
 
-    /* galeria: máscara (clip-path) de baixo pra cima + zoom-out + parallax interno da foto */
+    /* galeria: máscara (clip-path) de baixo pra cima + zoom-out + parallax interno da foto (RM: só a máscara) */
     cards.forEach((c,i)=>{
       const fr=c.querySelector('.ana-frame'), im=c.querySelector('.ana-img'), tag=c.querySelector('.ana-tag');
-      g.set(fr,{ clipPath:'inset(100% 0% 0% 0%)' }); g.set(im,{ scale:1.32 }); if(tag) g.set(tag,{ opacity:0, y:10 });
-      const tl=g.timeline({ scrollTrigger:{ trigger:track, start:'top 84%', once:true }, delay:i*0.14 });
-      tl.to(fr,{ clipPath:'inset(0% 0% 0% 0%)', duration:1.25, ease:'expo.inOut' })
-        .to(im,{ scale:1.12, duration:1.7, ease:'expo.out' },'<0.15');
-      if(tag) tl.to(tag,{ opacity:1, y:0, duration:.6, ease:'power3.out' },'-=1.1');
-      g.fromTo(im,{ yPercent:-5 },{ yPercent:5, ease:'none', scrollTrigger:{ trigger:c, start:'top bottom', end:'bottom top', scrub:true } });
+      g.set(fr,{ clipPath:'inset(100% 0% 0% 0%)' }); if(!RM) g.set(im,{ scale:1.32 }); if(tag) g.set(tag,{ opacity:0, y:RM?0:10 });
+      const tl=g.timeline({ scrollTrigger:{ trigger:track, start:'top 84%', once:true }, delay:i*(RM?0.08:0.14) });
+      tl.to(fr,{ clipPath:'inset(0% 0% 0% 0%)', duration:RM?0.8:1.25, ease:RM?'power2.inOut':'expo.inOut' });
+      if(!RM) tl.to(im,{ scale:1.12, duration:1.7, ease:'expo.out' },'<0.15');
+      if(tag) tl.to(tag,{ opacity:1, y:0, duration:RM?0.4:0.6, ease:'power3.out' },RM?'-=0.3':'-=1.1');
+      if(!RM) g.fromTo(im,{ yPercent:-5 },{ yPercent:5, ease:'none', scrollTrigger:{ trigger:c, start:'top bottom', end:'bottom top', scrub:true } });
     });
-    /* desktop: cada coluna numa velocidade (profundidade) */
-    g.matchMedia().add('(min-width:768px)',()=>{
+    /* desktop: cada coluna numa velocidade (profundidade). Parallax grande: fora no movimento suave */
+    if(!RM) g.matchMedia().add('(min-width:768px)',()=>{
       const amp=[46,-54,78];
       cards.forEach((c,i)=>{ g.fromTo(c,{ y:amp[i] },{ y:-amp[i], ease:'none', scrollTrigger:{ trigger:track, start:'top bottom', end:'bottom top', scrub:1 } }); });
     });
 
     /* máscaras em elementos .reveal: o batch do .reveal usa overwrite:true (mataria um tween no mesmo alvo),
        então o clip-path é animado num objeto-proxy e escrito no style */
-    const maskIn=(el,from,to,dur,ease)=>{ const o={p:0}; el.style.clipPath=from(0);
-      ST.create({ trigger:el, start:'top 92%', once:true, onEnter:()=>g.to(o,{ p:1, duration:dur, ease, onUpdate:()=>{ el.style.clipPath=from(o.p); }, onComplete:()=>{ el.style.clipPath=to; } }) }); };
+    const maskIn=(el,from,to,dur,ease,delay)=>{ const o={p:0}; el.style.clipPath=from(0); if(RM) dur*=0.65;
+      ST.create({ trigger:el, start:'top 92%', once:true, onEnter:()=>g.to(o,{ p:1, duration:dur, delay:delay||0, ease, onUpdate:()=>{ el.style.clipPath=from(o.p); }, onComplete:()=>{ el.style.clipPath=to; } }) }); };
     /* kickers de seção: revelação por máscara horizontal (o fade-up do .reveal continua) */
     g.utils.toArray('.kicker.reveal').forEach(k=>{ if(k.closest('#hero')) return;
       maskIn(k, p=>'inset(0% '+(100-p*100).toFixed(2)+'% 0% 0%)', 'none', 1.3, 'expo.inOut'); });
     /* frases de destaque (verbos dos pilares, pergunta do CTA): máscara subindo */
     g.utils.toArray('p.display.reveal').forEach(el=>{
       maskIn(el, p=>'inset('+(100-p*100).toFixed(2)+'% 0% -12% 0%)', 'none', 1.1, 'expo.out'); });
+    /* legendas das fotos da Ana: máscara horizontal (antes era CSS view(), que travava cortada; ver nota no CSS) */
+    cards.forEach((c,i)=>{ const cap=c.querySelector('figcaption'); if(cap) maskIn(cap, p=>'inset(0% '+(100-p*100).toFixed(2)+'% 0% 0%)', 'none', 1.1, 'power2.inOut', (RM?0.35:0.6)+i*0.12); });
     /* rodapé: a última linha pode não cruzar o gatilho de 92% em telas baixas; garante a entrada no fim da página */
     ST.create({ trigger:'footer', start:'bottom bottom+=60', once:true, onEnter:()=>g.to('footer .reveal',{ y:0, opacity:1, duration:.8, stagger:.06, ease:'power3.out' }) });
     /* linhas que se desenham */
-    g.utils.toArray('.draw-line').forEach(l=>{ g.fromTo(l,{ scaleX:0 },{ scaleX:1, duration:1.5, ease:'expo.inOut', scrollTrigger:{ trigger:l, start:'top 94%', once:true } }); });
+    g.utils.toArray('.draw-line').forEach(l=>{ g.fromTo(l,{ scaleX:0 },{ scaleX:1, duration:RM?1:1.5, ease:'expo.inOut', scrollTrigger:{ trigger:l, start:'top 94%', once:true } }); });
 
     /* transição claro/escuro: a seção clara entra como folha de papel de cantos arredondados sobre a tinta
        e assenta reta no topo; ao sair para uma seção escura, os cantos de baixo se soltam */
@@ -1735,13 +1791,28 @@ window.addEventListener('load',()=>{
     });
 
     ST.refresh();
+
+    /* rede de segurança (v17): nada fica invisível à espera de um gatilho que já passou
+       (salto por âncora, rolagem restaurada, resize). Só age em quem está parado, fora de animação */
+    const sweep=()=>{
+      if(!window.__heroReady) return;
+      const lim=innerHeight*0.85;
+      document.querySelectorAll('.reveal, .reveal-line span, #metodo .card3d').forEach(el=>{
+        if(g.isTweening(el) || el.closest('#hero') || (el.closest('#manifesto') && el.closest('.reveal-line'))) return;
+        const r=el.getBoundingClientRect(); if(r.top>lim || !r.height) return;
+        const cs=getComputedStyle(el), op=+cs.opacity, m=cs.transform!=='none'?new DOMMatrixReadOnly(cs.transform):null;
+        if(op<0.05 || (m && Math.abs(m.f)>r.height*0.5)) g.to(el,{ opacity:1, y:0, rotateX:0, duration:0.45, ease:'power2.out', overwrite:'auto' });
+      });
+    };
+    ST.addEventListener('scrollEnd',sweep);
+    setTimeout(sweep,4500);
   });
 })();
 </script>
 
 <script>
 /* ---------- v16: reel em vídeo nativo, partículas do manifesto, profundidade 3D (kanji/gato/filmstrip) e WebGL (OGL) ----------
-   Regras: reduced-motion = nada disso (conteúdo estático e visível); touch/celular = sem WebGL e sem mouse;
+   Regras: reduced-motion (movimento suave) = nada disso, é movimento contínuo forte; touch/celular = sem WebGL e sem mouse;
    WebGL carrega por import dinâmico depois do load/idle, com try/catch; se falhar, as <img>/<video> seguem como estão. */
 (function(){
   const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
