@@ -277,42 +277,34 @@ body.cursor-label #cursor{ opacity:0; }
 /* linha que se desenha ao entrar na tela */
 .draw-line{ height:1px; background:currentColor; opacity:.16; transform-origin:left center; }
 
-/* Reel: prévia cinematográfica. Crossfade + Ken Burns em CSS, ciclo de 15 s = duração do reel */
-.reel-stage{ position:absolute; inset:0; overflow:hidden; background:#141414; }
-.reel-slide{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transform-origin:var(--ox,50%) var(--oy,50%); will-change:opacity,transform; animation:reelKB 15s linear infinite both; }
-.reel-slide:first-child{ opacity:1; }
-.reel-slide:nth-child(1){ --kx:-2%;  --ky:-1.5%; --ox:50%; --oy:35%; animation-delay:-1s; }
-.reel-slide:nth-child(2){ --kx:2.5%; --ky:1%;    --ox:72%; --oy:45%; animation-delay:4s; }
-.reel-slide:nth-child(3){ --kx:-1%;  --ky:2%;    --ox:45%; --oy:62%; animation-delay:9s; }
-@keyframes reelKB{
-  0%{ opacity:0; transform:scale(1.04) translate(0,0); }
-  6.667%{ opacity:1; }
-  33.333%{ opacity:1; }
-  40%{ opacity:0; transform:scale(1.16) translate(var(--kx),var(--ky)); }
-  100%{ opacity:0; transform:scale(1.16) translate(var(--kx),var(--ky)); }
-}
+/* Reel: vídeo nativo (BVBA Supply · O surrealismo, 15 s, 9:16). Só toca na tela; barra de stories e timecode leem o currentTime */
+.reel-video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 58%; display:block; background:#141414; }
+.reel-video:fullscreen{ object-fit:contain; background:#000; }
 .reel-vignette{ position:absolute; inset:0; pointer-events:none; background:linear-gradient(180deg,rgba(11,11,11,.62) 0%,rgba(11,11,11,0) 24%,rgba(11,11,11,0) 52%,rgba(11,11,11,.86) 100%); }
 .reel .grain{ inset:-50%; opacity:.09; animation:grainmove .6s steps(2) infinite; }
 .reel-seg{ position:relative; flex:1; height:2px; background:rgba(246,244,239,.22); overflow:hidden; }
-.reel-seg > i{ position:absolute; inset:0; background:var(--paper); transform-origin:left center; transform:scaleX(0); animation:15s linear infinite both; }
-.reel-seg:nth-child(1) > i{ animation-name:seg1; }
-.reel-seg:nth-child(2) > i{ animation-name:seg2; animation-delay:5s; }
-.reel-seg:nth-child(3) > i{ animation-name:seg3; animation-delay:10s; }
-@keyframes seg1{ 0%{ transform:scaleX(0) } 33.333%,100%{ transform:scaleX(1) } }
-@keyframes seg2{ 0%{ transform:scaleX(0) } 33.333%,66.666%{ transform:scaleX(1) } 66.667%,100%{ transform:scaleX(0) } }
-@keyframes seg3{ 0%{ transform:scaleX(0) } 33.333%{ transform:scaleX(1) } 33.334%,100%{ transform:scaleX(0) } }
+.reel-seg > i{ position:absolute; inset:0; background:var(--paper); transform-origin:left center; transform:scaleX(0); }
+/* controles do vídeo: trilho vertical à direita, como nos stories */
+.reel-ctrl{ position:absolute; right:12px; bottom:14px; z-index:5; display:flex; flex-direction:column; gap:10px; }
+@media (min-width:768px){ .reel-ctrl{ right:18px; bottom:22px; } }
+.reel-btn{ width:40px; height:40px; border-radius:50%; border:1px solid rgba(246,244,239,.55); display:inline-flex; align-items:center; justify-content:center; color:var(--paper); background:rgba(11,11,11,.32); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); cursor:pointer; padding:0; transition:background-color .35s ease,color .35s ease,transform .45s var(--ease); }
+.reel-btn svg{ width:17px; height:17px; display:block; }
+.reel-btn .ic-b{ display:none; }
+.reel-btn[aria-pressed="true"] .ic-a{ display:none; }
+.reel-btn[aria-pressed="true"] .ic-b{ display:block; }
+@media (hover:hover){ .reel-btn:hover{ background:var(--paper); color:var(--ink); } }
+.reel-btn:active{ transform:scale(.92); }
+.reel-btn:focus-visible{ outline:2px solid var(--paper); outline-offset:3px; }
+/* botão de play do card da Alumee (abre o modal com o embed oficial) */
 .reel-play{ position:absolute; inset:0; z-index:4; display:flex; align-items:center; justify-content:center; background:transparent; border:0; padding:0; cursor:pointer; color:var(--paper); }
 .reel-ring{ position:relative; width:84px; height:84px; border-radius:50%; border:1px solid rgba(246,244,239,.75); display:flex; align-items:center; justify-content:center; background:rgba(11,11,11,.25); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); transition:transform .5s var(--ease),background-color .4s ease; }
 .reel-ring::after{ content:''; position:absolute; inset:-9px; border-radius:50%; border:1px solid rgba(246,244,239,.4); animation:chippulse 2.4s var(--ease) infinite; }
 @media (hover:hover){ .reel-play:hover .reel-ring{ background:rgba(11,11,11,.5); } }
 .reel-play:focus-visible{ outline:none; }
 .reel-play:focus-visible .reel-ring{ outline:2px solid var(--paper); outline-offset:6px; }
-/* só roda enquanto o reel está na tela (economia de CPU); slides e segmentos pausam juntos e ficam em sincronia */
-#reelBox .reel-slide,#reelBox .reel-seg > i{ animation-play-state:paused; }
-#reelBox.reel-live .reel-slide,#reelBox.reel-live .reel-seg > i{ animation-play-state:running; }
 .reel-modal.ig-failed #reelFallbackMsg{ color:var(--paper); }
-@media (prefers-reduced-motion:reduce){ .reel-slide,.reel-seg > i,.reel-ring::after{ animation:none !important; } }
-.rm .reel-slide,.rm .reel-seg > i,.rm .reel-ring::after{ animation:none !important; }
+@media (prefers-reduced-motion:reduce){ .reel-ring::after{ animation:none !important; } }
+.rm .reel-ring::after{ animation:none !important; }
 
 /* Modal do reel (embed oficial do Instagram, carregado só ao abrir) */
 .reel-modal{ position:fixed; inset:0; z-index:9995; display:none; align-items:center; justify-content:center; padding:16px; }
@@ -344,6 +336,54 @@ body.modal-open{ overflow:hidden; }
 .rm .ana-img{ filter:none; transition:none; }
 @media (prefers-reduced-motion:reduce){ .ana-img{ filter:none; transition:none; } }
 .ana-tag{ position:absolute; top:12px; left:12px; z-index:3; font:500 10px/1 'Archivo',sans-serif; letter-spacing:.22em; text-transform:uppercase; color:var(--ink); background:var(--paper); padding:7px 10px; border-radius:999px; pointer-events:none; }
+
+/* --- v16: reel nativo, Alumee no Cases, WebGL (OGL), partículas do manifesto, reveals por view() --- */
+/* celular: a inclinação 3D das seções (perspectiva) alargava a página alguns px; recorta sem criar rolagem */
+main#top{ overflow-x:clip; }
+
+/* Alumee: card de mídia no Cases (bento: 2x2 no desktop), abre o modal com o embed do Instagram */
+.case-media{ background:#141414; color:var(--paper); }
+.case-media::before,.case-media::after{ display:none; }
+.cm-frame{ position:absolute; inset:0; overflow:hidden; background:#141414; }
+.cm-img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 58%; display:block; transition:opacity .9s var(--ease),transform 1.4s var(--ease); }
+.cm-img--b{ opacity:0; }
+/* sem WebGL: troca simples das fotos no hover; com WebGL a troca vira tinta se espalhando (shader) */
+@media (hover:hover){
+  .case-media:hover .cm-img--b{ opacity:1; }
+  .case-media:hover .cm-img{ transform:scale(1.035); }
+  .gl-ready .case-media:hover .cm-img--b{ opacity:0; }
+  .gl-ready .case-media:hover .cm-img{ transform:none; }
+}
+.case-media .reel-vignette{ z-index:2; }
+
+/* WebGL: um contexto só (fora da tela), copiado para canvases 2D dentro de cada moldura.
+   A <img>/<video> real continua embaixo; o canvas só aparece quando o efeito está ativo */
+.gl-cv{ position:absolute; inset:0; width:100%; height:100%; display:block; pointer-events:none; opacity:0; z-index:1; }
+.gl-cv.on{ opacity:1; }
+.ana-frame .gl-cv{ filter:grayscale(1) contrast(1.04); transition:filter 1.2s var(--ease); }
+.ana-card.is-on .gl-cv{ filter:none; }
+@media (hover:hover){ .ana-card:hover .gl-cv{ filter:none; } }
+.reel .gl-grain{ z-index:2; mix-blend-mode:overlay; }
+.reel .gl-grain.on{ opacity:.9; }
+.reel.gl-grain-on .grain{ display:none; }
+
+/* Manifesto: partículas de tinta por campo de ruído (Canvas 2D), atrás do texto */
+#manDust{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:0; }
+#manifesto > div{ position:relative; z-index:1; }
+
+/* Reveals só em CSS (rolagem nativa via animation-timeline), onde ainda não havia animação */
+@supports (animation-timeline: view()){
+  @media (prefers-reduced-motion:no-preference){
+    #estudio .bg-paper svg{ animation:vtMark linear both; animation-timeline:view(); animation-range:entry 10% cover 45%; }
+    #metodo .jp{ animation:vtKanji linear both; animation-timeline:view(); animation-range:entry 0% cover 50%; }
+    .ana-card figcaption{ animation:vtWipe linear both; animation-timeline:view(); animation-range:entry 20% cover 40%; }
+    .client-cell img{ animation:vtLogo linear both; animation-timeline:view(); animation-range:entry 5% cover 35%; }
+  }
+}
+@keyframes vtMark{ from{ rotate:-28deg; scale:.62; } to{ rotate:0deg; scale:1; } }
+@keyframes vtKanji{ from{ letter-spacing:.7em; } to{ letter-spacing:0em; } }
+@keyframes vtWipe{ from{ clip-path:inset(0 100% 0 0); } to{ clip-path:inset(0 0 0 0); } }
+@keyframes vtLogo{ from{ scale:.84; translate:0 16px; } to{ scale:1; translate:0 0; } }
 </style>
 </head>
 
@@ -517,7 +557,7 @@ body.modal-open{ overflow:hidden; }
     <svg class="mark3d-l" style="--z:26px" viewBox="0 0 1584 1473"><use href="#mk"/></svg>
   </div>
 
-  <div class="hidden md:block absolute right-8 top-1/2 -translate-y-1/2 vertical jp text-smoke text-lg tracking-[0.35em] opacity-50" aria-hidden="true">間 · 創 · 光</div>
+  <div class="hidden md:block absolute right-8 top-1/2 -translate-y-1/2 vertical jp text-smoke text-lg tracking-[0.35em] opacity-50" data-depth="0.5" aria-hidden="true">間 · 創 · 光</div>
 
   <div id="heroContent" class="relative z-10 px-5 md:px-9 w-full pb-14 md:pb-0">
     <div class="kicker u-smoke reveal mb-6"><span class="jp mr-2">まやー工房</span> · <span data-i18n="hero.eyebrow">Performance · Marketing · IA · Tráfego pago · Audiovisual</span></div>
@@ -602,7 +642,7 @@ body.modal-open{ overflow:hidden; }
 
 <!-- ===================== MANIFESTO [LIGHT] ===================== -->
 <section id="manifesto" class="sec sec--light py-28 md:py-40 px-5 md:px-9 relative">
-  <svg class="absolute left-1/2 -translate-x-1/2 top-14 w-16 text-ink opacity-[0.12]" viewBox="0 0 1584 1473" data-parallax="0.14" aria-hidden="true"><use href="#mk"/></svg>
+  <svg class="absolute left-1/2 -translate-x-1/2 top-14 w-16 text-ink opacity-[0.12]" viewBox="0 0 1584 1473" data-parallax="0.14" data-depth="0.9" aria-hidden="true"><use href="#mk"/></svg>
   <div class="absolute top-10 right-9 vertical jp text-ink/12 text-2xl tracking-[0.4em] hidden md:block" aria-hidden="true">間</div>
   <div class="max-w-[95%] md:max-w-[64rem] mx-auto text-center">
     <div class="kicker u-smoke reveal mb-10">Manifesto</div>
@@ -765,21 +805,26 @@ body.modal-open{ overflow:hidden; }
       <a href="#contato" data-magnetic class="btn-lead inline-flex mt-9 px-6 py-3 text-[13px]"><span data-i18n="svc.av.cta">Colocar em movimento</span></a>
     </div>
     <div class="md:col-span-7">
-      <!-- REEL REAL · Alumee, vela Mel · instagram.com/reel/DbZFaIlBBCR (29/07/2026, 15 s, 9:16)
-           Hoje a prévia são 3 fotos da campanha em crossfade + Ken Burns (CSS, ciclo de 15 s).
-           QUANDO O VICTOR MANDAR O MP4: salvar em assets/portfolio/reel-mel.mp4 e trocar o bloco
-           <div class="reel-stage">...</div> por:
-             <video class="reel-stage w-full h-full object-cover" src="assets/portfolio/reel-mel.mp4"
-                    poster="assets/portfolio/mel-01.jpg" autoplay muted loop playsinline preload="metadata"
-                    width="1086" height="1448" aria-hidden="true"></video>
-           Os segmentos .reel-seg e o timecode podem ficar (seguem o ciclo de 15 s). Em prefers-reduced-motion,
-           pausar o vídeo (video.pause()) no script v15. O botão de play continua abrindo o embed oficial. -->
-      <div id="reelBox" class="reel relative w-full max-w-[540px] md:ml-auto aspect-[4/5] bg-[#141414] border border-white/10 overflow-hidden" data-parallax="0.1" data-hoverscale data-float3d data-cursor="Assistir" data-i18n-cursor="reel.cursor">
-        <div class="reel-stage" aria-hidden="true">
-          <img class="reel-slide" src="assets/portfolio/mel-01.jpg" width="1086" height="1448" alt="" loading="lazy" decoding="async" />
-          <img class="reel-slide" src="assets/portfolio/mel-02.jpg" width="1086" height="1448" alt="" loading="lazy" decoding="async" />
-          <img class="reel-slide" src="assets/portfolio/mel-03.jpg" width="1086" height="1448" alt="" loading="lazy" decoding="async" />
-        </div>
+      <!-- REEL · BVBA Supply, "O surrealismo" · instagram.com/reel/DbjBnflO0AR (02/08/2026, 15 s, 9:16), vídeo nativo.
+           Toca mudo e em loop só enquanto está na tela (IntersectionObserver); pausa, som e tela cheia pelos botões.
+           Em prefers-reduced-motion não toca sozinho (fica no poster). Com WebGL, um grão por shader reage à rolagem e ao cursor;
+           sem WebGL fica o grão em CSS. O case da Alumee (vela Mel + modal com o embed) foi para a seção Cases. -->
+      <div id="reelBox" class="reel relative w-full max-w-[540px] md:ml-auto aspect-[4/5] bg-[#141414] border border-white/10 overflow-hidden" data-parallax="0.1" data-hoverscale data-float3d>
+        <video id="reelVideo" class="reel-video" src="assets/portfolio/reel-surreal.mp4" poster="assets/portfolio/reel-surreal-poster.jpg" muted autoplay loop playsinline preload="metadata" width="720" height="1280" aria-label="Filme com IA para a BVBA Supply: um gato numa galeria vê tinta dourada escorrer de um quadro para um piso espelhado" data-i18n-aria="reel2.aria"></video>
+        <script>
+        /* roda no parse: em reduced-motion não deixa o autoplay começar; fora da tela o vídeo pausa */
+        (function(){ var v=document.getElementById('reelVideo'); if(!v) return;
+          var RM=window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+          if(RM){ v.removeAttribute('autoplay'); v.autoplay=false; try{ v.pause(); }catch(e){} }
+          window.__reelVis=false;
+          if('IntersectionObserver' in window){
+            new IntersectionObserver(function(es){ var vis=es[0].isIntersecting; window.__reelVis=vis;
+              if(!vis){ if(document.fullscreenElement!==v) v.pause(); } /* pause() também cancela o autoplay pendente */
+              else if(!RM && !v.__userPaused && v.paused){ var p=v.play(); if(p && p.catch) p.catch(function(){}); }
+            },{ threshold:0.2 }).observe(v);
+          }
+        })();
+        </script>
         <div class="reel-vignette" aria-hidden="true"></div>
         <div class="grain" aria-hidden="true"></div>
         <div class="absolute top-0 left-0 right-0 z-[3] px-4 pt-4 pointer-events-none" aria-hidden="true">
@@ -789,18 +834,28 @@ body.modal-open{ overflow:hidden; }
             <span class="whitespace-nowrap">Reel · 0:15<span class="hidden sm:inline"> · 9:16</span></span>
           </div>
         </div>
-        <button type="button" id="reelPlay" class="reel-play" aria-haspopup="dialog" aria-controls="reelModal" aria-label="Assistir o reel da Alumee" data-i18n-aria="reel.play">
-          <span class="reel-ring" data-magnetic><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5l11 6.5-11 6.5z" fill="#F6F4EF"/></svg></span>
-        </button>
-        <div class="absolute bottom-0 left-0 right-0 z-[3] p-4 md:p-6 pointer-events-none">
+        <div class="reel-ctrl">
+          <button type="button" id="reelPause" class="reel-btn" aria-pressed="false" aria-label="Pausar o vídeo" data-i18n-aria="reel2.pause">
+            <svg class="ic-a" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5h2.6v13H8zM13.4 5.5H16v13h-2.6z" fill="currentColor"/></svg>
+            <svg class="ic-b" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5l11 6.5-11 6.5z" fill="currentColor"/></svg>
+          </button>
+          <button type="button" id="reelSound" class="reel-btn" aria-pressed="false" aria-label="Som do vídeo" data-i18n-aria="reel2.sound">
+            <svg class="ic-a" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5h3.5L12 6v12l-4.5-3.5H4z" fill="currentColor" stroke="none"/><path d="M16 9.5l5 5M21 9.5l-5 5"/></svg>
+            <svg class="ic-b" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5h3.5L12 6v12l-4.5-3.5H4z" fill="currentColor" stroke="none"/><path d="M15.5 9a4.2 4.2 0 010 6M18.2 6.6a7.6 7.6 0 010 10.8"/></svg>
+          </button>
+          <button type="button" id="reelExpand" class="reel-btn" aria-label="Ver em tela cheia" data-i18n-aria="reel2.expand">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 9V4.5H9M15 4.5h4.5V9M19.5 15v4.5H15M9 19.5H4.5V15"/></svg>
+          </button>
+        </div>
+        <div class="absolute bottom-0 left-0 right-0 z-[3] p-4 pr-16 md:p-6 md:pr-20 pointer-events-none">
           <div class="kicker text-paper/60 mb-2" data-i18n="reel.k">Case · Audiovisual com IA</div>
-          <p class="display text-paper text-[6.4vw] sm:text-2xl md:text-[1.9rem] leading-[1.02] font-extrabold" data-i18n="reel.title">Alumee · vela Mel</p>
-          <p class="text-paper/75 text-[12.5px] md:text-[13.5px] leading-snug mt-2 max-w-[44ch] font-light" data-i18n="reel.label">Campanha de lançamento · cena com IA a partir do produto real</p>
+          <p class="display text-paper text-[6.4vw] sm:text-2xl md:text-[1.9rem] leading-[1.02] font-extrabold" data-i18n="reel2.title">BVBA Supply · O surrealismo</p>
+          <p class="text-paper/75 text-[12.5px] md:text-[13.5px] leading-snug mt-2 max-w-[44ch] font-light" data-i18n="reel2.label">Filme com IA · tinta dourada escorre do quadro para o piso espelhado</p>
         </div>
       </div>
       <div class="w-full max-w-[540px] md:ml-auto mt-4 flex items-center justify-between gap-4 kicker u-smoke text-[10px] sm:text-[0.7rem] tracking-[0.16em] sm:tracking-[0.34em]">
-        <span class="whitespace-nowrap" data-i18n="reel.meta">Instagram · 29/07/2026</span>
-        <a href="https://www.instagram.com/reel/DbZFaIlBBCR/" target="_blank" rel="noopener" class="nav-link text-paper/80 whitespace-nowrap"><span data-i18n="reel.ig">Ver no Instagram</span> ↗</a>
+        <span class="whitespace-nowrap" data-i18n="reel2.meta">Instagram · 02/08/2026</span>
+        <a href="https://www.instagram.com/reel/DbjBnflO0AR/" target="_blank" rel="noopener" class="nav-link text-paper/80 whitespace-nowrap"><span data-i18n="reel.ig">Ver no Instagram</span> ↗</a>
       </div>
     </div>
   </div>
@@ -818,6 +873,30 @@ body.modal-open{ overflow:hidden; }
     <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
       <a class="case-tile block aspect-[4/5] flex items-center justify-center reveal" href="https://www.bvbasupply.com.br" target="_blank" rel="noopener" data-tilt3d data-cursor="Visitar ↗" data-i18n-cursor="cases.visit"><div class="case-shine" aria-hidden="true"></div><div class="case-main relative z-[2] w-full h-full flex flex-col justify-between text-left p-6 md:p-7"><div class="kicker u-smoke" data-i18n="cases.c1k">Marketing · site &amp; loja</div><div class="fdepth flex items-center justify-center"><img width="481" height="160" src="assets/clients/bvba.png" alt="BVBA Supply" class="w-[72%] max-w-[220px] h-auto" loading="lazy" decoding="async" /></div><div><div class="display text-ink text-xl leading-tight">BVBA Supply®</div><div class="u-smoke text-[12px] mt-1" data-i18n="cases.c1d">Loja no ar</div></div></div><div class="case-alt"><img width="481" height="160" src="assets/clients/bvba.png" alt="" class="w-[56%] max-w-[180px] h-auto invert" loading="lazy" decoding="async" /><div class="kicker text-paper/80 mt-3">bvbasupply.com.br ↗</div></div></a>
       <div class="case-tile aspect-[4/5] flex items-center justify-center reveal" data-tilt3d data-cursor="ROAS 12,55×"><div class="case-shine" aria-hidden="true"></div><div class="case-main relative z-[2] w-full h-full flex flex-col justify-between text-left p-6 md:p-7"><div class="kicker u-smoke" data-i18n="cases.mp">Tráfego pago · conta anonimizada</div><div class="fdepth"><div class="display text-ink font-extrabold text-6xl md:text-5xl lg:text-6xl leading-none" data-count="12.55" data-suffix="×" data-decimals="2" data-dec=",">12,55×</div><div class="kicker u-smoke mt-3" data-i18n="cases.roas">ROAS · relatório da plataforma</div></div><div><div class="display text-ink text-xl leading-tight" data-i18n="cases.c2n">Maior ROAS entre 45 campanhas</div><div class="u-smoke text-[12px] mt-1" data-i18n="cases.c2d">Venda, não lucro. Topo, não média.</div></div></div><div class="case-alt"><div class="display text-paper text-5xl font-extrabold">12,55×</div><div class="kicker text-paper/70 mt-3 px-6" data-i18n="cases.c2alt">Para cada R$ 1, R$ 12,55 em vendas</div></div></div>
+      <!-- CASE ALUMEE · vela Mel · reel instagram.com/reel/DbZFaIlBBCR (29/07/2026). Saiu do bloco do reel (agora BVBA em vídeo nativo)
+           e virou o card de mídia do Cases: 2x2 no desktop, largura cheia no tablet. O botão abre o modal com o embed oficial. -->
+      <div class="case-tile case-media reveal aspect-[4/5] sm:col-span-2 sm:aspect-[16/10] lg:col-span-2 lg:row-span-2 lg:col-start-3 lg:row-start-1 lg:aspect-auto" data-tilt3d data-cursor="Assistir" data-i18n-cursor="reel.cursor">
+        <div class="cm-frame">
+          <img class="cm-img" src="assets/portfolio/mel-01.jpg" width="1086" height="1448" alt="Vela Mel da Alumee com mel escorrendo sobre a tampa, cena criada com IA a partir do produto real" data-i18n-alt="alumee.a1" loading="lazy" decoding="async" />
+          <img class="cm-img cm-img--b" src="assets/portfolio/mel-02.jpg" width="1086" height="1448" alt="" aria-hidden="true" loading="lazy" decoding="async" />
+        </div>
+        <div class="reel-vignette" aria-hidden="true"></div>
+        <div class="absolute top-0 left-0 right-0 z-[3] p-5 md:p-7 flex items-center justify-between gap-4 kicker text-paper/75 pointer-events-none" aria-hidden="true">
+          <span class="whitespace-nowrap">Reel · 0:15 · 9:16</span><span class="jp" lang="ja">創</span>
+        </div>
+        <button type="button" id="reelPlay" class="reel-play" aria-haspopup="dialog" aria-controls="reelModal" aria-label="Assistir o reel da Alumee" data-i18n-aria="reel.play">
+          <span class="reel-ring"><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5l11 6.5-11 6.5z" fill="#F6F4EF"/></svg></span>
+        </button>
+        <div class="absolute bottom-0 left-0 right-0 z-[5] p-5 md:p-7 pointer-events-none text-left">
+          <div class="kicker text-paper/65 mb-2" data-i18n="reel.k">Case · Audiovisual com IA</div>
+          <p class="display text-paper text-[7vw] sm:text-3xl md:text-[2.1rem] leading-[1.02] font-extrabold" data-i18n="reel.title">Alumee · vela Mel</p>
+          <p class="text-paper/75 text-[12.5px] md:text-[13.5px] leading-snug mt-2 max-w-[44ch] font-light" data-i18n="reel.label">Campanha de lançamento · cena com IA a partir do produto real</p>
+          <div class="mt-4 flex items-center justify-between gap-4 kicker text-paper/60 text-[10px] sm:text-[0.7rem] tracking-[0.16em] sm:tracking-[0.3em]">
+            <span class="whitespace-nowrap" data-i18n="reel.meta">Instagram · 29/07/2026</span>
+            <a href="https://www.instagram.com/reel/DbZFaIlBBCR/" target="_blank" rel="noopener" class="nav-link text-paper/85 whitespace-nowrap pointer-events-auto relative z-[6]"><span data-i18n="reel.ig">Ver no Instagram</span> ↗</a>
+          </div>
+        </div>
+      </div>
       <div class="case-tile aspect-[4/5] flex items-center justify-center reveal" data-tilt3d data-cursor="45"><div class="case-shine" aria-hidden="true"></div><div class="case-main relative z-[2] w-full h-full flex flex-col justify-between text-left p-6 md:p-7"><div class="kicker u-smoke" data-i18n="cases.mp">Tráfego pago · conta anonimizada</div><div class="fdepth"><div class="display text-ink font-extrabold text-6xl md:text-5xl lg:text-6xl leading-none" data-count="45" data-decimals="0">45</div><div class="kicker u-smoke mt-3" data-i18n="cases.c3k">Campanhas lidas</div></div><div><div class="display text-ink text-xl leading-tight" data-i18n="cases.c3n">Lidas uma por uma</div><div class="u-smoke text-[12px] mt-1" data-i18n="cases.c3d">set/2025 a ago/2026</div></div></div><div class="case-alt"><div class="display text-paper text-5xl font-extrabold">45</div><div class="kicker text-paper/70 mt-3 px-6" data-i18n="cases.c3alt">Nenhuma lida só pelo total do mês</div></div></div>
       <a class="case-tile block aspect-[4/5] flex items-center justify-center reveal" href="#contato" data-tilt3d data-cursor="Pedir diagnóstico" data-i18n-cursor="cases.c4alt"><div class="case-shine" aria-hidden="true"></div><div class="case-main relative z-[2] w-full h-full flex flex-col justify-between text-left p-6 md:p-7"><div class="kicker u-smoke" data-i18n="cases.c4k">Próximo case</div><div class="fdepth display text-ink font-extrabold text-6xl md:text-5xl lg:text-6xl leading-none" aria-hidden="true">→</div><div><div class="display text-ink text-xl leading-tight" data-i18n="cases.alt">Seu projeto aqui</div><div class="u-smoke text-[12px] mt-1" data-i18n="cases.c4d">Já anuncia? Começa pelo diagnóstico.</div></div></div><div class="case-alt"><div class="display text-paper text-4xl font-extrabold" data-i18n="cases.c4alt">Pedir diagnóstico</div></div></a>
     </div>
@@ -826,9 +905,9 @@ body.modal-open{ overflow:hidden; }
 
 <!-- ===================== MA · interlúdio [LIGHT] ===================== -->
 <section id="ma" class="sec sec--light relative overflow-hidden text-center py-24 md:py-32 px-5">
-  <span class="jp absolute left-[8%] top-[14%] text-ink/[0.05] text-6xl md:text-8xl pointer-events-none select-none" data-parallax="0.22" aria-hidden="true">創</span>
-  <span class="jp absolute right-[10%] top-[22%] text-ink/[0.04] text-5xl md:text-7xl pointer-events-none select-none" data-parallax="0.3" aria-hidden="true">知</span>
-  <span class="jp absolute left-[16%] bottom-[12%] text-ink/[0.05] text-5xl md:text-7xl pointer-events-none select-none" data-parallax="0.16" aria-hidden="true">光</span>
+  <span class="jp absolute left-[8%] top-[14%] text-ink/[0.05] text-6xl md:text-8xl pointer-events-none select-none" data-parallax="0.22" data-depth="0.8" aria-hidden="true">創</span>
+  <span class="jp absolute right-[10%] top-[22%] text-ink/[0.04] text-5xl md:text-7xl pointer-events-none select-none" data-parallax="0.3" data-depth="1.1" aria-hidden="true">知</span>
+  <span class="jp absolute left-[16%] bottom-[12%] text-ink/[0.05] text-5xl md:text-7xl pointer-events-none select-none" data-parallax="0.16" data-depth="0.6" aria-hidden="true">光</span>
   <div id="maKanji" class="jp text-ink/[0.06] leading-none select-none pointer-events-none mx-auto" style="font-size:min(52vw,30rem)" aria-hidden="true">間</div>
   <p id="maLine" class="kicker u-smoke absolute inset-0 flex items-center justify-center px-6" data-i18n="ma.line">O espaço entre o conceito e a conversão</p>
 </section>
@@ -859,7 +938,7 @@ body.modal-open{ overflow:hidden; }
 <!-- ===================== MODELO IA [LIGHT] · Ana Lauren, 100% IA (collab @analauren.ai, post 24/09/2026) =====================
      Seção própria ao lado da Musa: a Musa é direção de arte (ilustração); a Ana é oferta licenciável, com CTA próprio. -->
 <section id="modelo" class="sec sec--light relative overflow-hidden py-24 md:py-36 px-5 md:px-9">
-  <span class="jp absolute right-[6%] top-[8%] text-ink/[0.05] text-7xl md:text-9xl pointer-events-none select-none" data-parallax="0.2" aria-hidden="true">像</span>
+  <span class="jp absolute right-[6%] top-[8%] text-ink/[0.05] text-7xl md:text-9xl pointer-events-none select-none" data-parallax="0.2" data-depth="0.9" aria-hidden="true">像</span>
   <div class="max-w-[1500px] mx-auto relative">
     <div class="grid md:grid-cols-12 gap-8 md:gap-8 items-end mb-12 md:mb-20">
       <div class="md:col-span-7">
@@ -926,7 +1005,7 @@ body.modal-open{ overflow:hidden; }
 
 <!-- ===================== O ESTÚDIO [LIGHT] ===================== -->
 <section id="estudio" class="sec sec--light py-24 md:py-36 px-5 md:px-9 relative">
-  <svg class="absolute bottom-8 right-8 w-24 text-ink opacity-[0.10] hidden md:block" viewBox="0 0 1584 1473" data-parallax="0.12" aria-hidden="true"><use href="#mk"/></svg>
+  <svg class="absolute bottom-8 right-8 w-24 text-ink opacity-[0.10] hidden md:block" viewBox="0 0 1584 1473" data-parallax="0.12" data-depth="0.8" aria-hidden="true"><use href="#mk"/></svg>
   <div class="max-w-[1500px] mx-auto grid md:grid-cols-12 gap-12">
     <div class="md:col-span-6">
       <div class="kicker u-smoke reveal mb-6">O Estúdio</div>
@@ -1094,6 +1173,7 @@ const I18N = {
     'ma.line':'O espaço entre o conceito e a conversão',
     'musa.k':'Audiovisual · Direção de arte','musa.l1':'O detalhe','musa.l2':'é o luxo.','musa.sub':'Direção de arte com assinatura, do rascunho em nanquim ao último frame do anúncio.',
     'reel.cursor':'Assistir','reel.play':'Assistir o reel da Alumee','reel.k':'Case · Audiovisual com IA','reel.title':'Alumee · vela Mel','reel.label':'Campanha de lançamento · cena com IA a partir do produto real','reel.meta':'Instagram · 29/07/2026','reel.ig':'Ver no Instagram','reel.close':'Fechar','reel.loading':'Carregando o reel do Instagram','reel.fallback':'Não carregou? Assista direto no Instagram.',
+    'reel2.title':'BVBA Supply · O surrealismo','reel2.label':'Filme com IA · tinta dourada escorre do quadro para o piso espelhado','reel2.meta':'Instagram · 02/08/2026','reel2.aria':'Filme com IA para a BVBA Supply: um gato numa galeria vê tinta dourada escorrer de um quadro para um piso espelhado','reel2.pause':'Pausar o vídeo','reel2.sound':'Som do vídeo','reel2.expand':'Ver em tela cheia','alumee.a1':'Vela Mel da Alumee com mel escorrendo sobre a tampa, cena criada com IA a partir do produto real',
     'ana.k':'IA · Audiovisual · Modelo sintética','ana.l1':'Ana Lauren','ana.l2':'é 100% IA.','ana.badge':'Nenhuma pessoa real nestas fotos','ana.sub':'Modelo sintética criada do zero pela MAYAA com IA. Licenciável para criativo de anúncio e UGC da sua marca, com o mesmo rosto em cada cena.','ana.collab':'Collab no Instagram com','ana.post':'Ver o post','ana.gallery':'Galeria Ana Lauren, fotos 100% geradas por IA','ana.tag':'100% IA',
     'ana.a1':'Ana Lauren, modelo gerada por IA, de vestido preto em uma festa à noite, plano aberto','ana.a2':'Ana Lauren, modelo gerada por IA, sorrindo em close','ana.a3':'Ana Lauren, modelo gerada por IA, em plano médio segurando a bolsa','ana.c1':'Plano aberto','ana.c2':'Close','ana.c3':'Plano médio','ana.ctaq':'Quer uma modelo assim para a sua marca?','ana.cta':'Manda MODELO no direct',
     'method.title':'Do conceito à conversão.','method.s1t':'Diagnóstico','method.s1d':'Lemos a conta que já roda: o que gasta, o que traz contato, o que vende.','method.s2t':'Direção','method.s2d':'Conceito criativo e plano de mídia na mesma mesa.','method.s3t':'Produção','method.s3d':'Criativo, página e campanha feitos para conversar.','method.s4t':'Performance','method.s4d':'Medimos, otimizamos e escalamos o que funciona.',
@@ -1124,6 +1204,7 @@ const I18N = {
     'ma.line':'The space between concept and conversion',
     'musa.k':'Audiovisual · Art direction','musa.l1':'The detail','musa.l2':'is the luxury.','musa.sub':'Art direction with a signature, from the ink sketch to the ad’s final frame.',
     'reel.cursor':'Watch','reel.play':'Watch the Alumee reel','reel.k':'Case · Audiovisual with AI','reel.title':'Alumee · Mel candle','reel.label':'Launch campaign · AI scene built from the real product','reel.meta':'Instagram · Jul 29, 2026','reel.ig':'View on Instagram','reel.close':'Close','reel.loading':'Loading the Instagram reel','reel.fallback':'Didn’t load? Watch it on Instagram.',
+    'reel2.title':'BVBA Supply · Surrealism','reel2.label':'AI film · golden paint drips from the painting onto a mirrored floor','reel2.meta':'Instagram · Aug 2, 2026','reel2.aria':'AI film for BVBA Supply: a cat in a gallery watches golden paint drip from a painting onto a mirrored floor','reel2.pause':'Pause the video','reel2.sound':'Video sound','reel2.expand':'View full screen','alumee.a1':'Alumee Mel candle with honey dripping over the lid, AI scene built from the real product',
     'ana.k':'AI · Audiovisual · Synthetic model','ana.l1':'Ana Lauren','ana.l2':'is 100% AI.','ana.badge':'No real person in these photos','ana.sub':'A synthetic model built from scratch by MAYAA with AI. Licensable for your brand’s ad creative and UGC, with the same face in every scene.','ana.collab':'Instagram collab with','ana.post':'See the post','ana.gallery':'Ana Lauren gallery, photos 100% AI generated','ana.tag':'100% AI',
     'ana.a1':'Ana Lauren, an AI generated model, in a black dress at a night party, wide shot','ana.a2':'Ana Lauren, an AI generated model, smiling in close-up','ana.a3':'Ana Lauren, an AI generated model, medium shot holding her bag','ana.c1':'Wide shot','ana.c2':'Close-up','ana.c3':'Medium shot','ana.ctaq':'Want a model like this for your brand?','ana.cta':'Send MODELO in a DM',
     'method.title':'From concept to conversion.','method.s1t':'Audit','method.s1d':'We read the account already running: what it spends, what brings leads, what sells.','method.s2t':'Direction','method.s2d':'Creative concept and media plan at the same table.','method.s3t':'Production','method.s3d':'Creative, page and campaign built to talk to each other.','method.s4t':'Performance','method.s4d':'We measure, optimize and scale what works.',
@@ -1554,15 +1635,7 @@ window.addEventListener('load',()=>{
   window.addEventListener('load',()=>{
     const g=window.gsap, ST=window.ScrollTrigger;
 
-    /* reel: anima só quando visível; timecode lê o tempo da própria animação CSS (ciclo real de 15 s) */
-    const box=document.getElementById('reelBox'), tc=document.getElementById('recTc'), seg=document.querySelector('#reelBox .reel-seg > i');
-    if(box && 'IntersectionObserver' in window){
-      let vis=false; const pad=n=>String(n).padStart(2,'0');
-      const upd=()=>{ if(!vis) return; const a=seg && seg.getAnimations ? seg.getAnimations()[0] : null;
-        if(a && a.currentTime!=null){ const t=(((a.currentTime%15000)+15000)%15000)/1000; tc.textContent='00:'+pad(Math.floor(t))+':'+pad(Math.floor((t%1)*24)); }
-        requestAnimationFrame(upd); };
-      new IntersectionObserver(es=>{ const was=vis; vis=es[0].isIntersecting; box.classList.toggle('reel-live',vis && !RM); if(vis && !was && !RM && tc) requestAnimationFrame(upd); }).observe(box);
-    }
+    /* (v16: o reel virou vídeo nativo; barra de stories, timecode e botões ficam no script v16) */
 
     /* modal do reel: embed oficial do Instagram; embed.js só é baixado na 1a abertura */
     const modal=document.getElementById('reelModal'), openBtn=document.getElementById('reelPlay');
@@ -1662,6 +1735,305 @@ window.addEventListener('load',()=>{
     });
 
     ST.refresh();
+  });
+})();
+</script>
+
+<script>
+/* ---------- v16: reel em vídeo nativo, partículas do manifesto, profundidade 3D (kanji/gato/filmstrip) e WebGL (OGL) ----------
+   Regras: reduced-motion = nada disso (conteúdo estático e visível); touch/celular = sem WebGL e sem mouse;
+   WebGL carrega por import dinâmico depois do load/idle, com try/catch; se falhar, as <img>/<video> seguem como estão. */
+(function(){
+  const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const FINE=matchMedia('(hover:hover) and (pointer:fine)').matches;
+  const OGL_URL='https://cdn.jsdelivr.net/npm/ogl@1.0.11/+esm';
+  const GL_ATTRS={ alpha:true, premultipliedAlpha:false, antialias:false, depth:false, stencil:false, powerPreference:'default' };
+
+  /* ===== 1. REEL NATIVO: barra de stories + timecode pelo currentTime, pausa, som, tela cheia ===== */
+  function initReel(){
+    const v=document.getElementById('reelVideo'), box=document.getElementById('reelBox'); if(!v||!box) return;
+    const tc=document.getElementById('recTc'), segs=[...box.querySelectorAll('.reel-seg > i')];
+    const bP=document.getElementById('reelPause'), bS=document.getElementById('reelSound'), bE=document.getElementById('reelExpand');
+    const pad=n=>String(n).padStart(2,'0');
+    let raf=0;
+    const paint=()=>{
+      const d=(isFinite(v.duration)&&v.duration>0)?v.duration:15, t=v.currentTime||0, L=d/(segs.length||1);
+      segs.forEach((s,i)=>{ s.style.transform='scaleX('+Math.max(0,Math.min(1,(t-i*L)/L)).toFixed(4)+')'; });
+      if(tc) tc.textContent='00:'+pad(Math.floor(t))+':'+pad(Math.floor((t%1)*24));
+    };
+    const loop=()=>{ paint(); raf=(!v.paused)?requestAnimationFrame(loop):0; };
+    const sync=()=>{
+      if(bP) bP.setAttribute('aria-pressed',v.paused?'true':'false');
+      if(bS) bS.setAttribute('aria-pressed',v.muted?'false':'true');
+      if(!v.paused && !raf) raf=requestAnimationFrame(loop);
+      paint();
+    };
+    ['play','pause','volumechange','seeked','loadedmetadata'].forEach(ev=>v.addEventListener(ev,sync));
+    sync();
+    const play=()=>{ const p=v.play(); if(p && p.catch) p.catch(()=>{}); };
+    if(bP) bP.addEventListener('click',()=>{ if(v.paused){ v.__userPaused=false; play(); } else { v.__userPaused=true; v.pause(); } });
+    if(bS) bS.addEventListener('click',()=>{ v.muted=!v.muted; if(!v.muted && v.paused && !v.__userPaused) play(); });
+    if(bE) bE.addEventListener('click',()=>{
+      v.__userPaused=false; v.muted=false; play();
+      if(v.requestFullscreen){ v.controls=true; const r=v.requestFullscreen(); if(r && r.catch) r.catch(()=>{ v.controls=false; }); }
+      else if(v.webkitEnterFullscreen){ v.webkitEnterFullscreen(); }
+    });
+    document.addEventListener('fullscreenchange',()=>{ if(document.fullscreenElement!==v){ v.controls=false; if(window.__reelVis===false) v.pause(); } });
+  }
+
+  /* ===== 2. MANIFESTO: partículas de tinta num campo de ruído (Canvas 2D), pausadas fora da tela ===== */
+  function initDust(){
+    if(RM) return;
+    const sec=document.getElementById('manifesto'); if(!sec || !window.ResizeObserver) return;
+    const cv=document.createElement('canvas'); cv.id='manDust'; cv.setAttribute('aria-hidden','true');
+    sec.insertBefore(cv,sec.firstChild);
+    const ctx=cv.getContext('2d'); if(!ctx) return;
+    const SMALL=innerWidth<768, N=SMALL?110:340;
+    /* ruído gradiente 2D (Perlin) com tabela embaralhada */
+    const perm=new Uint8Array(512);
+    { const p=new Uint8Array(256); for(let i=0;i<256;i++) p[i]=i; for(let i=255;i>0;i--){ const j=(Math.random()*(i+1))|0; const k=p[i]; p[i]=p[j]; p[j]=k; } for(let i=0;i<512;i++) perm[i]=p[i&255]; }
+    const gr=(h,x,y)=>{ const a=h*0.0245436926; return Math.cos(a)*x+Math.sin(a)*y; };
+    const fd=t=>t*t*t*(t*(t*6-15)+10);
+    const noise=(x,y)=>{ const fx=Math.floor(x), fy=Math.floor(y), X=fx&255, Y=fy&255; x-=fx; y-=fy;
+      const u=fd(x), w=fd(y), a=perm[X]+Y, b=perm[X+1]+Y;
+      const n0=gr(perm[a],x,y)+(gr(perm[b],x-1,y)-gr(perm[a],x,y))*u;
+      const n1=gr(perm[a+1],x,y-1)+(gr(perm[b+1],x-1,y-1)-gr(perm[a+1],x,y-1))*u;
+      return n0+(n1-n0)*w; };
+    const X=new Float32Array(N), Y=new Float32Array(N), PX=new Float32Array(N), PY=new Float32Array(N), L=new Float32Array(N), T=new Float32Array(N), S=new Float32Array(N);
+    let W=0, H=0, dpr=1, run=false, raf=0, t=0, sv=0, mx=-1e4, my=-1e4;
+    const spawn=i=>{ X[i]=PX[i]=Math.random()*W; Y[i]=PY[i]=Math.random()*H; L[i]=0; T[i]=260+Math.random()*420; S[i]=0.35+Math.random()*0.75; };
+    const size=()=>{ dpr=Math.min(devicePixelRatio||1,SMALL?1.5:2); W=sec.clientWidth; H=sec.clientHeight; cv.width=Math.round(W*dpr); cv.height=Math.round(H*dpr); };
+    size(); for(let i=0;i<N;i++){ spawn(i); L[i]=Math.random()*T[i]; }
+    new ResizeObserver(()=>{ const w=sec.clientWidth, h=sec.clientHeight; if(Math.abs(w-W)>2||Math.abs(h-H)>2){ size(); for(let i=0;i<N;i++){ spawn(i); L[i]=Math.random()*T[i]; } } }).observe(sec);
+    if(FINE){
+      sec.addEventListener('mousemove',e=>{ const r=cv.getBoundingClientRect(); if(!r.width) return; mx=(e.clientX-r.left)*(W/r.width); my=(e.clientY-r.top)*(H/r.height); },{passive:true});
+      sec.addEventListener('mouseleave',()=>{ mx=my=-1e4; });
+    }
+    if(window.__lenis) window.__lenis.on('scroll',e=>{ sv=e.velocity||0; });
+    const R=130, R2=R*R;
+    function frame(){
+      raf=0; if(!run||document.hidden) return;
+      t++; const vel=Math.min(3,Math.abs(sv)/16); sv*=0.9;
+      const sc=0.0019, tz=t*0.0015;
+      for(let i=0;i<N;i++){
+        const a=noise(X[i]*sc+tz, Y[i]*sc-tz*0.6)*10.05;
+        let vx=Math.cos(a), vy=Math.sin(a);
+        if(mx>-9e3){ const dx=X[i]-mx, dy=Y[i]-my, d2=dx*dx+dy*dy; if(d2<R2 && d2>0.5){ const d=Math.sqrt(d2), f=(1-d/R)*2.4; vx+=dx/d*f; vy+=dy/d*f; } }
+        const sp=S[i]*(1+vel);
+        PX[i]=X[i]; PY[i]=Y[i]; X[i]+=vx*sp; Y[i]+=vy*sp; L[i]++;
+        if(L[i]>T[i]||X[i]<-20||X[i]>W+20||Y[i]<-20||Y[i]>H+20) spawn(i);
+      }
+      ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,W,H);
+      ctx.lineCap='round'; ctx.lineWidth=1;
+      for(let b=0;b<4;b++){
+        ctx.strokeStyle='rgba(11,11,11,'+(0.05+b*0.055).toFixed(3)+')'; ctx.beginPath();
+        for(let i=0;i<N;i++){
+          const env=Math.sin(Math.PI*Math.min(1,L[i]/T[i]));
+          if(Math.min(3,(env*S[i]*3.2)|0)!==b) continue;
+          const dx=X[i]-PX[i], dy=Y[i]-PY[i];
+          ctx.moveTo(X[i]-dx*9,Y[i]-dy*9); ctx.lineTo(X[i],Y[i]);
+        }
+        ctx.stroke();
+      }
+      raf=requestAnimationFrame(frame);
+    }
+    new IntersectionObserver(es=>{ run=es[0].isIntersecting; if(run && !raf) raf=requestAnimationFrame(frame); }).observe(sec);
+    document.addEventListener('visibilitychange',()=>{ if(!document.hidden && run && !raf) raf=requestAnimationFrame(frame); });
+    window.__manDust={ n:N, frames:()=>t };
+  }
+
+  /* ===== 3. PROFUNDIDADE: kanji e gato giram/afundam com a rolagem e seguem o mouse; filmstrip inclina com o mouse ===== */
+  function initDepth(){
+    const g=window.gsap, ST=window.ScrollTrigger; if(!g||!ST||RM) return;
+    const els=g.utils.toArray('[data-depth]');
+    els.forEach(el=>{ const d=parseFloat(el.dataset.depth)||.5;
+      g.set(el,{ transformPerspective:700 });
+      g.fromTo(el,{ rotation:-9*d, z:-70*d },{ rotation:9*d, z:70*d, ease:'none', scrollTrigger:{ trigger:el, start:'top bottom', end:'bottom top', scrub:1.2 } });
+    });
+    if(!FINE) return;
+    const q=els.map(el=>{ const d=parseFloat(el.dataset.depth)||.5; return { d, rx:g.quickTo(el,'rotationX',{duration:1.1,ease:'power3.out'}), ry:g.quickTo(el,'rotationY',{duration:1.1,ease:'power3.out'}) }; });
+    addEventListener('mousemove',e=>{ const nx=e.clientX/innerWidth-.5, ny=e.clientY/innerHeight-.5; q.forEach(o=>{ o.ry(nx*30*o.d); o.rx(-ny*22*o.d); }); },{passive:true});
+    /* filmstrip (desktop): a fita inteira inclina com o mouse; kanji e gato dos frames saltam em Z e giram */
+    g.matchMedia().add('(min-width:768px) and (prefers-reduced-motion:no-preference)',()=>{
+      const trk=document.getElementById('fsTrack'), fs=document.getElementById('filmstrip'); if(!trk||!fs) return;
+      const pops=g.utils.toArray('#fsTrack .fs-frame > .jp, #fsTrack .fs-big svg');
+      pops.forEach(el=>g.set(el,{ transformPerspective:520, z:70 }));
+      const tx=g.quickTo(trk,'rotationX',{duration:1.2,ease:'power3.out'}), ty=g.quickTo(trk,'rotationY',{duration:1.2,ease:'power3.out'});
+      const pq=pops.map(el=>({ rx:g.quickTo(el,'rotationX',{duration:.9,ease:'power3.out'}), ry:g.quickTo(el,'rotationY',{duration:.9,ease:'power3.out'}) }));
+      const mm=e=>{ const r=fs.getBoundingClientRect(); if(r.bottom<0||r.top>innerHeight) return;
+        const nx=e.clientX/innerWidth-.5, ny=e.clientY/innerHeight-.5;
+        ty(nx*7); tx(-ny*6); pq.forEach(o=>{ o.ry(nx*34); o.rx(-ny*26); }); };
+      addEventListener('mousemove',mm,{passive:true});
+      return ()=>{ removeEventListener('mousemove',mm); g.set(trk,{ rotationX:0, rotationY:0 }); pops.forEach(el=>g.set(el,{ z:0, rotationX:0, rotationY:0 })); };
+    });
+  }
+
+  /* ===== 4. WEBGL (OGL 1.0.11): distorção por shader no hover, ondulação pela velocidade da rolagem, grão no reel =====
+     Um contexto WebGL só, fora do DOM; cada efeito é desenhado nele e copiado (drawImage) para um canvas 2D dentro da
+     própria moldura. Assim o efeito herda máscara (clip-path), tilt 3D, filtro e empilhamento do DOM, e a <img> real fica embaixo. */
+  const VERT='attribute vec2 uv;attribute vec2 position;varying vec2 vUv;void main(){vUv=uv;gl_Position=vec4(position,0.,1.);}';
+  const COMMON=[
+    'precision highp float;varying vec2 vUv;',
+    'uniform vec2 uFrame;uniform vec2 uMouse;uniform float uHover;uniform float uVel;uniform float uTime;',
+    /* lente: puxa as amostras para o cursor (bojo) com uma ondulação fina de tinta */
+    'vec2 lens(vec2 p,float amt){vec2 c=p-uMouse;c.x*=uFrame.x/uFrame.y;float f=exp(-dot(c,c)/.075);float r=length(c);',
+    '  p-=(p-uMouse)*f*amt;p+=(p-uMouse)*sin(r*34.-uTime*3.2)*.02*uHover*f;return p;}',
+    /* onda vertical proporcional à velocidade da rolagem (Lenis) */
+    'vec2 wave(vec2 p){p.x+=sin(p.y*8.+uTime*1.4)*.011*uVel;p.y+=sin(p.x*6.-uTime)*.004*uVel;return p;}',
+    /* object-fit: cover + object-position */
+    'vec2 cover(vec2 q,vec2 box,vec2 tex,vec2 pos){float ba=box.x/box.y,ta=tex.x/tex.y;vec2 s=ba>ta?vec2(1.,ta/ba):vec2(ba/ta,1.);return q*s+(1.-s)*pos;}'
+  ].join('\n');
+  const FRAG_IMG=COMMON+[
+    'uniform sampler2D uTex;uniform vec2 uTexSize;uniform vec4 uImg;uniform vec2 uPos;',
+    'void main(){vec2 p=vec2(vUv.x,1.-vUv.y);p=wave(lens(p,uHover*.3));',
+    '  vec2 q=(p*uFrame-uImg.xy)/uImg.zw;vec2 uv=cover(q,uImg.zw,uTexSize,uPos);',
+    '  float ca=abs(uVel)*.0035+uHover*.0015;vec4 c=texture2D(uTex,uv);',
+    '  c.r=texture2D(uTex,uv+vec2(ca,0.)).r;c.b=texture2D(uTex,uv-vec2(ca,0.)).b;gl_FragColor=vec4(c.rgb,1.);}'
+  ].join('\n');
+  const FRAG_MORPH=COMMON+[
+    'uniform sampler2D uA;uniform sampler2D uB;uniform vec2 uTexSize;uniform vec2 uPos;',
+    'float h21(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}',
+    'float vn(vec2 p){vec2 i=floor(p),f=fract(p);vec2 u=f*f*(3.-2.*f);return mix(mix(h21(i),h21(i+vec2(1.,0.)),u.x),mix(h21(i+vec2(0.,1.)),h21(i+vec2(1.,1.)),u.x),u.y);}',
+    'void main(){vec2 p=vec2(vUv.x,1.-vUv.y);p=wave(lens(p,uHover*.18));float asp=uFrame.x/uFrame.y;',
+    '  float n=vn(p*vec2(3.*asp,3.)+vec2(0.,uTime*.12)),n2=vn(p*vec2(11.*asp,11.)-uTime*.08);',
+    '  float field=n*.75+n2*.25;float dm=length((p-uMouse)*vec2(asp,1.));float grow=uHover*2.2;',
+    /* m = 1 onde a tinta já cobriu (foto B); a mancha nasce no cursor e avança pelo ruído */
+    '  float m=1.-smoothstep(grow-.3,grow,dm*.9+field*.6);vec2 disp=(vec2(n,n2)-.5)*.09;',
+    '  vec4 a=texture2D(uA,cover(p+disp*m,uFrame,uTexSize,uPos));vec4 b=texture2D(uB,cover(p-disp*(1.-m),uFrame,uTexSize,uPos));',
+    '  float edge=smoothstep(0.,.5,m)*(1.-smoothstep(.5,1.,m));gl_FragColor=vec4(mix(a.rgb,b.rgb,m)*(1.-edge*.35),1.);}'
+  ].join('\n');
+  const FRAG_GRAIN=[
+    'precision highp float;varying vec2 vUv;uniform vec2 uRes;uniform vec2 uMouse;uniform float uIn;uniform float uVel;uniform float uTime;',
+    'float h(vec2 p){vec3 p3=fract(vec3(p.xyx)*.1031);p3+=dot(p3,p3.yzx+33.33);return fract((p3.x+p3.y)*p3.z);}',
+    'void main(){float fr=floor(uTime*24.);vec2 fc=floor(gl_FragCoord.xy);',
+    '  float g=(h(fc+fr*37.)+h(fc*1.7+fr*11.))*.5-.5;vec2 p=vec2(vUv.x,1.-vUv.y);',
+    '  vec2 d=p-uMouse;d.x*=uRes.x/uRes.y;float lens=uIn*(1.-smoothstep(0.,.34,length(d)));float v=min(abs(uVel),1.5);',
+    '  float amp=.2+v*.26+lens*.12;float row=floor(p.y*uRes.y/2.);float tear=step(.992-v*.03,h(vec2(row,fr)))*v;',
+    '  float o=.5+g*amp+tear*.18+lens*.08;gl_FragColor=vec4(vec3(o),1.);}'
+  ].join('\n');
+
+  function initGL(){
+    if(RM || !FINE || innerWidth<768) return;
+    /* testa o WebGL antes de baixar a lib: sem suporte, nem o OGL é carregado (e nada muda no DOM) */
+    const cvs=document.createElement('canvas'); let ctx=null;
+    try{ ctx=cvs.getContext('webgl2',GL_ATTRS)||cvs.getContext('webgl',GL_ATTRS); }catch(e){ ctx=null; }
+    if(!ctx){ window.__glfx={ ok:false, reason:'no-webgl' }; return; }
+    import(OGL_URL).then(OGL=>{ try{ startGL(OGL,cvs); }catch(e){ window.__glfx={ ok:false, reason:String(e&&e.message||e) }; } }).catch(()=>{ window.__glfx={ ok:false, reason:'import' }; });
+  }
+
+  function startGL(OGL,canvas){
+    const { Renderer, Program, Mesh, Triangle, Texture } = OGL;
+    const renderer=new Renderer(Object.assign({ canvas, dpr:1, autoClear:false },GL_ATTRS));
+    const gl=renderer.gl; if(!gl) throw new Error('no-webgl');
+    const DPR=Math.min(devicePixelRatio||1,2);
+    let GW=0, GH=0, dead=false;
+    const grow=(w,h)=>{ if(w>GW||h>GH){ GW=Math.max(GW,w); GH=Math.max(GH,h); renderer.setSize(GW,GH); } };
+    const geo=new Triangle(gl);
+    const dummyC=document.createElement('canvas'); dummyC.width=dummyC.height=1;
+    const texOpts={ generateMipmaps:false, minFilter:gl.LINEAR, magFilter:gl.LINEAR, wrapS:gl.CLAMP_TO_EDGE, wrapT:gl.CLAMP_TO_EDGE, flipY:false };
+    const dummy=new Texture(gl,Object.assign({ image:dummyC },texOpts));
+    const U=o=>{ const r={}; for(const k in o) r[k]={ value:o[k] }; return r; };
+    const base={ uFrame:[1,1], uMouse:[.5,.5], uHover:0, uVel:0, uTime:0 };
+    const progOpts={ vertex:VERT, depthTest:false, depthWrite:false, cullFace:null, transparent:false };
+    const pImg=new Program(gl,Object.assign({ fragment:FRAG_IMG, uniforms:U(Object.assign({},base,{ uTex:dummy, uTexSize:[1,1], uImg:[0,0,1,1], uPos:[.5,.5] })) },progOpts));
+    const pMorph=new Program(gl,Object.assign({ fragment:FRAG_MORPH, uniforms:U(Object.assign({},base,{ uA:dummy, uB:dummy, uTexSize:[1,1], uPos:[.5,.5] })) },progOpts));
+    const pGrain=new Program(gl,Object.assign({ fragment:FRAG_GRAIN, uniforms:U({ uRes:[1,1], uMouse:[.5,.5], uIn:0, uVel:0, uTime:0 }) },progOpts));
+    const mImg=new Mesh(gl,{ geometry:geo, program:pImg }), mMorph=new Mesh(gl,{ geometry:geo, program:pMorph }), mGrain=new Mesh(gl,{ geometry:geo, program:pGrain });
+
+    const T=[];
+    let raf=0, last=0, time=0, vel=0, velT=0, lastGrain=0, frames=0;
+    const kick=()=>{ if(!raf && !dead) raf=requestAnimationFrame(frame); };
+    const mkTex=img=>new Texture(gl,Object.assign({ image:img },texOpts));
+    const loaded=img=>img && img.complete && img.naturalWidth>0;
+
+    const add=(t,parent,before)=>{
+      const cv=document.createElement('canvas'); cv.className='gl-cv'+(t.type==='grain'?' gl-grain':''); cv.setAttribute('aria-hidden','true');
+      if(before) parent.insertBefore(cv,before); else parent.appendChild(cv);
+      t.cv=cv; t.ctx=cv.getContext('2d'); t.vis=false; t.shown=false; t.h=0; t.ht=0; t.mx=t.tmx=.5; t.my=t.tmy=.5; t.w=t.hh=t.pw=t.ph=0;
+      const measure=()=>{ const w=t.el.clientWidth, h=t.el.clientHeight, k=t.type==='grain'?0.66:DPR;
+        t.w=w; t.hh=h; const pw=Math.max(1,Math.round(w*k)), ph=Math.max(1,Math.round(h*k));
+        if(pw!==t.pw||ph!==t.ph){ t.pw=pw; t.ph=ph; cv.width=pw; cv.height=ph; grow(pw,ph); } };
+      measure(); new ResizeObserver(()=>{ measure(); kick(); }).observe(t.el);
+      new IntersectionObserver(es=>{ t.vis=es[0].isIntersecting; kick(); }).observe(t.el);
+      const setM=(e,snap)=>{ const r=t.el.getBoundingClientRect(); if(!r.width) return; t.tmx=(e.clientX-r.left)/r.width; t.tmy=(e.clientY-r.top)/r.height; if(snap){ t.mx=t.tmx; t.my=t.tmy; } };
+      t.hov.addEventListener('mouseenter',e=>{ t.ht=1; setM(e,true); kick(); });
+      t.hov.addEventListener('mousemove',e=>{ t.ht=1; setM(e); kick(); });
+      t.hov.addEventListener('mouseleave',()=>{ t.ht=0; kick(); });
+      T.push(t);
+    };
+    /* galeria da Ana: bojo no hover + ondulação na rolagem */
+    document.querySelectorAll('#anaTrack .ana-card').forEach(card=>{
+      const fr=card.querySelector('.ana-frame'), img=card.querySelector('.ana-img'); if(!fr||!img) return;
+      add({ type:'img', el:fr, hov:card, img, pos:[.5,.5] }, fr);
+    });
+    /* Alumee no Cases: a foto 2 entra como tinta se espalhando a partir do cursor */
+    document.querySelectorAll('.case-media').forEach(card=>{
+      const fr=card.querySelector('.cm-frame'), a=card.querySelector('.cm-img:not(.cm-img--b)'), b=card.querySelector('.cm-img--b'); if(!fr||!a||!b) return;
+      add({ type:'morph', el:fr, hov:card, a, b, pos:[.5,.58] }, fr);
+    });
+    /* reel: grão de filme por shader (reage à rolagem e ao cursor), por cima do <video> em mix-blend overlay */
+    const rb=document.getElementById('reelBox');
+    if(rb) add({ type:'grain', el:rb, hov:rb }, rb, rb.querySelector('.grain') ? rb.querySelector('.grain').nextSibling : null);
+
+    const imgRect=t=>{ const s=getComputedStyle(t.img).transform; let a=1,d=1,e=0,f=0;
+      if(s && s!=='none'){ const m=new DOMMatrixReadOnly(s); a=m.a; d=m.d; e=m.e; f=m.f; }
+      const w=t.w, h=t.hh; return [(w-w*a)/2+e,(h-h*d)/2+f,w*a,h*d]; };
+    const ready=t=>{
+      if(!t.pw) return false;
+      if(t.type==='img'){ if(!t.tex){ if(!loaded(t.img)) return false; t.tex=mkTex(t.img); t.ts=[t.img.naturalWidth,t.img.naturalHeight]; } return true; }
+      if(t.type==='morph'){ if(!t.ta){ if(!loaded(t.a)||!loaded(t.b)) return false; t.ta=mkTex(t.a); t.tb=mkTex(t.b); t.ts=[t.a.naturalWidth,t.a.naturalHeight]; } return true; }
+      return true;
+    };
+    const blit=(t,mesh)=>{ gl.viewport(0,0,t.pw,t.ph); mesh.draw(); const c=t.ctx; c.globalCompositeOperation='copy'; c.drawImage(gl.canvas,0,GH-t.ph,t.pw,t.ph,0,0,t.pw,t.ph); frames++; };
+    const show=t=>{ t.cv.classList.add('on'); t.shown=true; if(t.type==='grain') t.el.classList.add('gl-grain-on'); };
+    const hide=t=>{ t.cv.classList.remove('on'); t.shown=false; if(t.type==='grain') t.el.classList.remove('gl-grain-on'); };
+    const kill=()=>{ dead=true; T.forEach(hide); document.documentElement.classList.remove('gl-ready'); if(window.__glfx) window.__glfx.ok=false; };
+    gl.canvas.addEventListener('webglcontextlost',e=>{ e.preventDefault(); kill(); });
+
+    function frame(now){
+      raf=0; if(dead) return;
+      try{
+        const dt=last?Math.min(.05,(now-last)/1000):.016; last=now; time+=dt;
+        vel+=(velT-vel)*(1-Math.exp(-dt*9)); velT*=Math.exp(-dt*9); if(Math.abs(vel)<.003 && Math.abs(velT)<.003) vel=velT=0;
+        let alive=false;
+        for(const t of T){
+          if(!t.vis || document.hidden){ if(t.shown) hide(t); continue; }
+          /* suavização por tempo (não por quadro): mesma velocidade a 30, 60 ou 120 fps */
+          const kr=t.type==='morph'?(t.ht?2.1:2.4):(t.ht?4.6:3.1); t.h+=(t.ht-t.h)*(1-Math.exp(-dt*kr)); if(!t.ht && t.h<.002) t.h=0;
+          const km=1-Math.exp(-dt*9); t.mx+=(t.tmx-t.mx)*km; t.my+=(t.tmy-t.my)*km;
+          if(t.type==='grain'){
+            alive=true; if(now-lastGrain<40) continue; lastGrain=now;
+            const u=pGrain.uniforms; u.uRes.value=[t.pw,t.ph]; u.uMouse.value=[t.mx,t.my]; u.uIn.value=t.h; u.uVel.value=vel; u.uTime.value=time;
+            blit(t,mGrain); if(!t.shown) show(t); continue;
+          }
+          const act=t.h>0 || t.ht>0 || vel!==0;
+          if(!act || !ready(t)){ if(t.shown) hide(t); continue; }
+          if(t.type==='img'){ const u=pImg.uniforms;
+            u.uFrame.value=[t.w,t.hh]; u.uMouse.value=[t.mx,t.my]; u.uHover.value=t.h; u.uVel.value=vel; u.uTime.value=time;
+            u.uTex.value=t.tex; u.uTexSize.value=t.ts; u.uImg.value=imgRect(t); u.uPos.value=t.pos; blit(t,mImg);
+          } else { const u=pMorph.uniforms;
+            u.uFrame.value=[t.w,t.hh]; u.uMouse.value=[t.mx,t.my]; u.uHover.value=t.h; u.uVel.value=vel; u.uTime.value=time;
+            u.uA.value=t.ta; u.uB.value=t.tb; u.uTexSize.value=t.ts; u.uPos.value=t.pos; blit(t,mMorph);
+          }
+          if(!t.shown) show(t); alive=true;
+        }
+        if(alive || vel!==0) kick();
+      }catch(e){ kill(); window.__glfx.reason=String(e&&e.message||e); }
+    }
+    if(window.__lenis) window.__lenis.on('scroll',e=>{ const v=(e.velocity||0)/28; velT=Math.max(-1.6,Math.min(1.6,v)); if(Math.abs(velT)>.02) kick(); });
+    document.addEventListener('visibilitychange',kick);
+    document.documentElement.classList.add('gl-ready');
+    window.__glfx={ ok:true, lib:'ogl@1.0.11', webgl:(typeof WebGL2RenderingContext!=='undefined' && gl instanceof WebGL2RenderingContext)?2:1, targets:T.length, frames:()=>frames, dpr:DPR };
+    kick();
+  }
+
+  window.addEventListener('load',()=>{
+    initReel();
+    initDust();
+    initDepth();
+    /* WebGL fica para depois do primeiro paint e do load: ocioso ou, no pior caso, 2,5 s */
+    const go=()=>setTimeout(initGL,200);
+    if('requestIdleCallback' in window) requestIdleCallback(go,{ timeout:2500 }); else setTimeout(go,1200);
   });
 })();
 </script>
