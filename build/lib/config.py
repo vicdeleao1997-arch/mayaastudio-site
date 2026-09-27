@@ -40,10 +40,8 @@ IG_ANA_POST = "https://www.instagram.com/p/DdreKmjFWqC/"
 REEL_ALUMEE = "https://www.instagram.com/reel/DbZFaIlBBCR/"
 REEL_BVBA = "https://www.instagram.com/reel/DbjBnflO0AR/"
 
-# CNPJ: pedido do Victor em 27/09/2026 ("MAYAA STUDIO, 41242625000147, sem endereço comercial ainda").
-# O número é o da LTDA dele (razão social VICTOR MEYAGUSKO DE LEAO BASTOS PEREIRA LTDA, nome fantasia registrado
-# BVBA Supply). O site mostra "MAYAA STUDIO · CNPJ ..." sem rotular "razão social", para não afirmar o que o cartão
-# não diz. RAZAO_SOCIAL fica vazio: se o Victor quiser o nome da LTDA publicado, preencher aqui.
+# CNPJ publicado a pedido do Victor (27/09/2026). O site mostra "MAYAA STUDIO · CNPJ ..." sem rotular
+# "razão social". RAZAO_SOCIAL fica vazio de propósito.
 CNPJ: str | None = "41.242.625/0001-47"
 RAZAO_SOCIAL: str | None = None
 

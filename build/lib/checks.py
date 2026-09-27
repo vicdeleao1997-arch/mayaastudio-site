@@ -118,6 +118,12 @@ FORBIDDEN = [r"33,14", r"28,65", r"22,49", r"conferido no caixa", r"reuni[aã]o"
              r"escolas e cursos", r"potencializ", r"full-service", r"bricolage", r"tailwind", r"\bROAS\b",
              r"R\$\s?\d{3,}", r"R\$\s?\d{1,3}\.\d{3}"]
 CNPJ_RE = re.compile(r"\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}")
+# Nomes e páginas que não podem ficar perto da prova: lista local, fora do repositório público
+# (build/lib/privado.py, no .gitignore). Num clone sem a lista, essa parte do check 8 não roda.
+try:
+    from lib.privado import PROVA_LONGE_NOMES as _PROVA_LONGE_NOMES, PROVA_LONGE_URLS as _PROVA_LONGE_URLS
+except ImportError:
+    _PROVA_LONGE_NOMES, _PROVA_LONGE_URLS = (), ()
 PILAR_NOMES = [p["nome"] for p in dados.PILARES]
 PILAR_RE = re.compile(r"(?<![\wÀ-ÿ])(?:%s)(?: · (?:%s)){2,}(?![\wÀ-ÿ])" % (
     "|".join(map(re.escape, PILAR_NOMES)), "|".join(map(re.escape, PILAR_NOMES))))
@@ -253,15 +259,16 @@ def run(pages, written: list[Path], strict: bool = True, partial: bool = False) 
                 if must not in visible:
                     E(f"[8] {where}: falta {must!r} junto do 12,55")
             for m in re.finditer(r"12,55", visible):
-                for m2 in re.finditer(r"IOSE|Setor Elétrico", visible):
-                    if abs(m2.start() - m.start()) < 800:
-                        E(f"[8] {where}: 12,55 a menos de 800 caracteres de {m2.group(0)!r}")
+                for nome in _PROVA_LONGE_NOMES:
+                    if any(abs(m2.start() - m.start()) < 800 for m2 in re.finditer(re.escape(nome), visible)):
+                        E(f"[8] {where}: 12,55 perto de um nome da lista local")
                         break
-            if "/cases/iose-trafego-pago/" in html:
-                E(f"[8] {where}: página com 12,55 tem link para o case IOSE")
-        if where == "/cases/iose-trafego-pago/":
+            for url in _PROVA_LONGE_URLS:
+                if url in html:
+                    E(f"[8] {where}: página com 12,55 tem link para uma página da lista local")
+        if where in _PROVA_LONGE_URLS:
             if re.search(r"12,55|\bROAS\b|×\s?\d", html, re.I):
-                E(f"[8] {where}: número de resultado na página do IOSE")
+                E(f"[8] {where}: número de resultado numa página da lista local")
 
         # 8b · direct e perfil
         for n in body_nodes:

@@ -1,7 +1,7 @@
 """Página-pilar `/trafego-pago-com-ia/` (C2 · §3.6). Texto final do SPEC, letra por letra.
 
 Espinha da NUMIS: breadcrumb · H1 · parágrafo · link de projetos · 01..06 · CTA.
-A pilar NÃO cita nem linka o IOSE: é uma das duas páginas com o 12,55× (check 8).
+A pilar é uma das duas páginas com a prova (check 8).
 """
 from lib import components as c, config, media, seo
 from lib.page import Page
