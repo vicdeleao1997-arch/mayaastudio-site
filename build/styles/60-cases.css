@@ -1,0 +1,79 @@
+/* C3 · portfólio e cases (§3.7 a §3.12). Prefixos .pf- e .case-. Só complementa os componentes do núcleo. */
+
+/* ── páginas de case: ritmo ─────────────────────────────────────────────── */
+.case-page .cs,.case-page .case-txt,.case-page .case-open{padding-block:clamp(3.5rem, 2rem + 5vw, 7.5rem)}
+/* a 1.ª seção depois da abertura começa perto: a imagem de abertura entra na 1.ª dobra (1280×720 inclusive) */
+.case-page .ph + .case-open,.case-page .ph + .sec{padding-top:clamp(1.75rem, 1rem + 2vw, 3rem)}
+.case-page .case-open--band{padding-block:0}
+.case-page .ph + .case-open--band{padding-top:clamp(1.75rem, 1rem + 2vw, 3rem)}
+.case-ficha{margin-top:var(--s-6)}
+.case-page .cs .case-ficha{padding-inline:0}
+.case-page .case-close{padding-top:clamp(2rem, 1rem + 3vw, 4rem)}
+
+/* .case-fit (mídia que cabe na altura da janela) mora no núcleo (30-components.css) */
+@media (min-width:1024px){
+  .cs--side .case-ig{display:flex;justify-content:flex-end}
+  /* pares de retratos altos: cabem na janela, alinhados à direita */
+  .case-page #cha-branco .cs__media{max-width:calc(2 * 82svh * .6656 + var(--gap));margin-left:auto}
+  .case-page #mel .cs__media{max-width:calc(2 * 82svh * .75 + var(--gap));margin-left:auto}
+  /* IOSE · feed 1:1 ao lado do stories 9:16: colunas proporcionais, mesma altura */
+  .case-page #formatos .cs__media{grid-template-columns:minmax(0,1fr) minmax(0,.5625fr);
+    max-width:calc(82svh * 1.5625 + var(--gap));margin-left:auto}
+}
+
+/* ── 01 · Visão geral / 02 · Abordagem / 03 · Resumo ────────────────────── */
+.case-txt__grid{row-gap:var(--s-6);align-items:start}
+.case-txt__label{grid-column:1 / span 3}
+.case-txt__body{grid-column:5 / span 7;display:grid;gap:var(--s-5)}
+.case-txt__lead{font:400 var(--fs-h3)/1.32 var(--f-display);letter-spacing:var(--tr-display);max-width:34ch}
+.case-txt__p{max-width:58ch}
+.case-feito{margin-top:var(--s-6);display:grid;gap:var(--s-4)}
+.case-feito__list .deliv__txt{font-size:var(--fs-body);line-height:1.45}
+.case-resumo__t{font:400 clamp(1.625rem, 1.15rem + 1.9vw, 3.25rem)/1.18 var(--f-display);letter-spacing:var(--tr-display);max-width:28ch}
+.case-resumo__note{margin-top:var(--s-6)}
+@media (max-width:1023px){
+  .case-txt__label,.case-txt__body{grid-column:1 / -1}
+}
+
+/* ── aberturas ──────────────────────────────────────────────────────────── */
+/* Alumee: imagem única à direita (colunas 6 a 12), o espaço à esquerda fica vazio de propósito */
+.case-open__grid{align-items:end}
+.case-open--rev .case-open__media{grid-column:6 / span 7;justify-self:end}
+/* Alumee: a ficha ocupa o espaço à esquerda da imagem de abertura */
+.case-open__ficha{grid-column:1 / span 4;grid-row:1;align-self:start}
+@media (max-width:1023px){.case-open--rev .case-open__media{grid-column:1 / -1;justify-self:center}
+  .case-open__ficha{grid-column:1 / -1;grid-row:2;margin-top:var(--s-5)}
+  .case-open__ficha .ficha{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:var(--gap)}
+  .case-open__ficha .ficha__row{grid-template-columns:minmax(0,1fr);gap:var(--s-1)}}
+
+/* IOSE: três peças, uma por curso (peças com texto: sem distorção, sem recorte) */
+.case-pecas__head{display:grid;gap:var(--s-4);max-width:60ch;margin-top:var(--s-7)}
+.case-pecas__txt{color:var(--fumaca);max-width:48ch}
+.case-pecas__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s-6) var(--gap);align-items:start}
+@media (max-width:1023px){.case-pecas__grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:639px){.case-pecas__grid{grid-template-columns:minmax(0,1fr)}}
+
+/* Alumee: o reel de lançamento, depois do resumo */
+.case-reel{margin-top:var(--s-7);display:grid;gap:var(--s-3);justify-items:start}
+.case-reel__txt{color:var(--fumaca)}
+.case-reel .ig{margin-top:var(--s-3)}
+
+/* ── portfólio ──────────────────────────────────────────────────────────── */
+.pf-cases{padding-top:clamp(3rem, 2rem + 4vw, 6rem)}
+.ph--compact + .pf-cases{padding-top:clamp(1.75rem, 1rem + 2vw, 3rem)}   /* a 1.ª capa entra na 1.ª dobra */
+.pf-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:clamp(1.5rem, .5rem + 4vw, 6rem);
+  row-gap:clamp(4rem, 2rem + 6vw, 9rem)}
+/* ≥1024: a coluna da direita desce 18% da altura do card (sem mexer no fluxo) e a seção reserva o espaço */
+@media (min-width:1024px){
+  .pf-grid{padding-bottom:13vw}
+  .pf-grid__item:nth-child(even){transform:translateY(18%)}
+}
+@media (max-width:1023px){.pf-grid{grid-template-columns:minmax(0,1fr)}}
+
+.pf-clientes__head .sec-head__text p{color:var(--fumaca);max-width:48ch}
+.pf-logos{margin-top:var(--s-8);gap:0;border-bottom:1px solid var(--linha)}
+.pf-logo{display:flex;align-items:center;justify-content:center;min-height:clamp(6.5rem, 5rem + 4vw, 9rem);
+  padding:var(--s-5) var(--s-4);border-top:1px solid var(--linha)}
+.pf-logo__img{height:calc(40px * var(--k,1));width:auto;max-width:100%;object-fit:contain;opacity:.82;transition:opacity var(--dur-2)}
+.pf-logo:hover .pf-logo__img{opacity:1}
+@media (max-width:639px){.pf-logo__img{height:calc(26px * var(--k,1))}}

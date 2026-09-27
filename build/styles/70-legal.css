@@ -1,0 +1,43 @@
+/* Política de privacidade (grupo legal-seo · SPEC §3.13) · prefixo .priv-
+   ≥1024: índice lateral preso por position:sticky (não é pin) + coluna de texto de até 68ch.
+   <1024: o índice vira lista comum no topo do texto. */
+.priv{padding-top:var(--s-8)}
+.priv__grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gap);align-items:start}
+.priv__aside{grid-column:1 / span 4;align-self:stretch}
+.priv__text{grid-column:6 / span 7;max-width:68ch}
+.priv-toc{position:sticky;top:calc(var(--header-h) + var(--frame) + var(--s-6))}
+.priv-toc__label{margin-bottom:var(--s-4)}
+.priv-toc__list{border-bottom:1px solid var(--linha)}
+.priv-toc__list a{display:grid;grid-template-columns:2.4rem minmax(0,1fr);align-items:baseline;gap:var(--s-2);
+  padding:.62rem 0;border-top:1px solid var(--linha);text-decoration:none;color:var(--fumaca);
+  font-size:var(--fs-small);line-height:1.35;transition:color var(--dur-1) ease}
+.priv-toc__n{font:500 var(--fs-label)/1 var(--f-body);letter-spacing:var(--tr-label);color:var(--fumaca)}
+.priv-toc__t{text-wrap:pretty}
+.priv-toc__list a:hover,.priv-toc__list a:focus-visible,.priv-toc__list a[aria-current]{color:var(--tinta)}
+.priv-toc__list a:hover .priv-toc__t,.priv-toc__list a:focus-visible .priv-toc__t{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.22em}
+.priv-toc__list a[aria-current] .priv-toc__n{color:var(--tinta)}
+.priv-toc__list a[aria-current] .priv-toc__t{font-weight:500}
+
+.priv-intro{max-width:none}
+.priv-sec{margin-top:var(--s-8);padding-top:var(--s-5);border-top:1px solid var(--linha)}
+.priv-sec__t{display:flex;flex-direction:column;gap:var(--s-3)}
+.priv-sec__n{display:block}
+.priv-sec__body{margin-top:var(--s-5)}
+.priv-sec__body p{max-width:none}
+.priv-sec__body > * + *{margin-top:var(--s-4)}
+.priv-sec__body a{text-decoration-thickness:1px;text-underline-offset:.22em;overflow-wrap:anywhere}
+.priv-list{border-bottom:1px solid var(--linha)}
+.priv-list li{padding:.85rem 0;border-top:1px solid var(--linha)}
+.priv-list b{font-weight:600}
+
+@media (max-width:1023px){
+  .priv__grid{grid-template-columns:minmax(0,1fr)}
+  .priv__aside,.priv__text{grid-column:1}
+  .priv__text{max-width:68ch}
+  .priv-toc{position:static;margin-bottom:var(--s-8)}
+  .priv-toc__list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:var(--gap)}
+}
+@media (max-width:639px){
+  .priv-toc__list{grid-template-columns:minmax(0,1fr)}
+  .priv-sec{margin-top:var(--s-7)}
+}

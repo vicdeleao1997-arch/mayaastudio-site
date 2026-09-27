@@ -1,0 +1,4 @@
+__pycache__/
+*.pyc
+# fontes das ferramentas de imagem (17 MB); cópias de C:/Users/vicde/mayaa-leads/assets
+fonts/*.ttf

@@ -1,0 +1,37 @@
+/* Grade, seções e moldura (§2.4) */
+.wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:var(--gutter)}
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gap)}
+@media (max-width:1023px){.grid{grid-template-columns:repeat(8,minmax(0,1fr))}}
+@media (max-width:639px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+
+.sec{padding-block:var(--sec-y);position:relative}
+.sec--cartao{background:var(--cartao)}
+.sec--tinta{background:var(--tinta);color:var(--papel)}
+.sec + .sec:not(.sec--cartao):not(.sec--tinta){padding-top:calc(var(--sec-y) * .55)}
+.sec--cartao + .sec,.sec--tinta + .sec{padding-top:var(--sec-y)}
+.on-tinta{--fio:var(--papel-18)}
+.rule{border-top:1px solid var(--linha)}
+.rule--tinta{border-top:1px solid var(--tinta)}
+.on-tinta .rule{border-top-color:var(--papel-18)}
+
+/* moldura passe-partout: papel + fio */
+.frame{position:fixed;inset:0;border:var(--frame) solid var(--papel);pointer-events:none;z-index:var(--z-frame)}
+.frame::after{content:"";position:absolute;inset:0;border:1px solid var(--linha)}
+
+/* utilitários de composição (§2.4.1) */
+.split{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gap);row-gap:var(--s-7);align-items:start}
+.split > :first-child{grid-column:1 / span 5}
+.split > :last-child{grid-column:7 / span 6}
+.split--rev > :first-child{grid-column:8 / span 5;grid-row:1}
+.split--rev > :last-child{grid-column:1 / span 6;grid-row:1}
+@media (max-width:1023px){.split,.split--rev{grid-template-columns:minmax(0,1fr)}
+  .split > :first-child,.split > :last-child,.split--rev > :first-child,.split--rev > :last-child{grid-column:1;grid-row:auto}}
+.cols-2,.cols-3,.cols-4,.cols-5{display:grid;gap:var(--gap);grid-template-columns:repeat(var(--n),minmax(0,1fr))}
+.cols-2{--n:2}.cols-3{--n:3}.cols-4{--n:4}.cols-5{--n:5}
+@media (max-width:1023px){.cols-3,.cols-4{--n:2}.cols-5{--n:3}}
+@media (max-width:639px){.cols-2{--n:1}.cols-5{--n:2}}
+@media (max-width:479px){.cols-3:not(:has(img)),.cols-4:not(:has(img)){--n:1}}
+.stack > * + *{margin-top:var(--s-5)}
+.measure{max-width:var(--measure)}
+.center{text-align:center;margin-inline:auto}
+.mt-6{margin-top:var(--s-6)}.mt-7{margin-top:var(--s-7)}.mt-8{margin-top:var(--s-8)}.mt-9{margin-top:var(--s-9)}

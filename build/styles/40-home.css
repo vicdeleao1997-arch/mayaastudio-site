@@ -1,0 +1,77 @@
+/* Home (C1 · §3.1) e 404 · classes .home-* e .err-* */
+
+/* hero */
+.home-hero{min-height:92svh;display:flex;padding-top:calc(var(--header-h) + var(--frame) + var(--s-6));padding-bottom:var(--s-6)}
+.home-hero__in{flex:1;display:flex;flex-direction:column;width:100%}
+.home-hero__top{display:flex;justify-content:space-between;align-items:baseline;gap:var(--s-4)}
+.home-hero__code{white-space:nowrap}
+.home-hero__grid{margin-top:var(--s-8);align-items:start;row-gap:var(--s-5)}
+.home-hero__title{grid-column:1 / span 9}
+.home-hero__k{grid-column:10 / span 3;justify-self:end;margin-top:-.12em}
+.home-hero__kanji{align-items:flex-end}
+.home-hero__kanji .kanji-fig__cap{width:max-content;max-width:30ch;text-align:right}
+.home-hero__foot{margin-top:auto;padding-top:var(--s-8);align-items:end;row-gap:var(--s-6)}
+.home-hero__body{grid-column:1 / span 6;grid-row:1;display:flex;flex-direction:column;align-items:flex-start;gap:var(--s-5)}
+.home-hero__idx{grid-column:8 / span 5;grid-row:1 / span 2}
+.home-hero__scroll{grid-column:1 / span 3;grid-row:2;align-self:end}
+.home-hero__scroll a{text-decoration:none;color:var(--tinta);display:inline-flex;gap:.6em}
+.home-hero__scroll a:hover,.home-hero__scroll a:focus-visible{text-decoration:underline}
+.home-hero__ctas{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s-4) var(--s-6)}
+.home-hero__hint{margin-top:var(--s-3);color:var(--fumaca);max-width:62ch}
+@media (max-width:1023px){
+  .home-hero{min-height:auto}
+  .home-hero__title{grid-column:1 / -1}
+  .home-hero__k{position:absolute;top:3.5rem;right:var(--gutter);margin:0}
+  .home-hero__in{position:relative}
+  .home-hero__kanji .kanji{font-size:clamp(3.5rem,2rem + 7vw,6rem)}
+  .home-hero__kanji .kanji-fig__cap{display:none}
+  .home-hero__body,.home-hero__idx{grid-column:1 / -1;grid-row:auto}
+  .home-hero__scroll{display:none}   /* abaixo da dobra no celular, "Role ↓" já não convida a rolar */
+  .home-hero__foot{padding-top:var(--s-6)}
+}
+@media (max-width:639px){
+  /* celular: primeira tela mais curta, para a faixa da BVBA chegar mais cedo */
+  .home-hero{padding-bottom:var(--s-5)}
+  .home-hero__foot{padding-top:var(--s-5);row-gap:var(--s-5)}
+  .home-hero__body{gap:var(--s-4)}
+  .home-hero__index .index__item a{padding-block:.7rem}
+  .home .mq{padding-block:var(--s-6) var(--s-6)}
+  .home .mq__viewport{margin-top:var(--s-5)}
+  .home-hero__top{padding-right:4.5rem}
+  .home-hero__code{position:absolute;right:var(--gutter);top:0}
+  .home-hero__k{top:2.4rem;right:var(--gutter)}
+  .home-hero__grid{margin-top:var(--s-6)}
+}
+
+/* 001 · sobre */
+.home-sobre__grid{margin-top:var(--s-7);row-gap:var(--s-7)}
+.home-sobre__title{grid-column:1 / span 9}
+.home-sobre__text{grid-column:7 / span 6}
+.home-sobre__imgs{margin-top:var(--s-9)}
+@media (max-width:1023px){.home-sobre__title,.home-sobre__text{grid-column:1 / -1}.home-sobre__imgs{margin-top:var(--s-8)}}
+
+/* 003 · audiovisual */
+.home-av{row-gap:var(--s-7);align-items:start}
+.home-av__vid{grid-column:1 / span 4}
+.home-av__ana{grid-column:6 / span 7;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));column-gap:var(--gap);row-gap:var(--s-6)}
+.home-av__ph:nth-child(1){grid-column:1 / span 3}
+.home-av__ph:nth-child(2){grid-column:5 / span 3;margin-top:20%}
+.home-av__note{grid-column:1 / -1;display:flex;flex-direction:column;gap:var(--s-5)}
+@media (max-width:1023px){
+  .home-av__vid,.home-av__ana{grid-column:1 / -1}
+  .home-av__ana{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .home-av__ph:nth-child(1){grid-column:1}.home-av__ph:nth-child(2){grid-column:2;margin-top:0}
+}
+
+/* 004 · marketing (sobre cartão) */
+.sec--cartao .steps--path,.sec--cartao .steps--path .step,.sec--cartao .steps--path .step + .step{border-color:var(--linha)}
+
+/* 404 */
+.err .ph{min-height:80svh}
+.err__grid{border-bottom:0;padding-bottom:var(--s-6)}
+.err__kanji{grid-column:10 / span 3;grid-row:1 / span 3;justify-self:end;align-items:flex-end}
+/* rótulo e H1 em 9 colunas: com 10 eles colidiam com o kanji (col. 10) e desciam para baixo dele */
+@media (min-width:1024px){.err__grid .ph__label,.err__grid .ph__title{grid-column:1 / span 9}}
+.err__kanji .kanji-fig__cap{text-align:right}
+.err__links{margin-top:var(--s-6);max-width:52rem}
+@media (max-width:1023px){.err__kanji{grid-column:1 / -1;grid-row:auto;order:-1;justify-self:start;align-items:flex-start}.err__kanji .kanji-fig__cap{text-align:left}.err__kanji .kanji{font-size:clamp(5rem,3rem + 10vw,9rem)}}
