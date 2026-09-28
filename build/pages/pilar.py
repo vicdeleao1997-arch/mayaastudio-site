@@ -102,4 +102,5 @@ def pages():
     jsonld = [seo.webpage(PATH, TITLE, DESC, og), seo.breadcrumb_jsonld(TRILHA), seo.faq_jsonld(FAQ)]
     return [Page(path=PATH, title=TITLE, description=DESC, h1=c.plain(H1), body=body, og_image=og,
                  og_alt="MAYAA STUDIO · Tráfego pago com IA: o que é, como medimos e as perguntas mais comuns.",
-                 jsonld=jsonld, nav="servicos", priority=0.9, changefreq="monthly", body_class="srv srv--pilar")]
+                 jsonld=jsonld, nav="servicos", priority=0.9, changefreq="monthly", body_class="srv srv--pilar",
+                 progress=True)]

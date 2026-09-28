@@ -18,11 +18,16 @@ p.label{max-width:none}
 .label__num{color:var(--tinta)}
 .on-tinta .label,.on-tinta .value{color:var(--papel-72)}
 .on-tinta .label__num{color:var(--papel)}
-.label--rule{border-top:1px solid var(--linha);padding-top:var(--s-4)}
+.label--rule{padding-top:var(--s-4)}
+/* fios que se desenham (rótulo de seção, entregas, ficha): pseudo-elemento em scaleX(--r). Sem JS e no reduzido --r
+   não existe e o fio fica inteiro; o JS (20-reveal.js) leva --r de 0 a 1 junto do título ou da cascata. */
+.label--rule,.deliv li,.ficha__row{position:relative}
+.label--rule::before,.deliv li::before,.ficha__row::before{content:"";position:absolute;inset:0 0 auto;height:1px;
+  background:var(--linha);transform-origin:0;transform:scaleX(var(--r,1))}
 /* fio de rótulo com 2 comprimentos só: largura toda (rótulo de seção) e 5 colunas (séries dos cases e FAQ) */
 @media (min-width:1024px){.label--5{width:var(--w5);max-width:none}}
 @media (max-width:479px){.label{letter-spacing:.16em}}
-.on-tinta .label--rule{border-top-color:var(--papel-18)}
+.on-tinta .label--rule::before{background:var(--papel-18)}
 .small{font-size:var(--fs-small);line-height:1.6}
 /* máscara de linha: a Shippori desce ~.23em abaixo da base (p, g, y, ç, vírgula). Com --lh-display 1.04 sobram só
    .08em de caixa abaixo da base; o respiro de .24em (compensado na margem) deixa a perna inteira sem mudar o
@@ -31,11 +36,9 @@ p.label{max-width:none}
 .line:last-child{margin-bottom:-.24em}   /* margens negativas colapsam entre irmãs: -.26 mantém o passo de 1.10em da v1 */
 .line__in{display:block}
 /* entrada do H1 do herói só com CSS (R1-05): roda no 1.º paint, não depende do JS e termina sozinha.
-   Completo: a linha sobe da máscara (~.9s, escalonada). Suave (efeitos desligados): só um fade de .2s. */
-.t-enter .line__in{animation:line-in .9s var(--ease-out) backwards;animation-delay:calc(var(--i,0) * .09s)}   /* sem atraso inicial: LCP do H1 fica colado ao 1.º paint */
+   Completo: a linha sobe da máscara (~.9s, escalonada). Reduzido: sem animação, já no lugar. */
+@media (prefers-reduced-motion:no-preference){.t-enter .line__in{animation:line-in .9s var(--ease-out) backwards;animation-delay:calc(var(--i,0) * .09s)}}   /* sem atraso inicial: LCP do H1 colado ao 1.º paint */
 @keyframes line-in{from{transform:translateY(150%)}}
-@keyframes line-fade{from{opacity:0}}
-@media (prefers-reduced-motion:reduce){.t-enter .line__in{animation:line-fade .2s ease-out backwards;animation-delay:0s}}
 @media print{.t-enter .line__in{animation:none}}
 
 /* ── botões e links ─────────────────────────────────────────────────────── */
@@ -47,9 +50,9 @@ p.label{max-width:none}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:.9em;max-width:100%;min-height:2.75rem;padding:1.05em 1.6em;
   background:var(--tinta);color:var(--papel);border:1px solid var(--tinta);border-radius:0;
   font:500 var(--fs-label)/1.3 var(--f-body);letter-spacing:var(--tr-label);text-transform:uppercase;text-decoration:none;
-  text-align:left;transition:background-color var(--dur-1),color var(--dur-1),border-color var(--dur-1);cursor:pointer}
+  text-align:left;transition:background-color var(--dur-1),color var(--dur-1),border-color var(--dur-1),scale var(--d0) var(--ease-out);cursor:pointer}
 .btn:hover,.btn:focus-visible{background:var(--papel);color:var(--tinta)}
-.btn:active{transform:translateY(1px)}
+.btn:active{scale:var(--tap)}   /* propriedade 'scale' (não transform): soma-se ao desvio do ímã; vale também no reduzido */
 .btn__arrow{display:inline-block;flex:none;transition:transform var(--dur-2) var(--ease-out)}
 .btn:hover .btn__arrow--in,.btn:focus-visible .btn__arrow--in{transform:translateX(4px)}
 .btn:hover .btn__arrow--out,.btn:focus-visible .btn__arrow--out{transform:translate(3px,-3px)}
@@ -99,22 +102,44 @@ a:hover > .link-arrow::after,.link-arrow:hover::after,.link-arrow:focus-visible:
 .hd__mark{width:32px;height:auto;aspect-ratio:1584/1473;flex:none;color:var(--tinta)}   /* 26 px virava borrão em tela 1x */
 .hd__name{font:600 .8125rem/1 var(--f-body);letter-spacing:var(--tr-brand);white-space:nowrap}
 .hd__kana{font:400 .875rem/1 var(--f-display);letter-spacing:.14em;color:var(--fumaca);white-space:nowrap}
+/* kana recolhe da direita para a esquerda ao rolar (a caixa fica: o CTA não se mexe) · fio de leitura (cases, guia) */
+.hd.is-scrolled .hd__kana{clip-path:inset(0 100% 0 0);opacity:0}
+.hd__prog{position:absolute;inset:auto 0 0;height:2px;background:currentColor;transform-origin:0;transform:scaleX(0)}
 .hd__nav{margin-left:auto;display:flex;gap:2.25rem}
 .hd__nav a,.hd__cta{position:relative;font:500 var(--fs-label)/1 var(--f-body);letter-spacing:var(--tr-label);
   text-transform:uppercase;text-decoration:none;color:var(--tinta);padding-block:.6em}
 .hd__nav a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:currentColor;
   transform:scaleX(0);transform-origin:left;transition:transform var(--dur-2) var(--ease-out)}
 .hd__nav a:hover::after,.hd__nav a:focus-visible::after,.hd__nav a[aria-current]::after{transform:scaleX(1)}
+/* CTA do topo: o direct, botão tinta pequeno, em todas as larguras (logo + 2 links + 1 CTA) */
+.hd__cta{display:inline-flex;align-items:center;gap:.6em;flex:none;white-space:nowrap;margin-left:var(--s-6);
+  padding:.75em 1.1em;background:var(--tinta);color:var(--papel);border:1px solid var(--tinta);
+  transition:background-color var(--dur-1),color var(--dur-1)}
+.hd__cta:hover,.hd__cta:focus-visible{background:var(--papel);color:var(--tinta)}
+.hd__cta-a{display:inline-flex;transition:transform var(--dur-2) var(--ease-out)}
+.hd__cta:hover .hd__cta-a,.hd__cta:focus-visible .hd__cta-a{transform:translate(2px,-2px)}
 .hd__menu{color:var(--tinta);padding:.6em 0 .6em .2em}
-.hd__cta,.hd__menu{display:none}
+.hd__menu{display:none}
 @media (max-width:899px){
   .hd__nav{display:none}
-  .hd__cta{display:inline-flex;margin-left:auto}
+  .hd__cta{margin-left:auto}
   .js .hd__menu{display:inline-flex;margin-left:16px}
   /* área de toque de 44 px (a altura visual do texto não muda) */
   .hd__cta,.hd__menu{min-height:44px;align-items:center}
+  /* abaixo de 900 o cabeçalho não some ao rolar (10-header.js): o CTA fica sempre à vista */
+  .hd.is-hidden{transform:none}
 }
-@media (max-width:419px){.hd__kana{display:none}}
+/* 360 a 419: primeiro some o kana; depois o CTA e a marca apertam (sem ícone, menos espaçamento), sem quebrar linha */
+@media (max-width:419px){.hd__kana{display:none}
+  .hd{gap:var(--s-2)}.hd__brand{gap:.45rem}.hd__name{letter-spacing:.08em;font-size:.75rem}
+  .hd__cta{padding-inline:.7em;letter-spacing:.06em}.hd__cta-a{display:none}.js .hd__menu{margin-left:var(--s-3)}}
+/* rótulo longo ("Falar no direct", "Manda MODELO") até 389 px: nome, CTA e Menu apertam mais um passo,
+   para o nome MAYAA STUDIO continuar ao lado do símbolo (antes sumia) */
+@media (max-width:389px){
+  .hd--cta-longo .hd__brand{gap:.4rem}
+  .hd--cta-longo .hd__name{font-size:.6875rem;letter-spacing:.06em}
+  .hd--cta-longo .hd__cta{padding-inline:.6em;letter-spacing:.03em}
+  .js .hd--cta-longo .hd__menu{margin-left:4px;letter-spacing:.16em}}
 @media (max-width:359px){.hd__cta{display:none}.js .hd__menu{margin-left:auto}}
 
 /* ── menu ───────────────────────────────────────────────────────────────── */
@@ -172,6 +197,20 @@ a:hover > .link-arrow::after,.link-arrow:hover::after,.link-arrow:focus-visible:
 .mq:hover .mq__track,.mq:focus-within .mq__track,.mq.is-paused .mq__track,.mq.is-off .mq__track{animation-play-state:paused}
 @media (prefers-reduced-motion:reduce){.mq__track{animation-duration:var(--marquee-slow)}}
 @media (max-width:639px){.mq__track{gap:44px;padding-right:44px}.mq__item img{height:calc(26px * var(--k,1))}}
+/* logos parados: ≥1024 parede numa linha (sem animação e sem "Pausar"); abaixo, com movimento reduzido
+   a mesma parede quebra em linhas. Vale pela media query, sem esperar o .is-static do 40-marquee.js
+   (esperar a classe fazia a faixa pular depois do 1.º paint: CLS 0,024 no celular) */
+@media (max-width:1023px) and (prefers-reduced-motion:reduce){
+  .mq--logos .mq__track{animation:none;flex:1;min-width:0;flex-wrap:wrap;justify-content:center;gap:var(--s-6) 44px;padding-right:0}
+  .mq--logos .mq__track[aria-hidden],.mq--logos .mq__toggle{display:none}
+  .mq--logos .mq__viewport{padding-inline:var(--gutter)}
+}
+@media (min-width:1024px){
+  .mq--logos .mq__track{animation:none;flex:1;min-width:0;flex-wrap:nowrap;justify-content:space-between;gap:var(--gap);padding-right:0}
+  .mq--logos .mq__track[aria-hidden],.mq--logos .mq__toggle{display:none}
+  .mq--logos .mq__viewport{width:100%;max-width:var(--maxw);margin-inline:auto;padding-inline:var(--gutter)}
+  .mq--logos .mq__item img{opacity:.88}
+}
 /* marquee de texto (rodapé) */
 .mqt{padding-block:var(--s-7) var(--s-5);border-bottom:1px solid var(--papel-18)}
 .mqt .mq__viewport{margin-top:0}
@@ -186,11 +225,17 @@ a:hover > .link-arrow::after,.link-arrow:hover::after,.link-arrow:focus-visible:
 .band__media picture,.band__img{width:100%;height:100%}
 .band__img{object-fit:cover;object-position:var(--pos,50% 50%)}
 @media (max-width:1023px){.band__frame{height:auto;aspect-ratio:4/3}}
+/* faixa em proporção de cinema (home): um momento full-bleed, sem tomar a tela inteira */
+.band--cine .band__frame{height:min(62svh,620px)}
+/* faixa cine (home): a composição ocupa ~2:1 da largura; no desktop a altura segue a largura (52vw) para caber a
+   moldura com a poça e o pedestal inteiros. Sem zoom (parallax só vertical, sobra de 5% em cima e embaixo) e sem
+   "respira": o zoom cortava a poça na borda esquerda */
+@media (min-width:1024px){.band--cine .band__frame{height:min(52vw,86svh)}}
+.band--cine .band__media{inset:-5% 0}
+@media (max-width:1023px){.band--cine .band__frame{height:auto;aspect-ratio:16/9}}
 .band__cap-in{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:var(--s-3) var(--s-5)}
 .band__cap{padding-top:var(--s-4)}
 .band__cap-in{border-top:1px solid var(--linha);padding-top:var(--s-4)}
-@keyframes respira{from{transform:scale(1)}to{transform:scale(1.06)}}
-.mode-completo .band.is-in .band__img{animation:respira 14s var(--ease-io) infinite alternate}
 
 /* ── figura, grade de imagens ───────────────────────────────────────────── */
 .fig{position:relative}
@@ -245,7 +290,7 @@ html.fx-on .fig-link:hover [data-fx] img,html.fx-on .case-card__link:hover [data
 /* ── listas ─────────────────────────────────────────────────────────────── */
 .deliv{border-bottom:1px solid var(--linha)}
 .deliv li{display:grid;grid-template-columns:3.25rem minmax(0,1fr);align-items:baseline;gap:var(--s-3);
-  padding-block:1rem;border-top:1px solid var(--linha)}
+  padding-block:1rem}
 .deliv__txt{font-size:var(--fs-lead);line-height:1.35}
 .note{border-top:1px solid var(--linha);padding-top:var(--s-4);display:flex;flex-wrap:wrap;align-items:baseline;gap:var(--s-2) var(--s-5)}
 .note .small{color:var(--fumaca);max-width:62ch}
@@ -260,7 +305,7 @@ html.fx-on .fig-link:hover [data-fx] img,html.fx-on .case-card__link:hover [data
 .steps--path{display:flex;align-items:stretch;border-top:1px solid var(--linha);border-bottom:1px solid var(--linha)}
 .steps--path .step{flex:1 1 0;position:relative;display:flex;flex-direction:column;gap:var(--s-2);padding:var(--s-5) var(--s-6) var(--s-5) 0}
 .steps--path .step + .step{padding-left:var(--s-5);border-left:1px solid var(--linha)}
-.steps--path .step:not(:last-child)::after{content:"→" / "";position:absolute;right:var(--s-4);top:var(--s-5);color:var(--fumaca);font-size:var(--fs-lead);line-height:1}
+.steps--path .step:not(:last-child)::after{transform:translateX(var(--ax,0));content:"→" / "";position:absolute;right:var(--s-4);top:var(--s-5);color:var(--fumaca);font-size:var(--fs-lead);line-height:1}
 .steps--path .step__t{font:400 var(--fs-h3)/1.15 var(--f-display)}
 .steps--path .step__x{color:var(--tinta);max-width:28ch}
 @media (max-width:1023px){
@@ -301,7 +346,10 @@ html.fx-on .fig-link:hover [data-fx] img,html.fx-on .case-card__link:hover [data
 .svc__title{margin-top:var(--s-4)!important}
 .svc__ctas{display:flex;flex-wrap:wrap;gap:var(--s-5) var(--s-6);align-items:center;margin-top:var(--s-6)!important}
 .svc__media{margin-top:var(--s-7)}
-@media (max-width:1023px){.svc__main,.svc__side{grid-column:1 / -1}.svc__media{margin-top:var(--s-8)}}
+/* vídeo 9:16 na coluna lateral: cabe na altura da janela */
+.svc__side .vid{max-width:calc(64svh * 9 / 16)}
+@media (max-width:1023px){.svc__main,.svc__side{grid-column:1 / -1}.svc__media{margin-top:var(--s-8)}
+  .svc__side .vid{max-width:min(100%, 20rem)}}
 
 /* ── manifesto ──────────────────────────────────────────────────────────── */
 .mf__grid{margin-top:var(--s-7);row-gap:var(--s-6)}
@@ -320,7 +368,13 @@ html.fx-on .fig-link:hover [data-fx] img,html.fx-on .case-card__link:hover [data
 /* ── processo ───────────────────────────────────────────────────────────── */
 .proc__title{margin-top:var(--s-6)}
 .proc__steps{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));margin-top:var(--s-8);border-top:1px solid var(--linha)}
-.proc__step{padding:var(--s-6) var(--s-5) var(--s-5);border-left:1px solid var(--linha);display:flex;flex-direction:column;gap:var(--s-5)}
+.proc__steps{position:relative}
+.proc__step{padding:var(--s-6) var(--s-5) var(--s-5);border-left:1px solid var(--linha)}
+.proc__card{display:flex;flex-direction:column;gap:var(--s-5)}
+/* trilha (>= 1024, 50-scroll.js liga .is-trail): o fio avança com a rolagem e cada passo acende quando ele chega */
+.is-trail::before{content:"";position:absolute;inset:-1px 0 auto;height:2px;background:var(--tinta);transform-origin:0;transform:scaleX(var(--p,0))}
+.is-trail .proc__kanji{opacity:.25;transition:opacity var(--dur-2)}
+.is-trail .is-lit .proc__kanji{opacity:1}
 .proc__step:first-child{border-left:0;padding-left:0}
 /* regra de cor do kanji: tinta no kanji de conceito (processo, serviços, pilares, aberturas); linha só no
    kanji decorativo gigante (.kanji-fig--xl) */
@@ -334,26 +388,41 @@ html.fx-on .fig-link:hover [data-fx] img,html.fx-on .case-card__link:hover [data
   .proc__step,.proc__step:first-child{border-left:0;border-top:1px solid var(--linha);padding:var(--s-5) var(--s-4) var(--s-6) 0}
 }
 @media (max-width:639px){
-  .proc__steps{grid-template-columns:minmax(0,1fr)}
-  .proc__step{flex-direction:row;align-items:flex-start;gap:var(--s-4)}
-  .proc__kanji{flex:none;width:64px;font-size:3rem}
+  /* celular: linhas com filete; kanji de 56 px à esquerda, capítulo e número na mesma linha, título e texto */
+  .proc__steps{grid-template-columns:minmax(0,1fr);margin-top:var(--s-6);border-bottom:1px solid var(--linha)}
+  .proc__step,.proc__step:first-child{padding:var(--s-4) 0 var(--s-5)}
+  .proc__card{flex-direction:row;align-items:flex-start;gap:var(--s-4)}
+  .proc__kanji{flex:none;width:56px;font-size:2.5rem;line-height:1}
+  .proc__body{flex-direction:row;flex-wrap:wrap;align-items:baseline;gap:var(--s-1) var(--s-3);min-width:0}
+  .proc__t,.proc__x{flex-basis:100%}
+  .proc__t{margin-top:var(--s-1)}
   .proc__x{max-width:none}
 }
 
 /* ── prova 12,55× ───────────────────────────────────────────────────────── */
 .proof .grid{row-gap:var(--s-6);align-items:start}
 .proof__label{grid-column:1 / -1}
-.proof__fig{grid-column:1 / span 7;display:flex;flex-direction:column;gap:var(--s-5)}
+.proof__fig{grid-column:1 / span 6;display:flex;flex-direction:column;gap:var(--s-3)}
 /* line-height 1 + folga embaixo: a perna da vírgula de «12,55» não invade a legenda (.proof__unit) */
 .proof__num{display:flex;align-items:baseline;white-space:nowrap;max-width:none;padding-bottom:.14em;
   font:400 var(--fs-num)/1 var(--f-display);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
 .proof__x{font-size:.55em;margin-left:.04em}
+/* fio de 2 px que cresce com a contagem (sem JS: inteiro) */
+.proof__num,.proof__stats dt{position:relative}
+.proof__rule{position:absolute;left:0;bottom:0;width:100%;height:2px;background:currentColor;transform-origin:0}
+dt .proof__rule{width:1.5em}
 .proof__unit{max-width:34ch}
-.proof__body{grid-column:8 / span 5;display:flex;flex-direction:column;gap:var(--s-5);padding-top:var(--s-4)}
+/* 28/09: 45/12 subiram para a coluna do número; texto em 6 colunas e respiro menor: bloco ~15% mais baixo */
+.proof{padding-block:calc(var(--sec-y) * .8)}
+.proof__body{grid-column:7 / span 6;display:flex;flex-direction:column;gap:var(--s-4);padding-top:var(--s-2)}
 .proof__body .lead{max-width:none}
 .proof__caveats{border-bottom:1px solid var(--papel-18)}
 .proof__caveats li{border-top:1px solid var(--papel-18);padding-block:.8rem;font-weight:500}
-.proof__stats{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap)}
+/* 45 e 12 ficam na coluna do número, logo abaixo da legenda, com fio fino em cima */
+.proof__stats{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);max-width:34rem;margin-top:var(--s-3);
+  padding-top:var(--s-4);border-top:1px solid var(--papel-18)}
+.sec--cartao.proof .proof__stats{border-top-color:var(--linha)}
+.proof__more{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s-4) var(--s-6);margin-top:var(--s-3)}
 .proof__stats dt{font:400 var(--fs-h2)/1 var(--f-display);font-variant-numeric:tabular-nums}
 .proof__stats dd{margin-top:var(--s-2);font-size:var(--fs-small);color:var(--papel-72)}
 .proof__disc{color:var(--papel-72)}
@@ -410,6 +479,13 @@ html.fx-on .fig-link:hover [data-fx] img,html.fx-on .case-card__link:hover [data
 .ph__lead{grid-column:1 / span 7;margin-top:var(--s-4)}
 .ph__ctas{grid-column:1 / -1;display:flex;flex-wrap:wrap;align-items:flex-end;gap:var(--s-5) var(--s-6);margin-top:var(--s-5)}
 .ph__ficha{grid-column:9 / span 4;grid-row:3 / span 2;margin-top:var(--s-4)}
+/* abertura com coluna direita (page_hero side=): texto nas colunas 1 a 7, mídia ou lista nas 9 a 12, pela base */
+@media (min-width:1024px){
+  .ph--side .ph__label,.ph--side .ph__title,.ph--side .ph__ctas{grid-column:1 / span 7}
+  .ph--side .ph__lead{grid-column:1 / span 6}
+  .ph__side{grid-column:9 / span 4;grid-row:1 / span 4;align-self:end}
+}
+@media (max-width:1023px){.ph__side{grid-column:1 / -1;margin-top:var(--s-5)}}
 /* abertura de case curta (a imagem de abertura entra na 1.ª dobra): trilha e rótulo na mesma linha, sem fio */
 .ph--case{padding-top:calc(var(--header-h) + var(--frame) + var(--s-6));padding-bottom:0}
 @media (max-width:639px){.ph{padding-top:calc(var(--header-h) + var(--frame) + var(--s-6))}}
@@ -441,14 +517,14 @@ html.fx-on .fig-link:hover [data-fx] img,html.fx-on .case-card__link:hover [data
 .ficha--row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));column-gap:var(--gap)}
 .ficha--row .ficha__row{grid-template-columns:minmax(0,1fr);gap:var(--s-1);padding-block:var(--s-4)}
 @media (max-width:1023px){.ficha--row{grid-template-columns:repeat(2,minmax(0,1fr))}}
-.ficha__row{display:grid;grid-template-columns:minmax(0,9rem) minmax(0,1fr);gap:var(--s-3);padding-block:.8rem;border-top:1px solid var(--linha)}
+.ficha__row{display:grid;grid-template-columns:minmax(0,9rem) minmax(0,1fr);gap:var(--s-3);padding-block:.8rem}
 .ficha dd{font-weight:500}
 
 /* ── card de case ───────────────────────────────────────────────────────── */
 .case-card{position:relative}
 .case-card__link{display:flex;flex-direction:column;gap:var(--s-3);text-decoration:none;color:inherit}
 .case-card__media{position:relative;overflow:hidden;background:var(--cartao);margin-bottom:var(--s-3)}
-.case-card__media img{width:100%;transition:transform var(--dur-3) var(--ease-out),opacity var(--dur-2)}
+.case-card__media img{width:100%;object-fit:cover;transition:transform var(--dur-3) var(--ease-out),opacity var(--dur-2)}
 .case-card__link:hover .case-card__media img,.case-card__link:focus-visible .case-card__media img{transform:scale(1.035)}
 .case-card__line{color:var(--fumaca);max-width:52ch}
 .case-card__go{align-self:flex-start;margin-top:var(--s-2)}
@@ -480,6 +556,23 @@ html.fx-on .fig-link:hover [data-fx] img,html.fx-on .case-card__link:hover [data
 .nc__a{display:inline-block;transition:transform var(--dur-2) var(--ease-out)}
 .nc__link:hover .nc__a,.nc__link:focus-visible .nc__a{transform:translateX(8px)}
 .nc__all{display:flex;justify-content:flex-end;margin-top:var(--s-6);max-width:none}
+/* com capa: cartão com a capa em 21:9 (col 1 a 8) e a marca ao lado, sobre fundo cartão */
+.nc__card{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gap);align-items:stretch;
+  background:var(--cartao);color:var(--tinta);text-decoration:none;border-top:1px solid var(--tinta)}
+.nc__media{grid-column:1 / span 8;display:block;overflow:hidden}
+.nc__media img{width:100%;height:auto;object-fit:cover;object-position:var(--pos,50% 50%);transition:transform var(--dur-3) var(--ease-out)}
+.nc__card:hover .nc__media img,.nc__card:focus-visible .nc__media img{transform:scale(1.03)}
+.nc__body{grid-column:9 / span 4;display:flex;flex-direction:column;justify-content:flex-end;gap:var(--s-3);
+  padding:var(--s-6) var(--s-6) var(--s-6) 0}
+.nc__meta{color:var(--fumaca)}
+.nc__card .nc__t{display:block;margin-top:var(--s-2)}
+.nc__ia{color:var(--tinta);font-weight:500}
+.nc__card:hover .nc__a,.nc__card:focus-visible .nc__a{transform:translateX(8px)}
+@media (max-width:1023px){
+  .nc__card{grid-template-columns:minmax(0,1fr)}
+  .nc__media,.nc__body{grid-column:1}
+  .nc__body{padding:var(--s-5) var(--s-4) var(--s-6)}
+}
 
 /* ── FAQ ────────────────────────────────────────────────────────────────── */
 .faq-sec__grid{row-gap:var(--s-7);align-items:start}
@@ -512,6 +605,10 @@ html.fx-on .fig-link:hover [data-fx] img,html.fx-on .case-card__link:hover [data
 @media (max-width:639px){.srow__marks{flex-direction:column;gap:.35em}.srow__marks li:not(:last-child)::after{content:none}}
 .srow__link:hover,.srow__link:focus-visible{border-top-color:var(--tinta)}
 .srow__link:hover .srow__body,.srow__link:focus-visible .srow__body{transform:translateX(8px)}
+/* foco por toque (celular): o item que cruza a linha central da tela ganha o gesto do hover (05-motor.js) */
+.is-focus .case-card__media img,.is-focus .nc__media img,.is-focus .llist__th img{transform:scale(var(--zoom))}
+.is-focus .link-arrow__a--in{transform:translateX(4px)}
+.is-focus .nc__a,.is-focus .srow__body,.is-focus .llist__b,.is-focus .index__txt{transform:translateX(8px)}
 @media (max-width:1023px){.srow__link{grid-template-columns:minmax(0,1fr)}.srow__go{justify-self:start}}
 
 /* ── tabela dos pilares ─────────────────────────────────────────────────── */
@@ -536,3 +633,16 @@ html.fx-on .fig-link:hover [data-fx] img,html.fx-on .case-card__link:hover [data
 .fx-canvas{position:fixed;left:0;top:0;z-index:60;pointer-events:none;visibility:hidden;will-change:transform}
 .ig-loaded{max-width:420px}
 .ig__after{margin-top:var(--s-4)}
+
+/* ── celular (≤639): um passo a menos de respiro em listas, processo e rodapé (28/09: a home no 390 passava de
+   9.700 px). Nada some: só folga vertical e o símbolo do rodapé menor. ─────────────────────────────────── */
+@media (max-width:639px){
+  .deliv li{padding-block:.75rem}
+  .proc__step,.proc__step:first-child{padding:var(--s-3) 0 var(--s-4)}
+  /* ressalvas da prova: a longa na largura toda, as duas curtas lado a lado */
+  .proof__caveats{display:grid;grid-template-columns:1fr 1fr;column-gap:var(--gap)}
+  .proof__caveats li:first-child{grid-column:1 / -1}
+  .ft__grid{padding-block:var(--s-8) var(--s-7);row-gap:var(--s-6)}
+  .ft__brand{gap:var(--s-4)}
+  .ft__lk{width:104px}
+}

@@ -12,6 +12,13 @@ REEL_ALT = "Reel da BVBA Supply: o ouro escorre das molduras de um museu enquant
 
 
 # ── utilidades locais ────────────────────────────────────────────────────────
+
+def _hero_side(char: str, meaning: str, slug: str) -> str:
+    """Coluna direita da abertura (tráfego, marketing): kanji do pilar no alto e os marcadores pela base, para o
+    quarto superior direito não ficar vazio no desktop. O kanji some abaixo de 1024 (50-servicos.css)."""
+    return (f'<div class="srv-hero-side">{c.kanji(char, meaning, size="lg", cls="srv-hero-k", reveal=None)}'
+            f'{c.deliv_list(dados.SERVICES[slug]["marcadores"], cls="srv-hero-list")}</div>')
+
 def og(path: str) -> str:
     """og:image do SPEC (§5.2). Enquanto `tools/og.py` (C3) não gerou o arquivo, usa o og padrão do site."""
     return path if media.exists(path) else OG_PADRAO
@@ -52,10 +59,10 @@ def relacionados(slug_atual: str) -> str:
         id="relacionados", cls="srv-sec srv-sec--rel")
 
 
-def page(path, title, desc, h1, body, og_path, og_alt, jsonld, priority=0.9) -> Page:
+def page(path, title, desc, h1, body, og_path, og_alt, jsonld, priority=0.9, cta="CONTA") -> Page:
     return Page(path=path, title=title, description=desc, h1=c.plain(h1), body=body, og_image=og(og_path),
                 og_alt=og_alt, jsonld=jsonld, nav="servicos", priority=priority, changefreq="monthly",
-                body_class="srv")
+                body_class="srv", cta=cta)
 
 
 # ── /servicos/ ───────────────────────────────────────────────────────────────
@@ -156,23 +163,27 @@ def trafego() -> Page:
                    "Anúncio do IOSE para o curso de sistemas de armazenamento de energia, com contêineres de baterias "
                    "num campo", "Armazenamento de energia · Feed 1:1", fx=False, sizes="(min-width:1024px) 40vw, 100vw")
         + '</div>'
-        f'<p class="srv-practice__more" data-reveal="fade">'
-        f'{c.link_arrow("Guia completo: tráfego pago com IA", "/trafego-pago-com-ia/")}</p></div>',
+        f'<div class="srv-practice__more" data-reveal="fade">'
+        f'{c.btn("Manda CONTA no direct", config.IG_DM, external=True)}'
+        f'{c.link_arrow("Guia completo: tráfego pago com IA", "/trafego-pago-com-ia/")}</div></div>',
         id="na-pratica", cls="srv-sec")
 
+    # 28/09 (benchmark): prova de execução antes da explicação. A 1.ª dobra não mostra peça nem logo do IOSE
+    # (nome/logo pendentes): a coluna direita do herói leva os marcadores do serviço, já publicados em /servicos/.
     body = "".join([
         c.page_hero("Serviço · Tráfego pago", h1,
                     "Gestão de Meta Ads e Google Ads para quem já anuncia. A IA entra no criativo e na leitura. "
                     "A régua é a venda, não a curtida.",
                     crumbs=trilha,
-                    ctas=(c.btn("Manda CONTA no direct", config.IG_DM, external=True),)),
+                    ctas=(c.btn("Manda CONTA no direct", config.IG_DM, external=True),),
+                    side=_hero_side("磨", "otimizar", slug)),
         what_we_do(["Da conta que já roda", ("a uma decisão clara.", "b")],
                    "Começamos lendo o que existe: campanhas, criativos, página e o caminho até a venda. Depois "
                    "organizamos a conta para que cada campanha possa ser lida sozinha. Só então mexemos na verba.",
                    dados.SERVICES[slug]["entregas"]),
+        pratica,
         diagnostico,
         regras,
-        pratica,
         c.faq(FAQ_TRAFEGO, "Perguntas", ["Antes", ("de pedir.", "b")]),
         relacionados(slug),
         c.cta("CONTA", "Contato",
@@ -209,14 +220,11 @@ def audiovisual() -> Page:
     h1 = ["Audiovisual com IA,", ("com direção.", "b")]
     trilha = crumbs(("Serviços", "/servicos/"), ("Audiovisual com IA", None))
 
-    reel = c.video(REEL, REEL_POSTER, REEL_ALT, caption="Filme · BVBA Supply · 9:16")
+    # o reel fica no herói (coluna direita), com o link do Instagram na legenda; aqui ficam os três cases
+    reel = c.video(REEL, REEL_POSTER, REEL_ALT, caption="Filme · BVBA Supply · 9:16",
+                   link=("Ver o reel no Instagram", config.REEL_BVBA))
     trabalhos = c.section(
         intro("Três trabalhos", ["O mesmo rigor,", ("três problemas diferentes.", "b")]),
-        '<div class="split srv-reel">'
-        f'<div class="srv-reel__vid">{reel}</div>'
-        '<div class="srv-reel__text stack">'
-        f'{c.paras("Ninguém acha estranho. Visitantes atravessam a galeria como numa terça-feira qualquer, e o museu derrete ao redor. Câmera travada, luz fixa: quem se move é o corpo e o ouro.", cls="lead")}'
-        f'<p data-reveal="fade">{c.link_arrow("Ver o reel no Instagram", config.REEL_BVBA)}</p></div></div>'
         '<div class="cols-3 srv-cards">'
         + "".join(c.case_card(s, size="md", heading="h3")
                   for s in ("bvba-surrealismo", "alumee-vela-mel", "ana-lauren-modelo-ia"))
@@ -245,7 +253,9 @@ def audiovisual() -> Page:
                     "referência. O que a IA constrói passa por conferência, quadro a quadro.",
                     crumbs=trilha,
                     ctas=(c.btn("Falar no direct", config.IG_DM, external=True),
-                          c.link_arrow("Ou por e-mail", config.MAILTO_PROJETO))),
+                          c.link_arrow("Ou por e-mail", config.MAILTO_PROJETO)),
+                    side=f'<div class="srv-hero-vid">{reel}</div>'),
+        trabalhos,
         what_we_do(["Imagem feita para anúncio", ("e para marca.", "b")],
                    "Trabalhamos a partir do que é real: o produto, a roupa, o corpo, a marca. A IA constrói o cenário, "
                    "a luz e o movimento que a câmera sozinha não alcança. A direção decide o que fica.",
@@ -255,7 +265,6 @@ def audiovisual() -> Page:
                     "Modelo sintética licenciável, sempre apresentada como IA",
                     "Fotos para feed, stories e anúncio",
                     "Reels e cortes para cada formato"]),
-        trabalhos,
         como,
         c.faq(FAQ_AUDIOVISUAL, "Perguntas", ["Antes", ("de lançar.", "b")]),
         relacionados(slug),
@@ -265,7 +274,7 @@ def audiovisual() -> Page:
               seo.video_bvba()]
     return page(path, title, desc, h1, body, "/assets/og/og-servicos-audiovisual-com-ia.jpg",
                 "MAYAA STUDIO · Audiovisual com IA, com direção. Filme, campanha de produto e modelo sintética.",
-                jsonld)
+                jsonld, cta="PROJETO")
 
 
 # ── /servicos/marketing/ ─────────────────────────────────────────────────────
@@ -336,7 +345,9 @@ def marketing() -> Page:
                     "Página, formulário, oferta e mensagem que sustentam o anúncio. Quando o caminho depois do clique "
                     "falha, nenhuma campanha resolve.",
                     crumbs=trilha,
-                    ctas=(c.btn("Manda CONTA no direct", config.IG_DM, external=True),)),
+                    ctas=(c.btn("Manda CONTA no direct", config.IG_DM, external=True),),
+                    # sem peça própria de página nesta página: a ordem fica; o herói leva os marcadores à direita
+                    side=_hero_side("築", "construir", slug)),
         what_we_do(["Tudo o que acontece", ("depois do anúncio.", "b")],
                    "Um bom anúncio leva a pessoa até você. O resto do caminho decide se ela compra. Construímos esse "
                    "caminho junto com a campanha, para que cada passo possa ser medido.",

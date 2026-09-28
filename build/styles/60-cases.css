@@ -7,6 +7,9 @@
 .case-page .case-open--band{padding-block:0}
 .case-page .ph + .case-open--band{padding-top:clamp(1.75rem, 1rem + 2vw, 3rem)}
 .case-ficha{margin-top:var(--s-6)}
+/* ficha: no desktop sobe para a coluna direita da abertura (.ph__ficha); no celular fica depois da imagem */
+@media (min-width:1024px){.case-ficha--cel{display:none}.ph--case .ph__ficha{align-self:end;margin-top:0}}
+@media (max-width:1023px){.ph--case .ph__ficha{display:none}}
 .case-page .cs .case-ficha{padding-inline:0}
 .case-page .case-close{padding-top:clamp(2rem, 1rem + 3vw, 4rem)}
 
@@ -33,15 +36,23 @@
 }
 
 /* ── aberturas ──────────────────────────────────────────────────────────── */
-/* Alumee: imagem única à direita (colunas 6 a 12), o espaço à esquerda fica vazio de propósito */
-.case-open__grid{align-items:end}
-.case-open--rev .case-open__media{grid-column:6 / span 7;justify-self:end}
-/* Alumee: a ficha ocupa o espaço à esquerda da imagem de abertura */
-.case-open__ficha{grid-column:1 / span 4;grid-row:1;align-self:start}
-@media (max-width:1023px){.case-open--rev .case-open__media{grid-column:1 / -1;justify-self:center}
-  .case-open__ficha{grid-column:1 / -1;grid-row:2;margin-top:var(--s-5)}
-  .case-open__ficha .ficha{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:var(--gap)}
-  .case-open__ficha .ficha__row{grid-template-columns:minmax(0,1fr);gap:var(--s-1)}}
+/* Alumee (.ph--open): a imagem de abertura mora na própria abertura do case. ≥1024: texto e ficha nas colunas 1 a 5,
+   imagem nas colunas 7 a 12 desde o topo do H1 (a metade direita da 1.ª dobra não fica vazia). Celular: texto,
+   imagem e ficha, nessa ordem. */
+.case-page .ph--open{padding-bottom:clamp(2rem, 1rem + 4vw, 5rem)}
+.ph__open-ficha{margin-top:var(--s-5)}
+@media (min-width:1024px){
+  .ph--open .ph__title{grid-column:1 / span 6;grid-row:1}
+  .ph--open .ph__lead{grid-column:1 / span 5;grid-row:2}
+  .ph--open .ph__open-ficha{grid-column:1 / span 4;grid-row:3;margin-top:var(--s-6)}
+  .ph--open .ph__open-media{grid-column:7 / span 6;grid-row:1 / span 4;justify-self:end;width:100%;
+    display:flex;justify-content:flex-end}
+}
+@media (max-width:1023px){
+  .ph__open-media,.ph__open-ficha{grid-column:1 / -1}
+  .ph__open-media{margin-top:var(--s-4)}
+  .ph__open-ficha .ficha{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:var(--gap)}
+  .ph__open-ficha .ficha__row{grid-template-columns:minmax(0,1fr);gap:var(--s-1)}}
 
 /* IOSE: três peças, uma por curso (peças com texto: sem distorção, sem recorte) */
 .case-pecas__head{display:grid;gap:var(--s-4);margin-top:var(--s-7)}

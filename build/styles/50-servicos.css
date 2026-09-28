@@ -44,25 +44,33 @@
 .srv-practice{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gap);row-gap:var(--s-7);align-items:start}
 .srv-practice__card{grid-column:1 / span 6}
 .srv-practice__fig{grid-column:7 / span 6}
-.srv-practice__more{grid-column:1 / -1;max-width:none;justify-self:start}
+.srv-practice__more{grid-column:1 / -1;max-width:none;justify-self:start;display:flex;flex-wrap:wrap;align-items:center;gap:var(--s-5) var(--s-6)}
 @media (max-width:1023px){.srv-practice{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:var(--s-4)}
   .srv-practice__card{grid-column:1}.srv-practice__fig{grid-column:2}.srv-practice__more{grid-column:1 / -1;justify-self:start}}
 @media (max-width:479px){.srv-practice{grid-template-columns:minmax(0,1fr)}.srv-practice__card,.srv-practice__fig{grid-column:1}}
 
-/* /servicos/audiovisual-com-ia/ · reel + texto, três cards */
-.srv-reel{align-items:end}
-.srv-reel__vid .vid{max-width:calc(78svh * 9 / 16)}
-.srv-reel__text{padding-bottom:var(--s-8)}
-.srv-reel__text .lead{max-width:36ch}
+/* abertura dos serviços com coluna direita: lista (tráfego, marketing) ou o reel 9:16 (audiovisual) */
+.srv-hero-list .deliv__txt{font-weight:500}
+/* tráfego e marketing: kanji do pilar no alto da coluna direita, marcadores pela base (a coluna vai do rótulo ao CTA) */
+@media (min-width:1024px){
+  .ph__side:has(> .srv-hero-side){align-self:stretch}
+  .srv-hero-side{height:100%;display:flex;flex-direction:column;justify-content:space-between;gap:var(--s-7)}
+  .srv-hero-k{align-self:flex-end;align-items:flex-end}
+}
+@media (max-width:1023px){.srv-hero-k{display:none}}
+.srv-hero-vid .vid{max-width:calc(58svh * 9 / 16);margin-left:auto}
+@media (max-width:1023px){.srv-hero-vid .vid{max-width:min(100%, 20rem);margin-left:0}}
+
+/* /servicos/audiovisual-com-ia/ · três cards (o reel e o link dele estão na abertura) */
 .srv-cards{margin-top:var(--s-9);align-items:start}
 /* ≥640: os 3 cards dividem as linhas (subgrid): títulos e "Ver case" na mesma altura */
 @media (min-width:640px){
-  .srv-cards,.home-work{grid-template-rows:auto auto auto auto 1fr auto;row-gap:var(--s-3)}
-  .srv-cards .case-card,.srv-cards .case-card__link,.home-work .case-card,.home-work .case-card__link{display:grid;grid-row:span 6;grid-template-rows:subgrid}
-  .srv-cards .case-card__go,.home-work .case-card__go{grid-row:6}
-  .srv-cards .case-card__media,.home-work .case-card__media{margin-bottom:var(--s-2)}
+  .srv-cards{grid-template-rows:auto auto auto auto 1fr auto;row-gap:var(--s-3)}
+  .srv-cards .case-card,.srv-cards .case-card__link{display:grid;grid-row:span 6;grid-template-rows:subgrid}
+  .srv-cards .case-card__go{grid-row:6}
+  .srv-cards .case-card__media{margin-bottom:var(--s-2)}
 }
-@media (max-width:1023px){.srv-reel__vid .vid{max-width:none}.srv-reel__text{padding-bottom:0}
+@media (max-width:1023px){
   .srv-cards{grid-template-columns:minmax(0,1fr);row-gap:var(--s-8)}
   .srv-cards .case-card{max-width:30rem}}
 /* 640 a 1023: os três lado a lado (em 2 colunas a Ana sobrava sozinha na 2.ª linha) */

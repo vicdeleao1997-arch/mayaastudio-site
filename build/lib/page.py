@@ -22,3 +22,5 @@ class Page:
     sitemap: bool = True
     noindex: bool = False
     body_class: str = ""
+    progress: bool = False       # fio de leitura no cabeçalho (cases, guia, privacidade)
+    cta: str = "CONTA"           # variante do CTA final ("CONTA" · "MODELO" · "PROJETO" · "COLECAO"): rótulo do topo

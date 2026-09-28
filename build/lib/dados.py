@@ -57,8 +57,10 @@ PILARES = [  # ordem canônica · não reordenar
 ]
 PILARES_LINHA = "Performance · Marketing · IA · Tráfego pago · Audiovisual"
 CLIENT_LOGOS = [  # arquivo em /assets/clients/ (tinta/*.webp sai de tools/logos.py; fonte: <nome>.png), alt, escala da altura base
- ("tinta/daterrinha.webp","Da Terrinha Alimentos",1.3),
- ("tinta/buyticket.webp","BuyTicket",0.85), ("tinta/ondaeco.webp","Onda Eco",0.95),
- ("tinta/osetor.webp","O Setor Elétrico",0.6),
- ("tinta/bvba.webp","BVBA Supply",1.15), ("tinta/uma.webp","UMA Raquel Blay",1.0),
+ # escalas pela altura ótica (28/09): o emblema da Da Terrinha pede ~2,2×; nenhuma abaixo de 70% da média dos letreiros.
+ # O Setor Elétrico em 0,7 (≈74% da média, ~210 px no 1440): nome e logo do IOSE estão em aberto com o Victor; não subir sem ele
+ ("tinta/daterrinha.webp","Da Terrinha Alimentos",2.2),
+ ("tinta/buyticket.webp","BuyTicket",0.95), ("tinta/ondaeco.webp","Onda Eco",0.95),
+ ("tinta/osetor.webp","O Setor Elétrico",0.7),
+ ("tinta/bvba.webp","BVBA Supply",1.1), ("tinta/uma.webp","UMA Raquel Blay",1.05),
 ]

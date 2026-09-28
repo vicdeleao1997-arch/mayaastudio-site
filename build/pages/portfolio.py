@@ -20,7 +20,10 @@ CRUMBS = [("Início", "/"), ("Portfólio", None)]
 
 def cases_grid() -> str:
     # 1.ª capa: maior conteúdo da 1.ª dobra no celular (LCP) → eager + fetchpriority=high
-    cards = "".join(f'<div class="pf-grid__item">{c.case_card(s, size="lg", heading="h2", priority=(i == 0))}</div>'
+    # máscara em cascata na ordem de leitura (linha*2 + coluna = i; i * .08, teto .5); coluna par numa 2.ª camada (±4%, só
+    # >= 1024, no card: o .pf-grid__item já tem o degrau de 18% no CSS)
+    dep = ' data-depth="-4" data-depth-from="4" data-depth-m="0" data-depth-group="pf"'
+    cards = "".join(f'<div class="pf-grid__item">{c.case_card(s, size="lg", heading="h2", priority=(i == 0), delay=round(min(i * .08, .5), 2), extra=dep if i % 2 else "")}</div>'
                     for i, s in enumerate(dados.ORDEM_CASES))
     return (f'<section class="sec pf-cases" id="cases" aria-label="Cases"><div class="wrap">'
             f'<div class="pf-grid">{cards}</div></div></section>')
@@ -38,7 +41,8 @@ def clientes() -> str:
     return c.section(
         c.head("Clientes", lines=["Marcas que já passaram", ("pelo estúdio.", "b")],
                text="Marcas diferentes, o mesmo rigor.", cls="pf-clientes__head"),
-        f'<ul class="cols-3 pf-logos" role="list" aria-label="Logos das marcas">{logos}</ul>',
+        f'<ul class="cols-3 pf-logos" role="list" aria-label="Logos das marcas" data-reveal="stagger" data-y="16" '
+        f'data-st=".04">{logos}</ul>',
         id="clientes", tone="cartao", cls="pf-clientes")
 
 

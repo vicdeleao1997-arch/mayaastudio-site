@@ -7,7 +7,9 @@
 .priv__text{grid-column:6 / span 7;max-width:68ch}
 .priv-toc{position:sticky;top:calc(var(--header-h) + var(--frame) + var(--s-6))}
 .priv-toc__label{margin-bottom:var(--s-4)}
-.priv-toc__list{border-bottom:1px solid var(--linha)}
+.priv-toc__list{border-bottom:1px solid var(--linha);position:relative}
+/* marcador do tópico ativo: desliza até ele (70-legal.js, só transform) */
+.toc__ind{position:absolute;left:0;top:0;width:2px;height:1px;background:var(--tinta);transform-origin:0 0;transform:scaleY(0)}
 .priv-toc__list a{display:grid;grid-template-columns:2.4rem minmax(0,1fr);align-items:baseline;gap:var(--s-2);
   padding:.62rem 0;border-top:1px solid var(--linha);text-decoration:none;color:var(--fumaca);
   font-size:var(--fs-small);line-height:1.35;transition:color var(--dur-1) ease}

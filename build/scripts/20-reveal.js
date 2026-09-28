@@ -1,6 +1,11 @@
 /* Revelações por IntersectionObserver (§4.1, §4.2 regras 1 a 3).
    Nada começa invisível no CSS: o estado escondido é aplicado aqui, só em quem ainda está abaixo da dobra
-   (ou na dobra, se o init chegou cedo). Rede de segurança: load + 4 s, hashchange e erro → revealAll(). */
+   (ou na dobra, se o init chegou cedo). Rede de segurança: load + 4 s, hashchange e erro → revealAll().
+   Movimento reduzido: nada se esconde (estado final desde o 1.º paint). Botão e link do direct nunca se escondem nem
+   entram em cascata. Tokens de duração e curva: M.T (00-env.js).
+   Tipos: lines · fade (data-y, data-yp = yPercent) · stagger (data-y, data-st, data-rule, data-arr) · mask
+   (data-mask="box" = cinema, data-noscale) · ink (tinta de cima; data-from="bottom") · count (data-rule, data-land,
+   data-hold = espera M.play) · rule (fio de rótulo sem título depois). */
 (function () {
   var M = window.MAYAA;
   var state = {                   /* el → 'wait' | 'run' | 'done' (espelhado em data-rv, útil para testes) */
@@ -10,76 +15,105 @@
   var all = [];
   var io = null;
   var arm = null;   /* contadores: o número real fica no DOM e só vira 0 pouco antes de entrar na tela */
+  var DM = '[data-magnet],a[href^="https://ig.me/"]';   /* direct: sempre visível */
+  var INK = { top: 'inset(0% 0% 100% 0%)', bottom: 'inset(100% 0% 0% 0%)' }, OPEN = 'inset(0% 0% 0% 0%)';
 
   function num(el, name, dflt) { var v = parseFloat(el.getAttribute(name)); return isNaN(v) ? dflt : v; }
-  function fmt(v, dec) { return v.toFixed(dec).replace('.', ','); }
-  function kids(el) { return Array.prototype.slice.call(el.children); }
+  function has(el, a) { return el.hasAttribute(a); }
+  function mag(el) { return el.matches(DM) || !!el.querySelector(DM); }
+  function kids(el) { return Array.prototype.slice.call(el.children).filter(function (k) { return !mag(k); }); }
   function maskParts(el) {
     var media = el.querySelector('.fig__media, .vid__frame') || el;
-    return { media: media, img: media.querySelector('img, video'), cap: el.querySelector('figcaption') };
+    return { media: media, img: has(el, 'data-noscale') ? null : media.querySelector('img, video'), cap: el.querySelector('figcaption') };
+  }
+  /* extras do contador: fio (.proof__rule) e o × que pousa no fim */
+  function cx(el) {
+    var p = el.parentElement;
+    return { rule: has(el, 'data-rule') ? p.querySelector('.proof__rule') : null, x: has(el, 'data-land') ? p.querySelector('.proof__x') : null };
   }
   function targets(el) {
     var t = el.getAttribute('data-reveal');
-    if (t === 'lines') return el.querySelectorAll('.line__in');
+    if (t === 'lines') return [].slice.call(el.querySelectorAll('.line__in')).concat(el._rule || []);
     if (t === 'stagger') return kids(el);
     if (t === 'mask') { var p = maskParts(el); return [el, p.media, p.img, p.cap].filter(Boolean); }
+    if (t === 'count') { var c = cx(el); return [el, c.rule, c.x].filter(Boolean); }
     return [el];
+  }
+  /* props de entrada da cascata: fio (--r) e seta do caminho (--ax, só onde as setas são horizontais) */
+  function kidFrom(el) {
+    var o = { y: num(el, 'data-y', M.T.y), opacity: 0 };
+    if (has(el, 'data-rule')) o['--r'] = 0;
+    if (has(el, 'data-arr') && M.wide) o['--ax'] = '-8px';
+    return o;
   }
 
   function hide(el) {
-    var g = M.gsap, t = el.getAttribute('data-reveal'), soft = M.reduced;
+    var g = M.gsap, t = el.getAttribute('data-reveal'), T = M.T;
     state.set(el, 'wait');
-    if (t === 'lines') g.set(el.querySelectorAll('.line__in'), soft ? { yPercent: 30, opacity: 0 } : { yPercent: 150 });   /* 150: passa do respiro de .24em da .line */
-    else if (t === 'fade') g.set(el, { y: soft ? 8 : num(el, 'data-y', 24), opacity: 0 });
-    else if (t === 'stagger') g.set(kids(el), { y: soft ? 8 : 24, opacity: 0 });
+    if (t === 'lines') {
+      g.set(el.querySelectorAll('.line__in'), { yPercent: T.lines });   /* 150: passa do respiro de .24em da .line */
+      if (el._rule) g.set(el._rule, { '--r': 0 });
+    } else if (t === 'fade') g.set(el, { y: num(el, 'data-y', T.y), yPercent: num(el, 'data-yp', 0), opacity: 0 });
+    else if (t === 'stagger') g.set(kids(el), kidFrom(el));
     else if (t === 'mask') {
-      if (soft) g.set(el, { opacity: 0 });
-      else {
-        var p = maskParts(el);
-        g.set(p.media, { clipPath: 'inset(100% 0% 0% 0%)' });
-        if (p.img) g.set(p.img, { scale: 1.12 });
-        if (p.cap) g.set(p.cap, { opacity: 0, y: 12 });
-      }
-    } else if (t === 'count') {
+      var p = maskParts(el);
+      g.set(p.media, { clipPath: el.getAttribute('data-mask') === 'box' ? 'inset(14% 0% 14% 0%)' : INK.bottom });
+      if (p.img) g.set(p.img, { scale: T.img });
+      if (p.cap) g.set(p.cap, { opacity: 0, y: 12 });
+    } else if (t === 'ink') g.set(el, { clipPath: INK[el.getAttribute('data-from')] || INK.top });
+    else if (t === 'rule') g.set(el, { '--r': 0 });
+    else if (t === 'count') {
       /* R1-03: não troca o texto por 0 aqui. Buscador, prévia de link e leitor sem CSS leem o número real;
-         o 0 entra só quando o contador está a 35% da tela de aparecer (arm) ou no início da contagem (play). */
-      if (!el.hasAttribute('data-final')) el.setAttribute('data-final', el.textContent);
+         o 0 entra só quando o contador está a 35% da tela de aparecer (arm) ou no início da contagem (play).
+         countPrep prende a largura final (minWidth): a troca de dígitos não desloca nada (CLS 0). */
+      var c = cx(el);
+      M.countPrep(el);
+      if (c.rule) c.rule.style.transform = 'scaleX(0)';
+      if (c.x) g.set(c.x, { yPercent: 40, opacity: 0 });
       if (arm) arm.observe(el);
     }
   }
 
   function done(el) { state.set(el, 'done'); }
 
-  function play(el) {
-    var g = M.gsap, t = el.getAttribute('data-reveal'), soft = M.reduced;
+  function play(el, dl) {
+    var g = M.gsap, t = el.getAttribute('data-reveal'), T = M.T;
     if (state.get(el) !== 'wait') return;
     state.set(el, 'run');
-    var d = num(el, 'data-delay', 0);
+    var d = dl == null ? num(el, 'data-delay', 0) : dl;
     var fin = function () { done(el); };
     if (t === 'lines') {
-      g.to(el.querySelectorAll('.line__in'), soft
-        ? { yPercent: 0, opacity: 1, duration: 0.5, ease: 'power2.out', stagger: 0.06, delay: d, clearProps: 'transform,opacity', onComplete: fin }
-        : { yPercent: 0, duration: 0.9, ease: 'expo.out', stagger: 0.08, delay: d, clearProps: 'transform', onComplete: fin });
+      /* o fio do rótulo "puxa" o título: começa no mesmo frame da 1.ª linha */
+      var ls = el.querySelectorAll('.line__in');
+      if (el._rule) g.to(el._rule, { '--r': 1, duration: T.d4, ease: T.out, delay: d, clearProps: '--r' });
+      g.to(ls, { yPercent: 0, duration: T.d5, ease: T.out, stagger: M.stagger(ls.length, T.sLine), delay: d, clearProps: 'transform', onComplete: fin });
     } else if (t === 'fade') {
-      g.to(el, { y: 0, opacity: 1, duration: soft ? 0.45 : num(el, 'data-dur', 0.8), ease: soft ? 'power2.out' : 'expo.out',
-        delay: d, clearProps: 'transform,opacity', onComplete: fin });
+      g.to(el, { y: 0, yPercent: 0, opacity: 1, duration: num(el, 'data-dur', T.d4), ease: T.out, delay: d, clearProps: 'transform,opacity', onComplete: fin });
     } else if (t === 'stagger') {
-      g.to(kids(el), { y: 0, opacity: 1, duration: soft ? 0.45 : 0.8, ease: soft ? 'power2.out' : 'expo.out',
-        stagger: 0.06, delay: d, clearProps: 'transform,opacity', onComplete: fin });
+      var ks = kids(el), to = { y: 0, opacity: 1, duration: T.d4, ease: T.out, delay: d, onComplete: fin,
+        stagger: M.stagger(ks.length, num(el, 'data-st', T.sList)), clearProps: 'transform,opacity,--r,--ax' };
+      if (has(el, 'data-rule')) to['--r'] = 1;
+      if (has(el, 'data-arr') && M.wide) to['--ax'] = '0px';
+      g.to(ks, to);
     } else if (t === 'mask') {
-      if (soft) { g.to(el, { opacity: 1, duration: 0.5, ease: 'power1.out', delay: d, clearProps: 'opacity', onComplete: fin }); return; }
+      /* mídia e imagem dividem uma só intenção: .9 s expo.out nas duas */
       var p = maskParts(el);
-      g.to(p.media, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.1, ease: 'power2.inOut', delay: d, clearProps: 'clipPath', onComplete: fin });
-      if (p.img) g.to(p.img, { scale: 1, duration: 1.4, ease: 'expo.out', delay: d, clearProps: 'transform' });
-      if (p.cap) g.to(p.cap, { opacity: 1, y: 0, duration: 0.8, ease: 'expo.out', delay: d + 0.35, clearProps: 'transform,opacity' });
+      g.to(p.media, { clipPath: OPEN, duration: T.d5, ease: T.out, delay: d, clearProps: 'clipPath', onComplete: fin });
+      if (p.img) g.to(p.img, { scale: 1, duration: T.d5, ease: T.out, delay: d, clearProps: 'transform' });
+      if (p.cap) g.to(p.cap, { opacity: 1, y: 0, duration: T.d4, ease: T.out, delay: d + 0.35, clearProps: 'transform,opacity' });
+    } else if (t === 'ink') {
+      g.to(el, { clipPath: OPEN, duration: T.d4, ease: T.out, delay: d, clearProps: 'clipPath', onComplete: fin });
+    } else if (t === 'rule') {
+      g.to(el, { '--r': 1, duration: T.d4, ease: T.out, delay: d, clearProps: '--r', onComplete: fin });
     } else if (t === 'count') {
-      var to = num(el, 'data-to', 0), dec = num(el, 'data-dec', 0), o = { v: 0 };
-      var final = el.getAttribute('data-final') || fmt(to, dec);
       if (arm) { try { arm.unobserve(el); } catch (e) {} }
-      el.textContent = fmt(0, dec);
-      g.to(o, { v: to, duration: soft ? 1.0 : 1.6, ease: 'power2.out', delay: d,
-        onUpdate: function () { el.textContent = fmt(o.v, dec); },
-        onComplete: function () { el.textContent = final; fin(); } });
+      var c = cx(el);
+      /* o fio anda no MESMO tween do número; no frame em que a contagem acaba, o × pousa (back.out só aqui) */
+      M.count(el, { delay: d, onUpdate: function (k) { if (c.rule) c.rule.style.transform = k < 1 ? 'scaleX(' + k + ')' : ''; },
+        onComplete: function () {
+          if (c.x) g.to(c.x, { yPercent: 0, opacity: 1, duration: T.d3, ease: T.land, clearProps: 'transform,opacity' });
+          fin();
+        } });
     } else fin();
   }
 
@@ -89,11 +123,12 @@
     if (g) {
       var t = targets(el);
       g.killTweensOf(t);
-      g.set(t, { clearProps: 'transform,opacity,clipPath' });
+      g.set(t, { clearProps: 'transform,opacity,clipPath,--r,--ax' });
     }
     if (el.getAttribute('data-reveal') === 'count') {
       if (arm) { try { arm.unobserve(el); } catch (e) {} }
-      if (el.hasAttribute('data-final')) el.textContent = el.getAttribute('data-final');
+      if (has(el, 'data-final')) el.textContent = el.getAttribute('data-final');
+      el.style.minWidth = el.style.textAlign = '';
     }
     done(el);
   }
@@ -110,10 +145,28 @@
   M.revealAll = function () {
     all.forEach(function (el) { if (io) { try { io.unobserve(el); } catch (e) {} } finish(el); });
   };
+  /* para quem comanda a própria entrada (janela da prova, trilha do processo): tira do IO e toca na hora certa */
+  M.hold = function (el) { if (io) { try { io.unobserve(el); } catch (e) {} } };
+  M.play = function (el, d) { M.hold(el); play(el, d); };
+
+  /* fio do rótulo: pareado com o título que vem logo depois (mesmo frame); sem título, entra sozinho ('rule') */
+  function pair(lab) {
+    for (var s = lab.nextElementSibling, i = 0; s && i < 3; s = s.nextElementSibling, i++) {
+      var t = s.matches('[data-reveal=lines]') ? s : s.querySelector('[data-reveal=lines]');
+      if (t) return t;
+    }
+    return null;
+  }
 
   M.register('reveal', function () {
+    if (M.reduced || !M.gsap || !('IntersectionObserver' in window)) {
+      [].forEach.call(document.querySelectorAll('[data-reveal]'), done); return;
+    }
+    [].forEach.call(document.querySelectorAll('.label--rule:not([data-reveal])'), function (lab) {
+      var t = pair(lab);
+      if (t && !t._rule) t._rule = lab; else lab.setAttribute('data-reveal', 'rule');
+    });
     all = Array.prototype.slice.call(document.querySelectorAll('[data-reveal]'));
-    if (!M.gsap || !('IntersectionObserver' in window)) { all.forEach(done); return; }
     io = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {
         if (en.isIntersecting) { io.unobserve(en.target); play(en.target); }
@@ -124,7 +177,7 @@
         var el = en.target;
         if (!en.isIntersecting) return;
         arm.unobserve(el);
-        if (state.get(el) === 'wait') el.textContent = fmt(0, num(el, 'data-dec', 0));
+        if (state.get(el) === 'wait') el.textContent = M.fmt(0, num(el, 'data-dec', 0));
       });
     }, { rootMargin: '0px 0px 35% 0px' });
     var vh = window.innerHeight;
@@ -133,11 +186,15 @@
       var r = el.getBoundingClientRect();
       if (r.bottom <= 0 && r.top <= 0 && (r.width || r.height)) { done(el); return; }   /* já passou: fica visível */
       if (!r.width && !r.height) { done(el); return; }                                /* escondido por CSS */
+      if (mag(el) && el.getAttribute('data-reveal') !== 'stagger') { done(el); return; }   /* direct: nunca escondido */
+      if (M.vtIn && (el.closest('[data-vt-open]') || el.querySelector('[data-vt-open]'))) { done(el); return; }   /* recebe o morph 'obra' */
+      if (!M.wide && el.closest('.mq--logos')) { done(el); return; }                 /* parede só >= 1024; abaixo é a esteira */
       if (r.top < vh) {                                                                /* na dobra */
         if (late) { done(el); return; }
         hide(el); play(el); return;
       }
-      hide(el); io.observe(el);
+      hide(el);
+      if (!has(el, 'data-hold') || !M.ST) io.observe(el);   /* data-hold: quem toca é a janela da prova (50-scroll.js) */
     });
     var later = function () { setTimeout(sweep, 4000); };
     if (document.readyState === 'complete') later(); else window.addEventListener('load', later);

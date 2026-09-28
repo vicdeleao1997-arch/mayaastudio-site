@@ -14,7 +14,7 @@ def pages():
         f'{c.label("404 · ma", cls="ph__label")}'
         f'{c.title(H1, tag="h1", size="h1", cls="ph__title", enter=True)}'
         f'{c.kanji("間", "ma · espaço", size="xl", cls="err__kanji")}'
-        '<p class="lead ph__lead" data-reveal="fade" data-delay=".3">O endereço pode ter mudado. Aqui, o espaço vazio '
+        '<p class="lead ph__lead" data-reveal="fade" data-delay=".12">O endereço pode ter mudado. Aqui, o espaço vazio '
         'também é conteúdo, mas não era isto que você procurava.</p>'
         '</div>'
         f'<div class="err__links">{c.list_links([("Início", "/"), ("Serviços", "/servicos/"), ("Portfólio", "/portfolio/"), ("Guia · Tráfego pago com IA", "/trafego-pago-com-ia/"), ("Manda CONTA no direct", config.IG_DM)])}</div>'

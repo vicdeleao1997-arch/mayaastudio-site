@@ -1,7 +1,9 @@
 """Home `/` (C1 · §3.1). Texto final do SPEC, letra por letra.
 
-Ordem (28/09): herói · marcas · faixa 01 · Sobre · os três serviços seguidos (tráfego, audiovisual, marketing) ·
-prova 12,55× · Trabalhos · Processo · Contato. Número só onde há sequência real (os passos do Processo)."""
+Ordem (28/09, benchmark): herói · marcas · faixa 01 · Sobre · Tráfego · prova 12,55× (com o direct ao lado) ·
+Audiovisual · Marketing · Trabalhos · Processo · Contato. A prova vem logo depois do tráfego e não sobe mais que isso:
+o logo «O Setor Elétrico» das marcas precisa ficar a mais de 800 caracteres do 12,55 (check 8 lê alt e src).
+Botão tinta só para o direct; "Ver o serviço" é link com seta. Número só onde há sequência real (Processo)."""
 from lib import components as c, config, dados, seo
 from lib.page import Page
 
@@ -10,7 +12,6 @@ DESC = ("Estúdio de tráfego pago com IA em São Paulo. Meta Ads, Google Ads, a
         "com anúncio medido em resultado de caixa, não em curtida.")
 H1 = ["Do conceito", ("à conversão.", "b")]
 BVBA = "/cases/bvba-surrealismo/"
-ANA = "/cases/ana-lauren-modelo-ia/"
 
 
 def hero() -> str:
@@ -19,24 +20,27 @@ def hero() -> str:
         (None, "Audiovisual com IA", "#audiovisual", "↓"),
         (None, "Marketing", "#marketing", "↓"),
     ], cls="home-hero__index")   # Portfólio fica no cabeçalho
-    kanji = c.kanji("間", "ma · o espaço entre o conceito e a conversão", size="xl", cls="home-hero__kanji", reveal=None)
+    dep = ' data-depth-group="hero" data-depth-start="top top"'
+    kanji = c.kanji("間", "ma · o espaço entre o conceito e a conversão", size="xl", cls="home-hero__kanji", reveal=None,
+                    extra=' data-depth="-12" data-depth-m="-6"' + dep)
     return (
         '<section class="home-hero" id="topo" data-hero><div class="wrap home-hero__in">'
-        '<div class="home-hero__top"><p class="label">Tráfego pago com IA · São Paulo</p></div>'
+        f'<div class="home-hero__top"><p class="label" data-depth="0" data-depth-o=".2"{dep}>Tráfego pago com IA · São Paulo</p></div>'
         '<div class="grid home-hero__grid">'
         f'{c.title(H1, tag="h1", size="mega", cls="home-hero__title", enter=True)}'
-        f'<div class="home-hero__k" data-reveal="fade" data-y="16" data-dur="1.2" data-delay=".2">{kanji}</div>'
+        f'<div class="home-hero__k" data-reveal="ink" data-delay=".1">{kanji}</div>'
         '</div>'
         '<div class="grid home-hero__foot">'
         '<div class="home-hero__body">'
-        '<p class="lead" data-reveal="fade" data-delay=".45">Gestão de Meta Ads e Google Ads, com criativo e página feitos '
+        '<p class="lead" data-reveal="fade" data-delay=".12">Gestão de Meta Ads e Google Ads, com criativo e página feitos '
         'no mesmo estúdio. Anúncio medido em resultado de caixa, não em curtida.</p>'
-        f'<div class="home-hero__cta" data-reveal="fade" data-delay=".55">'
+        f'<div class="home-hero__cta">'
         f'<div class="home-hero__ctas">{c.btn("Já anuncia? Manda CONTA no direct", config.IG_DM, external=True)}'
         f'{c.link_arrow("Ou por e-mail", config.MAILTO_DIAG)}</div></div>'
         '</div>'
-        f'<div class="home-hero__idx" data-reveal="fade" data-delay=".5">{idx}</div>'
-        '<p class="home-hero__scroll"><a class="label" href="#marcas">Role <span aria-hidden="true">↓</span></a></p>'
+        f'<div class="home-hero__idx" data-reveal="fade" data-delay=".18">{idx}</div>'
+        '<p class="home-hero__scroll"><a class="label" href="#marcas">Role <span class="mi" aria-hidden="true">'
+        '<span data-reveal="fade" data-yp="-100" data-y="0" data-delay=".9">↓</span></span></a></p>'
         '</div></div></section>'
     )
 
@@ -63,35 +67,21 @@ def trafego() -> str:
         "Gestão de campanhas em Meta Ads e Google Ads para quem já anuncia. Verba lida campanha por campanha, não no "
         "total do mês. O relatório termina numa decisão: o que continua e o que sai.",
         items=dados.SERVICES["trafego-pago"]["entregas"],
-        cta=c.btn("Ver o serviço", "/servicos/trafego-pago/", sr=" de tráfego pago"),
+        cta=c.link_arrow("Ver o serviço", "/servicos/trafego-pago/", sr=" de tráfego pago"),
         extra_ids=("servicos",), label_text="Serviço · Tráfego pago")
 
 
 def audiovisual() -> str:
+    # o reel vai na coluna lateral (sem coluna morta); a Ana segue no card de Trabalhos, com a nota de IA
     vid = c.video("/assets/portfolio/reel-surreal.mp4", "/assets/portfolio/reel-surreal-poster.jpg",
                   "Reel da BVBA Supply: o ouro escorre das molduras de um museu enquanto visitantes atravessam a galeria",
                   caption="Filme · BVBA Supply", link=("Ver case", BVBA))
-    ana = "".join(
-        f'<div class="home-av__ph">{c.figure(src, alt, "Modelo 100% IA", ratio="4/5", sizes="(min-width:1024px) 23vw, 50vw")}</div>'
-        for src, alt in [
-            ("/assets/portfolio/ana-01.jpg",
-             "Ana Lauren, modelo gerada por IA, de vestido preto numa festa à noite, plano aberto"),
-            ("/assets/portfolio/ana-03.jpg",
-             "Ana Lauren, modelo gerada por IA, em plano médio segurando a bolsa"),
-        ])
-    media = (
-        '<div class="grid home-av">'
-        f'<div class="home-av__vid">{vid}</div>'
-        f'<div class="home-av__ana">{ana}'
-        '<div class="home-av__note">'
-        f'{c.note("Nenhuma pessoa real nestas fotos. Ana Lauren é uma modelo criada pela MAYAA com IA.", link=("Ver case", ANA))}'
-        '</div></div></div>')
     return c.service_block(
         "audiovisual", "Feito para ser assistido até o fim.", ["Audiovisual", ("com IA.", "b")],
         "Filme, campanha de produto e modelo sintética. A peça real entra como referência; o que a IA constrói passa "
         "por conferência, quadro a quadro. Direção humana do roteiro ao corte.",
-        cta=c.btn("Ver o serviço", "/servicos/audiovisual-com-ia/", sr=" de audiovisual com IA"),
-        media=media, label_text="Serviço · Audiovisual com IA")
+        cta=c.link_arrow("Ver o serviço", "/servicos/audiovisual-com-ia/", sr=" de audiovisual com IA"),
+        media=f'<div class="home-av">{vid}</div>', label_text="Serviço · Audiovisual com IA")
 
 
 def marketing() -> str:
@@ -99,17 +89,28 @@ def marketing() -> str:
         "marketing", "O que sustenta o anúncio.", [("Marketing.", "b")],
         "Página, formulário, oferta e mensagem que sustentam o anúncio. Construímos o caminho entre o clique e a "
         "venda e medimos cada passo. Quando esse caminho falha, nenhuma campanha resolve.",
-        cta=c.btn("Ver o serviço", "/servicos/marketing/", sr=" de marketing"),
+        items=dados.SERVICES["marketing"]["marcadores"],
+        cta=c.link_arrow("Ver o serviço", "/servicos/marketing/", sr=" de marketing"),
         tone="cartao", label_text="Serviço · Marketing")
 
 
 def trabalhos() -> str:
-    cards = "".join(c.case_card(s, size="md", heading="h3", ratio="1/1")
-                    for s in ("bvba-surrealismo", "alumee-vela-mel", "ana-lauren-modelo-ia"))
+    """Grade quebrada: BVBA grande à esquerda (col 1 a 7), Alumee e Ana empilhadas à direita (col 8 a 12, 3:2).
+    A BVBA usa o quadro da queda (ensaio-03, publicado no case), diferente da faixa 01 e do pôster do reel."""
+    lead = c.case_card("bvba-surrealismo", size="lg", heading="h3", ratio="4/5",
+                       sizes="(min-width:1024px) 56vw, 100vw",   # col 1 a 7: ~770 px no 1440
+                       cover="/assets/cases/bvba-surrealismo/ensaio-03.jpg",
+                       cover_alt="Modelo suspenso no ar, caindo sobre uma vitrine de vidro que derrete, com um gato "
+                                 "sentado no piso")
+    side = "".join(c.case_card(s, size="md", heading="h3", ratio="3/2", delay=.08 * (i + 1))
+                   for i, s in enumerate(("alumee-vela-mel", "ana-lauren-modelo-ia")))
     return c.section(
-        c.label("Trabalhos", cls="label--rule"),
-        f'<div class="cols-3 home-work">{cards}</div>'
-        f'<p class="home-work__more" data-reveal="fade">{c.link_arrow("Ver portfólio", "/portfolio/")}</p>',
+        f'<div class="home-work__head label--rule">{c.label("Trabalhos")}'
+        f'{c.link_arrow("Ver portfólio", "/portfolio/")}</div>'
+        f'{c.title(["Trabalhos", ("do estúdio.", "b")], size="h2", cls="home-work__title")}'
+        f'<div class="home-work"><div class="home-work__lead">{lead}</div>'
+        f'<div class="home-work__side" data-depth="-4" data-depth-from="4" data-depth-m="0" data-depth-id="depth-work">'
+        f'{side}</div></div>',
         id="trabalhos", cls="home-work-sec")
 
 
@@ -134,12 +135,12 @@ def pages():
         c.marquee_logos("Marcas que já passaram pelo estúdio"),
         c.band("/assets/img/bandas/museu-moldura-gato.jpg",
                "Galeria clara de museu com uma moldura dourada que derrete até o piso e um gato sentado num pedestal",
-               "Campanha · BVBA Supply", ("Ver case", BVBA), pos="50% 55%", id="faixa-01"),
+               "Campanha · BVBA Supply", ("Ver case", BVBA), pos="50% 32%", id="faixa-01", height="cine"),
         sobre(),
         trafego(),
+        c.proof(tone="tinta", cta=True),
         audiovisual(),
         marketing(),
-        c.proof(tone="tinta"),
         trabalhos(),
         processo(),
         c.cta("CONTA", "Contato"),

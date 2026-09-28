@@ -120,7 +120,8 @@ def btn(text: str, href: str, kind: str = "primary", arrow: str = "→", externa
     a, arrow, akind, tail = _link_bits(href, arrow, external)
     extra = f'<span class="sr">{esc(sr)}</span>' if sr else ""
     k = "btn--ghost" if kind == "ghost" else ""
-    return (f'<a class="{_cls("btn", k, cls)}"{a}><span class="btn__txt">{esc(text)}</span>{extra}'
+    mg = " data-magnet" if href == config.IG_DM else ""   # direct: ímã no desktop, nunca escondido (55-magnet.js)
+    return (f'<a class="{_cls("btn", k, cls)}"{a}{mg}><span class="btn__txt">{esc(text)}</span>{extra}'
             f'<span class="btn__arrow btn__arrow--{akind}" aria-hidden="true">{arrow}</span>{tail}</a>')
 
 
@@ -154,14 +155,14 @@ def mail_cta(mailto: str, kind: str = "ghost", pre: str | None = None, after: st
 
 
 # ── kanji e índice ───────────────────────────────────────────────────────────
-def kanji(char: str, meaning: str, size: str = "md", cls: str = "", reveal: str | None = "fade",
-          caption: bool = True) -> str:
+def kanji(char: str, meaning: str, size: str = "md", cls: str = "", reveal: str | None = "ink",
+          caption: bool = True, extra: str = "") -> str:
     """Kanji com legenda só do significado ("escalar", "ma · espaço"), como na prancha: o caractere não se repete
     na legenda. Só os seis da prancha."""
     if char not in KANJI_OK:
         raise ValueError(f"kanji fora da prancha: {char}")
     cap = f'<figcaption class="label kanji-fig__cap">{esc(meaning)}</figcaption>' if caption else ""
-    return (f'<figure{attrs(cls=_cls("kanji-fig", "kanji-fig--" + size, cls), data_reveal=reveal)}>'
+    return (f'<figure{attrs(cls=_cls("kanji-fig", "kanji-fig--" + size, cls), data_reveal=reveal)}{extra}>'
             f'<span class="kanji" lang="ja" aria-hidden="true">{esc(char)}</span>{cap}</figure>')
 
 
@@ -177,7 +178,7 @@ def index_nav(items, title: str = "Índice · Serviços", cls: str = "", aria_la
         arrow = it[3] if len(it) > 3 else "→"
         a, arrow, akind, tail = _link_bits(href, arrow, False)
         n = f'<span class="index__num label">{esc(num)}</span>' if num else ""
-        lis.append(f'<li class="index__item"><a{a}>{n}<span class="index__txt">{esc(txt)}</span>'
+        lis.append(f'<li class="index__item" data-focus><a{a}>{n}<span class="index__txt">{esc(txt)}</span>'
                    f'<span class="index__arrow index__arrow--{akind}" aria-hidden="true">{arrow}</span>{tail}</a></li>')
     sem_num = "" if any(it[0] for it in items) else "index--sem-num"
     return (f'<nav class="{_cls("index", sem_num, cls)}" aria-label="{esc(aria_label)}"><p class="label">{esc(title)}</p>'
@@ -190,6 +191,7 @@ def _mq_toggle() -> str:
 
 
 def marquee_logos(label: str = "Marcas que já passaram pelo estúdio", id: str = "marcas") -> str:
+    """≥1024: parede estática (6 logos numa linha, sem animação e sem "Pausar"). Abaixo: o marquee (40-marquee.js)."""
     def track(hidden: bool) -> str:
         lis = []
         for arq, alt, esc_h in dados.CLIENT_LOGOS:
@@ -198,9 +200,9 @@ def marquee_logos(label: str = "Marcas que já passaram pelo estúdio", id: str 
             a = "" if hidden else alt
             lis.append(f'<li class="mq__item" style="--k:{esc_h}"><img src="{src}" alt="{esc(a)}" width="{w}" '
                        f'height="{h}" loading="lazy" decoding="async"></li>')
-        extra = ' aria-hidden="true"' if hidden else ' role="list"'
+        extra = ' aria-hidden="true"' if hidden else ' role="list" data-reveal="stagger" data-y="16" data-st=".04"'
         return f'<ul class="mq__track"{extra}>{"".join(lis)}</ul>'
-    return (f'<section class="mq" id="{esc(id)}" aria-label="{esc(label)}" data-marquee>'
+    return (f'<section class="mq mq--logos" id="{esc(id)}" aria-label="{esc(label)}" data-marquee>'
             f'<div class="wrap mq__head"><p class="label">{esc(label)}</p>{_mq_toggle()}</div>'
             f'<div class="mq__viewport">{track(False)}{track(True)}</div></section>')
 
@@ -217,15 +219,17 @@ def marquee_text(text: str, cls: str = "", label: str = "Faixa de texto em movim
 
 # ── imagem ───────────────────────────────────────────────────────────────────
 def band(src: str, alt: str, cap_left: str, cap_right=None, priority: bool = False, id: str | None = None,
-         pos: str | None = None) -> str:
-    """Faixa de imagem em tela cheia. cap_right: (texto, href) ou HTML pronto. pos: object-position ("50% 55%")."""
+         pos: str | None = None, height: str = "alta") -> str:
+    """Faixa de imagem em tela cheia. cap_right: (texto, href) ou HTML pronto. pos: object-position ("50% 55%").
+    height="alta" (cases: até 85svh, 4:3 no celular) · "cine" (home: min(62svh, 620px), 16:9 no celular)."""
     if isinstance(cap_right, (tuple, list)):
         cap_right = link_arrow(cap_right[0], cap_right[1])
     style = f"--pos:{pos}" if pos else None
     pic = picture(src, alt, "band", cls="band__img", priority=priority)
-    return (f'<figure{attrs(cls="band", id=id)} data-band>'
+    return (f'<figure{attrs(cls=_cls("band", "band--cine" if height == "cine" else ""), id=id)} data-band>'
             f'<div class="band__frame"><div{attrs(cls="band__media", style=style)} data-parallax>{pic}</div></div>'
-            f'<figcaption class="band__cap"><div class="wrap band__cap-in"><span class="label">{esc(cap_left)}</span>'
+            f'<figcaption class="band__cap" data-focus><div class="wrap band__cap-in" data-reveal="fade" data-y="16">'
+            f'<span class="label">{esc(cap_left)}</span>'
             f'{cap_right or ""}</div></figcaption></figure>')
 
 
@@ -261,14 +265,14 @@ def cap_html(cap: str, arrow: bool = False) -> str:
 
 def figure(src: str, alt: str, caption: str | None = None, num: str | None = None, style: str = "tec",
            ratio: str | None = None, fx: bool = True, sizes: str = "grid4", priority: bool = False,
-           link: str | None = None, cls: str = "") -> str:
-    """Figura legendada. style="tec" → "EDITORIAL · 02" (.label); "desc" → "01 · Descrição" (.small).
+           link: str | None = None, cls: str = "", delay: float | None = None, mask: str | None = None) -> str:
+    """Figura legendada. delay: atraso da máscara (cascata calculada aqui, no Python). mask="box": abertura de cinema. style="tec" → "EDITORIAL · 02" (.label); "desc" → "01 · Descrição" (.small).
     fx=False obrigatório em peça com texto (anúncios) e logos. link envolve tudo e leva ao case."""
     cap = _caption(caption, num, style)
     pic = picture(src, alt, sizes, priority=priority, ratio=ratio)
     cap_cls = "label" if style == "tec" else "small"
     capt = f'<figcaption class="fig__cap {cap_cls}">{cap_html(cap, bool(link))}</figcaption>' if cap else ""
-    fig = (f'<figure{attrs(cls=_cls("fig", "fig--" + style, cls), data_reveal="mask", data_fx="distort" if fx else None)}>'
+    fig = (f'<figure{attrs(cls=_cls("fig", "fig--" + style, cls), data_reveal="mask", data_delay=delay or None, data_mask=mask, data_fx="distort" if fx else None)}>'
            f'<div class="fig__media">{pic}</div>{capt}</figure>')
     if link:
         return f'<a class="fig-link" href="{esc(link)}">{fig}<span class="sr">, ver o case</span></a>'
@@ -301,7 +305,7 @@ def video(src: str, poster: str, label: str, ratio: str = "9/16", caption: str |
     cap_cls = "label" if style == "tec" else "small fig__cap"
     capt = (f'<figcaption class="vid__cap"><span class="{cap_cls}">{esc(cap)}</span>{link or ""}</figcaption>'
             if (cap or link) else "")
-    return (f'<figure class="{_cls("vid", "vid--desc" if style == "desc" else "", cls)}" data-reveal="mask">'
+    return (f'<figure class="{_cls("vid", "vid--desc" if style == "desc" else "", cls)}" data-reveal="mask" data-mask="box">'
             f'<div class="vid__frame" style="aspect-ratio:{esc(ratio)}">'
             f'<video{attrs(cls="vid__el", muted=True, playsinline=True, loop=True, preload="none", controls=True, poster=poster, aria_label=label, data_autoplay=True if autoplay else None, data_play=play if autoplay else None)}>'
             f'<source src="{esc(src)}" type="video/mp4"></video></div>{capt}</figure>')
@@ -329,7 +333,7 @@ def deliv_list(items, cls: str = "") -> str:
     """Lista numerada com fios (entregáveis). items: textos."""
     lis = "".join(f'<li><span class="label deliv__num">{i:02d}</span><span class="deliv__txt">{esc(t)}</span></li>'
                   for i, t in enumerate(items, 1))
-    return f'<ol class="{_cls("deliv", cls)}" data-reveal="stagger">{lis}</ol>'
+    return f'<ol class="{_cls("deliv", cls)}" data-reveal="stagger" data-rule>{lis}</ol>'
 
 
 def note(text: str, link=None, cls: str = "") -> str:
@@ -366,7 +370,7 @@ def steps(items, layout: str = "grid", cols: int | None = None, cls: str = "") -
             body = f'<h3 class="t-h3 step__t">{esc(t)}</h3>' + (f'<p class="small step__x">{esc(x)}</p>' if x else "")
             lis.append(f'<li class="step"><span class="label step__num">{esc(num)}</span>{body}</li>')
     if layout == "path":
-        return f'<ol class="{_cls("steps steps--path", cls)}" data-reveal="stagger">{"".join(lis)}</ol>'
+        return f'<ol class="{_cls("steps steps--path", cls)}" data-reveal="stagger" data-arr>{"".join(lis)}</ol>'
     n = cols or (3 if len(items) % 3 == 0 and len(items) > 4 else 2)
     return f'<ol class="{_cls("steps steps--grid", cls)}" style="--cols:{n}" data-reveal="stagger">{"".join(lis)}</ol>'
 
@@ -394,7 +398,7 @@ def list_links(items, cls: str = "") -> str:
             com_thumb = True
             thumb = (f'<span class="llist__th" aria-hidden="true">'
                      f'{picture(th, "", "(min-width:1024px) 5rem, 4rem", ratio="4/5", decorative=True)}</span>')
-        lis.append(f'<li><a{a}><span class="llist__n label">{esc(num)}</span>{thumb}<span class="llist__b">'
+        lis.append(f'<li data-focus><a{a}><span class="llist__n label">{esc(num)}</span>{thumb}<span class="llist__b">'
                    f'<span class="llist__t">{cola(t)}</span>{sub}</span>'
                    f'<span class="llist__a llist__a--{akind}" aria-hidden="true">{arrow}</span>{tail}</a></li>')
     return (f'<ol class="{_cls("llist", "llist--thumbs" if com_thumb else "", cls)}" data-reveal="stagger">'
@@ -429,8 +433,11 @@ def section(*parts, id: str | None = None, tone: str | None = None, cls: str = "
 def service_block(id: str, value: str, title_lines, text, items=None, cta: str | None = None,
                   cta2: str | None = None, media: str = "", extra_ids=(), tone: str = "papel",
                   label_text: str = "Serviço") -> str:
-    """Bloco de serviço. cta/cta2/media: HTML pronto. Sem número e sem kanji (os kanji ficam no Processo)."""
-    side = deliv_list(items) if items else ""
+    """Bloco de serviço. cta/cta2/media: HTML pronto. Sem número e sem kanji (os kanji ficam no Processo).
+    Sem `items`, a mídia vai para a coluna lateral (svc__side): os três blocos com o mesmo esqueleto, sem coluna morta."""
+    side = deliv_list(items) if items else (media or "")
+    if not items:
+        media = ""
     ctas = "".join(x for x in (cta, cta2) if x)
     ctas_html = f'<div class="svc__ctas" data-reveal="fade">{ctas}</div>' if ctas else ""
     media_html = f'<div class="svc__media">{media}</div>' if media else ""
@@ -464,44 +471,54 @@ def manifesto(lines, sub: str, images, id: str = "manifesto", label_text: str = 
 def process(label_text: str, lines, steps_, id: str = "processo", extra_ids=(), num: str | None = None) -> str:
     """Processo com kanji. steps_ = [dict(num="01", kanji="知", meaning="saber", title="Diagnóstico", text="…")]."""
     lis = []
-    for s in steps_:
+    for i, s in enumerate(steps_):
         k = s["kanji"]
         if k not in KANJI_OK:
             raise ValueError(f"kanji fora da prancha: {k}")
-        lis.append(f'<li class="proc__step"><span class="kanji proc__kanji" lang="ja" aria-hidden="true">{esc(k)}</span>'
+        # .proc__card: o empilhamento do celular (scrub) fica no cartão; a cascata (stagger) fica no li
+        lis.append(f'<li class="proc__step" style="--i:{i}"><div class="proc__card">'
+                   f'<span class="kanji proc__kanji" lang="ja" aria-hidden="true" data-reveal="ink">{esc(k)}</span>'
                    f'<div class="proc__body"><p class="label proc__cap">{esc(s["meaning"])}</p>'
                    f'<p class="label proc__num">{esc(s["num"])}</p><h3 class="t-h3 proc__t">{esc(s["title"])}</h3>'
-                   f'<p class="small proc__x">{esc(s["text"])}</p></div></li>')
+                   f'<p class="small proc__x">{esc(s["text"])}</p></div></div></li>')
     return section(
         label(label_text, num=num, cls="label--rule"), title(lines, size="h2", cls="proc__title"),
-        f'<ol class="proc__steps" data-reveal="stagger">{"".join(lis)}</ol>',
+        f'<ol class="proc__steps" data-reveal="stagger" data-proc>{"".join(lis)}</ol>',
         id=id, cls="proc", extra_ids=extra_ids)
 
 
-def proof(tone: str = "tinta", num_label: str | None = None, link: bool | None = None) -> str:
-    """Prova 12,55× · TEXTO FIXO (o check 8 depende disso). Na pilar: num_label="05 · Prova · …" (sem o link)."""
+def proof(tone: str = "tinta", num_label: str | None = None, link: bool | None = None, cta: bool = False) -> str:
+    """Prova 12,55× · TEXTO FIXO (o check 8 depende disso). Na pilar: num_label="05 · Prova · …" (sem o link).
+    Esquerda: número, legenda e 45/12. Direita: texto, ressalvas, aviso e ações.
+    cta=True (home): o direct ao lado da prova, antes de "Como lemos uma conta"."""
     lab = num_label or "Prova · conta de cliente, anonimizada"
     show_link = (num_label is None) if link is None else link
     tone_cls = "sec--tinta on-tinta" if tone == "tinta" else "sec--cartao"
-    lk = f'<p class="proof__more">{link_arrow("Como lemos uma conta", "/trafego-pago-com-ia/")}</p>' if show_link else ""
+    acoes = (btn("Manda CONTA no direct", config.IG_DM, external=True) if cta else "") + \
+        (link_arrow("Como lemos uma conta", "/trafego-pago-com-ia/") if show_link else "")
+    acoes_html = f'<div class="proof__more">{acoes}</div>' if acoes else ""   # sem reveal: tem o direct
+    # contagem: na home (janela de tinta) os números esperam a janela abrir (data-hold, 50-scroll.js); fora dela, IO
+    # com a pausa de .4 s. O fio (.proof__rule) cresce no mesmo tween do número; o × pousa quando a contagem acaba.
+    hold = ' data-hold' if (cta and tone == "tinta") else ' data-delay=".4"'
+    rule = '<span class="proof__rule" aria-hidden="true"></span>'
     return (
         f'<section class="proof sec {tone_cls}" id="prova" aria-labelledby="prova-t"><div class="wrap grid">'
         f'<p class="label label--rule proof__label" id="prova-t">{esc(lab)}</p>'
-        f'<div class="proof__fig"><p class="proof__num"><span data-reveal="count" data-to="12.55" data-dec="2">12,55</span>'
-        f'<span class="proof__x" aria-hidden="true">×</span><span class="sr"> vezes</span></p>'
-        f'<p class="label proof__unit">Retorno em vendas para cada real investido em anúncio · relatório da plataforma</p></div>'
+        f'<div class="proof__fig"><p class="proof__num"><span data-reveal="count" data-to="12.55" data-dec="2" data-rule data-land{hold}>12,55</span>'
+        f'<span class="proof__x" aria-hidden="true">×</span><span class="sr"> vezes</span>{rule}</p>'
+        f'<p class="label proof__unit">Retorno em vendas para cada real investido em anúncio · relatório da plataforma</p>'
+        f'<dl class="proof__stats">'
+        f'<div><dt><span data-reveal="count" data-to="45" data-rule{hold}>45</span>{rule}</dt>'
+        f'<dd>campanhas lidas uma por uma</dd></div>'
+        f'<div><dt><span data-reveal="count" data-to="12" data-rule{hold}>12</span>{rule}</dt>'
+        f'<dd>meses, de set/2025 a ago/2026</dd></div></dl></div>'
         f'<div class="proof__body">'
         f'<p class="lead" data-reveal="fade">Para cada R$ 1 investido em anúncio, R$ 12,55 em vendas, segundo o relatório '
         f'da plataforma. É o topo entre 45 campanhas lidas uma por uma, de set/2025 a ago/2026.</p>'
         f'<ul class="proof__caveats" data-reveal="stagger"><li>Número do relatório da plataforma de anúncio, não do caixa.</li>'
         f'<li>Venda, não lucro.</li><li>Topo, não média.</li></ul>'
-        f'<dl class="proof__stats">'
-        f'<div><dt><span data-reveal="count" data-to="45">45</span></dt>'
-        f'<dd>campanhas lidas uma por uma</dd></div>'
-        f'<div><dt><span data-reveal="count" data-to="12">12</span></dt>'
-        f'<dd>meses, de set/2025 a ago/2026</dd></div></dl>'
         f'<p class="small proof__disc">Resultado de uma conta não é promessa para outra. Cada negócio tem o seu ponto de partida.</p>'
-        f'{lk}</div></div></section>')
+        f'{acoes_html}</div></div></section>')
 
 
 def cta_final(label_text: str, lines, text: str, primary: str, secondary: str | None = None,
@@ -565,7 +582,7 @@ def _hero_curto(crumbs, label_text: str, lines, lead: str | None, kanji, extra: 
     """Abertura curta (cases e portfólio): trilha e rótulo na mesma linha, H1 + kanji, texto logo abaixo, sem fio.
     O conteúdo principal (imagem de abertura, grade de cases) entra na 1.ª dobra."""
     k = _kanji(kanji[0], kanji[1], size="lg", cls="ph__kanji") if kanji else ""
-    lead_html = f'<p class="lead ph__lead" data-reveal="fade" data-delay=".3">{esc(lead)}</p>' if lead else ""
+    lead_html = f'<p class="lead ph__lead" data-reveal="fade" data-delay=".12">{esc(lead)}</p>' if lead else ""
     return (f'<section class="{_cls("ph ph--case", cls)}" data-hero><div class="wrap">'
             f'<div class="ph__top">{breadcrumb(crumbs)}{label(label_text, cls="ph__label")}</div>'
             f'<div class="grid ph__grid">'
@@ -574,27 +591,29 @@ def _hero_curto(crumbs, label_text: str, lines, lead: str | None, kanji, extra: 
 
 
 def page_hero(label_text: str, lines, lead: str | None, kanji=None, ctas=(), crumbs=(), extra: str = "",
-              h1_cls: str = "", sep: str = " ", compact: bool = False) -> str:
+              h1_cls: str = "", sep: str = " ", compact: bool = False, side: str = "") -> str:
     """Abertura de página interna: breadcrumb, rótulo, H1 (col 1-10), kanji (11-12), lead (1-7), CTAs, fio.
-    compact=True: abertura curta (a dos cases), para o conteúdo entrar na 1.ª dobra (ex.: portfólio)."""
+    compact=True: abertura curta (a dos cases), para o conteúdo entrar na 1.ª dobra (ex.: portfólio).
+    side (HTML): mídia ou lista na coluna direita (col 9 a 12, ≥1024); o texto fica nas colunas 1 a 7."""
     if compact and crumbs:
         return _hero_curto(crumbs, label_text, lines, lead, kanji, extra="".join(ctas) + extra, sep=sep,
                            h1_cls=h1_cls, cls="ph--compact")
     k = _kanji(kanji[0], kanji[1], size="lg", cls="ph__kanji") if kanji else ""
     c = "".join(ctas)
-    lead_html = f'<p class="lead ph__lead" data-reveal="fade" data-delay=".3">{esc(lead)}</p>' if lead else ""
-    ctas_html = f'<div class="ph__ctas" data-reveal="fade" data-delay=".4">{c}</div>' if c else ""
+    lead_html = f'<p class="lead ph__lead" data-reveal="fade" data-delay=".12">{esc(lead)}</p>' if lead else ""
+    ctas_html = f'<div class="ph__ctas" data-reveal="fade" data-delay=".18">{c}</div>' if c else ""
+    side_html = f'<div class="ph__side" data-reveal="fade" data-delay=".16">{side}</div>' if side else ""
     crumbs_html = breadcrumb(crumbs) if crumbs else ""
-    return (f'<section class="ph" data-hero><div class="wrap">{crumbs_html}'
+    return (f'<section class="{_cls("ph", "ph--side" if side else "")}" data-hero><div class="wrap">{crumbs_html}'
             f'<div class="grid ph__grid">{label(label_text, cls="ph__label")}'
             f'{title(lines, tag="h1", size="h1", cls=_cls("ph__title", h1_cls), sep=sep, enter=True)}{k}'
-            f'{lead_html}{ctas_html}{extra}</div></div></section>')
+            f'{lead_html}{ctas_html}{side_html}{extra}</div></div></section>')
 
 
 def ficha(rows, cls: str = "") -> str:
     """Ficha técnica: rows = [("Cliente", "BVBA Supply"), …]. cls="ficha--row": em faixa (4 colunas)."""
     items = "".join(f'<div class="ficha__row"><dt class="label">{esc(a)}</dt><dd>{esc(b)}</dd></div>' for a, b in rows)
-    return f'<dl class="{_cls("ficha", cls)}" data-reveal="stagger">{items}</dl>'
+    return f'<dl class="{_cls("ficha", cls)}" data-reveal="stagger" data-rule>{items}</dl>'
 
 
 _CASE_HERO = {
@@ -604,10 +623,12 @@ _CASE_HERO = {
 
 
 def case_hero(slug: str, lead: str, ficha_rows=None, badge: str | None = None, lines=None,
-              label_text: str | None = None, sep: str | None = None) -> str:
+              label_text: str | None = None, sep: str | None = None, side: str = "", side_after: str = "") -> str:
     """Abertura de case, curta como a da NUMIS: trilha e rótulo na mesma linha, H1 e texto de abertura (sem kanji).
     A imagem de abertura vem logo depois (na 1.ª dobra) e a ficha técnica vai junto dela (`ficha(rows,
-    cls="ficha--row")` na página). ficha_rows aqui é opcional (fica à direita do texto, como antes)."""
+    cls="ficha--row")` na página). ficha_rows aqui é opcional (fica à direita do texto, como antes).
+    side (HTML): imagem de abertura dentro da própria abertura, na coluna direita desde o topo do H1 (≥1024; classe
+    .ph--open, 60-cases.css); side_after (HTML): ficha à esquerda, abaixo do texto. No celular: texto, imagem, ficha."""
     cz = dados.CASES[slug]
     d = _CASE_HERO.get(slug, {})
     lines = lines or d.get("lines") or [cz["marca"], (cz["titulo"] + ".", "b")]
@@ -616,25 +637,30 @@ def case_hero(slug: str, lead: str, ficha_rows=None, badge: str | None = None, l
     fic = ficha(ficha_rows) if ficha_rows and not isinstance(ficha_rows, str) else (ficha_rows or "")
     fic_html = f'<div class="ph__ficha">{fic}</div>' if fic else ""
     bdg = f'<p class="badge label" data-reveal="fade">{esc(badge)}</p>' if badge else ""
+    open_html = ((f'<div class="ph__open-media">{side}</div>' if side else "")
+                 + (f'<div class="ph__open-ficha">{side_after}</div>' if side_after else ""))
     return _hero_curto([("Início", "/"), ("Portfólio", "/portfolio/"), (cz["marca"], None)], lab, lines, lead,
-                       None, extra=bdg + fic_html, sep=sep)
+                       None, extra=bdg + fic_html + open_html, sep=sep, cls="ph--open" if side else "")
 
 
 def case_card(slug: str, size: str = "lg", heading: str = "h2", show_line: bool = True,
               fx: bool | None = None, cover: str | None = None, cover_alt: str | None = None,
-              ratio: str | None = "4/5", priority: bool = False) -> str:
+              ratio: str | None = "4/5", priority: bool = False, sizes: str | None = None,
+              delay: float | None = None, extra: str = "") -> str:
     """Card de case. fx=None usa `cover_fx` de CASES (False na capa com texto, como a do IOSE, §2.7.9).
     cover/cover_alt trocam a imagem (ex.: outra peça do mesmo case); ratio=None mantém a proporção do arquivo
     (peça com texto não se recorta). priority=True: 1.ª imagem da dobra (eager + fetchpriority=high)."""
     cz = dados.CASES[slug]
     if fx is None:
         fx = cz.get("cover_fx", True)
-    sizes = "card-lg" if size == "lg" else "card-md"
+    sizes = sizes or ("card-lg" if size == "lg" else "card-md")   # sizes: largura real quando a grade foge do padrão
     pic = picture(cover or cz["cover"], cover_alt or cz["cover_alt"], sizes, ratio=ratio, priority=priority)
     line = f'<p class="small case-card__line">{esc(cz["linha"])}</p>' if show_line else ""
     ia = '<p class="small case-card__ia">100% IA · Nenhuma pessoa real nestas fotos</p>' if cz.get("ia_pessoa") else ""
-    return (f'<article class="case-card case-card--{esc(size)}"><a href="/cases/{esc(slug)}/" class="case-card__link">'
-            f'<figure{attrs(cls="case-card__media", data_reveal="mask", data_fx="distort" if fx else None)}>{pic}</figure>'
+    # data-vt: a imagem vira a abertura do case (65-vt.js) · data-focus: zoom e seta pelo toque (05-motor.js)
+    return (f'<article class="case-card case-card--{esc(size)}" data-focus{extra}>'
+            f'<a href="/cases/{esc(slug)}/" class="case-card__link" data-vt>'
+            f'<figure{attrs(cls="case-card__media", data_reveal="mask", data_delay=delay or None, data_fx="distort" if fx else None)}>{pic}</figure>'
             f'<p class="label case-card__meta">{esc(cz["segmento"])} · {esc(cz["entregavel"])}</p>'
             f'<{heading} class="t-h3 case-card__title">{esc(cz["nome"])}</{heading}>{line}{ia}'
             f'<span class="link-arrow case-card__go" aria-hidden="true">Ver case<span class="link-arrow__a link-arrow__a--in">→</span></span>'
@@ -652,14 +678,19 @@ def case_series(num: str, title_text: str, text: str | None, items, kanji=None, 
     lay = layout if layout != "auto" else ("side" if n == 1 else f"c{min(n, 4)}")
     sizes = {"side": "(min-width:1024px) 58vw, 100vw", "c2": "grid2", "c3": "grid3", "c4": "grid4"}.get(lay, "grid2")
     media = []
-    for it in items:
+    cols = lay in ("c2", "c3", "c4")
+    for i, it in enumerate(items):
+        # colunas: peças pares numa 2.ª camada (±3%, só >= 1024; o invólucro move, a figura revela)
+        dep = (' data-depth="-3" data-depth-from="3" data-depth-m="0" data-depth-group="cs' + num + '"'
+               if cols and i % 2 else "")
         if isinstance(it, str):
-            media.append(f'<div class="cs__item">{it}</div>')
+            media.append(f'<div class="cs__item"{dep}>{it}</div>')
         else:
-            media.append('<div class="cs__item">' + figure(
+            media.append(f'<div class="cs__item"{dep}>' + figure(
                 it["src"], it["alt"], it.get("caption"), it.get("num"), style=it.get("style", "desc"),
                 ratio=it.get("ratio"), fx=it.get("fx", True), sizes=it.get("sizes", sizes),
-                priority=it.get("priority", False), link=it.get("link")) + "</div>")
+                priority=it.get("priority", False), link=it.get("link"),
+                delay=round(min(i * .08, .5), 2) if cols else None) + "</div>")
     k = _kanji(kanji[0], kanji[1], size="md", cls="cs__kanji") if kanji else ""
     corpo = text_html if text_html is not None else (esc(text) if text else "")
     txt = f'<p class="small cs__text" data-reveal="fade">{corpo}</p>' if corpo else ""
@@ -672,13 +703,39 @@ def case_series(num: str, title_text: str, text: str | None, items, kanji=None, 
             f'<div class="wrap"><div class="cs__grid">{corpo_html}</div>{after}</div></section>')
 
 
+# Capa do "Próximo case" em 21:9 (imagem já publicada no case de destino, posição do recorte).
+# O IOSE fica de fora de propósito: capa com texto não se recorta e o logo não se espalha para outra página.
+# Alumee e Ana: a foto de onde a capa 800×1000 foi recortada (mel-01 / ana-02, 1086 px, com -800 e .webp), porque a
+# faixa passa de 800 px no desktop; mesmo enquadramento da capa.
+_NC_CAPA = {
+    "bvba-surrealismo": ("/assets/img/bandas/museu-moldura-gato.jpg", "50% 45%"),
+    "alumee-vela-mel": ("/assets/cases/alumee-vela-mel/mel-01.jpg", "50% 59%"),
+    "ana-lauren-modelo-ia": ("/assets/portfolio/ana-02.jpg", "50% 31%"),
+}
+
+
 def next_case(slug: str, alvo: str | None = None) -> str:
-    """Próximo case. `slug` = case ATUAL; o próximo sai de ORDEM_CASES (circular). `alvo` força outro."""
+    """Próximo case. `slug` = case ATUAL; o próximo sai de ORDEM_CASES (circular). `alvo` força outro.
+    Com capa em _NC_CAPA: cartão com a capa em 21:9 (col 1 a 8) e marca grande + segmento · entregável ao lado,
+    sobre fundo cartão. Sem capa (IOSE): o "Próximo case" tipográfico."""
     ordem = dados.ORDEM_CASES
     nxt = alvo or ordem[(ordem.index(slug) + 1) % len(ordem)]
     cz = dados.CASES[nxt]
+    capa = _NC_CAPA.get(nxt)
+    if capa:
+        pic = picture(capa[0], "", "(min-width:1024px) 60vw, 100vw", ratio="21/9", decorative=True)
+        ia = '<span class="small nc__ia">100% IA · Nenhuma pessoa real nestas fotos</span>' if cz.get("ia_pessoa") else ""
+        return (f'<section class="sec nc nc--capa" aria-label="Próximo case"><div class="wrap">'
+                f'<a class="nc__card" href="/cases/{esc(nxt)}/" data-vt data-focus>'
+                f'<span class="nc__media" aria-hidden="true" style="--pos:{esc(capa[1])}" data-reveal="mask" data-noscale '
+                f'data-zoom>{pic}</span>'
+                f'<span class="nc__body"><span class="label">Próximo case</span>'
+                f'<span class="label nc__meta">{esc(cz["segmento"])} · {esc(cz["entregavel"])}</span>'
+                f'<span class="t-h2 nc__t">{esc(cz["marca"])} <span class="nc__a" aria-hidden="true">→</span></span>'
+                f'{ia}</span></a>'
+                f'<p class="nc__all">{link_arrow("Ver todos os cases", "/portfolio/")}</p></div></section>')
     return (f'<section class="sec nc" aria-label="Próximo case"><div class="wrap">'
-            f'<a class="nc__link" href="/cases/{esc(nxt)}/"><span class="label">Próximo case · {esc(cz["segmento"])} · '
+            f'<a class="nc__link" href="/cases/{esc(nxt)}/" data-vt data-focus><span class="label">Próximo case · {esc(cz["segmento"])} · '
             f'{esc(cz["entregavel"])}</span><span class="t-h2 nc__t">{esc(cz["marca"])} '
             f'<span class="nc__a" aria-hidden="true">→</span></span></a>'
             f'<p class="nc__all">{link_arrow("Ver todos os cases", "/portfolio/")}</p></div></section>')
@@ -718,7 +775,7 @@ def service_row(slug: str) -> str:
     """Linha de serviço (/servicos/): título, linha e marcadores; "Ver serviço" alinhado ao título."""
     s = dados.SERVICES[slug]
     marks = "".join(f"<li>{esc(x)}</li>" for x in s["marcadores"])
-    return (f'<article class="srow"><a class="srow__link" href="{esc(s["url"])}">'
+    return (f'<article class="srow" data-focus><a class="srow__link" href="{esc(s["url"])}">'
             f'<span class="srow__body"><h2 class="t-h2 srow__t">{esc(s["titulo"])}</h2>'
             f'<span class="srow__line">{esc(s["linha"])}</span><ul class="srow__marks">{marks}</ul></span>'
             f'<span class="link-arrow srow__go" aria-hidden="true">Ver serviço<span class="link-arrow__a link-arrow__a--in">→</span></span>'

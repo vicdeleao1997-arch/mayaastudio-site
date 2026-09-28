@@ -21,6 +21,15 @@ ALT_BANDA_GATO = ("Galeria clara de museu com uma moldura dourada que derrete at
                   "num pedestal")
 ALT_BANDA_MOLDURAS = "Parede de museu com três molduras douradas vazias; a do meio escorre até o chão"
 
+# Fichas técnicas: no desktop na coluna direita da abertura; no celular em faixa, depois da imagem de abertura.
+# (Alumee: imagem e ficha dentro da abertura do case, case_hero(side=, side_after=); ficha à esquerda, na 1.ª dobra.)
+FICHA_BVBA = [("Cliente", "BVBA Supply"), ("Segmento", "Moda"),
+              ("Entregável", "Reel 9:16, editorial e cenário"), ("Ano", "2026")]
+FICHA_ANA = [("Projeto", "Próprio da MAYAA"), ("Segmento", "Criativo para anúncio e UGC"),
+             ("Entregável", "Modelo licenciável, fotos e posts"), ("Ano", "2026")]
+FICHA_IOSE = [("Cliente", "IOSE, Instituto O Setor Elétrico"), ("Segmento", "Educação técnica"),
+              ("Entregável", "Gestão de tráfego pago e criativos"), ("Formatos", "Feed, stories e reels")]
+
 
 # ── blocos de página ─────────────────────────────────────────────────────────
 def _ar(src: str) -> str:
@@ -53,9 +62,10 @@ def texto(num: str, nome: str, paragrafos: list[str], feito: list[str] | None = 
             f'<div class="case-txt__body">{corpo}</div></div></section>')
 
 
-def ficha_faixa(rows) -> str:
-    """Ficha técnica em faixa, logo abaixo da imagem de abertura (a abertura sobe para a 1.ª dobra)."""
-    return f'<div class="wrap case-ficha">{c.ficha(rows, cls="ficha--row")}</div>'
+def ficha_faixa(rows, so_celular: bool = False) -> str:
+    """Ficha técnica em faixa, logo abaixo da imagem de abertura (a abertura sobe para a 1.ª dobra).
+    so_celular=True: no desktop a ficha está na coluna direita da abertura (case_hero ficha_rows); aqui só < 1024."""
+    return f'<div class="wrap case-ficha{" case-ficha--cel" if so_celular else ""}">{c.ficha(rows, cls="ficha--row")}</div>'
 
 
 def resumo(frase: str, nota: str, extra: str = "") -> str:
@@ -66,7 +76,8 @@ def resumo(frase: str, nota: str, extra: str = "") -> str:
             f'{extra}{c.note(nota, cls="case-resumo__note")}</div></div></section>')
 
 
-def page(slug: str, title: str, description: str, og_alt: str, body: str, images: list[str], extra_ld=()):
+def page(slug: str, title: str, description: str, og_alt: str, body: str, images: list[str], extra_ld=(),
+         cta: str = "CONTA"):
     cz = dados.CASES[slug]
     path = f"/cases/{slug}/"
     h1 = c.plain(_h1_lines(slug))
@@ -79,8 +90,14 @@ def page(slug: str, title: str, description: str, og_alt: str, body: str, images
         cw_extra["abstract"] = "Nenhuma pessoa real nestas fotos."
     cw = seo.creative_work(path, h1, description, cz["segmento"], cz["entregavel"], images, **cw_extra)
     ld = [cw, *extra_ld, seo.breadcrumb_jsonld(crumbs)]
+    # a 1.ª mídia do case (a abertura) recebe o morph 'obra' da imagem do card (View Transition, 65-vt.js)
+    i = min((j for j in (body.find('class="fig__media"'), body.find('class="band__frame"')) if j >= 0), default=-1)
+    if i >= 0:
+        k = body.index('"', body.index('class="', i) + 7) + 1
+        body = body[:k] + " data-vt-open" + body[k:]
     return Page(path=path, title=title, description=description, h1=h1, body=body, og_image=og, og_alt=og_alt,
-                jsonld=ld, nav="portfolio", og_type="article", priority=0.7, body_class="case-page")
+                jsonld=ld, nav="portfolio", og_type="article", priority=0.7, body_class="case-page", cta=cta,
+                progress=True)
 
 
 def _h1_lines(slug: str):
@@ -131,12 +148,12 @@ def bvba() -> Page:
     body = "".join([
         c.case_hero(slug,
                     "Filme e editorial de coleção num museu que não existe. A roupa é real, o corpo é real. A sala, a "
-                    "luz de galeria e o ouro que escorre pelas paredes foram construídos depois, com IA e com direção."),
+                    "luz de galeria e o ouro que escorre pelas paredes foram construídos depois, com IA e com direção.",
+                    ficha_rows=FICHA_BVBA),
         f'<div class="case-open case-open--band">'
         + c.band("/assets/img/bandas/museu-moldura-gato.jpg", ALT_BANDA_GATO, "Abertura · A sala construída, na horizontal",
                  priority=True, pos="50% 55%", id="abertura")
-        + ficha_faixa([("Cliente", "BVBA Supply"), ("Segmento", "Moda"),
-                       ("Entregável", "Reel 9:16, editorial e cenário"), ("Ano", "2026")]) + "</div>",
+        + ficha_faixa(FICHA_BVBA, so_celular=True) + "</div>",
         c.case_series("", "Ninguém acha estranho.",
                       "Visitantes atravessam a galeria como numa terça-feira qualquer. O museu derrete ao redor e "
                       "ninguém reage. Câmera travada, luz fixa: quem se move é o corpo e o ouro.",
@@ -181,7 +198,7 @@ def bvba() -> Page:
                 "Fashion film e editorial de coleção num museu que não existe. Roupa e corpo reais, sala construída "
                 "com IA a partir de uma imagem-mestre. Case BVBA Supply.",
                 "BVBA Supply · O surrealismo · case de fashion film com IA da MAYAA STUDIO",
-                body, imagens, extra_ld=[seo.video_bvba()])
+                body, imagens, extra_ld=[seo.video_bvba()], cta="COLECAO")
 
 
 # ── 02 · Alumee ──────────────────────────────────────────────────────────────
@@ -209,14 +226,14 @@ def alumee() -> Page:
             f'{c.ig_embed(config.REEL_ALUMEE, "reel", "o reel")}'
             f'</div>')
     body = "".join([
+        # abertura dentro da própria abertura do case: a imagem sobe para a coluna direita desde o H1 (antes a metade
+        # direita da 1.ª dobra ficava vazia no 1440); a ficha fica à esquerda, abaixo do texto
         c.case_hero(slug,
                     "Campanha de lançamento feita a partir do produto real. A vela, o rótulo e a tampa são os de "
-                    "verdade. O mel escorrendo, a pedra e a luz de fim de tarde vieram da IA, conferidos peça por peça."),
-        f'<section class="sec case-open case-open--rev" id="abertura"><div class="wrap grid case-open__grid">'
-        f'<div class="case-open__ficha">'
-        + c.ficha([("Cliente", "Alumee"), ("Segmento", "Velas artesanais"),
-                   ("Entregável", "Campanha de lançamento, fotos e reel"), ("Ano", "2026")])
-        + f'</div>{fit(abertura, _ar(mel01), "case-open__media")}</div></section>',
+                    "verdade. O mel escorrendo, a pedra e a luz de fim de tarde vieram da IA, conferidos peça por peça.",
+                    side=fit(abertura, _ar(mel01)),
+                    side_after=c.ficha([("Cliente", "Alumee"), ("Segmento", "Velas artesanais"),
+                                        ("Entregável", "Campanha de lançamento, fotos e reel"), ("Ano", "2026")])),
         texto("01", "Visão geral", [
             "Produto artesanal vive de detalhe: o papel reciclado do rótulo, a tipografia, a madeira da tampa, o nível "
             "da cera no pote.",
@@ -248,7 +265,8 @@ def alumee() -> Page:
     return page(slug, "Alumee vela Mel · campanha de lançamento com IA · MAYAA STUDIO",
                 "Campanha de lançamento da vela Mel e da Chá Branco, criada com IA a partir do produto real, com "
                 "rótulo, vidro e madeira preservados. Case Alumee.",
-                "Alumee vela Mel · case de campanha de lançamento com IA da MAYAA STUDIO", body, imagens)
+                "Alumee vela Mel · case de campanha de lançamento com IA da MAYAA STUDIO", body, imagens,
+                cta="PROJETO")
 
 
 # ── 03 · Ana Lauren ──────────────────────────────────────────────────────────
@@ -270,12 +288,11 @@ def ana() -> Page:
         c.case_hero(slug,
                     "Modelo criada do zero pela MAYAA com IA. Licenciável para criativo de anúncio e UGC (conteúdo no "
                     "estilo de cliente) da sua marca, com o mesmo rosto em cada cena.",
-                    badge="Nenhuma pessoa real nestas fotos"),
+                    badge="Nenhuma pessoa real nestas fotos", ficha_rows=FICHA_ANA),
         c.case_series("01", "Uma noite, três planos",
                       "O mesmo rosto do plano aberto ao close. É isso que torna a Ana usável em campanha.",
                       fotos, id="abertura",
-                      after=ficha_faixa([("Projeto", "Próprio da MAYAA"), ("Segmento", "Criativo para anúncio e UGC"),
-                                         ("Entregável", "Modelo licenciável, fotos e posts"), ("Ano", "2026")])),
+                      after=ficha_faixa(FICHA_ANA, so_celular=True)),
         texto("01", "Visão geral", [
             "Marca que anuncia precisa de rosto novo com frequência: para testar criativo, para UGC, para falar com "
             "públicos diferentes.",
@@ -301,7 +318,7 @@ def ana() -> Page:
                 "Modelo criada do zero com IA pela MAYAA, com o mesmo rosto em cada cena e licenciável para anúncio e "
                 "UGC. Nenhuma pessoa real nestas fotos.",
                 "Ana Lauren é 100% IA · modelo sintética da MAYAA STUDIO · Nenhuma pessoa real nestas fotos",
-                body, [f["src"] for f in fotos])
+                body, [f["src"] for f in fotos], cta="MODELO")
 
 
 # ── 04 · IOSE (sem número nenhum na página) ──────────────────────────────────
@@ -323,9 +340,7 @@ def iose() -> Page:
                  f'<header class="case-pecas__head">{c.label("Uma peça por curso", cls="label--rule label--5")}'
                  f'<p class="small case-pecas__txt" data-reveal="fade">Cada curso com a sua promessa, a sua data e o '
                  f'seu público. A estrutura da conta segue a mesma lógica.</p></header></div>'
-                 + ficha_faixa([("Cliente", "IOSE, Instituto O Setor Elétrico"), ("Segmento", "Educação técnica"),
-                                ("Entregável", "Gestão de tráfego pago e criativos"),
-                                ("Formatos", "Feed, stories e reels")])
+                 + ficha_faixa(FICHA_IOSE, so_celular=True)
                  + '</section>')
     formatos = [
         dict(src=A_IOSE + "feed-linhas.jpg", num="04", caption="Feed 1:1", fx=False,
@@ -340,7 +355,8 @@ def iose() -> Page:
     body = "".join([
         c.case_hero(slug,
                     "O Instituto O Setor Elétrico forma engenheiros e técnicos em cursos online e ao vivo. Cuidamos "
-                    "da mídia paga: criativo, estrutura de campanha por curso e leitura do que vira inscrição."),
+                    "da mídia paga: criativo, estrutura de campanha por curso e leitura do que vira inscrição.",
+                    ficha_rows=FICHA_IOSE),
         open_html,
         texto("01", "Visão geral", [
             "Cada curso tem turma, data de início e público próprios. Quem procura um curso de linhas de transmissão "

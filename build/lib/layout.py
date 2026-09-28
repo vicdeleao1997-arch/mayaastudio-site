@@ -30,18 +30,31 @@ def _current(path: str, href: str) -> str:
     return ' aria-current="page"' if path == href else ""
 
 
-def header(nav_active: str = "", path: str = "") -> str:
+# Rótulo do CTA do topo = palavra-chave da variante do CTA final da página (não briga com a seção de contato).
+CTA_TOPO = {"CONTA": "Manda CONTA", "MODELO": "Manda MODELO", "PROJETO": "Falar no direct", "COLECAO": "Falar no direct"}
+
+
+PROG = '<span class="hd__prog" aria-hidden="true" hidden></span>'
+
+
+def header(nav_active: str = "", path: str = "", cta_label: str = CTA_TOPO["CONTA"], progress: bool = False) -> str:
+    """Logo + 2 links + 1 CTA (o direct). O CTA aparece em todas as larguras (some só abaixo de 360 px).
+    progress=True (cases, guia, privacidade): fio de leitura na borda de baixo (hidden até o JS ligar)."""
     links = []
     for key, txt, href in NAV:
         cur = ' aria-current="page"' if path == href else (' aria-current="true"' if nav_active == key else "")
         links.append(f'<a href="{href}"{cur}>{txt}</a>')
-    links.append('<a href="#contato">Contato</a>')
-    return (f'<header class="hd" data-header>'
+    tail = " do Instagram (abre em nova aba)" if "direct" in cta_label else " no direct do Instagram (abre em nova aba)"
+    longo = " hd--cta-longo" if len(cta_label) > len(CTA_TOPO["CONTA"]) else ""   # 360 a 389 px: nome, CTA e Menu apertam (30-components.css)
+    return (f'<header class="hd{longo}" data-header>'
             f'<a class="hd__brand" href="/" aria-label="MAYAA STUDIO, início">{_mark("hd__mark")}'
             f'<span class="hd__name">MAYAA STUDIO</span><span class="hd__kana" lang="ja">まやー工房</span></a>'
             f'<nav class="hd__nav" aria-label="Principal">{"".join(links)}</nav>'
-            f'<a class="hd__cta label" href="#contato">Contato</a>'
+            f'<a class="hd__cta" href="{esc(config.IG_DM)}" target="_blank" rel="noopener" data-magnet>'
+            f'<span class="hd__cta-t">{esc(cta_label)}</span>{c.sr(tail)}'
+            f'<span class="hd__cta-a" aria-hidden="true">{c.ICO_OUT}</span></a>'
             f'<button class="hd__menu label" type="button" aria-expanded="false" aria-controls="menu">Menu</button>'
+            f'{PROG if progress else ""}'
             f'</header>')
 
 
@@ -81,12 +94,13 @@ def footer(contato_aqui: bool) -> str:
     srv_html = [f'<a href="{h}">{esc(t)}</a>' for t, h in servicos]
     ext = lambda t, h: (f'<a href="{esc(h)}" target="_blank" rel="noopener">{esc(t)}'
                         f'<span aria-hidden="true"> {c.ICO_OUT}</span>{c.sr(" (abre em nova aba)")}</a>')
-    cont_html = [ext("Instagram", config.IG), ext("LinkedIn", config.LINKEDIN),
+    # o direct é o 1.º contato (a conversão do site); depois perfil, LinkedIn e e-mail
+    cont_html = [ext("Direct · Manda CONTA", config.IG_DM), ext("Instagram", config.IG), ext("LinkedIn", config.LINKEDIN),
                  f'<a class="ft__mail" href="{esc(config.MAILTO_GERAL)}">{esc(config.EMAIL)}</a>']
     return (f'<footer class="ft on-tinta" id="rodape">'
             f'{c.marquee_text("まやー工房 · Do conceito à conversão · MAYAA STUDIO · ", cls="ft__mq")}'
-            f'<div class="wrap grid ft__grid">'
-            f'<div class="ft__brand"><svg class="ft__lk" role="img" aria-label="MAYAA STUDIO, まやー工房" viewBox="520 470 2130 2210">'
+            f'<div class="wrap grid ft__grid" data-reveal="stagger">'
+            f'<div class="ft__brand"><svg class="ft__lk" data-reveal="ink" data-from="bottom" role="img" aria-label="MAYAA STUDIO, まやー工房" viewBox="520 470 2130 2210">'
             f'<use href="/assets/brand/sprite.svg#lk" width="3171" height="3171"/></svg>'
             f'<p class="ft__claim">Estúdio de tráfego pago com IA em São Paulo. Do conceito à conversão.</p>'
             f'{c.pillars_line(cls="ft__pil")}</div>'
@@ -151,7 +165,7 @@ def render(page: Page) -> str:
         f"<body{body_cls}>"
         '<a class="skip" href="#conteudo">Pular para o conteúdo</a>'
         '<div class="frame" aria-hidden="true"></div>'
-        f"{header(page.nav, page.path)}{menu(page.path)}\n"
+        f"{header(page.nav, page.path, CTA_TOPO.get(page.cta.upper(), CTA_TOPO['CONTA']), page.progress)}{menu(page.path)}\n"
         f'<main id="conteudo" tabindex="-1">\n{page.body}\n</main>\n'
         f"{footer(not contato_no_corpo)}\n"
         f'<script type="application/ld+json">{_jsonld(page)}</script>\n'

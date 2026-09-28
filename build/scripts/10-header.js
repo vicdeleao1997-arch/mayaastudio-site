@@ -7,19 +7,36 @@
     var menu = document.getElementById('menu');
     var openBtn = hd.querySelector('.hd__menu');
     var closeBtn = menu && menu.querySelector('.menu__close');
-    var lastY = window.scrollY, ticking = false, isOpen = false;
+    var lastY = window.scrollY, isOpen = false;
     if (M.reduced) hd.style.transitionDuration = 'var(--dur-1)';
 
+    // abaixo de 900 px o cabeçalho fica sempre à vista (o CTA do direct não some ao rolar)
+    var fixo = window.matchMedia ? window.matchMedia('(max-width:899px)') : { matches: false };
+
     function update() {
-      ticking = false;
       var y = window.scrollY;
       hd.classList.toggle('is-scrolled', y > 24);
       var focusInside = hd.contains(document.activeElement);
-      if (!isOpen && !focusInside && y > 400 && y > lastY + 2) hd.classList.add('is-hidden');
+      if (fixo.matches) hd.classList.remove('is-hidden');
+      else if (!isOpen && !focusInside && y > 400 && y > lastY + 2) hd.classList.add('is-hidden');
       else if (y < lastY - 2 || y <= 400 || isOpen || focusInside) hd.classList.remove('is-hidden');
       lastY = y;
     }
-    window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+    M.onScroll(update);   /* rolagem pelo motor (05-motor.js): um listener e um rAF para o site todo */
+
+    /* fio de leitura (cases, guia, privacidade): scaleX = quanto da página já foi lido. Só transform; a altura do
+       documento é lida no resize, no load e quando as fontes chegam, nunca a cada frame. */
+    var prog = hd.querySelector('.hd__prog');
+    if (prog) {
+      var span = 1, measure = function () { span = Math.max(1, document.documentElement.scrollHeight - innerHeight); bar(scrollY); };
+      var bar = function (y) { prog.style.transform = 'scaleX(' + Math.min(1, Math.max(0, y / span)).toFixed(4) + ')'; };
+      prog.hidden = false;
+      M.onScroll(bar);
+      addEventListener('resize', measure, { passive: true });
+      addEventListener('load', measure);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+      measure();
+    }
     hd.addEventListener('focusin', function () { hd.classList.remove('is-hidden'); });
     update();
 

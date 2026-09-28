@@ -91,15 +91,15 @@ Parâmetros marcados HTML recebem o retorno de outro componente (`c.btn(...)`, `
 | `btn(text, href, kind="primary"\|"ghost", sr=None)` · `link_arrow(text, href, sr=None)` · `text_link(text, href)` | seta automática: → interno, ↗ externo (nova aba + aviso para leitor de tela), ↓ âncora `#x` |
 | `mail_cta(config.MAILTO_*, kind="ghost", pre=None)` | e-mail visível + "Copiar e-mail" |
 | `kanji(char, meaning, size="md"\|"lg"\|"xl")` | só 間 知 築 創 磨 展 |
-| `index_nav(items)` · `marquee_logos()` · `band(src, alt, cap_left, cap_right=(txt, href), pos="50% 55%")` | |
+| `index_nav(items)` · `marquee_logos()` · `band(src, alt, cap_left, cap_right=(txt, href), pos="50% 55%", height="alta")` | `marquee_logos`: parede estática a partir de 1024 px, marquee abaixo (sem animação com movimento reduzido). `band(height="cine")`: faixa min(62svh, 620px), 16:9 no celular (home) |
 | `figure(src, alt, caption, num, style="tec"\|"desc", ratio, fx, link)` · `image_grid(items, cols, ratio, offset)` | `tec`: "Editorial · 02"; `desc`: "01 · Descrição". `fx=False` em peça com texto |
 | `video(src, poster, label, caption, num, link=(txt, href))` · `ig_embed(url, kind, what, link_text)` | |
 | `deliv_list(items)` · `steps(items, layout="grid"\|"path")` · `note(text, link=(txt, href))` · `list_links(items)` | `steps`: str, `(título, texto)` ou dict |
-| `service_block(...)` · `manifesto(...)` · `process(...)` · `proof(tone, num_label)` | `proof` tem texto fixo; com `num_label` (pilar) some o link "Como lemos uma conta" |
+| `service_block(...)` · `manifesto(...)` · `process(...)` · `proof(tone, num_label, link, cta=False)` | `proof` tem texto fixo; com `num_label` (pilar) some o link "Como lemos uma conta"; `cta=True` põe o direct ao lado da prova (home). `service_block` sem `items` põe a mídia na coluna lateral |
 | `cta_final(label, lines, text, primary, secondary, note)` · `cta("CONTA"\|"PROJETO"\|"COLECAO"\|"MODELO", label, secondary=None)` | `cta()` já traz o texto de §3.0.4 |
-| `breadcrumb(items)` · `page_hero(label, lines, lead, kanji, ctas, crumbs, extra)` | |
+| `breadcrumb(items)` · `page_hero(label, lines, lead, kanji, ctas, crumbs, extra, side="")` | `side` (HTML): mídia ou lista na coluna direita da abertura (col 9 a 12) |
 | `case_hero(slug, lead, ficha_rows, badge=None)` · `ficha(rows)` · `case_card(slug, size, heading, fx=None)` | rótulo e H1 saem de `CASES` (exceções da BVBA e da Ana já embutidas; `lines=`/`label_text=` forçam). `fx=None` lê `cover_fx` de `CASES` (IOSE = sem distorção, capa com texto) |
-| `case_series(num, title, text, items, kanji, layout="auto", cls="", text_html=None)` · `next_case(slug)` | `text_html`: texto com link já em HTML. Mídia de proporção natural: envolver em `.case-fit` com `style="--ar:L/A"`. `next_case` recebe o case ATUAL e mostra o próximo da ordem |
+| `case_series(num, title, text, items, kanji, layout="auto", cls="", text_html=None)` · `next_case(slug)` | `text_html`: texto com link já em HTML. Mídia de proporção natural: envolver em `.case-fit` com `style="--ar:L/A"`. `next_case` recebe o case ATUAL e mostra o próximo da ordem, com capa 21:9 (`_NC_CAPA`); o IOSE fica tipográfico |
 | `faq(items, label, lines, id="perguntas")` | parágrafo pode ser `(texto, href)` para virar link; `seo.faq_jsonld(items)` usa o mesmo `items` |
 | `service_row(slug)` · `pillars_table()` · `pillars_line()` | |
 

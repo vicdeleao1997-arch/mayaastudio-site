@@ -143,7 +143,7 @@ def _toc(secoes) -> str:
         for i, (t, _b) in enumerate(secoes, 1))
     return (f'<nav class="priv-toc" aria-labelledby="priv-toc-t" data-priv-toc>'
             f'<p class="label priv-toc__label" id="priv-toc-t">Nesta página · 11 tópicos</p>'
-            f'<ol class="priv-toc__list">{lis}</ol></nav>')
+            f'<ol class="priv-toc__list">{lis}<li class="toc__ind" aria-hidden="true"></li></ol></nav>')
 
 
 def _artigos(secoes) -> str:
@@ -174,5 +174,5 @@ def pages():
         og_image=OG, og_alt=OG_ALT,
         jsonld=[seo.webpage(PATH, TITLE, DESC, OG),
                 seo.breadcrumb_jsonld(CRUMBS)],
-        changefreq="yearly", priority=0.3, body_class="priv-page",
+        changefreq="yearly", priority=0.3, body_class="priv-page", progress=True,
     )]

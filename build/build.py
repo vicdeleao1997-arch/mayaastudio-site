@@ -46,18 +46,65 @@ def write_atomic(path: Path, data: str | bytes) -> None:
             time.sleep(0.4 * (i + 1))
 
 
+_CSS_STR = re.compile(r'"(?:[^"\\\n]|\\.)*"|\'(?:[^\'\\\n]|\\.)*\'')
+
+
+def _css_min(s: str) -> str:
+    # Só o que é seguro: espaço em volta de { } ; , e DEPOIS de ':'. NUNCA antes de ':' (".on-tinta :focus-visible"
+    # é descendente; sem o espaço vira outra regra). Não toca em + e - (calc) nem em "/" (grid-column, font).
+    s = re.sub(r"\s+", " ", s)
+    s = re.sub(r"\s*([{};,])\s*", r"\1", s)
+    return re.sub(r":\s+", ":", s)
+
+
 def _css_enxuto(css: str) -> str:
-    """Tira comentários e linhas vazias do CSS publicado (os comentários ficam na fonte, em styles/)."""
+    """CSS publicado enxuto: sem comentários, indentação e espaços desnecessários (a fonte fica legível em styles/).
+    Strings ("…" e '…', ex. content:) passam intactas."""
     css = re.sub(r"/\*.*?\*/", "", css, flags=re.S)
-    return "\n".join(l.rstrip() for l in css.splitlines() if l.strip())
+    out, pos = [], 0
+    for m in _CSS_STR.finditer(css):
+        out += [_css_min(css[pos:m.start()]), m.group()]
+        pos = m.end()
+    out.append(_css_min(css[pos:]))
+    return "".join(out).strip()
+
+
+def _aspas_ok(s: str) -> bool:
+    return s.count("'") % 2 == 0 and s.count('"') % 2 == 0 and "`" not in s
+
+
+def _js_enxuto(js: str) -> str:
+    """JS publicado enxuto, só por linha e só o que é seguro (sem reescrever código): tira indentação, linhas vazias,
+    linhas que são só comentário (// ou /* … */ em bloco) e o /* … */ no fim de uma linha de código quando as aspas
+    antes dele fecham. Quebras de linha ficam (ASI intacto). A fonte fica comentada em scripts/."""
+    out, bloco = [], False
+    for l in js.splitlines():
+        s = l.strip()
+        if bloco:
+            bloco = "*/" not in s
+            if not bloco and not s.endswith("*/"):
+                raise ValueError(f"comentário de bloco com código depois: {s[:60]}")
+            continue
+        if not s or s.startswith("//"):
+            continue
+        if s.startswith("/*"):
+            if "*/" not in s:
+                bloco = True
+                continue
+            if s.endswith("*/") and s.index("*/") == len(s) - 2:
+                continue
+        m = re.match(r"^(.*?\S)\s+/\*((?:(?!\*/).)*)\*/$", s)
+        if m and _aspas_ok(m.group(1)) and _aspas_ok(m.group(2)):
+            s = m.group(1)
+        out.append(s)
+    return "\n".join(out)
 
 
 def bundle(folder: str, out: Path, sep: str) -> str:
     parts = []
     for f in sorted((BUILD / folder).glob("*.css" if folder == "styles" else "*.js")):
         src = f.read_text(encoding="utf-8").strip()
-        if folder == "styles":
-            src = _css_enxuto(src)
+        src = _css_enxuto(src) if folder == "styles" else _js_enxuto(src)
         parts.append(f"{sep[0]} {f.name} {sep[1]}\n" + src + "\n")
     data = "\n".join(parts)
     write_atomic(out, data)

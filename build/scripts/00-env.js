@@ -21,6 +21,20 @@
   if (M.gsap && M.ST) { try { M.gsap.registerPlugin(M.ST); } catch (e) {} }
   M.mode = M.reduced ? 'suave' : 'completo';
 
+  /* tokens de movimento = 00-tokens.css (d1/d3/d5 = --dur-1/2/3). Sem bounce nem elastic. */
+  var T = M.T = { d0: .12, d1: .2, d2: .24, d3: .45, d4: .8, d5: .9, count: 1.6, hold: .4,
+    out: 'expo.out', 'in': 'power4.in', io: 'power2.inOut', snap: 'power3.out', land: 'back.out(1.4)',
+    y: 24, y16: 16, lines: 150, img: 1.12, zoom: 1.035, mag: .3, magMax: 10, magPad: 24, stack: .94, stackStep: 8,
+    sLogo: .04, sList: .06, sLine: .08, cap: .5 };
+  /* atraso por item, cascata total <= .5 s */
+  M.stagger = function (n, b) { return n > 1 ? Math.min(b == null ? T.sList : b, T.cap / (n - 1)) : 0; };
+  M.touch = !M.fine;
+  /* chegou por View Transition: a mídia do morph não se esconde */
+  try {
+    M.vtIn = !M.reduced && CSS.supports('view-transition-name:a') && !!((window.navigation && navigation.activation &&
+      navigation.activation.from) || document.referrer.indexOf(location.origin) === 0);
+  } catch (e) {}
+
   M.webglOK = function () {
     try {
       var c = document.createElement('canvas');

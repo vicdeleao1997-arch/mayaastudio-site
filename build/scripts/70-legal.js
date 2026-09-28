@@ -1,6 +1,6 @@
 /* Política de privacidade (grupo legal-seo): marca no índice lateral o tópico que está sendo lido
-   (o último cujo topo já passou de 35% da altura da janela). Só marcação (aria-current="location");
-   nada se move, vale igual nos modos completo e suave. */
+   (o último cujo topo já passou de 35% da altura da janela): aria-current="location" e um marcador que desliza até
+   ele (no reduzido, pula sem transição). */
 (function () {
   var M = window.MAYAA;
   if (!M || !M.register) return;
@@ -24,10 +24,21 @@
       if (atual) atual.a.removeAttribute('aria-current');
       if (alvo) alvo.a.setAttribute('aria-current', 'location');
       atual = alvo;
+      move();
+    }
+    /* marcador de 2 px que desliza até o tópico ativo (só transform; posições lidas no início e no resize) */
+    var ind = nav.querySelector('.toc__ind'), box = [];
+    if (ind && !M.reduced) ind.style.transition = 'transform var(--d2) var(--ease-snap)';
+    function read() { box = items.map(function (it) { return [it.a.offsetLeft, it.a.offsetTop, it.a.offsetHeight]; }); move(); }
+    function move() {
+      if (!ind || !box.length) return;
+      var i = items.indexOf(atual), b = box[i];
+      ind.style.transform = b ? 'translate(' + b[0] + 'px,' + b[1] + 'px) scaleY(' + b[2] + ')' : 'scaleY(0)';
     }
     function onScroll() { if (!pendente) { pendente = true; window.requestAnimationFrame(mark); } }
     window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll, { passive: true });
+    window.addEventListener('resize', function () { read(); onScroll(); }, { passive: true });
     mark();
+    read();
   });
 })();

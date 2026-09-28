@@ -36,6 +36,36 @@ th{text-align:left;font-weight:500}
   background:var(--tinta);color:var(--papel);padding:.9em 1.3em;font:500 var(--fs-label)/1 var(--f-body);
   letter-spacing:var(--tr-label);text-transform:uppercase;text-decoration:none;transform:translateY(-200%)}
 .skip:focus,.skip:focus-visible{transform:none;outline-color:var(--papel)}
+/* transição entre páginas (View Transitions entre documentos, sem JS): a antiga sobe 16 px e some (.18s, power4.in);
+   a nova entra em fade (.24s) com .06s de atraso, sobrepostas: o corte cai em pleno movimento. O cabeçalho fica
+   parado costurando as páginas, em três grupos: a marca (hd-marca, igual nas duas) não se mexe; o CTA do direct
+   (hd-cta) troca seco; o resto (hd: menu, fundo) troca em sequência, a antiga sai (.12s) antes de a nova entrar, sem dupla exposição quando
+   rótulo do CTA e itens do menu mudam de lugar. 'obra': a imagem do card vira a abertura do case (65-vt.js). */
+@media (prefers-reduced-motion:no-preference){
+  @view-transition{navigation:auto}
+  ::view-transition-old(root){animation:vt-out var(--d-out) var(--ease-in) both}
+  ::view-transition-new(root){animation:vt-in var(--d2) var(--ease-out) .06s both}
+  ::view-transition-old(hd){animation:vt-fora var(--d0) var(--ease-in) both}
+  ::view-transition-new(hd){animation:vt-in .18s var(--ease-out) var(--d0) both}
+  .hd>.hd__brand{view-transition-name:hd-marca}
+  /* o CTA do direct nunca esmaece: corte seco, já no lugar e no rótulo da página nova */
+  .hd>.hd__cta{view-transition-name:hd-cta}
+  ::view-transition-group(hd-cta),::view-transition-new(hd-cta){animation:none}
+  ::view-transition-old(hd-cta){animation:none;opacity:0}
+  ::view-transition-group(obra){animation-duration:.4s;animation-timing-function:var(--ease-out)}
+  ::view-transition-old(obra),::view-transition-new(obra){height:100%;object-fit:cover}
+  .hd{view-transition-name:hd}
+  .hd__kana{transition:clip-path var(--dur-2) var(--ease-out),opacity var(--dur-2)}
+  /* processo no celular: cartões que se empilham (o próximo cobre o anterior; 50-scroll.js encolhe o coberto) */
+  @media (max-width:639px){.proc__step{position:sticky;top:calc(var(--header-h) + var(--frame) + var(--i)*8px);background:var(--papel)}}
+  [data-vt-open]{view-transition-name:obra}
+}
+@keyframes vt-out{to{opacity:0;transform:translateY(-16px)}}
+@keyframes vt-in{from{opacity:0}}
+@keyframes vt-fora{to{opacity:0}}
+/* motor (05-motor.js): peças do split e contador com largura presa (minWidth) */
+.sp,.sp__in,[data-reveal=count],.mi>*{display:inline-block}
+.mi{display:inline-block;overflow:hidden}
 .sr{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .anchor{display:block;height:0;overflow:hidden}
 .prose ul{list-style:disc;padding-left:1.2em}
