@@ -1,7 +1,7 @@
 """Páginas de case (C3 · SPEC §3.8 a §3.12). Texto final do SPEC, letra por letra.
 
 Estrutura comum (formato de case da NUMIS, na identidade da MAYAA):
-case_hero + abertura · 01 Visão geral · 02 Abordagem + "O que foi feito" · séries por tema · 03 Resumo · nota ·
+case_hero + abertura · Visão geral · Abordagem + "O que foi feito" · séries por tema · Resumo · nota ·
 cta_final · next_case. Numeração de legenda contínua dentro de cada case. Nenhuma métrica em nenhum case.
 CSS próprio em styles/60-cases.css (prefixo .case-).
 """
@@ -39,7 +39,8 @@ def fig(src: str, alt: str, caption: str, num: str, fx: bool = True, sizes: str 
 
 
 def texto(num: str, nome: str, paragrafos: list[str], feito: list[str] | None = None, id: str | None = None) -> str:
-    """01 · Visão geral / 02 · Abordagem: rótulo à esquerda, texto à direita (1.º parágrafo em Shippori)."""
+    """Visão geral / Abordagem: rótulo de seção (fio na largura toda) e texto logo abaixo (1.º parágrafo em Shippori).
+    `num` fica na assinatura por compatibilidade; rótulo de seção não leva número."""
     p1, *resto = paragrafos
     corpo = f'<p class="case-txt__lead" data-reveal="fade">{esc(p1)}</p>'
     corpo += "".join(f'<p class="case-txt__p" data-reveal="fade">{esc(p)}</p>' for p in resto)
@@ -48,7 +49,7 @@ def texto(num: str, nome: str, paragrafos: list[str], feito: list[str] | None = 
                   f'{c.deliv_list(feito, cls="case-feito__list")}</div>')
     return (f'<section{attrs(cls="sec case-txt", id=id)}>'
             f'<div class="wrap grid case-txt__grid">'
-            f'{c.label(nome, num=num, cls="label--rule case-txt__label")}'
+            f'{c.label(nome, cls="label--rule case-txt__label")}'
             f'<div class="case-txt__body">{corpo}</div></div></section>')
 
 
@@ -58,9 +59,9 @@ def ficha_faixa(rows) -> str:
 
 
 def resumo(frase: str, nota: str, extra: str = "") -> str:
-    """03 · Resumo: frase em Shippori + (extra) + nota de IA / de "sem número"."""
+    """Resumo: frase em Shippori + (extra) + nota de IA / de "sem número"."""
     return (f'<section class="sec case-txt case-resumo" id="resumo"><div class="wrap grid case-txt__grid">'
-            f'{c.label("Resumo", num="03", cls="label--rule case-txt__label")}'
+            f'{c.label("Resumo", cls="label--rule case-txt__label")}'
             f'<div class="case-txt__body"><p class="case-resumo__t" data-reveal="fade">{esc(frase)}</p>'
             f'{extra}{c.note(nota, cls="case-resumo__note")}</div></div></section>')
 
@@ -94,10 +95,10 @@ def bvba() -> Page:
     slug = "bvba-surrealismo"
     reel = c.video("/assets/portfolio/reel-surreal.mp4", "/assets/portfolio/reel-surreal-poster.jpg",
                    "Reel da BVBA Supply: visitantes atravessam um museu que derrete ao redor",
-                   caption="Reel · 9:16 · 0:15", link=("Ver o reel no Instagram", config.REEL_BVBA))
+                   caption="Reel · 9:16 · 0:15", link=("Ver o reel no Instagram", config.REEL_BVBA), style="desc")
 
-    def it(nome, num, cap, alt):
-        return dict(src=A_BVBA + nome, num=num, caption=cap, alt=alt)
+    def it(nome, num, cap, alt, **kw):
+        return dict(src=A_BVBA + nome, num=num, caption=cap, alt=alt, **kw)
 
     ensaio = [
         it("ensaio-01.jpg", "01", "Sala clara, vão de céu ao fundo",
@@ -109,11 +110,13 @@ def bvba() -> Page:
     ]
     sala = [
         it("sala-01.jpg", "04", "Moldura escorrendo, plano aberto",
-           "Galeria clara com moldura dourada derretendo pela parede e gato sentado num pedestal"),
-        it("sala-02.jpg", "05", "O pedestal cede", "Gato sentado sobre um pedestal branco que derrete e se espalha pelo chão"),
+           "Galeria clara com moldura dourada derretendo pela parede e gato sentado num pedestal", ratio="4/5"),
+        it("sala-02.jpg", "05", "O pedestal cede", "Gato sentado sobre um pedestal branco que derrete e se espalha pelo chão",
+           ratio="4/5"),
         it("sala-03.jpg", "06", "A parede de ouro",
-           "Parede de ouro líquido escorrendo até formar uma poça no piso, com um gato ao lado"),
-        it("sala-04.jpg", "07", "A gota, em detalhe", "Detalhe vertical de uma gota de ouro caindo numa poça dourada"),
+           "Parede de ouro líquido escorrendo até formar uma poça no piso, com um gato ao lado", ratio="4/5"),
+        it("sala-04.jpg", "07", "A gota, em detalhe", "Detalhe vertical de uma gota de ouro caindo numa poça dourada",
+           ratio="4/5"),
     ]
     registros = [
         it("registro-01.jpg", "08", "Ausência: a tela caiu",
@@ -130,14 +133,14 @@ def bvba() -> Page:
                     "Filme e editorial de coleção num museu que não existe. A roupa é real, o corpo é real. A sala, a "
                     "luz de galeria e o ouro que escorre pelas paredes foram construídos depois, com IA e com direção."),
         f'<div class="case-open case-open--band">'
-        + c.band("/assets/img/bandas/museu-moldura-gato.jpg", ALT_BANDA_GATO, "00 · A sala construída, na horizontal",
+        + c.band("/assets/img/bandas/museu-moldura-gato.jpg", ALT_BANDA_GATO, "Abertura · A sala construída, na horizontal",
                  priority=True, pos="50% 55%", id="abertura")
         + ficha_faixa([("Cliente", "BVBA Supply"), ("Segmento", "Moda"),
                        ("Entregável", "Reel 9:16, editorial e cenário"), ("Ano", "2026")]) + "</div>",
-        c.case_series("00", "Ninguém acha estranho.",
+        c.case_series("", "Ninguém acha estranho.",
                       "Visitantes atravessam a galeria como numa terça-feira qualquer. O museu derrete ao redor e "
                       "ninguém reage. Câmera travada, luz fixa: quem se move é o corpo e o ouro.",
-                      [fit(reel, "0.5625", "case-fit--vid")], id="filme"),
+                      [fit(reel, "0.5625", "case-fit--vid")], id="filme", label_text="Filme"),
         texto("01", "Visão geral", [
             "Uma coleção pedia um cenário que nenhum estúdio alugado entrega: um museu surreal, sóbrio, com a mesma "
             "sala em todas as fotos e em todos os planos do vídeo.",
@@ -161,11 +164,11 @@ def bvba() -> Page:
                       "pintura estranha.", sala, id="sala"),
         c.case_series("03", "Os outros registros",
                       "Um estranhamento por enquadramento: ausência, escala, sombra e o gato como acervo.",
-                      registros, kanji=("間", "ma · espaço"), id="registros"),
+                      registros, id="registros"),
         f'<div class="case-open case-open--band case-close">'
         + c.band("/assets/img/bandas/museu-tres-molduras.jpg", ALT_BANDA_MOLDURAS, "12 · Três molduras, uma cede",
                  pos="50% 40%", id="fecho") + "</div>",
-        resumo("Uma sala construída segurou onze imagens e um filme sem trocar de cara. A roupa e o corpo ficaram "
+        resumo("Uma sala construída segurou todas as imagens e o filme sem trocar de cara. A roupa e o corpo ficaram "
                "reais; o surreal ficou no prédio.",
                "Imagens geradas e compostas com IA a partir de ensaio fotográfico real, com direção da MAYAA. Esta "
                "página mostra criação; não há número de mídia aqui."),
@@ -186,24 +189,24 @@ def alumee() -> Page:
     slug = "alumee-vela-mel"
     mel01, mel02 = A_ALU + "mel-01.jpg", A_ALU + "mel-02.jpg"
     cha = [
-        dict(src=A_ALU + "cha-01.jpg", num="04", caption="Composição final, chama alta",
+        dict(src=A_ALU + "cha-01.jpg", num="04", caption="Composição final, chama alta", ratio="3/4",
              alt="Vela Chá Branco da Alumee acesa sobre tecido claro, com galhos de flores brancas em primeiro plano"),
-        dict(src=A_ALU + "cha-02.jpg", num="05", caption="Estética editorial, tecido e flor",
+        dict(src=A_ALU + "cha-02.jpg", num="05", caption="Estética editorial, tecido e flor", ratio="3/4",
              alt="Vela Chá Branco da Alumee acesa sobre tecido cremoso, com uma haste de flor branca e um anel"),
     ]
     abertura = fig(mel01, "Vela Mel da Alumee fechada, com mel escorrendo de uma colher sobre a tampa de madeira até a "
                    "pedra", "Mel sobre a tampa fechada", "01", priority=True, sizes="(min-width:1024px) 45vw, 100vw")
     mel_det = A_ALU + "mel-detalhe.jpg"   # recorte da arte aprovada (vela Mel fechada), sem nenhuma edição
     serie_mel = [
-        dict(src=mel02, num="02", caption="Pote aberto, tampa em pé",
+        dict(src=mel02, num="02", caption="Pote aberto, tampa em pé", ratio="3/4",
              alt="Vela Mel da Alumee aberta, com a tampa de madeira em pé e o mel escorrendo por fora"),
-        dict(src=mel_det, num="03", caption="Detalhe: rótulo, madeira e mel",
+        dict(src=mel_det, num="03", caption="Detalhe: rótulo, madeira e mel", ratio="3/4",
              alt="Detalhe da vela Mel da Alumee: rótulo de papel reciclado, tampa de madeira e o fio de mel que "
                  "escorre até a pedra"),
     ]
     reel = (f'<div class="case-reel">{c.label("O reel de lançamento", cls="case-reel__label")}'
             f'<p class="small case-reel__txt">O lançamento em vídeo está no Instagram da MAYAA.</p>'
-            f'{c.ig_embed(config.REEL_ALUMEE, "reel", "o reel", link_text="Ver o reel de lançamento no Instagram")}'
+            f'{c.ig_embed(config.REEL_ALUMEE, "reel", "o reel")}'
             f'</div>')
     body = "".join([
         c.case_hero(slug,
@@ -270,7 +273,7 @@ def ana() -> Page:
                     badge="Nenhuma pessoa real nestas fotos"),
         c.case_series("01", "Uma noite, três planos",
                       "O mesmo rosto do plano aberto ao close. É isso que torna a Ana usável em campanha.",
-                      fotos, id="abertura", media_first=True,
+                      fotos, id="abertura",
                       after=ficha_faixa([("Projeto", "Próprio da MAYAA"), ("Segmento", "Criativo para anúncio e UGC"),
                                          ("Entregável", "Modelo licenciável, fotos e posts"), ("Ano", "2026")])),
         texto("01", "Visão geral", [
@@ -317,7 +320,7 @@ def iose() -> Page:
                    for i, (s, n, cap, a) in enumerate(abertura))
     open_html = (f'<section class="sec case-open case-pecas" id="abertura"><div class="wrap">'
                  f'<div class="case-pecas__grid">{figs}</div>'
-                 f'<header class="case-pecas__head">{c.label("Uma peça por curso", cls="label--rule")}'
+                 f'<header class="case-pecas__head">{c.label("Uma peça por curso", cls="label--rule label--5")}'
                  f'<p class="small case-pecas__txt" data-reveal="fade">Cada curso com a sua promessa, a sua data e o '
                  f'seu público. A estrutura da conta segue a mesma lógica.</p></header></div>'
                  + ficha_faixa([("Cliente", "IOSE, Instituto O Setor Elétrico"), ("Segmento", "Educação técnica"),
@@ -333,7 +336,7 @@ def iose() -> Page:
     ]
     reel = c.video(A_IOSE + "reel-iec.mp4", poster=A_IOSE + "reel-iec-poster.jpg",
                    label="Reel do IOSE: o professor apresenta o curso IEC 61850", caption="06 · Reels 9:16",
-                   play="Ver vídeo")
+                   play="Ver vídeo", style="desc")
     body = "".join([
         c.case_hero(slug,
                     "O Instituto O Setor Elétrico forma engenheiros e técnicos em cursos online e ao vivo. Cuidamos "

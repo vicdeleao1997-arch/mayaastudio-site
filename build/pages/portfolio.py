@@ -27,7 +27,7 @@ def cases_grid() -> str:
 
 
 # Na parede estática os logos ficam parados e maiores: emblemas com muito detalhe pedem escala própria.
-ESCALA_PAREDE = {"daterrinha": 1.8, "paluama": 1.35}   # por nome do arquivo, sem extensão
+ESCALA_PAREDE = {"daterrinha": 2.2, "paluama": 1.6, "osetor": 0.7}   # por nome do arquivo, sem extensão
 
 
 def clientes() -> str:
@@ -38,7 +38,7 @@ def clientes() -> str:
     return c.section(
         c.head("Clientes", lines=["Marcas que já passaram", ("pelo estúdio.", "b")],
                text="Marcas diferentes, o mesmo rigor.", cls="pf-clientes__head"),
-        f'<ul class="cols-5 pf-logos" role="list" aria-label="Logos das marcas">{logos}</ul>',
+        f'<ul class="cols-3 pf-logos" role="list" aria-label="Logos das marcas">{logos}</ul>',
         id="clientes", tone="cartao", cls="pf-clientes")
 
 
@@ -47,7 +47,7 @@ def pages():
         c.page_hero("Portfólio · 04 cases", H1,
                     "Cada case com o desafio, a abordagem e as peças. Aqui mostramos o trabalho; número de conta de "
                     "cliente só aparece sem nome.",
-                    kanji=("創", "criar"), crumbs=[("Início", "/"), ("Portfólio", None)], compact=True,
+                    crumbs=[("Início", "/"), ("Portfólio", None)], compact=True,
                     h1_cls="ph__title--uma"),
         cases_grid(),
         clientes(),

@@ -35,3 +35,5 @@
 .measure{max-width:var(--measure)}
 .center{text-align:center;margin-inline:auto}
 .mt-6{margin-top:var(--s-6)}.mt-7{margin-top:var(--s-7)}.mt-8{margin-top:var(--s-8)}.mt-9{margin-top:var(--s-9)}
+/* celular: a moldura não fecha embaixo (o fio de baixo cortava o conteúdo que passa por trás) */
+@media (max-width:639px){.frame{border-bottom-width:0}.frame::after{border-bottom:0}}

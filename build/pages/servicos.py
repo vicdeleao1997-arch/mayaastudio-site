@@ -27,17 +27,29 @@ def intro(label_text: str, lines, text=None, id: str | None = None) -> str:
 
 
 def what_we_do(lines, text: str, items, extra: str = "", id: str = "o-que-fazemos") -> str:
-    """01 · O que fazemos: título e texto à esquerda, entregáveis numerados à direita (.split)."""
+    """O que fazemos: título e texto à esquerda, entregáveis numerados à direita (.split)."""
     left = (f'<div class="srv-what__main">{c.title(lines, size="h2")}'
             f'<div class="stack srv-what__text">{c.paras(text)}</div></div>')
     return c.section(
-        c.label("01 · O que fazemos", cls="label--rule"),
+        c.label("O que fazemos", cls="label--rule"),
         f'<div class="split srv-what">{left}<div class="srv-what__list">{c.deliv_list(items)}</div></div>{extra}',
         id=id, cls="srv-sec")
 
 
 def ctas(*html) -> str:
     return "".join(html)
+
+
+def relacionados(slug_atual: str) -> str:
+    """Serviços relacionados: os outros dois serviços, o portfólio e o guia (nunca a própria página)."""
+    links = [(s["titulo"], s["url"]) for k, s in dados.SERVICES.items() if k != slug_atual]
+    links += [("Ver o portfólio", "/portfolio/"), ("Guia do tráfego pago com IA", "/trafego-pago-com-ia/")]
+    lis = "".join(f"<li>{c.link_arrow(t, h)}</li>" for t, h in links)
+    return c.section(
+        '<nav class="srv-rel" aria-labelledby="srv-rel-t">'
+        f'{c.label("Serviços relacionados", cls="label--rule", id="srv-rel-t")}'
+        f'<ul class="srv-rel__list" data-reveal="stagger">{lis}</ul></nav>',
+        id="relacionados", cls="srv-sec srv-sec--rel")
 
 
 def page(path, title, desc, h1, body, og_path, og_alt, jsonld, priority=0.9) -> Page:
@@ -55,22 +67,15 @@ def indice() -> Page:
     h1 = ["Três serviços,", ("um estúdio.", "b")]
     trilha = crumbs(("Serviços", None))
     body = "".join([
-        c.page_hero("Serviços · 03", h1,
+        c.page_hero("Serviços", h1,
                     "Tráfego pago, audiovisual com IA e marketing. Cada serviço resolve uma parte do caminho entre o "
                     "anúncio e a venda. Juntos, respondem à mesma pergunta: quanto virou venda.",
-                    kanji=("間", "ma · espaço"), crumbs=trilha,
-                    ctas=(c.btn("Manda CONTA no direct", config.IG_DM, external=True),
-                          c.mail_cta(config.MAILTO_DIAG, pre="Ou por e-mail"))),
-        c.section(c.label("01 · Serviços", cls="label--rule"),
+                    crumbs=trilha,
+                    ctas=(c.btn("Manda CONTA no direct", config.IG_DM, external=True),)),
+        c.section(c.label("Os três serviços", cls="label--rule"),
                   f'<div class="srv-rows" data-reveal="stagger">{"".join(c.service_row(s) for s in dados.SERVICES)}</div>',
                   id="lista", cls="srv-sec srv-sec--rows"),
-        c.section(
-            f'<div class="split srv-pil">'
-            f'{intro("02 · Pilares", ["Cinco pilares,", ("um time só.", "b")])}'
-            f'<div class="srv-pil__text">{c.paras("Criativo, página e mídia não deveriam viver em agências separadas. Aqui, quem dirige o filme também monta o caminho até a venda e cuida da campanha.", cls="lead")}</div></div>'
-            f'<div class="srv-pil__table">{c.pillars_table()}</div>',
-            id="pilares", cls="srv-sec"),
-        c.section(c.label("03 · Guia", cls="label--rule"),
+        c.section(c.label("Guia", cls="label--rule"),
                   f'<div class="split srv-guide">{c.title(["O guia do", ("tráfego pago com IA.", "b")], size="h2")}'
                   f'<div class="srv-guide__body stack">'
                   f'{c.paras("O que é, como medimos resultado em venda e não em curtida, e as respostas às perguntas mais comuns sobre Meta Ads e Google Ads.", cls="lead")}'
@@ -112,20 +117,8 @@ def trafego() -> Page:
     h1 = ["Tráfego pago,", "lido campanha", ("por campanha.", "b")]
     trilha = crumbs(("Serviços", "/servicos/"), ("Tráfego pago", None))
 
-    formatos = (
-        '<div class="srv-formats">'
-        f'{c.label("Criativo por formato", cls="srv-formats__label")}'
-        '<div class="srv-formats__grid">'
-        + c.figure("/assets/cases/iose-trafego-pago/feed-linhas.jpg",
-                   "Anúncio quadrado do IOSE para o curso Projeto de Linhas de Transmissão, com o professor em frente "
-                   "a uma torre", "Feed · 1:1", fx=False, sizes="(min-width:1024px) 36vw, 62vw", cls="srv-formats__feed")
-        + c.figure("/assets/cases/iose-trafego-pago/stories-linhas.jpg",
-                   "O mesmo anúncio do curso de linhas de transmissão adaptado para stories, na vertical",
-                   "Stories · 9:16", fx=False, sizes="(min-width:1024px) 20vw, 35vw", cls="srv-formats__story")
-        + '</div></div>')
-
     diagnostico = c.section(
-        c.label("02 · O diagnóstico", cls="label--rule"),
+        c.label("O diagnóstico", cls="label--rule"),
         f'<div class="split srv-diag__top">{c.title(["Seis perguntas", ("antes de qualquer verba.", "b")], size="h2")}'
         f'<div class="srv-diag__text">{c.paras("O diagnóstico olha a conta como ela está hoje, sem mexer em nada. Ao final, você recebe as respostas:", cls="lead")}</div></div>',
         c.steps([
@@ -136,18 +129,10 @@ def trafego() -> Page:
             "Quais campanhas trazem contato, e quais trazem venda?",
             "O que continua, o que sai e o que testar primeiro?",
         ], layout="grid", cols=3, cls="srv-diag__steps"),
-        '<div class="srv-ask" data-reveal="fade">'
-        f'{c.label("Para pedir", cls="label--rule srv-ask__label")}'
-        '<div class="srv-ask__body">'
-        '<p class="srv-ask__text">Manda a palavra CONTA no direct do Instagram. Se preferir e-mail, escreva para '
-        'contato@mayaastudio.com.br com o assunto Diagnóstico e conte onde anuncia hoje, o que vende e o que quer '
-        'resolver.</p>'
-        f'<div class="srv-ask__ctas">{c.btn("Manda CONTA no direct", config.IG_DM, external=True)}'
-        f'{c.mail_cta(config.MAILTO_DIAG)}</div></div></div>',
         id="diagnostico", tone="cartao", cls="srv-sec srv-diag")
 
     regras = c.section(
-        intro("03 · Regras da casa", ["A conta é sua.", ("A leitura é nossa.", "b")]),
+        intro("Regras da casa", ["A conta é sua.", ("A leitura é nossa.", "b")]),
         c.steps([
             ("A conta fica no seu nome.",
              "Campanhas, públicos e histórico são da sua empresa, antes, durante e depois."),
@@ -161,7 +146,7 @@ def trafego() -> Page:
 
     iose = "/assets/cases/iose-trafego-pago/"
     pratica = c.section(
-        c.label("04 · Na prática", cls="label--rule"),
+        c.label("Na prática", cls="label--rule"),
         '<div class="srv-practice">'
         f'<div class="srv-practice__card">'
         + c.case_card("iose-trafego-pago", size="lg", heading="h2", ratio=None, cover=iose + "feed-nbr.jpg",
@@ -176,27 +161,23 @@ def trafego() -> Page:
         id="na-pratica", cls="srv-sec")
 
     body = "".join([
-        c.page_hero("Serviço 002 · Tráfego pago e performance", h1,
+        c.page_hero("Serviço · Tráfego pago", h1,
                     "Gestão de Meta Ads e Google Ads para quem já anuncia. A IA entra no criativo e na leitura. "
                     "A régua é a venda, não a curtida.",
-                    kanji=("展", "escalar"), crumbs=trilha,
-                    ctas=(c.btn("Manda CONTA no direct", config.IG_DM, external=True),
-                          c.mail_cta(config.MAILTO_DIAG, pre="Ou por e-mail"))),
+                    crumbs=trilha,
+                    ctas=(c.btn("Manda CONTA no direct", config.IG_DM, external=True),)),
         what_we_do(["Da conta que já roda", ("a uma decisão clara.", "b")],
                    "Começamos lendo o que existe: campanhas, criativos, página e o caminho até a venda. Depois "
                    "organizamos a conta para que cada campanha possa ser lida sozinha. Só então mexemos na verba.",
-                   ["Diagnóstico da conta que já roda",
-                    "Estrutura de campanha por oferta, com nomes padronizados",
-                    "Criativo em vídeo e imagem para cada formato",
-                    "Rastreamento do anúncio até o contato",
-                    "Leitura campanha por campanha, não pelo total do mês",
-                    "Relatório que termina em decisão: o que continua e o que sai"],
-                   extra=formatos),
+                   dados.SERVICES[slug]["entregas"]),
         diagnostico,
         regras,
         pratica,
-        c.faq(FAQ_TRAFEGO, "05 · Perguntas", ["Antes", ("de pedir.", "b")]),
-        c.cta("CONTA", "06 · Contato"),
+        c.faq(FAQ_TRAFEGO, "Perguntas", ["Antes", ("de pedir.", "b")]),
+        relacionados(slug),
+        c.cta("CONTA", "Contato",
+              text="Manda a palavra CONTA no direct do Instagram. Se preferir e-mail, escreva com o assunto "
+                   "Diagnóstico e conte onde anuncia hoje, o que vende e o que quer resolver."),
     ])
     jsonld = [seo.service(slug, desc), seo.breadcrumb_jsonld(trilha), seo.faq_jsonld(FAQ_TRAFEGO)]
     return page(path, title, desc, h1, body, "/assets/og/og-servicos-trafego-pago.jpg",
@@ -230,7 +211,7 @@ def audiovisual() -> Page:
 
     reel = c.video(REEL, REEL_POSTER, REEL_ALT, caption="Filme · BVBA Supply · 9:16")
     trabalhos = c.section(
-        intro("02 · Três trabalhos", ["O mesmo rigor,", ("três problemas diferentes.", "b")]),
+        intro("Três trabalhos", ["O mesmo rigor,", ("três problemas diferentes.", "b")]),
         '<div class="split srv-reel">'
         f'<div class="srv-reel__vid">{reel}</div>'
         '<div class="srv-reel__text stack">'
@@ -243,7 +224,7 @@ def audiovisual() -> Page:
         id="trabalhos", cls="srv-sec")
 
     como = c.section(
-        intro("03 · Como fazemos", ["Referência primeiro.", ("Conferência sempre.", "b")]),
+        intro("Como fazemos", ["Referência primeiro.", ("Conferência sempre.", "b")]),
         c.steps([
             ("01 · Imagem-mestre",
              "Antes de variar, fixamos uma imagem de referência: a sala, o produto, o rosto. Toda variação nasce "
@@ -259,12 +240,12 @@ def audiovisual() -> Page:
         id="como-fazemos", tone="cartao", cls="srv-sec")
 
     body = "".join([
-        c.page_hero("Serviço 003 · Audiovisual com IA", h1,
+        c.page_hero("Serviço · Audiovisual com IA", h1,
                     "Filme, campanha de produto e modelo sintética para anúncio e para marca. A peça real entra como "
                     "referência. O que a IA constrói passa por conferência, quadro a quadro.",
-                    kanji=("創", "criar"), crumbs=trilha,
-                    ctas=(c.mail_cta(config.MAILTO_PROJETO, kind="primary", pre="Iniciar projeto por e-mail",
-                                     after=c.btn("Manda MODELO no direct", config.IG_DM, kind="ghost", external=True)),)),
+                    crumbs=trilha,
+                    ctas=(c.btn("Falar no direct", config.IG_DM, external=True),
+                          c.link_arrow("Ou por e-mail", config.MAILTO_PROJETO))),
         what_we_do(["Imagem feita para anúncio", ("e para marca.", "b")],
                    "Trabalhamos a partir do que é real: o produto, a roupa, o corpo, a marca. A IA constrói o cenário, "
                    "a luz e o movimento que a câmera sozinha não alcança. A direção decide o que fica.",
@@ -276,8 +257,9 @@ def audiovisual() -> Page:
                     "Reels e cortes para cada formato"]),
         trabalhos,
         como,
-        c.faq(FAQ_AUDIOVISUAL, "04 · Perguntas", ["Antes", ("de lançar.", "b")]),
-        c.cta("PROJETO", "05 · Contato"),
+        c.faq(FAQ_AUDIOVISUAL, "Perguntas", ["Antes", ("de lançar.", "b")]),
+        relacionados(slug),
+        c.cta("PROJETO", "Contato", modelo=True),
     ])
     jsonld = [seo.service(slug, desc), seo.breadcrumb_jsonld(trilha), seo.faq_jsonld(FAQ_AUDIOVISUAL),
               seo.video_bvba()]
@@ -319,14 +301,16 @@ def marketing() -> Page:
                         "frente a uma torre", "Passo 01 · Anúncio · IOSE", fx=False,
                         sizes="(min-width:1024px) 28vw, (min-width:480px) 28rem, 100vw", link="/cases/iose-trafego-pago/")
              + '</div><div class="srv-ad__txt">'
-             f'{c.label("01 · O anúncio, numa peça real", cls="label--rule")}'
+             f'{c.label("01 · O anúncio, numa peça real")}'
              '<p class="lead" data-reveal="fade">Um curso, uma data, um público. O que vem depois do clique precisa '
              'repetir essa promessa: a página, o formulário e quem atende.</p>'
              f'<p data-reveal="fade">{c.link_arrow("Ver as peças do IOSE", "/cases/iose-trafego-pago/")}</p>'
+             f'<p class="srv-path__more" data-reveal="fade">'
+             f'{c.link_arrow("Onde o caminho falha: diagnóstico", "/servicos/trafego-pago/#diagnostico")}</p>'
              '</div></div>')
 
     caminho = c.section(
-        intro("02 · O caminho do clique", ["Cinco passos", ("entre o anúncio e a venda.", "b")]),
+        intro("O caminho do clique", ["Cinco passos", ("entre o anúncio e a venda.", "b")]),
         c.steps([
             ("Anúncio", "Promete uma coisa só, com clareza."),
             ("Página", "Cumpre a promessa do anúncio, sem desvio."),
@@ -335,12 +319,10 @@ def marketing() -> Page:
             ("Venda", "O que fecha volta para a leitura da campanha."),
         ], layout="path", cls="srv-path"),
         ponto,
-        f'<p class="srv-path__more" data-reveal="fade">'
-        f'{c.link_arrow("O diagnóstico mostra em qual passo o caminho falha", "/servicos/trafego-pago/#diagnostico")}</p>',
         id="caminho", tone="cartao", cls="srv-sec")
 
     principios = c.section(
-        intro("03 · Princípios", ["Uma promessa,", ("do anúncio ao botão.", "b")]),
+        intro("Princípios", ["Uma promessa,", ("do anúncio ao botão.", "b")]),
         c.steps([
             ("Continuidade", "A página repete a promessa do anúncio. Quem clicou reconhece na hora."),
             ("Menos campos, perguntas melhores", "O formulário pergunta só o que ajuda a atender bem."),
@@ -349,22 +331,12 @@ def marketing() -> Page:
         ], layout="grid", cols=2, cls="srv-steps"),
         id="principios", cls="srv-sec")
 
-    relacionados = c.section(
-        '<nav class="srv-rel" aria-labelledby="srv-rel-t">'
-        f'{c.label("Serviços relacionados", cls="label--rule", id="srv-rel-t")}'
-        '<ul class="srv-rel__list" data-reveal="stagger">'
-        f'<li>{c.link_arrow("Tráfego pago e performance", "/servicos/trafego-pago/")}</li>'
-        f'<li>{c.link_arrow("Audiovisual com IA", "/servicos/audiovisual-com-ia/")}</li>'
-        f'<li>{c.link_arrow("Ver o portfólio", "/portfolio/")}</li></ul></nav>',
-        id="relacionados", cls="srv-sec srv-sec--rel")
-
     body = "".join([
-        c.page_hero("Serviço 004 · Marketing", h1,
+        c.page_hero("Serviço · Marketing", h1,
                     "Página, formulário, oferta e mensagem que sustentam o anúncio. Quando o caminho depois do clique "
                     "falha, nenhuma campanha resolve.",
-                    kanji=("築", "construir"), crumbs=trilha,
-                    ctas=(c.btn("Manda CONTA no direct", config.IG_DM, external=True),
-                          c.mail_cta(config.MAILTO_DIAG, pre="Ou por e-mail"))),
+                    crumbs=trilha,
+                    ctas=(c.btn("Manda CONTA no direct", config.IG_DM, external=True),)),
         what_we_do(["Tudo o que acontece", ("depois do anúncio.", "b")],
                    "Um bom anúncio leva a pessoa até você. O resto do caminho decide se ela compra. Construímos esse "
                    "caminho junto com a campanha, para que cada passo possa ser medido.",
@@ -376,9 +348,9 @@ def marketing() -> Page:
                     "Ajuste contínuo a partir do que a campanha mostra"]),
         caminho,
         principios,
-        c.faq(FAQ_MARKETING, "04 · Perguntas", ["Antes", ("de mexer na página.", "b")]),
-        relacionados,
-        c.cta("CONTA", "05 · Contato"),
+        c.faq(FAQ_MARKETING, "Perguntas", ["Antes", ("de mexer na página.", "b")]),
+        relacionados(slug),
+        c.cta("CONTA", "Contato"),
     ])
     jsonld = [seo.service(slug, desc), seo.breadcrumb_jsonld(trilha), seo.faq_jsonld(FAQ_MARKETING)]
     return page(path, title, desc, h1, body, "/assets/og/og-servicos-marketing.jpg",

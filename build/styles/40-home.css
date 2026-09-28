@@ -4,7 +4,6 @@
 .home-hero{min-height:92svh;display:flex;padding-top:calc(var(--header-h) + var(--frame) + var(--s-6));padding-bottom:var(--s-6)}
 .home-hero__in{flex:1;display:flex;flex-direction:column;width:100%}
 .home-hero__top{display:flex;justify-content:space-between;align-items:baseline;gap:var(--s-4)}
-.home-hero__code{white-space:nowrap}
 .home-hero__grid{margin-top:var(--s-8);align-items:start;row-gap:var(--s-5)}
 .home-hero__title{grid-column:1 / span 9}
 .home-hero__k{grid-column:10 / span 3;justify-self:end;margin-top:-.12em}
@@ -17,7 +16,6 @@
 .home-hero__scroll a{text-decoration:none;color:var(--tinta);display:inline-flex;gap:.6em}
 .home-hero__scroll a:hover,.home-hero__scroll a:focus-visible{text-decoration:underline}
 .home-hero__ctas{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s-4) var(--s-6)}
-.home-hero__hint{margin-top:var(--s-3);color:var(--fumaca);max-width:62ch}
 @media (max-width:1023px){
   .home-hero{min-height:auto}
   .home-hero__title{grid-column:1 / -1}
@@ -37,33 +35,40 @@
   .home-hero__index .index__item a{padding-block:.7rem}
   .home .mq{padding-block:var(--s-6) var(--s-6)}
   .home .mq__viewport{margin-top:var(--s-5)}
-  .home-hero__top{padding-right:4.5rem}
-  .home-hero__code{position:absolute;right:var(--gutter);top:0}
   .home-hero__k{top:2.4rem;right:var(--gutter)}
   .home-hero__grid{margin-top:var(--s-6)}
 }
 
-/* 001 · sobre */
+/* sobre */
 .home-sobre__grid{margin-top:var(--s-7);row-gap:var(--s-7)}
-.home-sobre__title{grid-column:1 / span 9}
-.home-sobre__text{grid-column:7 / span 6}
-.home-sobre__imgs{margin-top:var(--s-9)}
-@media (max-width:1023px){.home-sobre__title,.home-sobre__text{grid-column:1 / -1}.home-sobre__imgs{margin-top:var(--s-8)}}
+/* título (7 col) e texto (5 col) lado a lado, alinhados pela base */
+.home-sobre__grid{align-items:end}
+.home-sobre__title{grid-column:1 / span 7}
+.home-sobre__text{grid-column:8 / span 5}
+@media (max-width:1023px){.home-sobre__title,.home-sobre__text{grid-column:1 / -1}}
 
-/* 003 · audiovisual */
+/* audiovisual · vídeo nas colunas 1 a 5, Ana nas 7 a 12 (2 fotos de 3 colunas) */
 .home-av{row-gap:var(--s-7);align-items:start}
-.home-av__vid{grid-column:1 / span 4}
-.home-av__ana{grid-column:6 / span 7;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));column-gap:var(--gap);row-gap:var(--s-6)}
+.home-av__vid{grid-column:1 / span 5}
+.home-av__vid .vid{max-width:calc(64svh * 9 / 16)}
+.home-av__ana{grid-column:7 / span 6;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));column-gap:var(--gap);row-gap:var(--s-6)}
 .home-av__ph:nth-child(1){grid-column:1 / span 3}
-.home-av__ph:nth-child(2){grid-column:5 / span 3;margin-top:20%}
+.home-av__ph:nth-child(2){grid-column:4 / span 3;margin-top:20%}
 .home-av__note{grid-column:1 / -1;display:flex;flex-direction:column;gap:var(--s-5)}
 @media (max-width:1023px){
   .home-av__vid,.home-av__ana{grid-column:1 / -1}
+  .home-av__vid .vid{max-width:none}
   .home-av__ana{grid-template-columns:repeat(2,minmax(0,1fr))}
   .home-av__ph:nth-child(1){grid-column:1}.home-av__ph:nth-child(2){grid-column:2;margin-top:0}
 }
 
-/* 004 · marketing (sobre cartão) */
+/* trabalhos · 3 cards; títulos e "Ver case" alinhados (subgrid) */
+.home-work{margin-top:var(--s-7)}
+.home-work__more{margin-top:var(--s-6);display:flex;justify-content:flex-end;max-width:none}
+@media (max-width:639px){.home-work{--n:1;row-gap:var(--s-8)}.home-work__more{justify-content:flex-start}}
+@media (min-width:640px) and (max-width:1023px){.home-work{--n:3;column-gap:var(--s-4)}}
+
+/* marketing (sobre cartão) */
 .sec--cartao .steps--path,.sec--cartao .steps--path .step,.sec--cartao .steps--path .step + .step{border-color:var(--linha)}
 
 /* 404 */

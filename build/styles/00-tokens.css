@@ -24,7 +24,7 @@
   --fs-lead:   clamp(1.125rem, 1rem + .55vw, 1.5rem);
   --fs-body:   clamp(1rem, .96rem + .2vw, 1.125rem);
   --fs-small:  .875rem;
-  --fs-label:  clamp(.6875rem, .66rem + .12vw, .78rem);
+  --fs-label:  clamp(.75rem, .66rem + .12vw, .78rem);      /* mínimo 12 px */
   --fs-num:    clamp(5rem, 2rem + 15vw, 16rem);          /* 12,55× */
   --fs-kanji:  clamp(3.5rem, 2rem + 6vw, 8rem);
   --fs-kanji-xl:clamp(6rem, 3rem + 14vw, 18rem);
@@ -34,7 +34,9 @@
   /* espaço */
   --s-1:.25rem; --s-2:.5rem; --s-3:.75rem; --s-4:1rem; --s-5:1.5rem;
   --s-6:2rem; --s-7:3rem; --s-8:4rem; --s-9:6rem; --s-10:8rem;
-  --sec-y:clamp(5rem, 3rem + 8vw, 11rem);                /* respiro vertical de seção */
+  --sec-y:clamp(3.5rem, 2.5rem + 5vw, 8rem);             /* respiro vertical de seção (~112 px a 1440, 56 px no celular) */
+  /* largura de 5 colunas da grade (fio de rótulo das séries dos cases e do FAQ) */
+  --w5:calc((min(100vw, var(--maxw)) - 2 * var(--gutter) - 11 * var(--gap)) * 5 / 12 + 4 * var(--gap));
   --gutter:clamp(1rem, .4rem + 2.6vw, 3rem);             /* 16px no celular */
   --gap:clamp(1rem, .5rem + 1.6vw, 2rem);
   --maxw:100rem;                                          /* 1600px */

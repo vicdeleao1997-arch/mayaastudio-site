@@ -21,7 +21,7 @@ H1 = ["Política de", ("privacidade.", "b")]
 OG = "/assets/og/og-privacidade.jpg"
 OG_ALT = "MAYAA STUDIO · Política de privacidade"
 CRUMBS = [("Início", "/"), ("Privacidade", None)]
-ATUALIZADA = "Última atualização: 27 de setembro de 2026."
+ATUALIZADA = "Última atualização: 28 de setembro de 2026."
 
 MAILTO_PRIV = f"mailto:{config.EMAIL}?subject=" + quote("Privacidade e dados pessoais", safe="")
 
@@ -90,7 +90,7 @@ def _secoes() -> list[tuple[str, str]]:
          + _ul([
              ("Hospedagem:", "o site é publicado pelo GitHub Pages (GitHub, Inc.), que pode registrar o acesso para "
                              "segurança e funcionamento do serviço."),
-             ("Fontes:", "as fontes do texto vêm do Google Fonts (Google)."),
+             ("Fontes:", "as fontes do texto ficam no próprio site; nenhuma é carregada de terceiros."),
              ("Bibliotecas de código:", "as animações vêm de redes de distribuição públicas, como cdnjs (Cloudflare) "
                                         "e jsDelivr."),
              ("Instagram:", "vídeos e posts do Instagram só são carregados dentro do site se você clicar para "

@@ -17,18 +17,9 @@
 .srv-prose p{max-width:var(--measure)}
 .srv-prose p:first-child{font-size:var(--fs-lead);line-height:1.45}
 
-/* criativo por formato · feed 1:1 e stories 9:16 com a mesma altura (colunas 1 : 0,5625) */
-.srv-formats{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gap);margin-top:var(--s-9)}
-.srv-formats__label,.srv-formats__grid{grid-column:7 / span 6}
-.srv-formats__label{border-top:1px solid var(--linha);padding-top:var(--s-4)}
-.srv-formats__grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.5625fr);gap:var(--gap);align-items:end;margin-top:var(--s-5)}
-.srv-formats__grid .fig__cap{white-space:nowrap}
-@media (max-width:1023px){.srv-formats{grid-template-columns:minmax(0,1fr);margin-top:var(--s-8)}
-  .srv-formats__label,.srv-formats__grid{grid-column:1}}
-@media (max-width:479px){.srv-formats__grid{gap:var(--s-4)}.srv-formats__grid .fig__cap{letter-spacing:.14em}}
-
 /* /servicos/ · linhas de serviço e pilares */
 .srv-rows{border-bottom:1px solid var(--linha)}
+@media (max-width:639px){.srv-sec--rows .srv-rows{border-bottom:0}}   /* o fio do rótulo seguinte já separa */
 .srv-sec--rows .wrap > .label--rule + *{margin-top:var(--s-5)}
 .srv-rows .srow:first-child .srow__link{border-top-color:transparent}
 .srv-pil{row-gap:var(--s-6);align-items:end}
@@ -43,25 +34,17 @@
 .srv-diag__text p{max-width:44ch}
 .srv-diag__steps{margin-top:var(--s-8)}
 .srv-diag__steps .step__t{max-width:22ch}
-.srv-ask{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gap);row-gap:var(--s-5);margin-top:var(--s-9)}
-.srv-ask__label{grid-column:1 / span 4;align-self:start}
-.srv-ask__body{grid-column:6 / span 7;display:flex;flex-direction:column;gap:var(--s-6);border-top:1px solid var(--tinta);padding-top:var(--s-5)}
-.srv-ask__text{font-size:var(--fs-lead);line-height:1.45;max-width:46ch}
-.srv-ask__ctas{display:flex;flex-wrap:wrap;align-items:flex-end;gap:var(--s-5) var(--s-6)}
-@media (max-width:1023px){.srv-ask{grid-template-columns:minmax(0,1fr)}.srv-ask__label,.srv-ask__body{grid-column:1}
-  .srv-ask__label{border-top:0;padding-top:0}}
-
 /* passos em grade 2×2 com título e texto */
 .srv-steps{margin-top:0}
 .srv-steps .step__t{max-width:24ch}
 .srv-steps--only-t .step{padding-bottom:var(--s-7)}
+@media (max-width:639px){.srv-diag__steps .step__t,.srv-steps .step__t{max-width:none}}
 
-/* na prática · card grande à esquerda, guia embaixo à direita */
-/* na prática · duas peças do IOSE lado a lado (card do case + outra peça); o guia embaixo */
+/* na prática · duas peças do IOSE lado a lado (card 1-6, peça 7-12, até a margem); o guia embaixo, à esquerda */
 .srv-practice{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gap);row-gap:var(--s-7);align-items:start}
-.srv-practice__card{grid-column:1 / span 5}
-.srv-practice__fig{grid-column:7 / span 5}
-.srv-practice__more{grid-column:1 / -1;max-width:none;justify-self:end}
+.srv-practice__card{grid-column:1 / span 6}
+.srv-practice__fig{grid-column:7 / span 6}
+.srv-practice__more{grid-column:1 / -1;max-width:none;justify-self:start}
 @media (max-width:1023px){.srv-practice{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:var(--s-4)}
   .srv-practice__card{grid-column:1}.srv-practice__fig{grid-column:2}.srv-practice__more{grid-column:1 / -1;justify-self:start}}
 @media (max-width:479px){.srv-practice{grid-template-columns:minmax(0,1fr)}.srv-practice__card,.srv-practice__fig{grid-column:1}}
@@ -72,30 +55,31 @@
 .srv-reel__text{padding-bottom:var(--s-8)}
 .srv-reel__text .lead{max-width:36ch}
 .srv-cards{margin-top:var(--s-9);align-items:start}
+/* ≥640: os 3 cards dividem as linhas (subgrid): títulos e "Ver case" na mesma altura */
+@media (min-width:640px){
+  .srv-cards,.home-work{grid-template-rows:auto auto auto auto 1fr auto;row-gap:var(--s-3)}
+  .srv-cards .case-card,.srv-cards .case-card__link,.home-work .case-card,.home-work .case-card__link{display:grid;grid-row:span 6;grid-template-rows:subgrid}
+  .srv-cards .case-card__go,.home-work .case-card__go{grid-row:6}
+  .srv-cards .case-card__media,.home-work .case-card__media{margin-bottom:var(--s-2)}
+}
 @media (max-width:1023px){.srv-reel__vid .vid{max-width:none}.srv-reel__text{padding-bottom:0}
   .srv-cards{grid-template-columns:minmax(0,1fr);row-gap:var(--s-8)}
   .srv-cards .case-card{max-width:30rem}}
 /* 640 a 1023: os três lado a lado (em 2 colunas a Ana sobrava sozinha na 2.ª linha) */
 @media (min-width:640px) and (max-width:1023px){.srv-cards{grid-template-columns:repeat(3,minmax(0,1fr));column-gap:var(--s-4)}}
-.srv-note{margin-top:var(--s-6)}
+.srv-note{border-top:0;padding-top:0;margin-top:var(--s-5)}   /* sem fio duplo (a grade de passos já fecha com fio) */
 
 /* /servicos/marketing/ · o caminho do clique e relacionados */
-.srv-path__more{margin-top:var(--s-6);max-width:none}
-/* marketing · 02 · passo 01 numa peça real: a peça (col 1-4) e o texto (col 6-11), alinhados pela base */
+.srv-path__more{max-width:none}
+/* marketing · passo 01 numa peça real: a peça (col 1-5) e o texto (col 7-12), alinhados pela base */
 .srv-ad{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gap);row-gap:var(--s-6);align-items:end;
   margin-top:var(--s-9)}
-.srv-ad__fig{grid-column:1 / span 4}
-.srv-ad__txt{grid-column:6 / span 6;display:flex;flex-direction:column;gap:var(--s-5);padding-bottom:var(--s-6)}
+.srv-ad__fig{grid-column:1 / span 5}
+.srv-ad__txt{grid-column:7 / span 6;display:flex;flex-direction:column;gap:var(--s-5);padding-bottom:var(--s-6)}
 .srv-ad__txt .lead{max-width:38ch}
 @media (max-width:1023px){.srv-ad{grid-template-columns:minmax(0,1fr)}.srv-ad__fig{grid-column:1;max-width:28rem}
   .srv-ad__txt{grid-column:1;padding-bottom:0}}
 .srv-rel__list{display:flex;flex-wrap:wrap;gap:var(--s-5) var(--s-8);margin-top:var(--s-6)}
 .srv-sec--rel{padding-bottom:0}
 
-/* pilar · portfólio (texto 5 col + lista 6 col) */
-.srv-pf{align-items:start}
-.srv-pf__list{padding-top:.4em}
-.srv-pf__ia{margin-top:var(--s-4);color:var(--fumaca)}
-.srv-pf__more{margin-top:var(--s-6);display:flex;justify-content:flex-end;max-width:none}
-@media (max-width:1023px){.srv-pf__more{justify-content:flex-start}}
 /* pilares (kanji em bloco), caminho do clique <1024, foco do vídeo e marcadores no celular: absorvidos pelo núcleo (30-components.css) */

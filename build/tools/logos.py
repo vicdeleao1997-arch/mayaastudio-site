@@ -1,7 +1,7 @@
 """Logos de clientes em tinta, no tamanho em que aparecem (faixa da home e parede do portfólio).
 
 Antes: PNGs coloridos de 160 px de altura (284 KB no total) exibidos a 26 a 72 px, com filtro de cinza no CSS:
-as partes claras (azul da Laurenti, amarelo da Da Terrinha) viravam cinza claro e quase sumiam, e os pretos pesavam.
+as partes claras dos logos viravam cinza claro e quase sumiam, e os pretos pesavam.
 
 Agora, para cada site/assets/clients/<nome>.png (fonte, não é alterada):
   1. tinta = opacidade × escuridão do pixel (fundo branco e caixas brancas somem);

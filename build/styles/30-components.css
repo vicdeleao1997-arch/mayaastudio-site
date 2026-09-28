@@ -19,6 +19,9 @@ p.label{max-width:none}
 .on-tinta .label,.on-tinta .value{color:var(--papel-72)}
 .on-tinta .label__num{color:var(--papel)}
 .label--rule{border-top:1px solid var(--linha);padding-top:var(--s-4)}
+/* fio de rótulo com 2 comprimentos só: largura toda (rótulo de seção) e 5 colunas (séries dos cases e FAQ) */
+@media (min-width:1024px){.label--5{width:var(--w5);max-width:none}}
+@media (max-width:479px){.label{letter-spacing:.16em}}
 .on-tinta .label--rule{border-top-color:var(--papel-18)}
 .small{font-size:var(--fs-small);line-height:1.6}
 /* máscara de linha: a Shippori desce ~.23em abaixo da base (p, g, y, ç, vírgula). Com --lh-display 1.04 sobram só
@@ -59,7 +62,7 @@ p.label{max-width:none}
 .on-tinta .btn--ghost:hover,.on-tinta .btn--ghost:focus-visible{background:var(--papel);color:var(--tinta)}
 @media (max-width:479px){.btn{letter-spacing:.14em;padding:1em 1.2em}}
 
-.link-arrow{position:relative;display:inline-flex;align-items:baseline;gap:.55em;padding-bottom:.4em;
+.link-arrow{position:relative;display:inline-flex;align-items:last baseline;gap:.55em;padding-bottom:.4em;
   font:500 var(--fs-label)/1.4 var(--f-body);letter-spacing:var(--tr-label);text-transform:uppercase;
   color:var(--tinta);text-decoration:none}
 .link-arrow::before,.link-arrow::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--linha)}
@@ -106,8 +109,10 @@ a:hover > .link-arrow::after,.link-arrow:hover::after,.link-arrow:focus-visible:
 .hd__cta,.hd__menu{display:none}
 @media (max-width:899px){
   .hd__nav{display:none}
-  .hd__cta{display:inline-block;margin-left:auto}
-  .js .hd__menu{display:inline-block;margin-left:16px}
+  .hd__cta{display:inline-flex;margin-left:auto}
+  .js .hd__menu{display:inline-flex;margin-left:16px}
+  /* área de toque de 44 px (a altura visual do texto não muda) */
+  .hd__cta,.hd__menu{min-height:44px;align-items:center}
 }
 @media (max-width:419px){.hd__kana{display:none}}
 @media (max-width:359px){.hd__cta{display:none}.js .hd__menu{margin-left:auto}}
@@ -147,6 +152,7 @@ a:hover > .link-arrow::after,.link-arrow:hover::after,.link-arrow:focus-visible:
 .index__arrow{font-size:var(--fs-lead);line-height:1;transition:transform var(--dur-2) var(--ease-out)}
 .index__item a:hover,.index__item a:focus-visible{border-top-color:var(--tinta)}
 .index__item a:hover .index__txt,.index__item a:focus-visible .index__txt{transform:translateX(8px)}
+.index--sem-num .index__item a{grid-template-columns:minmax(0,1fr) auto}
 
 /* ── marquee ────────────────────────────────────────────────────────────── */
 .mq{padding-block:var(--s-7) var(--s-8);border-bottom:1px solid var(--linha)}
@@ -216,11 +222,15 @@ html.fx-on .fig-link:hover [data-fx] img,html.fx-on .case-card__link:hover [data
 .vid__btn:focus-visible{outline:2px solid var(--papel);outline-offset:2px;box-shadow:0 0 0 6px var(--tinta)}
 .vid__frame.is-auto .vid__el{cursor:pointer}
 .vid__play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);white-space:nowrap;
-  display:inline-flex;align-items:center;gap:.8em;padding:1em 1.4em;outline:1px solid var(--papel);outline-offset:4px}
-.vid__play:hover,.vid__play:focus-visible{outline:1px solid var(--papel);outline-offset:4px}
-.vid__play:focus-visible{outline-width:2px;box-shadow:0 0 0 7px var(--tinta)}
+  display:inline-flex;align-items:center;gap:.8em;padding:1em 1.4em}
+/* contorno só no foco de teclado */
+.vid__play:focus-visible{outline:2px solid var(--papel);outline-offset:4px;box-shadow:0 0 0 7px var(--tinta)}
 /* celular: o vídeo segue a margem de 16 px, como o texto e as imagens (antes: centralizado a 28,8 px da borda) */
 @media (max-width:1023px){.vid__frame{width:min(100%,calc(70svh * 9 / 16));margin-inline:0}}
+/* ≤639: o vídeo vai até a mesma borda direita do texto */
+@media (max-width:639px){.vid__frame{width:100%}}
+/* legenda de vídeo no estilo das figuras .fig--desc (páginas de case: um estilo só de legenda) */
+.vid--desc .vid__cap .fig__cap{margin-top:0;color:var(--fumaca)}
 
 /* ── Instagram com consentimento ────────────────────────────────────────── */
 .ig{border:1px solid var(--linha);padding:var(--s-5);max-width:420px}
@@ -290,8 +300,7 @@ html.fx-on .fig-link:hover [data-fx] img,html.fx-on .case-card__link:hover [data
 .svc__main > * + *{margin-top:var(--s-5)}
 .svc__title{margin-top:var(--s-4)!important}
 .svc__ctas{display:flex;flex-wrap:wrap;gap:var(--s-5) var(--s-6);align-items:center;margin-top:var(--s-6)!important}
-.svc__kanji{margin-bottom:var(--s-6)}
-.svc__media{margin-top:var(--s-9)}
+.svc__media{margin-top:var(--s-7)}
 @media (max-width:1023px){.svc__main,.svc__side{grid-column:1 / -1}.svc__media{margin-top:var(--s-8)}}
 
 /* ── manifesto ──────────────────────────────────────────────────────────── */
@@ -371,6 +380,7 @@ html.fx-on .fig-link:hover [data-fx] img,html.fx-on .case-card__link:hover [data
 .ft__brand{grid-column:1 / span 5;display:flex;flex-direction:column;gap:var(--s-5)}
 .ft__lk{width:140px;height:auto;aspect-ratio:2130/2210;color:var(--papel)}
 .ft__claim{font:400 var(--fs-h3)/1.3 var(--f-display);max-width:26ch}
+.ft__pil{text-wrap:balance}
 .ft__col--nav{grid-column:7 / span 2}.ft__col--srv{grid-column:9 / span 2}.ft__col--ct{grid-column:11 / span 2}
 .ft__h{margin-bottom:var(--s-4)}
 .ft__list{display:flex;flex-direction:column;gap:.55rem;font-size:var(--fs-small)}
@@ -381,17 +391,19 @@ html.fx-on .fig-link:hover [data-fx] img,html.fx-on .case-card__link:hover [data
   .ft__brand{grid-column:1 / -1}
   .ft__col--nav{grid-column:1 / span 3}.ft__col--srv{grid-column:4 / span 3}.ft__col--ct{grid-column:1 / -1}
 }
-@media (max-width:639px){.ft__col--nav,.ft__col--srv{grid-column:span 2}.ft__col--ct{grid-column:1 / -1}}
+@media (max-width:639px){.ft__col--nav,.ft__col--srv{grid-column:span 2}.ft__col--ct{grid-column:1 / -1}
+  /* áreas de toque (a altura visual não muda) */
+  .ft__list{gap:0}.ft__list a{display:inline-block;padding-block:.65em;margin-block:-.4em}.mq__toggle{padding-top:.8em}.crumbs a{display:inline-block;padding-block:.8em;margin-block:-.8em}}
 
 /* ── páginas internas: abertura, trilha, ficha ──────────────────────────── */
-.crumbs ol{display:flex;flex-wrap:wrap;gap:.2em .6em}
+.crumbs ol{display:flex;flex-wrap:wrap;align-items:baseline;gap:.2em .6em}
 .crumbs li:not(:last-child)::after{content:"·" / "";margin-left:.6em;color:var(--fumaca)}   /* « · » no fim do item: fecha a linha, nunca abre */
 .crumbs a{text-decoration:none}
 .crumbs a:hover,.crumbs a:focus-visible{color:var(--tinta);text-decoration:underline}
 .crumbs [aria-current]{color:var(--tinta)}
 .ph{padding-top:calc(var(--header-h) + var(--frame) + var(--s-9));padding-bottom:var(--s-8)}
 .ph .wrap > .crumbs{margin-bottom:var(--s-7)}
-.ph__grid{row-gap:var(--s-5);align-items:start;border-bottom:1px solid var(--linha);padding-bottom:var(--s-8)}
+.ph__grid{row-gap:var(--s-5);align-items:start}   /* sem fio embaixo: o fio do rótulo da seção seguinte já separa */
 .ph__label{grid-column:1 / span 10}
 .ph__title{grid-column:1 / span 10}
 .ph__kanji{grid-column:11 / span 2;grid-row:2 / span 2;justify-self:end}
@@ -400,6 +412,7 @@ html.fx-on .fig-link:hover [data-fx] img,html.fx-on .case-card__link:hover [data
 .ph__ficha{grid-column:9 / span 4;grid-row:3 / span 2;margin-top:var(--s-4)}
 /* abertura de case curta (a imagem de abertura entra na 1.ª dobra): trilha e rótulo na mesma linha, sem fio */
 .ph--case{padding-top:calc(var(--header-h) + var(--frame) + var(--s-6));padding-bottom:0}
+@media (max-width:639px){.ph{padding-top:calc(var(--header-h) + var(--frame) + var(--s-6))}}
 .ph__top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:var(--s-3) var(--s-6);margin-bottom:var(--s-6)}
 .ph__top > .ph__label{text-align:right}
 .ph--case .ph__grid{border-bottom:0;padding-bottom:0}
@@ -410,7 +423,7 @@ html.fx-on .fig-link:hover [data-fx] img,html.fx-on .case-card__link:hover [data
 .ph--case .ph__ficha{grid-row:2 / span 2}
 /* H1 numa linha só quando cabe (portfólio): as linhas viram inline-block e mantêm a máscara de revelação */
 .ph__title--uma .line{display:inline-block;vertical-align:top}
-.badge{grid-column:1 / span 7;justify-self:start;border:1px solid var(--tinta);color:var(--tinta);padding:.7em 1em}
+.badge{grid-column:1 / span 7;justify-self:start;background:var(--cartao);color:var(--tinta);padding:.5em .8em}   /* selo, não botão */
 @media (max-width:1023px){
   .ph__label,.ph__title,.ph__lead,.ph__ficha,.badge{grid-column:1 / -1;grid-row:auto}
   .ph__kanji{grid-column:1 / -1;grid-row:auto;justify-self:start;order:-1}
@@ -439,20 +452,21 @@ html.fx-on .fig-link:hover [data-fx] img,html.fx-on .case-card__link:hover [data
 .case-card__link:hover .case-card__media img,.case-card__link:focus-visible .case-card__media img{transform:scale(1.035)}
 .case-card__line{color:var(--fumaca);max-width:52ch}
 .case-card__go{align-self:flex-start;margin-top:var(--s-2)}
-.case-card__ia{margin-top:var(--s-3);color:var(--tinta);font-weight:500}
+.case-card__ia{color:var(--tinta);font-weight:500}
 
 /* ── série de case ──────────────────────────────────────────────────────── */
 .cs__grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gap);row-gap:var(--s-7);align-items:end}
 .cs__head{grid-column:1 / -1;display:grid;gap:var(--s-4);max-width:60ch}
 .cs__media{grid-column:1 / -1;display:grid;grid-template-columns:repeat(var(--n,2),minmax(0,1fr));gap:var(--s-6) var(--gap);align-items:end}
 .cs--c2 .cs__media{--n:2}.cs--c3 .cs__media{--n:3}.cs--c4 .cs__media{--n:4}
-.cs--side .cs__media{grid-column:1 / span 7;grid-row:1;--n:1}
-.cs--side .cs__head{grid-column:9 / span 4;grid-row:1;align-self:end}
+.cs--c2 .cs__media,.cs--c3 .cs__media,.cs--c4 .cs__media{align-items:start}
+/* 1 mídia (vídeo, embed): presa à coluna 4 (x=390 a 1440), texto nas colunas 8 a 12 */
+.cs--side .cs__media{grid-column:4 / span 4;grid-row:1;--n:1}
+.cs--side .cs__head{grid-column:8 / span 5;grid-row:1;align-self:end}
 .cs__text{max-width:48ch;color:var(--fumaca)}
 /* .case-fit (style="--ar:L/A"): mídia que cabe na altura da janela; .case-fit--vid para vídeo 9:16 */
 .case-fit{width:min(100%, calc(84svh * var(--ar, .75)))}
 .case-fit--vid{width:min(100%, calc(80svh * var(--ar, .5625)))}
-@media (min-width:1024px){.cs--side .case-fit{margin-left:auto}}
 @media (max-width:1023px){.case-fit{margin-inline:auto}.case-fit--vid{width:100%}}
 @media (max-width:1023px){
   .cs--c3 .cs__media,.cs--c4 .cs__media{--n:2}
@@ -488,31 +502,17 @@ html.fx-on .fig-link:hover [data-fx] img,html.fx-on .case-card__link:hover [data
 @media (max-width:639px){.faq__item summary{grid-template-columns:2.25rem minmax(0,1fr) 1.25rem}.faq__a{padding-left:0}}
 
 /* ── linha de serviço (/servicos/) ──────────────────────────────────────── */
-.srow__link{display:grid;grid-template-columns:4rem 9rem minmax(0,1fr) 11rem auto;gap:var(--gap);align-items:start;
+.srow__link{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:var(--gap);align-items:first baseline;
   padding-block:var(--s-7);border-top:1px solid var(--linha);text-decoration:none;color:inherit;transition:border-color var(--dur-2)}
-.srow__kanji{display:flex;flex-direction:column;gap:var(--s-3)}
-.srow__kanji .kanji{font-size:clamp(3rem,2rem + 3vw,5.25rem);color:var(--tinta)}
 .srow__body{display:flex;flex-direction:column;gap:var(--s-4);transition:transform var(--dur-2) var(--ease-out)}
 .srow__line{font-size:var(--fs-lead);max-width:40ch}
 .srow__marks{display:flex;flex-wrap:wrap;gap:.3em 1.4em;font-size:var(--fs-small);color:var(--fumaca)}
 .srow__marks li:not(:last-child)::after{content:"·" / "";margin-left:1.4em}   /* « · » no fim do item: fecha a linha, nunca abre */
 .srow__marks li{display:inline-flex}
-@media (max-width:639px),(min-width:1024px) and (max-width:1279px){.srow__marks{flex-direction:column;gap:.35em}.srow__marks li:not(:last-child)::after{content:none}}   /* 1024 a 1279: a miniatura estreita a coluna e cada item já ocupava uma linha */
-.srow__go{align-self:end}
-.srow__thumb{display:block;width:100%;aspect-ratio:1/1;overflow:hidden;background:var(--cartao)}
-.srow__thumb picture,.srow__thumb img{width:100%;height:100%}
-.srow__thumb img{object-fit:cover;transition:transform var(--dur-3) var(--ease-out)}
-.srow__link:hover .srow__thumb img,.srow__link:focus-visible .srow__thumb img{transform:scale(1.035)}
-/* marketing não tem peça visual: a miniatura é o caminho do clique em miniatura (5 passos com fio entre eles) */
-.srow__path{display:flex;flex-direction:column;justify-content:center;height:100%;padding:var(--s-3) var(--s-4)}
-.srow__step{font:400 clamp(.85rem,.75rem + .3vw,1rem)/1 var(--f-display);padding-block:.42em}
-.srow__step + .srow__step{border-top:1px solid var(--linha)}
+@media (max-width:639px){.srow__marks{flex-direction:column;gap:.35em}.srow__marks li:not(:last-child)::after{content:none}}
 .srow__link:hover,.srow__link:focus-visible{border-top-color:var(--tinta)}
 .srow__link:hover .srow__body,.srow__link:focus-visible .srow__body{transform:translateX(8px)}
-@media (max-width:1023px){.srow__link{grid-template-columns:3rem minmax(0,1fr) 6.5rem}.srow__kanji{grid-column:2;grid-row:1}
-  .srow__thumb{grid-column:3;grid-row:1}
-  .srow__body{grid-column:1 / -1}.srow__go{grid-column:1 / -1;justify-self:start}
-  .srow__path{padding:var(--s-1) var(--s-2)}.srow__step{font-size:.66rem;padding-block:.3em}}
+@media (max-width:1023px){.srow__link{grid-template-columns:minmax(0,1fr)}.srow__go{justify-self:start}}
 
 /* ── tabela dos pilares ─────────────────────────────────────────────────── */
 .pillars{border-bottom:1px solid var(--linha)}
@@ -521,16 +521,13 @@ html.fx-on .fig-link:hover [data-fx] img,html.fx-on .case-card__link:hover [data
 .pillars tbody tr{border-top:1px solid var(--linha)}
 .pillars th[scope=row],.pillars td{padding:var(--s-5) var(--s-4) var(--s-5) 0;vertical-align:top}
 .pillars__nome{font:400 var(--fs-h3)/1.2 var(--f-display)}
-.pillars__k{white-space:nowrap}
-.pillars__k .kanji{display:block;line-height:1;font-size:2.25rem;margin-bottom:var(--s-2)}
 .pillars__v{font-weight:500}
 .pillars__f{max-width:46ch}
 @media (max-width:1023px){
   .pillars thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
   .pillars,.pillars tbody,.pillars tr,.pillars th,.pillars td{display:block}
-  .pillars tbody tr{display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--s-2) var(--s-5);padding-block:var(--s-5)}
+  .pillars tbody tr{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:baseline;gap:var(--s-2) var(--s-5);padding-block:var(--s-5)}
   .pillars th[scope=row],.pillars td{padding:0}
-  .pillars__k{grid-row:1 / span 2}
   .pillars__f,.pillars__o{grid-column:1 / -1}
 }
 

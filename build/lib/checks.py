@@ -75,6 +75,17 @@ def parse(html: str) -> Node:
     return t.root
 
 
+def _flat(n: Node):
+    """Texto e nós na ordem do documento (sem script/style/template)."""
+    for ch in n.children:
+        if isinstance(ch, str):
+            yield ch
+        elif ch.tag not in SKIP_TEXT:
+            if ch.tag == "img":
+                yield ch
+            yield from _flat(ch)
+
+
 def norm(s: str) -> str:
     return re.sub(r"\s+", " ", s or "").strip()
 
@@ -124,6 +135,15 @@ try:
     from lib.privado import PROVA_LONGE_NOMES as _PROVA_LONGE_NOMES, PROVA_LONGE_URLS as _PROVA_LONGE_URLS
 except ImportError:
     _PROVA_LONGE_NOMES, _PROVA_LONGE_URLS = (), ()
+# Trava stealth (check 17): nomes que nunca podem aparecer no site. Mesma lista local, fora do repositório público.
+try:
+    from lib.privado import STEALTH_NOMES as _STEALTH_NOMES
+except ImportError:
+    _STEALTH_NOMES = ()
+_STEALTH_RE = [re.compile(n if n.startswith(r"\b") else re.escape(n), re.I) for n in _STEALTH_NOMES]
+# Check 8 também lê alt e src (não só o texto visível): o logo «O Setor Elétrico» da faixa de marcas conta como nome.
+# Se reprovar a home por causa desse logo, é decisão do Victor (IOSE): não desligar sem ele.
+PROVA_LE_ALT = True
 PILAR_NOMES = [p["nome"] for p in dados.PILARES]
 PILAR_RE = re.compile(r"(?<![\wÀ-ÿ])(?:%s)(?: · (?:%s)){2,}(?![\wÀ-ÿ])" % (
     "|".join(map(re.escape, PILAR_NOMES)), "|".join(map(re.escape, PILAR_NOMES))))
@@ -159,6 +179,12 @@ def run(pages, written: list[Path], strict: bool = True, partial: bool = False) 
         body_nodes = list(root.iter())
         main = next((n for n in body_nodes if n.tag == "main"), root)
         visible = norm(main.text())
+        if PROVA_LE_ALT:   # 8 · o texto lido inclui alt e src das imagens, na ordem do documento
+            visible_8 = norm(" ".join(
+                (n if isinstance(n, str) else f" {n.get('alt') or ''} {n.get('src') or ''} ")
+                for n in _flat(main)))
+        else:
+            visible_8 = visible
 
         # 2 · imagens
         for n in body_nodes:
@@ -258,9 +284,9 @@ def run(pages, written: list[Path], strict: bool = True, partial: bool = False) 
             for must in ("Venda, não lucro.", "Topo, não média.", "não do caixa"):
                 if must not in visible:
                     E(f"[8] {where}: falta {must!r} junto do 12,55")
-            for m in re.finditer(r"12,55", visible):
+            for m in re.finditer(r"12,55", visible_8):
                 for nome in _PROVA_LONGE_NOMES:
-                    if any(abs(m2.start() - m.start()) < 800 for m2 in re.finditer(re.escape(nome), visible)):
+                    if any(abs(m2.start() - m.start()) < 800 for m2 in re.finditer(re.escape(nome), visible_8)):
                         E(f"[8] {where}: 12,55 perto de um nome da lista local")
                         break
             for url in _PROVA_LONGE_URLS:
@@ -269,6 +295,12 @@ def run(pages, written: list[Path], strict: bool = True, partial: bool = False) 
         if where in _PROVA_LONGE_URLS:
             if re.search(r"12,55|\bROAS\b|×\s?\d", html, re.I):
                 E(f"[8] {where}: número de resultado numa página da lista local")
+
+        # 17 · trava stealth: no HTML inteiro (texto, alt, src, href, JSON-LD, meta)
+        for rx in _STEALTH_RE:
+            m = rx.search(html)
+            if m:
+                E(f"[17] {where}: nome proibido (stealth) {m.group(0)!r} …{html[max(0, m.start() - 50):m.end() + 30]!r}…")
 
         # 8b · direct e perfil
         for n in body_nodes:
@@ -366,6 +398,22 @@ def run(pages, written: list[Path], strict: bool = True, partial: bool = False) 
         f = config.SITE / asset
         if f.exists() and f.stat().st_size / 1024 > lim:
             E(f"[13] {asset} com {f.stat().st_size / 1024:.0f} KB (máx. {lim})")
+
+    # 17 · trava stealth também nos nomes de arquivo publicados (site/assets/**) e em qualquer .html/.xml/.txt gerado
+    if _STEALTH_RE:
+        for f in (config.SITE / "assets").rglob("*"):
+            rel = f.relative_to(config.SITE).as_posix()
+            for rx in _STEALTH_RE:
+                if rx.search(rel.replace("-", " ").replace("_", " ")) or rx.search(rel):
+                    E(f"[17] arquivo com nome proibido (stealth) em site/: {rel}")
+                    break
+        for f in written:
+            if f.suffix in (".xml", ".txt", ".webmanifest") and f.exists():
+                s = f.read_text(encoding="utf-8", errors="ignore")
+                for rx in _STEALTH_RE:
+                    if rx.search(s):
+                        E(f"[17] nome proibido (stealth) em {f.relative_to(config.SITE)}")
+                        break
 
     # 15 · órfãos (só relatório, build completo)
     if not partial:

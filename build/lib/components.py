@@ -169,16 +169,18 @@ _kanji = kanji  # alias: funções com parâmetro `kanji` usam este nome
 
 
 def index_nav(items, title: str = "Índice · Serviços", cls: str = "", aria_label: str = "Índice dos serviços") -> str:
-    """items = [("002", "Tráfego pago", "#trafego-pago", "↓"), (None, "Portfólio", "/portfolio/", "→")]"""
+    """items = [(None, "Tráfego pago", "#trafego-pago", "↓"), ("01", "Portfólio", "/portfolio/", "→")].
+    Sem número em nenhum item: a coluna do número some (.index--sem-num)."""
     lis = []
     for it in items:
         num, txt, href = it[0], it[1], it[2]
         arrow = it[3] if len(it) > 3 else "→"
         a, arrow, akind, tail = _link_bits(href, arrow, False)
-        n = f'<span class="index__num label">{esc(num)}</span>' if num else '<span class="index__num label"></span>'
+        n = f'<span class="index__num label">{esc(num)}</span>' if num else ""
         lis.append(f'<li class="index__item"><a{a}>{n}<span class="index__txt">{esc(txt)}</span>'
                    f'<span class="index__arrow index__arrow--{akind}" aria-hidden="true">{arrow}</span>{tail}</a></li>')
-    return (f'<nav class="{_cls("index", cls)}" aria-label="{esc(aria_label)}"><p class="label">{esc(title)}</p>'
+    sem_num = "" if any(it[0] for it in items) else "index--sem-num"
+    return (f'<nav class="{_cls("index", sem_num, cls)}" aria-label="{esc(aria_label)}"><p class="label">{esc(title)}</p>'
             f'<ol class="index__list" data-reveal="stagger">{"".join(lis)}</ol></nav>')
 
 
@@ -287,16 +289,19 @@ def image_grid(items, cols: int = 4, ratio: str | None = "4/5", offset: bool = T
 
 
 def video(src: str, poster: str, label: str, ratio: str = "9/16", caption: str | None = None,
-          num: str | None = None, autoplay: bool = True, link=None, cls: str = "", play: str = "Ver filme") -> str:
+          num: str | None = None, autoplay: bool = True, link=None, cls: str = "", play: str = "Ver filme",
+          style: str = "tec") -> str:
     """Vídeo mudo com pôster. Sem JS: controles nativos. Modo completo: toca só quando ≥50% visível, com
     Pausar/Continuar e Ativar som. Modo suave: pôster + botão `play` ("Ver filme ▶"), controles só depois do clique.
-    link: (texto, href) opcional, vai na linha da legenda."""
-    cap = _caption(caption, num, "tec")
+    link: (texto, href) opcional, vai na linha da legenda. style="desc": legenda igual à das figuras .fig--desc
+    ("06 · Reels 9:16", .small em fumaça), para a página de case ter um estilo só de legenda."""
+    cap = _caption(caption, num, style)
     if isinstance(link, (tuple, list)):
         link = link_arrow(link[0], link[1])
-    capt = (f'<figcaption class="vid__cap"><span class="label">{esc(cap)}</span>{link or ""}</figcaption>'
+    cap_cls = "label" if style == "tec" else "small fig__cap"
+    capt = (f'<figcaption class="vid__cap"><span class="{cap_cls}">{esc(cap)}</span>{link or ""}</figcaption>'
             if (cap or link) else "")
-    return (f'<figure class="{_cls("vid", cls)}" data-reveal="mask">'
+    return (f'<figure class="{_cls("vid", "vid--desc" if style == "desc" else "", cls)}" data-reveal="mask">'
             f'<div class="vid__frame" style="aspect-ratio:{esc(ratio)}">'
             f'<video{attrs(cls="vid__el", muted=True, playsinline=True, loop=True, preload="none", controls=True, poster=poster, aria_label=label, data_autoplay=True if autoplay else None, data_play=play if autoplay else None)}>'
             f'<source src="{esc(src)}" type="video/mp4"></video></div>{capt}</figure>')
@@ -421,20 +426,16 @@ def section(*parts, id: str | None = None, tone: str | None = None, cls: str = "
 
 
 # ── blocos da home e de serviço ──────────────────────────────────────────────
-def service_block(id: str, num: str, value: str, title_lines, text, items=None, cta: str | None = None,
-                  cta2: str | None = None, media: str = "", kanji=None, extra_ids=(), tone: str = "papel",
+def service_block(id: str, value: str, title_lines, text, items=None, cta: str | None = None,
+                  cta2: str | None = None, media: str = "", extra_ids=(), tone: str = "papel",
                   label_text: str = "Serviço") -> str:
-    """Bloco de serviço. cta/cta2/media: HTML pronto. kanji: ("築", "construir")."""
-    side = ""
-    if items:
-        side = deliv_list(items)
-    if kanji:
-        side = _kanji(kanji[0], kanji[1], size="lg", cls="svc__kanji") + side
+    """Bloco de serviço. cta/cta2/media: HTML pronto. Sem número e sem kanji (os kanji ficam no Processo)."""
+    side = deliv_list(items) if items else ""
     ctas = "".join(x for x in (cta, cta2) if x)
     ctas_html = f'<div class="svc__ctas" data-reveal="fade">{ctas}</div>' if ctas else ""
     media_html = f'<div class="svc__media">{media}</div>' if media else ""
     return section(
-        label(label_text, num=num, cls="label--rule"),
+        label(label_text, cls="label--rule"),
         f'<div class="grid svc__grid"><div class="svc__main">'
         f'<p class="value" data-reveal="fade">{esc(value)}</p>{title(title_lines, size="h2", cls="svc__title")}'
         f'<div class="svc__text stack">{paras(text)}</div>{ctas_html}</div>'
@@ -514,31 +515,36 @@ def cta_final(label_text: str, lines, text: str, primary: str, secondary: str | 
             f'</div></div></section>')
 
 
-def cta(variante: str, label_text: str, secondary: str | None = None) -> str:
+def cta(variante: str, label_text: str, secondary: str | None = None, modelo: bool = False,
+        text: str | None = None) -> str:
     """Atalho para as variantes de §3.0.4: "CONTA" · "PROJETO" · "COLECAO" · "MODELO".
-    `secondary` (HTML) troca o secundário (ex.: IOSE)."""
+    Regra única: o botão principal (tinta) é o direct; o e-mail vem depois, como secundário.
+    `secondary` (HTML) troca o secundário (ex.: IOSE). modelo=True: nota "Quer uma modelo IA? Manda MODELO"
+    (só no serviço de audiovisual). `text` troca a frase da variante."""
     v = variante.upper().replace("Ç", "C").replace("Ã", "A")
-    if v == "CONTA":
+    nota = None
+    if modelo:
         nota = ('Quer uma modelo IA para a sua marca? '
                 f'<a href="{esc(config.IG_DM)}" target="_blank" rel="noopener">Manda MODELO no direct.'
                 f'<span aria-hidden="true"> {ICO_OUT}</span>{sr(" (abre em nova aba)")}</a>')
+    if v == "CONTA":
         return cta_final(label_text, ["Já anuncia?", ("Traz a conta pra mesa.", "b")],
-                         "Manda a palavra CONTA no direct do Instagram. Começamos pelo diagnóstico do que já roda.",
+                         text or "Manda a palavra CONTA no direct do Instagram. Começamos pelo diagnóstico do que já roda.",
                          btn("Manda CONTA no direct", config.IG_DM, external=True),
                          secondary if secondary is not None else mail_cta(config.MAILTO_DIAG, pre="Prefere e-mail?"),
                          nota)
     if v in ("PROJETO", "COLECAO"):
         l1 = "Tem um produto" if v == "PROJETO" else "Tem uma coleção"
-        # o botão secundário fica na linha do e-mail, antes do "Copiar e-mail" (que vem sempre por último)
-        sec = secondary if secondary is not None else btn("Falar no direct", config.IG_DM, kind="ghost", external=True)
         return cta_final(label_text, [l1, ("para lançar?", "b")],
-                         "Conta o que quer lançar. Respondemos com o caminho e as peças que fazem sentido.",
-                         mail_cta(config.MAILTO_PROJETO, kind="primary", pre="Iniciar projeto por e-mail", after=sec))
+                         text or "Conta o que quer lançar. Respondemos com o caminho e as peças que fazem sentido.",
+                         btn("Falar no direct", config.IG_DM, external=True),
+                         secondary if secondary is not None else mail_cta(config.MAILTO_PROJETO, pre="Prefere e-mail?"),
+                         nota)
     if v == "MODELO":
         return cta_final(label_text, ["Quer uma modelo assim", ("para a sua marca?", "b")],
-                         "Manda a palavra MODELO no direct do Instagram.",
+                         text or "Manda a palavra MODELO no direct do Instagram.",
                          btn("Manda MODELO no direct", config.IG_DM, external=True),
-                         secondary if secondary is not None else btn("Ver o serviço de audiovisual", "/servicos/audiovisual-com-ia/", kind="ghost"))
+                         secondary if secondary is not None else mail_cta(config.MAILTO_PROJETO, pre="Prefere e-mail?"))
     raise ValueError(f"variante de CTA desconhecida: {variante}")
 
 
@@ -599,7 +605,7 @@ _CASE_HERO = {
 
 def case_hero(slug: str, lead: str, ficha_rows=None, badge: str | None = None, lines=None,
               label_text: str | None = None, sep: str | None = None) -> str:
-    """Abertura de case, curta como a da NUMIS: trilha e rótulo na mesma linha, H1, kanji e texto de abertura.
+    """Abertura de case, curta como a da NUMIS: trilha e rótulo na mesma linha, H1 e texto de abertura (sem kanji).
     A imagem de abertura vem logo depois (na 1.ª dobra) e a ficha técnica vai junto dela (`ficha(rows,
     cls="ficha--row")` na página). ficha_rows aqui é opcional (fica à direita do texto, como antes)."""
     cz = dados.CASES[slug]
@@ -611,7 +617,7 @@ def case_hero(slug: str, lead: str, ficha_rows=None, badge: str | None = None, l
     fic_html = f'<div class="ph__ficha">{fic}</div>' if fic else ""
     bdg = f'<p class="badge label" data-reveal="fade">{esc(badge)}</p>' if badge else ""
     return _hero_curto([("Início", "/"), ("Portfólio", "/portfolio/"), (cz["marca"], None)], lab, lines, lead,
-                       cz["kanji"], extra=bdg + fic_html, sep=sep)
+                       None, extra=bdg + fic_html, sep=sep)
 
 
 def case_card(slug: str, size: str = "lg", heading: str = "h2", show_line: bool = True,
@@ -629,10 +635,10 @@ def case_card(slug: str, size: str = "lg", heading: str = "h2", show_line: bool 
     ia = '<p class="small case-card__ia">100% IA · Nenhuma pessoa real nestas fotos</p>' if cz.get("ia_pessoa") else ""
     return (f'<article class="case-card case-card--{esc(size)}"><a href="/cases/{esc(slug)}/" class="case-card__link">'
             f'<figure{attrs(cls="case-card__media", data_reveal="mask", data_fx="distort" if fx else None)}>{pic}</figure>'
-            f'<p class="label case-card__meta"><span class="label__num">{esc(cz["num"])}</span> · {esc(cz["segmento"])} · {esc(cz["entregavel"])}</p>'
-            f'<{heading} class="t-h3 case-card__title">{esc(cz["nome"])}</{heading}>{line}'
+            f'<p class="label case-card__meta">{esc(cz["segmento"])} · {esc(cz["entregavel"])}</p>'
+            f'<{heading} class="t-h3 case-card__title">{esc(cz["nome"])}</{heading}>{line}{ia}'
             f'<span class="link-arrow case-card__go" aria-hidden="true">Ver case<span class="link-arrow__a link-arrow__a--in">→</span></span>'
-            f'</a>{ia}</article>')
+            f'</a></article>')
 
 
 def case_series(num: str, title_text: str, text: str | None, items, kanji=None, layout: str = "auto",
@@ -658,7 +664,7 @@ def case_series(num: str, title_text: str, text: str | None, items, kanji=None, 
     corpo = text_html if text_html is not None else (esc(text) if text else "")
     txt = f'<p class="small cs__text" data-reveal="fade">{corpo}</p>' if corpo else ""
     lab = label_text or f"Série {num}"
-    head_html = (f'<header class="cs__head">{label(lab, cls="label--rule")}{k}'
+    head_html = (f'<header class="cs__head">{label(lab, cls="label--rule label--5")}{k}'
                  f'{title([title_text], size="h3", cls="cs__title")}{txt}</header>')
     media_html = f'<div class="cs__media">{"".join(media)}</div>'
     corpo_html = media_html + head_html if media_first else head_html + media_html
@@ -694,7 +700,7 @@ def faq(items, label_text: str, lines, id: str = "perguntas", num: str | None = 
                    f'<span class="faq__q">{esc(q)}</span><span class="faq__icon" aria-hidden="true"></span></summary>'
                    f'<div class="faq__a">{ps}</div></details>')
     return section(
-        f'<div class="grid faq-sec__grid"><div class="faq-sec__head">{label(label_text, num=num, cls="label--rule")}'
+        f'<div class="grid faq-sec__grid"><div class="faq-sec__head">{label(label_text, num=num, cls="label--rule label--5")}'
         f'{title(lines, size="h2")}</div><div class="faq" data-reveal="stagger">{"".join(det)}</div></div>',
         id=id, cls="faq-sec")
 
@@ -708,29 +714,13 @@ def faq_text(items) -> list[tuple[str, str]]:
     return out
 
 
-def _srow_thumb(s) -> str:
-    """Miniatura da linha de serviço (decorativa: o link já diz tudo em texto). Sem imagem: o caminho do clique."""
-    th = s.get("thumb")
-    if th:
-        inner = picture(th, "", "(min-width:1024px) 11rem, 6rem", ratio="1/1", decorative=True)
-    else:
-        passos = s.get("thumb_passos") or []
-        inner = "".join(f'<span class="srow__step">{esc(p)}</span>' for p in passos)
-        inner = f'<span class="srow__path">{inner}</span>'
-    return f'<span class="srow__thumb" aria-hidden="true">{inner}</span>'
-
-
 def service_row(slug: str) -> str:
+    """Linha de serviço (/servicos/): título, linha e marcadores; "Ver serviço" alinhado ao título."""
     s = dados.SERVICES[slug]
-    k, m = s["kanji"]
     marks = "".join(f"<li>{esc(x)}</li>" for x in s["marcadores"])
     return (f'<article class="srow"><a class="srow__link" href="{esc(s["url"])}">'
-            f'<span class="label srow__num">{esc(s["num"])}</span>'
-            f'<span class="srow__kanji"><span class="kanji" lang="ja" aria-hidden="true">{esc(k)}</span>'
-            f'<span class="label">{esc(m)}</span></span>'
             f'<span class="srow__body"><h2 class="t-h2 srow__t">{esc(s["titulo"])}</h2>'
             f'<span class="srow__line">{esc(s["linha"])}</span><ul class="srow__marks">{marks}</ul></span>'
-            f'{_srow_thumb(s)}'
             f'<span class="link-arrow srow__go" aria-hidden="true">Ver serviço<span class="link-arrow__a link-arrow__a--in">→</span></span>'
             f'</a></article>')
 
@@ -739,14 +729,11 @@ def pillars_table(cls: str = "") -> str:
     """Os 5 pilares na ordem canônica, com links."""
     rows = []
     for p in dados.PILARES:
-        k, m = p["kanji"]
         rows.append(f'<tr class="pillars__row"><th scope="row" class="pillars__nome">{esc(p["nome"])}</th>'
-                    f'<td class="pillars__k"><span class="kanji" lang="ja" aria-hidden="true">{esc(k)}</span>'
-                    f'<span class="label">{esc(m)}</span></td>'
                     f'<td class="pillars__v">{esc(p["verbo"])}</td><td class="pillars__f">{esc(p["frase"])}</td>'
                     f'<td class="pillars__o">{link_arrow(p["onde"][0], p["onde"][1])}</td></tr>')
     return (f'<table class="{_cls("pillars", cls)}"><caption class="sr">Os cinco pilares da MAYAA</caption>'
-            f'<thead><tr><th scope="col">Pilar</th><th scope="col">Kanji</th><th scope="col">Verbo</th>'
+            f'<thead><tr><th scope="col">Pilar</th><th scope="col">Verbo</th>'
             f'<th scope="col">Frase</th><th scope="col">Onde entra</th></tr></thead><tbody>{"".join(rows)}</tbody></table>')
 
 

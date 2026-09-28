@@ -1,6 +1,6 @@
 """Página-pilar `/trafego-pago-com-ia/` (C2 · §3.6). Texto final do SPEC, letra por letra.
 
-Espinha da NUMIS: breadcrumb · H1 · parágrafo · link de projetos · 01..06 · CTA.
+Espinha da NUMIS: breadcrumb · H1 · parágrafo · link de projetos · seções · CTA (rótulos sem número).
 A pilar é uma das duas páginas com a prova (check 8).
 """
 from lib import components as c, config, media, seo
@@ -18,7 +18,7 @@ FAQ = [
     ("Quanto preciso investir para começar?", [
         "Depende do valor do que você vende, da sua margem e de onde você anuncia hoje. Não existe um número bom para "
         "todo mundo.",
-        "Atendemos quem já anuncia. O primeiro passo é um diagnóstico da conta que já roda: o que gasta, o que traz "
+        "O nosso foco é quem já anuncia. O primeiro passo é um diagnóstico da conta que já roda: o que gasta, o que traz "
         "contato e o que vende. Só depois disso faz sentido falar em verba."]),
     ("A conta de anúncio fica no nome de quem?", [
         "No seu. A conta de anúncio, as campanhas e o histórico são da sua empresa.",
@@ -45,8 +45,6 @@ FAQ = [
 
 def _o_que_e() -> str:
     texto = c.paras([
-        "A MAYAA é um estúdio de tráfego pago com IA em São Paulo. Tsu dirige a criação e o audiovisual; Victor cuida "
-        "do tráfego pago e da performance. O mesmo time, do conceito à conversão.",
         "Tráfego pago é o dinheiro que você coloca na Meta (Instagram e Facebook) e no Google para levar a pessoa "
         "certa até a sua oferta. O anúncio é a parte que aparece. Por trás dele há estrutura de campanha, criativo, "
         "página, formulário e leitura de resultado.",
@@ -56,37 +54,18 @@ def _o_que_e() -> str:
         "leitura é campanha por campanha, com o relatório da plataforma ao lado do que entrou no caixa.",
     ])
     return c.section(
-        c.label("01 · O que é", cls="label--rule"),
+        c.label("O que é", cls="label--rule"),
         f'<div class="split srv-what">'
         f'<div class="srv-what__main">{c.title(["Verba certa,", ("régua certa.", "b")], size="h2")}</div>'
         f'<div class="stack srv-prose">{texto}</div></div>',
         id="o-que-e", cls="srv-sec")
 
 
-def _portfolio() -> str:
-    capa = lambda slug: f"/assets/cases/{slug}/cover.jpg"   # miniatura decorativa: o texto do link já diz tudo
-    lista = c.list_links([
-        dict(title="BVBA Supply", sub="Moda · Fashion film e editorial com IA", href="/cases/bvba-surrealismo/",
-             thumb=capa("bvba-surrealismo")),
-        dict(title="Alumee", sub="Velas artesanais · Campanha de lançamento com IA", href="/cases/alumee-vela-mel/",
-             thumb=capa("alumee-vela-mel")),
-        dict(title="Ana Lauren · 100% IA", sub="Criativo para anúncio · Modelo sintética licenciável",
-             href="/cases/ana-lauren-modelo-ia/", thumb=capa("ana-lauren-modelo-ia")),
-    ])
-    return c.section(
-        f'<div class="split srv-pf">'
-        f'{c.head("02 · Portfólio", lines=["Segmento", ("e entregável.", "b")], text="Cada case tem página própria, com o desafio, a abordagem e as peças.", cls="srv-head")}'
-        f'<div class="srv-pf__list">{lista}'
-        f'<p class="small srv-pf__ia" data-reveal="fade">Ana Lauren é 100% IA. Nenhuma pessoa real nestas fotos.</p>'
-        f'<p class="srv-pf__more" data-reveal="fade">{c.link_arrow("Ver o portfólio completo, 4 cases", "/portfolio/")}</p>'
-        f'</div></div>',
-        id="portfolio", cls="srv-sec")
-
-
 def _como() -> str:
     return c.section(
+        c.label("Como fazemos", cls="label--rule"),
         f'<div class="split srv-pil">'
-        f'{c.head("03 · Como fazemos", lines=["Cinco pilares,", ("um time só.", "b")], cls="srv-head")}'
+        f'{c.head(None, lines=["Cinco pilares,", ("um time só.", "b")], cls="srv-head")}'
         f'<div class="srv-pil__text">{c.paras("Criativo, página e mídia não deveriam viver em agências separadas. Aqui, quem dirige o filme também monta o caminho até a venda e cuida da campanha.", cls="lead")}</div></div>'
         f'<div class="srv-pil__table">{c.pillars_table()}</div>',
         id="como-fazemos", cls="srv-sec")
@@ -94,7 +73,7 @@ def _como() -> str:
 
 def _para_quem() -> str:
     return c.section(
-        c.head("04 · Para quem é", lines=["Para quem", ("já anuncia.", "b")], cls="srv-head"),
+        c.head("Para quem é", lines=["Para quem", ("já anuncia.", "b")], cls="srv-head"),
         c.steps([
             "Já investe em Meta Ads ou Google Ads.",
             "Quer saber quais campanhas trazem venda, não só clique.",
@@ -107,21 +86,20 @@ def _para_quem() -> str:
 def pages():
     og = OG if media.exists(OG) else "/assets/og/og-mayaa.jpg"
     body = "".join([
-        c.page_hero("Guia · Performance · Marketing · IA · Tráfego pago · Audiovisual", H1,
+        c.page_hero("Guia", H1,
                     "Anúncio medido em resultado de caixa, não em curtida. A IA entra no roteiro, no criativo e na "
                     "leitura da campanha. Quem decide é sempre uma pessoa.",
-                    kanji=("知", "saber · IA"), crumbs=TRILHA,
+                    crumbs=TRILHA,
                     ctas=(c.btn("Manda CONTA no direct", config.IG_DM, external=True),
                           c.link_arrow("Conheça os projetos", "/portfolio/"))),
         _o_que_e(),
-        _portfolio(),
         _como(),
         _para_quem(),
-        c.proof(tone="tinta", num_label="05 · Prova · conta de cliente, anonimizada"),
-        c.faq(FAQ, "06 · Perguntas frequentes", ["Antes", ("de começar.", "b")], id="perguntas"),
-        c.cta("CONTA", "07 · Contato"),
+        c.proof(tone="tinta", link=False),
+        c.faq(FAQ, "Perguntas frequentes", ["Antes", ("de começar.", "b")], id="perguntas"),
+        c.cta("CONTA", "Contato"),
     ])
     jsonld = [seo.webpage(PATH, TITLE, DESC, og), seo.breadcrumb_jsonld(TRILHA), seo.faq_jsonld(FAQ)]
     return [Page(path=PATH, title=TITLE, description=DESC, h1=c.plain(H1), body=body, og_image=og,
                  og_alt="MAYAA STUDIO · Tráfego pago com IA: o que é, como medimos e as perguntas mais comuns.",
-                 jsonld=jsonld, nav="", priority=0.9, changefreq="monthly", body_class="srv srv--pilar")]
+                 jsonld=jsonld, nav="servicos", priority=0.9, changefreq="monthly", body_class="srv srv--pilar")]

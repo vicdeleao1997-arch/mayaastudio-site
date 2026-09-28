@@ -9,12 +9,12 @@ from .page import Page
 ASSET_VERSION = {"css": "0", "js": "0"}   # preenchido pelo build.py (hash de 8 caracteres)
 
 NAV = [("servicos", "Serviços", "/servicos/"), ("portfolio", "Portfólio", "/portfolio/")]
-# Menu: só os serviços levam número, e é o mesmo código em todo o site (002 · 003 · 004, os da home e de /servicos/).
+# Menu sem números: número só onde há sequência real (passos do processo, séries dos cases).
 MENU = [
     ("Início", "/", None), ("Serviços", "/servicos/", None),
-    ("Tráfego pago", "/servicos/trafego-pago/", dados.SERVICES["trafego-pago"]["num"]),
-    ("Audiovisual com IA", "/servicos/audiovisual-com-ia/", dados.SERVICES["audiovisual-com-ia"]["num"]),
-    ("Marketing", "/servicos/marketing/", dados.SERVICES["marketing"]["num"]),
+    ("Tráfego pago", "/servicos/trafego-pago/", None),
+    ("Audiovisual com IA", "/servicos/audiovisual-com-ia/", None),
+    ("Marketing", "/servicos/marketing/", None),
     ("Portfólio", "/portfolio/", None), ("Guia · Tráfego pago com IA", "/trafego-pago-com-ia/", None),
     ("Contato", "#contato", None),
 ]
@@ -48,7 +48,7 @@ def header(nav_active: str = "", path: str = "") -> str:
 def menu(path: str = "") -> str:
     lis = []
     for txt, href, num in MENU:
-        n = f'<span class="label menu__num">{esc(num)}</span>' if num else '<span class="label menu__num"></span>'
+        n = f'<span class="label menu__num">{esc(num)}</span>' if num else ""
         lis.append(f'<li><a href="{href}"{_current(path, href)}>{n}'
                    f'<span class="menu__t">{esc(txt)}</span></a></li>')
     foot = (f'<ul class="menu__foot-links">'
