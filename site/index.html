@@ -188,6 +188,7 @@ body.cursor-label #cursor{ opacity:0; }
 [data-hoverscale]{ will-change:transform; }
 @media (prefers-reduced-motion:reduce){ #grainOverlay{ animation:none; } } /* grão de tela cheia tremendo: fica parado */
 @media (hover:none){ #cursorLabel{ display:none; } }
+@media (prefers-reduced-transparency:reduce){ #header.compact{ background:var(--ink); backdrop-filter:none; } #header.on-light.compact{ background:var(--paper); } .reel-modal__bg{ background:var(--ink); backdrop-filter:none; } }
 
 /* --- v4 motion (ref. editorial/racing, adaptado) --- */
 /* Status chip */
@@ -253,7 +254,8 @@ body.cursor-label #cursor{ opacity:0; }
 @media (hover:none){ [data-tilt3d] .case-main{ transform:none; } }
 
 /* --- v6 interatividade --- */
-.btn-lead:active{ transform:scale(.965); }
+.btn-lead{ touch-action:manipulation; }
+.rm .btn-lead:active{ opacity:.8; }
 #metodo .card3d{ transition:background-color .4s ease; }
 #metodo .svc-num{ transition:color .4s ease; }
 @media (hover:hover){
@@ -1264,12 +1266,25 @@ function runPreloader(done){
       .set('#preloader',{ display:'none' });
     return;
   }
+  const hdrLogo=document.querySelector('#header a[href="#top"] svg');
+  const plMark=document.getElementById('plMark');
+  /* rect sem o transform atual, para o voo partir do lugar real do gato */
+  const plRect=()=>{ const r=plMark.getBoundingClientRect(), t=gsap.getProperty(plMark,'y')||0; return { left:r.left, top:r.top-t, width:r.width, height:r.height }; };
+  gsap.set(hdrLogo,{ opacity:0 });
   gsap.set('#plMark',{ clipPath:'inset(100% 0% 0% 0%)', y:24 });
   const tl=gsap.timeline();
   tl.to('#plMark',{ clipPath:'inset(0% 0% 0% 0%)', y:0, duration:1.05, ease:'power3.out' })
     .to('#preloader .pl-word span',{ y:'0%', duration:0.7, stagger:0.08, ease:'expo.out' },'-=0.35')
-    .to('#preloader',{ yPercent:-100, duration:0.9, ease:'expo.inOut' },'+=0.4')
-    .call(done,null,'-=0.55')
+    .addLabel('voo','+=0.35')
+    .to('#preloader .pl-word span',{ y:'-105%', duration:0.5, ease:'expo.in' },'voo')
+    /* o rect é lido quando o voo começa (valor ao vivo), então resize e fonte tardia não desalinham */
+    .to('#plMark',{ transformOrigin:'50% 50%', ease:'expo.inOut', duration:1.05,
+        x:()=>{ const a=plRect(), b=hdrLogo.getBoundingClientRect(); return (b.left+b.width/2)-(a.left+a.width/2); },
+        y:()=>{ const a=plRect(), b=hdrLogo.getBoundingClientRect(); return (b.top+b.height/2)-(a.top+a.height/2); },
+        scale:()=>hdrLogo.getBoundingClientRect().width/plRect().width },'voo')
+    .to('#preloader',{ backgroundColor:'rgba(246,244,239,0)', duration:0.75, ease:'power2.inOut' },'voo+=0.3')
+    .call(done,null,'voo+=0.4')
+    .set(hdrLogo,{ opacity:1 })
     .set('#preloader',{ display:'none' });
 }
 function heroIntro(){
@@ -1278,12 +1293,12 @@ function heroIntro(){
   if(REDUCED){
     tl.fromTo('#hero .reveal-line span',{ y:'30%', opacity:0 },{ y:'0%', opacity:1, duration:.7, stagger:.08, ease:'power2.out' })
       .to('#hero .reveal',{ opacity:1, duration:.6, stagger:.06, ease:'power2.out' },'-=0.45')
-      .fromTo('#heroMark',{ opacity:0 },{ opacity:0.1, duration:.9, ease:'power2.out' },'-=0.6');
+      .fromTo('#heroMark',{ opacity:0 },{ opacity:0.035, duration:.9, ease:'power2.out' },'-=0.6');
     return;
   }
   tl.fromTo('#hero .reveal-line span',{ y:'110%', rotateX:-55, transformOrigin:'0% 100%', transformPerspective:520 },{ y:'0%', rotateX:0, duration:1.1, stagger:0.09, ease:'expo.out' })
     .to('#hero .reveal',{ y:0, opacity:1, duration:0.9, stagger:0.08, ease:'power3.out' },'-=0.7')
-    .fromTo('#heroMark',{ opacity:0, scale:1.06 },{ opacity:0.1, scale:1, duration:1.4, ease:'power2.out' },'-=1');
+    .fromTo('#heroMark',{ opacity:0, scale:1.06 },{ opacity:0.035, scale:1, duration:1.4, ease:'power2.out' },'-=1');
 }
 
 window.addEventListener('load',()=>{
@@ -1455,6 +1470,23 @@ window.addEventListener('load',()=>{
     if(!REDUCED){
       gsap.utils.toArray('#manifesto, #servicos > article, #cases, #ma, #modelo, #metodo, #estudio, #clientes, #contato').forEach(sec=>{
         gsap.fromTo(sec,{ scale:.965, rotateX:2.4, y:26, transformOrigin:'50% 0%', transformPerspective:1400 },{ scale:1, rotateX:0, y:0, ease:'none', scrollTrigger:{ trigger:sec, start:'top 96%', end:'top 42%', scrub:.6 } });
+      });
+    }
+
+    /* ---------- v19: Tinta como virada. Scrub 1:1 com a rolagem: interrompe e volta junto com o dedo ---------- */
+    if(!REDUCED){
+      gsap.utils.toArray('main > section.sec--dark, #servicos > .sec--dark').forEach(sec=>{
+        gsap.fromTo(sec,{ clipPath:'inset(9% 4.5% 9% 4.5%)' },{ clipPath:'inset(0% 0% 0% 0%)', ease:'none',
+          scrollTrigger:{ trigger:sec, start:'top bottom', end:'top 18%', scrub:true, invalidateOnRefresh:true } });
+      });
+    }
+
+    if(!REDUCED){
+      document.querySelectorAll('.btn-lead,.reel-btn,.reel-modal__close').forEach(b=>{
+        const down=()=>gsap.to(b,{ scale:.96, duration:.1, ease:'power2.out', overwrite:'auto' });
+        const up=()=>gsap.to(b,{ scale:1, duration:.55, ease:'expo.out', overwrite:'auto' });
+        b.addEventListener('pointerdown',down); b.addEventListener('pointerup',up);
+        b.addEventListener('pointerleave',up); b.addEventListener('pointercancel',up);
       });
     }
 
