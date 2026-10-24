@@ -245,6 +245,8 @@ body.cursor-label #cursor{ opacity:0; }
 @media (hover:none){ [data-tilt3d] .fdepth{ transform:none; } }
 /* Clientes */
 .client-cell{ background:var(--paper); min-height:7.5rem; display:flex; align-items:center; justify-content:center; padding:1.6rem 1.4rem; }
+.client-cta{ gap:.8rem; color:var(--ink); text-decoration:none; transition:background-color .4s ease; }
+@media (hover:hover){ .client-cta:hover{ background:var(--card); } }
 .client-cell img{ max-height:2.6rem; max-width:78%; width:auto; height:auto; object-fit:contain; filter:grayscale(1); opacity:.68; transition:filter .45s ease, opacity .45s ease, transform .45s var(--ease); }
 @media (min-width:768px){ .client-cell{ min-height:8.5rem; } .client-cell img{ max-height:2.9rem; } }
 @media (max-width:639px){ .client-cell{ min-height:88px; padding:16px; } .client-cell img{ max-height:34px; } }
@@ -664,6 +666,14 @@ main#top{ overflow-x:clip; }
       <div class="client-cell reveal" data-tilt3d><img width="1187" height="160" class="fdepth" src="assets/clients/osetor.png" alt="Grupo O Setor Elétrico" loading="lazy" decoding="async" /></div>
       <div class="client-cell reveal" data-tilt3d><img width="481" height="160" class="fdepth" src="assets/clients/bvba.png" alt="BVBA Supply" loading="lazy" decoding="async" /></div>
       <div class="client-cell reveal" data-tilt3d><img width="300" height="160" class="fdepth" src="assets/clients/uma.png" alt="UMA Raquel Blay" loading="lazy" decoding="async" /></div>
+      <div class="client-cell reveal" data-tilt3d><img width="185" height="160" class="fdepth" src="assets/clients/domez.png" alt="Domez" loading="lazy" decoding="async" /></div>
+      <div class="client-cell reveal" data-tilt3d><img width="449" height="160" class="fdepth" src="assets/clients/biossys.png" alt="Biossys" loading="lazy" decoding="async" /></div>
+      <div class="client-cell reveal" data-tilt3d><img width="502" height="69" class="fdepth" src="assets/clients/concept.png" alt="Concept Be Safe" loading="lazy" decoding="async" /></div>
+      <div class="client-cell reveal" data-tilt3d><img width="1227" height="73" class="fdepth" src="assets/clients/rental.png" alt="Rental Mobility" loading="lazy" decoding="async" /></div>
+      <div class="client-cell reveal" data-tilt3d><img width="139" height="24" class="fdepth" src="assets/clients/viamar.png" alt="Viamar" loading="lazy" decoding="async" /></div>
+      <div class="client-cell reveal" data-tilt3d><img width="846" height="133" class="fdepth" src="assets/clients/nacaoverde.png" alt="Nação Verde" loading="lazy" decoding="async" /></div>
+      <div class="client-cell reveal" data-tilt3d><img width="212" height="160" class="fdepth" src="assets/clients/maeda.png" alt="Maeda Coffee" loading="lazy" decoding="async" /></div>
+      <a class="client-cell reveal client-cta sm:col-span-3" href="#contato"><span class="kicker" data-i18n="clients.cta">Sua marca aqui</span><span aria-hidden="true">→</span></a>
     </div>
   </div>
 </section>
@@ -1214,7 +1224,7 @@ main#top{ overflow-x:clip; }
 /* ---------- i18n ---------- */
 const I18N = {
   'pt-BR': {
-    'rec.k':'Recentes · Outubro 2026','rec.title':'Feito no estúdio.','rec.sub':'Motion, vídeo e posts que saíram daqui este mês. Cada peça aprovada pelo cliente antes de ir ao ar.','rec.cursor':'Ver recentes','rec.pbK':'Moda · Motion de campanha','rec.pbD':'Série em motion e posts da campanha de outubro','rec.pbA':'Motion da BVBA Supply para o Pré-Black: camiseta Frajola de museu','rec.v1':'Pré-Black. Frajola de museu.','rec.v2':'Pré-Black. Duas peças, um brinde.','rec.v3':'MOOT OAB SP.','rec.v4':'Reels legendado.','rec.v5':'Espelho, Nova York.',
+    'clients.cta':'Sua marca aqui','rec.k':'Recentes · Outubro 2026','rec.title':'Feito no estúdio.','rec.sub':'Motion, vídeo e posts que saíram daqui este mês. Cada peça aprovada pelo cliente antes de ir ao ar.','rec.cursor':'Ver recentes','rec.pbK':'Moda · Motion de campanha','rec.pbD':'Série em motion e posts da campanha de outubro','rec.pbA':'Motion da BVBA Supply para o Pré-Black: camiseta Frajola de museu','rec.v1':'Pré-Black. Frajola de museu.','rec.v2':'Pré-Black. Duas peças, um brinde.','rec.v3':'MOOT OAB SP.','rec.v4':'Reels legendado.','rec.v5':'Espelho, Nova York.',
     'nav.manifesto':'Manifesto','nav.services':'Serviços','nav.method':'Método','nav.studio':'Estúdio','nav.contact':'Contato','nav.portfolio':'Portfólio','nav.ads':'Tráfego pago com IA','nav.privacy':'Privacidade',
     'cta.start':'Pedir diagnóstico','cta.startProject':'Pedir diagnóstico',
     'hero.eyebrow':'Performance · Marketing · IA · Tráfego pago · Audiovisual','hero.l1':'Do primeiro frame','hero.l2':'à última','hero.l3':'conversão.',
@@ -1246,7 +1256,7 @@ const I18N = {
     'footer.tag':'Estúdio de tráfego pago com IA em São Paulo. Do conceito à conversão.','footer.nav':'Navegar','footer.social':'Redes','footer.rights':'Feito no estúdio. Do primeiro frame à última conversão.'
   },
   'en': {
-    'rec.k':'Recent · October 2026','rec.title':'Made in the studio.','rec.sub':'Motion, video and posts that left the studio this month. Every piece approved by the client before going live.','rec.cursor':'See recent work','rec.pbK':'Fashion · Campaign motion','rec.pbD':'Motion series and posts for the October campaign','rec.pbA':'BVBA Supply motion for Pre-Black: the museum Frajola tee','rec.v1':'Pre-Black. Museum Frajola.','rec.v2':'Pre-Black. Two pieces, one gift.','rec.v3':'MOOT OAB SP.','rec.v4':'Captioned Reels.','rec.v5':'Mirror, New York.',
+    'clients.cta':'Your brand here','rec.k':'Recent · October 2026','rec.title':'Made in the studio.','rec.sub':'Motion, video and posts that left the studio this month. Every piece approved by the client before going live.','rec.cursor':'See recent work','rec.pbK':'Fashion · Campaign motion','rec.pbD':'Motion series and posts for the October campaign','rec.pbA':'BVBA Supply motion for Pre-Black: the museum Frajola tee','rec.v1':'Pre-Black. Museum Frajola.','rec.v2':'Pre-Black. Two pieces, one gift.','rec.v3':'MOOT OAB SP.','rec.v4':'Captioned Reels.','rec.v5':'Mirror, New York.',
     'nav.manifesto':'Manifesto','nav.services':'Services','nav.method':'Method','nav.studio':'Studio','nav.contact':'Contact','nav.portfolio':'Portfolio','nav.ads':'Paid media with AI','nav.privacy':'Privacy',
     'cta.start':'Request an audit','cta.startProject':'Request an audit',
     'hero.eyebrow':'Performance · Marketing · AI · Paid media · Audiovisual','hero.l1':'From the first frame','hero.l2':'to the final','hero.l3':'conversion.',

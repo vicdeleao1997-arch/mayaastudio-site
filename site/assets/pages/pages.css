@@ -213,6 +213,8 @@ a{ color:inherit; }
 @media (min-width:1024px){ .logos{ grid-template-columns:repeat(5,minmax(0,1fr)); } }
 .logo-cell{ background:var(--paper); display:flex; align-items:center; justify-content:center; padding:28px 22px; min-height:120px; }
 .logo-cell img{ max-height:56px; width:auto; max-width:100%; object-fit:contain; }
+.logo-cta{ gap:.8rem; color:var(--ink); text-decoration:none; font:600 .7rem/1 'Archivo',sans-serif; letter-spacing:.34em; text-transform:uppercase; }
+@media (min-width:1024px){ .logo-cta{ grid-column:span 3; } }
 .clist-next .display{ transition:transform .5s var(--ease); }
 .clist-next:hover .display{ transform:translateX(8px); }
 .phero > .wrap{ width:100%; }
