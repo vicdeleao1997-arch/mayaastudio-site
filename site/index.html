@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <title>MAYAA STUDIO · まやー工房 · Tráfego pago com IA</title>
 <meta name="description" content="Performance · Marketing · IA · Tráfego pago · Audiovisual. Estúdio de tráfego pago com IA em São Paulo. Anúncio medido em resultado de caixa, não em curtida. Do conceito à conversão. Diagnóstico para empresas que já anunciam." />
-<meta name="theme-color" content="#0B0B0B" />
+<meta name="theme-color" content="#F6F4EF" />
 <meta property="og:title" content="MAYAA STUDIO · Tráfego pago com IA" />
 <meta property="og:description" content="Estúdio de tráfego pago com IA em São Paulo. Anúncio medido em resultado de caixa, não em curtida. Performance · Marketing · IA · Tráfego pago · Audiovisual." />
 <meta property="og:type" content="website" />
@@ -23,32 +23,32 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Archivo:wght@300;400;500;600&family=Shippori+Mincho:wght@500;600;700&family=Noto+Serif+JP:wght@400;500;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600;700&family=Shippori+Mincho:wght@400;500;600;700;800&family=Noto+Serif+JP:wght@400;500;700&display=swap" rel="stylesheet" />
 
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
 tailwind.config = {
   theme: { extend: {
     fontFamily: {
-      display: ['"Bricolage Grotesque"', 'sans-serif'],
+      display: ['"Shippori Mincho"', '"Noto Serif JP"', 'serif'],
       sans: ['Archivo', 'sans-serif'],
       jp: ['"Shippori Mincho"', '"Noto Serif JP"', '"Hiragino Mincho ProN"', '"Yu Mincho"', 'serif'],
     },
-    colors: { ink:'#0B0B0B', paper:'#F6F4EF', smoke:'#6B6864', line:'#DAD5CB' },
+    colors: { ink:'#0B0B0B', paper:'#F6F4EF', card:'#EEEBE4', smoke:'#6B6864', line:'#DAD5CB' },
   }},
 };
 </script>
 
 <style>
 :root{
-  --ink:#0B0B0B; --paper:#F6F4EF; --smoke:#6B6864; --line:#DAD5CB;
+  --ink:#0B0B0B; --paper:#F6F4EF; --card:#EEEBE4; --smoke:#6B6864; --line:#DAD5CB;
   --ease:cubic-bezier(.16,1,.3,1);
   --ease-io:cubic-bezier(.76,0,.24,1);
 }
 *{ -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; box-sizing:border-box; }
 html{ scrollbar-width:none; -webkit-tap-highlight-color:transparent; }
 html::-webkit-scrollbar{ display:none; }
-body{ margin:0; background:var(--ink); color:var(--paper); font-family:'Archivo','Noto Serif JP',sans-serif; overflow-x:hidden; font-weight:300; letter-spacing:.005em; }
+body{ margin:0; background:var(--paper); color:var(--ink); font-family:'Archivo','Noto Serif JP',sans-serif; overflow-x:hidden; font-weight:300; letter-spacing:.005em; }
 .lenis.lenis-smooth{ scroll-behavior:auto !important; }
 .lenis.lenis-stopped{ overflow:hidden; }
 img{ user-select:none; -webkit-user-drag:none; }
@@ -56,15 +56,20 @@ img{ user-select:none; -webkit-user-drag:none; }
 /* Sections + contrast */
 .sec--dark{ background:var(--ink); color:var(--paper); }
 .sec--light{ background:var(--paper); color:var(--ink); }
-.sec--dark .u-smoke{ color:#8B857A; }
-.sec--light .u-smoke{ color:#8C877C; }
+.sec--dark .u-smoke{ color:rgba(246,244,239,.55); }
+.sec--light .u-smoke{ color:var(--smoke); }
 /* logo tinting per bg */
 .logo-ink{ display:inline-block; }
 .logo-paper{ display:inline-block; }
 
 /* Type */
-.display{ font-family:'Bricolage Grotesque','Noto Serif JP',sans-serif; font-weight:800; line-height:.9; letter-spacing:-.03em; text-wrap:balance; }
-.kicker{ font-family:'Archivo',sans-serif; font-weight:500; font-size:.7rem; letter-spacing:.34em; text-transform:uppercase; }
+.display{ font-family:'Shippori Mincho','Noto Serif JP',serif; font-weight:700; line-height:1.08; letter-spacing:-.01em; text-wrap:balance; }
+.display.font-extrabold,.display .font-extrabold{ font-weight:800; }
+.u-em{ color:var(--smoke); }
+.sec--dark .u-em{ color:rgba(246,244,239,.55); }
+/* Papel seguido de Papel: fio de 1px em Linha no lugar da troca de fundo */
+.sec--light + .sec--light,#servicos > .sec--light:first-child{ border-top:1px solid var(--line); }
+.kicker{ font-family:'Archivo',sans-serif; font-weight:600; font-size:.7rem; letter-spacing:.34em; text-transform:uppercase; }
 .jp{ font-family:'Shippori Mincho','Noto Serif JP','Hiragino Mincho ProN','Yu Mincho',serif; }
 .vertical{ writing-mode:vertical-rl; text-orientation:mixed; }
 
@@ -85,8 +90,8 @@ body.cursor-hide #cursor,body.cursor-hide #cursorDot{ opacity:0; }
 .ticker span{ white-space:nowrap; }
 
 /* Preloader */
-#preloader{ position:fixed; inset:0; z-index:10000; background:var(--ink); display:flex; align-items:center; justify-content:center; flex-direction:column; }
-.pl-mark{ width:150px; height:auto; color:var(--paper); }
+#preloader{ position:fixed; inset:0; z-index:10000; background:var(--paper); display:flex; align-items:center; justify-content:center; flex-direction:column; }
+.pl-mark{ width:150px; height:auto; color:var(--ink); }
 .pl-word{ overflow:hidden; }
 .pl-word span{ display:inline-block; transform:translateY(105%); }
 
@@ -106,7 +111,7 @@ body.cursor-hide #cursor,body.cursor-hide #cursorDot{ opacity:0; }
 #progress{ transform-origin:left; transform:scaleX(0); will-change:transform; mix-blend-mode:difference; }
 
 /* Buttons */
-.btn-lead{ font-family:'Archivo',sans-serif; font-weight:500; letter-spacing:.01em; border:1px solid currentColor; border-radius:999px; position:relative; overflow:hidden; isolation:isolate; }
+.btn-lead{ font-family:'Archivo',sans-serif; font-weight:500; letter-spacing:.01em; border:1px solid currentColor; border-radius:0; position:relative; overflow:hidden; isolation:isolate; }
 .btn-lead > span,.btn-lead > svg{ position:relative; z-index:2; transition:color .45s ease; }
 .btn-lead::before{ content:''; position:absolute; inset:0; z-index:1; background:currentColor; transform:translateY(101%); transition:transform .55s var(--ease); }
 .btn-lead:hover::before{ transform:translateY(0); }
@@ -127,13 +132,13 @@ body.cursor-hide #cursor,body.cursor-hide #cursorDot{ opacity:0; }
 .burger.on span:nth-child(3){ transform:translateY(-5px) rotate(-45deg); }
 
 /* Service bits */
-.svc-num{ font-family:'Bricolage Grotesque'; font-weight:800; line-height:1; letter-spacing:-.04em; }
+.svc-num{ font-family:'Shippori Mincho','Noto Serif JP',serif; font-weight:600; line-height:1; letter-spacing:-.02em; }
 .deliverable{ border-top:1px solid; transition:padding-left .4s var(--ease); }
 .deliverable:hover{ padding-left:.6rem; }
 
 /* Reel */
 .reel{ position:relative; overflow:hidden; }
-.reel::after{ content:''; position:absolute; left:0; right:0; top:-2px; height:2px; background:linear-gradient(90deg,transparent,rgba(246,244,239,.5),transparent); animation:scan 5s linear infinite; }
+.reel::after{ content:none; }
 @keyframes scan{ 0%{ top:-2px; } 100%{ top:100%; } }
 .grain{ position:absolute; inset:0; opacity:.06; pointer-events:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
 
@@ -152,7 +157,7 @@ select.field option{ color:#0B0B0B; }
 /* Cases empty */
 .case-tile{ border:1px solid var(--line); position:relative; overflow:hidden; transition:transform .6s var(--ease); }
 .case-tile:hover{ transform:translateY(-6px); }
-.case-tile::before{ content:''; position:absolute; inset:0; background:repeating-linear-gradient(45deg,transparent,transparent 13px,rgba(11,11,11,.03) 13px,rgba(11,11,11,.03) 14px); }
+.case-tile::before{ content:none; }
 
 /* focus a11y */
 a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{ outline:2px solid currentColor; outline-offset:3px; }
@@ -173,10 +178,10 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,
 .sec--light ::selection{ background:#0B0B0B; color:#F6F4EF; }
 
 /* --- v3 motion --- */
-#preloader{ color:var(--paper); }
+#preloader{ color:var(--ink); }
 #grainOverlay{ position:fixed; left:-50%; top:-50%; width:200%; height:200%; z-index:9997; will-change:transform; pointer-events:none; opacity:.045; mix-blend-mode:overlay; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-size:170px 170px; animation:grainmove .55s steps(2) infinite; }
 @keyframes grainmove{ 0%{transform:translate3d(0,0,0)} 33%{transform:translate3d(-90px,50px,0)} 66%{transform:translate3d(70px,-60px,0)} 100%{transform:translate3d(40px,30px,0)} }
-#cursorLabel{ position:fixed; left:0; top:0; z-index:10001; pointer-events:none; transform:translate(-50%,-50%) scale(.5); font:500 10.5px/1 'Archivo',sans-serif; letter-spacing:.18em; text-transform:uppercase; color:var(--ink); background:var(--paper); padding:7px 12px; border-radius:999px; white-space:nowrap; opacity:0; transition:opacity .28s var(--ease),transform .28s var(--ease); }
+#cursorLabel{ position:fixed; left:0; top:0; z-index:10001; pointer-events:none; transform:translate(-50%,-50%) scale(.5); font:500 10.5px/1 'Archivo',sans-serif; letter-spacing:.18em; text-transform:uppercase; color:var(--ink); background:var(--paper); padding:7px 12px; border-radius:0; white-space:nowrap; opacity:0; transition:opacity .28s var(--ease),transform .28s var(--ease); }
 body.cursor-label #cursorLabel{ opacity:1; transform:translate(-50%,-50%) scale(1); }
 body.cursor-label #cursor{ opacity:0; }
 [data-tilt3d]{ transform-style:preserve-3d; will-change:transform; }
@@ -193,9 +198,9 @@ body.cursor-label #cursor{ opacity:0; }
 /* Filmstrip horizontal */
 #fsPin{ position:relative; display:flex; flex-direction:column; justify-content:center; padding:11vh 0; }
 @media (min-width:768px){ #fsPin{ height:100svh; padding:0; } }
-.fs-holes{ height:16px; margin:18px 0; flex-shrink:0; background-image:repeating-linear-gradient(90deg, rgba(246,244,239,.16) 0 22px, transparent 22px 44px); -webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent); mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent); }
+.fs-holes{ height:16px; margin:18px 0; flex-shrink:0; background-image:repeating-linear-gradient(90deg, rgba(11,11,11,.14) 0 22px, transparent 22px 44px); -webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent); mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent); }
 .fs-track{ display:flex; width:max-content; align-items:stretch; will-change:transform; }
-.fs-frame{ width:auto; min-width:min(70vw,480px); flex:0 0 auto; min-height:52svh; display:flex; flex-direction:column; justify-content:center; padding:5vh 6vw; border-left:1px solid rgba(246,244,239,.09); position:relative; }
+.fs-frame{ width:auto; min-width:min(70vw,480px); flex:0 0 auto; min-height:52svh; display:flex; flex-direction:column; justify-content:center; padding:5vh 6vw; border-left:1px solid var(--line); position:relative; }
 @media (min-width:768px){ .fs-frame{ min-height:58svh; } }
 .rec-dot{ animation:recblink 1.6s steps(1) infinite; }
 @keyframes recblink{ 50%{ opacity:.15 } }
@@ -239,7 +244,7 @@ body.cursor-label #cursor{ opacity:0; }
 @media (max-width:639px){ .client-cell{ min-height:88px; padding:16px; } .client-cell img{ max-height:34px; } }
 @media (hover:hover){ .client-cell:hover img{ filter:grayscale(0); opacity:1; } }
 #inkTrail{ position:fixed; left:0; top:0; width:100vw; height:100vh; z-index:9996; pointer-events:none; mix-blend-mode:difference; }
-.case-shine{ position:absolute; inset:0; z-index:3; pointer-events:none; opacity:0; transition:opacity .4s ease; background:radial-gradient(420px circle at var(--cx,50%) var(--cy,50%), rgba(11,11,11,.10), transparent 55%); }
+.case-shine{ position:absolute; inset:0; z-index:3; pointer-events:none; opacity:0; transition:opacity .4s ease; display:none; }
 @media (hover:hover){ .case-tile:hover .case-shine{ opacity:1; } }
 @media (hover:hover){
   #metodo .card3d .svc-num{ transition:transform .45s var(--ease); }
@@ -249,17 +254,17 @@ body.cursor-label #cursor{ opacity:0; }
 
 /* --- v6 interatividade --- */
 .btn-lead:active{ transform:scale(.965); }
-#metodo .bg-ink{ transition:background-color .4s ease; }
+#metodo .card3d{ transition:background-color .4s ease; }
 #metodo .svc-num{ transition:color .4s ease; }
 @media (hover:hover){
-  #metodo .bg-ink:hover{ background:#14130f; }
-  #metodo .bg-ink:hover .svc-num{ color:rgba(246,244,239,.45); }
+  #metodo .card3d:hover{ background:var(--card); }
+  #metodo .card3d:hover .svc-num{ color:rgba(11,11,11,.45); }
   #estudio .bg-paper .display{ transition:transform .45s var(--ease); }
   #estudio .bg-paper svg{ transition:opacity .4s ease; }
   #estudio .bg-paper:hover .display{ transform:translateX(6px); }
   #estudio .bg-paper:hover svg{ opacity:.7; }
   #filmstrip .fs-frame .jp{ transition:color .4s ease; }
-  #filmstrip .fs-frame:hover .jp{ color:rgba(246,244,239,.55); }
+  #filmstrip .fs-frame:hover .jp{ color:rgba(11,11,11,.55); }
 }
 #leadForm div:focus-within .kicker{ color:var(--paper); }
 #leadForm .kicker{ transition:color .3s ease; }
@@ -294,7 +299,7 @@ body.cursor-label #cursor{ opacity:0; }
 .draw-line{ height:1px; background:currentColor; opacity:.16; transform-origin:left center; }
 
 /* Reel: vídeo nativo (BVBA Supply · O surrealismo, 15 s, 9:16). Só toca na tela; barra de stories e timecode leem o currentTime */
-.reel-video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 58%; display:block; background:#141414; }
+.reel-video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 58%; display:block; background:#0B0B0B; }
 .reel-video:fullscreen{ object-fit:contain; background:#000; }
 .reel-vignette{ position:absolute; inset:0; pointer-events:none; background:linear-gradient(180deg,rgba(11,11,11,.62) 0%,rgba(11,11,11,0) 24%,rgba(11,11,11,0) 52%,rgba(11,11,11,.86) 100%); }
 .reel .grain{ inset:-50%; opacity:.09; animation:grainmove .6s steps(2) infinite; }
@@ -325,7 +330,7 @@ body.cursor-label #cursor{ opacity:0; }
 .reel-modal.open{ display:flex; }
 .reel-modal__bg{ position:absolute; inset:0; background:rgba(11,11,11,.94); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); }
 .reel-modal__panel{ position:relative; width:min(420px,100%); max-height:100%; display:flex; flex-direction:column; gap:14px; color:var(--paper); }
-.reel-modal__embed{ background:#141414; border:1px solid rgba(246,244,239,.1); border-radius:3px; overflow-y:auto; overscroll-behavior:contain; max-height:calc(100svh - 170px); min-height:260px; scrollbar-width:none; }
+.reel-modal__embed{ background:#0B0B0B; border:1px solid rgba(246,244,239,.1); border-radius:3px; overflow-y:auto; overscroll-behavior:contain; max-height:calc(100svh - 170px); min-height:260px; scrollbar-width:none; }
 .reel-modal__embed::-webkit-scrollbar{ display:none; }
 .reel-modal__embed .instagram-media{ margin:0 !important; min-width:0 !important; width:100% !important; max-width:100% !important; border:0 !important; border-radius:0 !important; }
 .reel-modal__close{ width:40px; height:40px; border-radius:50%; border:1px solid rgba(246,244,239,.35); display:inline-flex; align-items:center; justify-content:center; color:var(--paper); background:transparent; cursor:pointer; flex-shrink:0; transition:background-color .3s ease,color .3s ease; }
@@ -343,20 +348,20 @@ body.modal-open{ overflow:hidden; }
   .ana-card:nth-child(2){ margin-top:8vw; }
   .ana-card:nth-child(3){ margin-top:3vw; }
 }
-.ana-frame{ position:relative; overflow:hidden; aspect-ratio:3/4; background:#141414; border-radius:2px; }
+.ana-frame{ position:relative; overflow:hidden; aspect-ratio:3/4; background:var(--ink); }
 .ana-img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; will-change:transform; filter:grayscale(1) contrast(1.04); transition:filter 1.2s var(--ease); }
 .ana-card.is-on .ana-img{ filter:none; }
 @media (hover:hover){ .ana-card:hover .ana-img{ filter:none; } }
-.ana-tag{ position:absolute; top:12px; left:12px; z-index:3; font:500 10px/1 'Archivo',sans-serif; letter-spacing:.22em; text-transform:uppercase; color:var(--ink); background:var(--paper); padding:7px 10px; border-radius:999px; pointer-events:none; }
+.ana-tag{ position:absolute; top:12px; left:12px; z-index:3; font:500 10px/1 'Archivo',sans-serif; letter-spacing:.22em; text-transform:uppercase; color:var(--ink); background:var(--paper); padding:7px 10px; border-radius:0; pointer-events:none; }
 
 /* --- v16: reel nativo, Alumee no Cases, WebGL (OGL), partículas do manifesto, reveals por view() --- */
 /* celular: a inclinação 3D das seções (perspectiva) alargava a página alguns px; recorta sem criar rolagem */
 main#top{ overflow-x:clip; }
 
 /* Alumee: card de mídia no Cases (bento: 2x2 no desktop), abre o modal com o embed do Instagram */
-.case-media{ background:#141414; color:var(--paper); }
+.case-media{ background:#0B0B0B; color:var(--paper); }
 .case-media::before,.case-media::after{ display:none; }
-.cm-frame{ position:absolute; inset:0; overflow:hidden; background:#141414; }
+.cm-frame{ position:absolute; inset:0; overflow:hidden; background:#0B0B0B; }
 .cm-img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 58%; display:block; transition:opacity .9s var(--ease),transform 1.4s var(--ease); }
 .cm-img--b{ opacity:0; }
 /* sem WebGL: troca simples das fotos no hover; com WebGL a troca vira tinta se espalhando (shader) */
@@ -566,8 +571,8 @@ main#top{ overflow-x:clip; }
 
 <!-- ===================== HERO [DARK] ===================== -->
 <main id="top">
-<section id="hero" class="sec sec--dark relative min-h-[100svh] flex flex-col justify-center overflow-hidden">
-  <div id="heroBg" class="absolute inset-0 flex flex-col justify-center pointer-events-none select-none opacity-[0.045]" aria-hidden="true">
+<section id="hero" class="sec sec--light relative min-h-[100svh] flex flex-col justify-center overflow-hidden">
+  <div id="heroBg" class="absolute inset-0 flex flex-col justify-center pointer-events-none select-none opacity-[0.022]" aria-hidden="true">
     <div class="ticker" data-speed="-1"><span class="display text-[24vw] leading-none pr-[6vw]">TRÁFEGO PAGO COM IA · TRÁFEGO PAGO COM IA · </span></div>
     <div class="ticker" data-speed="1"><span class="display text-[24vw] leading-none pr-[6vw]"><span class="jp" lang="ja">まやー工房</span> · DO CONCEITO À CONVERSÃO · <span class="jp" lang="ja">まやー工房</span> · </span></div>
   </div>
@@ -576,29 +581,29 @@ main#top{ overflow-x:clip; }
   <canvas id="inkDust" class="absolute inset-0 w-full h-full pointer-events-none" aria-hidden="true"></canvas>
 
   <!-- watermark: gato em camadas 3D -->
-  <div id="heroMark" class="mark3d absolute right-[-4vw] top-1/2 -translate-y-1/2 w-[52vw] max-w-[560px] opacity-[0.10] pointer-events-none hidden md:block text-paper" aria-hidden="true">
+  <div id="heroMark" class="mark3d absolute right-[-4vw] top-1/2 -translate-y-1/2 w-[52vw] max-w-[560px] opacity-[0.035] pointer-events-none hidden md:block text-ink" aria-hidden="true">
     <svg class="mark3d-l" style="--z:-46px" viewBox="0 0 1584 1473"><use href="#mk"/></svg>
     <svg class="mark3d-l" style="--z:-22px" viewBox="0 0 1584 1473"><use href="#mk"/></svg>
     <svg class="mark3d-l" style="--z:0px" viewBox="0 0 1584 1473"><use href="#mk"/></svg>
     <svg class="mark3d-l" style="--z:26px" viewBox="0 0 1584 1473"><use href="#mk"/></svg>
   </div>
 
-  <div class="hidden md:block absolute right-8 top-1/2 -translate-y-1/2 vertical jp text-smoke text-lg tracking-[0.35em] opacity-50" data-depth="0.5" aria-hidden="true">間 · 創 · 光</div>
+  <div class="hidden md:block absolute right-8 top-1/2 -translate-y-1/2 vertical jp text-smoke text-lg tracking-[0.35em] opacity-50" data-depth="0.5" aria-hidden="true">間</div>
 
   <div id="heroContent" class="relative z-10 px-5 md:px-9 w-full pb-14 md:pb-0">
     <div class="kicker u-smoke reveal mb-6"><span class="jp mr-2">まやー工房</span> · <span data-i18n="hero.eyebrow">Performance · Marketing · IA · Tráfego pago · Audiovisual</span></div>
 
-    <h1 class="display text-paper text-[13.5vw] md:text-[9.2vw] lg:text-[8.2vw] max-w-[16ch]">
+    <h1 class="display text-ink text-[13.5vw] md:text-[9.2vw] lg:text-[8.2vw] max-w-[16ch]">
       <span class="reveal-line"><span data-i18n="hero.l1">Do primeiro frame</span></span>
-      <span class="reveal-line"><span data-i18n="hero.l2">à última</span> <span class="italic font-normal" data-i18n="hero.l3">conversão.</span></span>
+      <span class="reveal-line"><span data-i18n="hero.l2">à última</span> <span class="u-em" data-i18n="hero.l3">conversão.</span></span>
     </h1>
 
     <div class="mt-9 md:mt-11 flex flex-col md:flex-row md:items-end justify-between gap-8">
-      <p class="reveal max-w-[42ch] text-[15px] md:text-[17px] leading-relaxed text-paper/70 font-light" data-i18n="hero.sub">Gestão de tráfego pago com IA e produção audiovisual. Anúncio medido em resultado de caixa, não em curtida.</p>
+      <p class="reveal max-w-[42ch] text-[15px] md:text-[17px] leading-relaxed text-ink/70 font-light" data-i18n="hero.sub">Gestão de tráfego pago com IA e produção audiovisual. Anúncio medido em resultado de caixa, não em curtida.</p>
       <div class="reveal shrink-0 flex flex-col items-start md:items-end gap-5">
-        <div class="inline-flex items-center gap-2.5 border border-white/15 rounded-full px-4 py-2">
-          <span class="chip-dot" aria-hidden="true"></span>
-          <span class="text-[11px] tracking-[0.2em] uppercase text-paper/70" data-i18n="hero.status">Diagnóstico para quem já anuncia</span>
+        <div class="inline-flex items-center gap-2.5 border border-ink/15 px-4 py-2">
+          <span class="chip-dot chip-dot--ink" aria-hidden="true"></span>
+          <span class="text-[11px] tracking-[0.2em] uppercase text-ink/70" data-i18n="hero.status">Diagnóstico para quem já anuncia</span>
         </div>
         <a href="#contato" data-magnetic class="btn-lead inline-flex items-center gap-3 px-7 py-4 text-[14px]">
           <span data-i18n="cta.startProject">Pedir diagnóstico</span>
@@ -615,9 +620,9 @@ main#top{ overflow-x:clip; }
 </section>
 
 <!-- ===================== MARQUEE ===================== -->
-<div class="sec sec--dark border-y border-white/10 overflow-hidden py-5" style="perspective:800px">
+<div class="sec sec--light border-y border-ink/10 overflow-hidden py-5" style="perspective:800px">
   <div class="ticker" data-speed="1.1" style="transform:rotateX(9deg)">
-    <span class="display text-paper/80 text-[7vw] md:text-[3.4vw] font-extrabold tracking-[-0.005em]">CRIAR<span class="opacity-40 mx-[3.2vw] md:mx-[1.7vw]">✦</span>CONSTRUIR<span class="opacity-40 mx-[3.2vw] md:mx-[1.7vw]">✦</span>ESCALAR<span class="opacity-40 mx-[3.2vw] md:mx-[1.7vw]">✦</span>OTIMIZAR<span class="opacity-40 mx-[3.2vw] md:mx-[1.7vw]">✦</span></span>
+    <span class="display text-ink/80 text-[7vw] md:text-[3.4vw] font-extrabold tracking-[-0.005em]">CRIAR<span class="opacity-40 mx-[3.2vw] md:mx-[1.7vw]">·</span>CONSTRUIR<span class="opacity-40 mx-[3.2vw] md:mx-[1.7vw]">·</span>ESCALAR<span class="opacity-40 mx-[3.2vw] md:mx-[1.7vw]">·</span>OTIMIZAR<span class="opacity-40 mx-[3.2vw] md:mx-[1.7vw]">·</span></span>
   </div>
 </div>
 
@@ -644,7 +649,7 @@ main#top{ overflow-x:clip; }
 </section>
 
 <!-- ===================== FILMSTRIP [DARK] — rolo horizontal do processo ===================== -->
-<section id="filmstrip" class="sec sec--dark relative overflow-hidden">
+<section id="filmstrip" class="sec sec--light relative overflow-hidden">
   <div id="fsPin">
     <div class="absolute top-5 left-5 md:left-9 kicker u-smoke z-10" data-i18n="fs.kicker">O processo, frame a frame</div>
     <div class="absolute top-5 right-5 md:right-9 kicker u-smoke z-10" aria-hidden="true"><span class="jp" lang="ja">まやー</span> · 35MM</div>
@@ -652,33 +657,33 @@ main#top{ overflow-x:clip; }
     <div id="fsScroller"><div id="fsTrack" class="fs-track">
       <div class="fs-frame">
         <span class="kicker u-smoke mb-5">01 · <span data-i18n="svc.perf.title">Performance</span></span>
-        <span class="fs-big display text-paper text-[15vw] md:text-[7.4vw] leading-none" data-i18n="fs.w1">OTIMIZAR</span>
-        <span class="jp text-paper/25 text-3xl md:text-4xl mt-6" aria-hidden="true">磨</span>
+        <span class="fs-big display text-ink text-[15vw] md:text-[7.4vw] leading-none" data-i18n="fs.w1">OTIMIZAR</span>
+        <span class="jp text-ink/25 text-3xl md:text-4xl mt-6" aria-hidden="true">磨</span>
       </div>
       <div class="fs-frame">
         <span class="kicker u-smoke mb-5">02 · <span data-i18n="svc.mkt.title">Marketing</span></span>
-        <span class="fs-big display text-paper text-[15vw] md:text-[7.4vw] leading-none" data-i18n="fs.w2">CONSTRUIR</span>
-        <span class="jp text-paper/25 text-3xl md:text-4xl mt-6" aria-hidden="true">築</span>
+        <span class="fs-big display text-ink text-[15vw] md:text-[7.4vw] leading-none" data-i18n="fs.w2">CONSTRUIR</span>
+        <span class="jp text-ink/25 text-3xl md:text-4xl mt-6" aria-hidden="true">築</span>
       </div>
       <div class="fs-frame">
         <span class="kicker u-smoke mb-5">03 · <span data-i18n="svc.ai.title">IA</span></span>
-        <span class="fs-big display text-paper text-[15vw] md:text-[7.4vw] leading-none" data-i18n="fs.w3">POTENCIALIZAR</span>
-        <span class="jp text-paper/25 text-3xl md:text-4xl mt-6" aria-hidden="true">知</span>
+        <span class="fs-big display text-ink text-[15vw] md:text-[7.4vw] leading-none" data-i18n="fs.w3">POTENCIALIZAR</span>
+        <span class="jp text-ink/25 text-3xl md:text-4xl mt-6" aria-hidden="true">知</span>
       </div>
       <div class="fs-frame">
         <span class="kicker u-smoke mb-5">04 · <span data-i18n="svc.ads.title">Tráfego pago</span></span>
-        <span class="fs-big display text-paper text-[15vw] md:text-[7.4vw] leading-none" data-i18n="fs.w4">ESCALAR</span>
-        <span class="jp text-paper/25 text-3xl md:text-4xl mt-6" aria-hidden="true">展</span>
+        <span class="fs-big display text-ink text-[15vw] md:text-[7.4vw] leading-none" data-i18n="fs.w4">ESCALAR</span>
+        <span class="jp text-ink/25 text-3xl md:text-4xl mt-6" aria-hidden="true">展</span>
       </div>
       <div class="fs-frame">
         <span class="kicker u-smoke mb-5">05 · <span data-i18n="svc.av.title">Audiovisual</span></span>
-        <span class="fs-big display text-paper text-[15vw] md:text-[7.4vw] leading-none" data-i18n="fs.w5">CRIAR</span>
-        <span class="jp text-paper/25 text-3xl md:text-4xl mt-6" aria-hidden="true">創</span>
+        <span class="fs-big display text-ink text-[15vw] md:text-[7.4vw] leading-none" data-i18n="fs.w5">CRIAR</span>
+        <span class="jp text-ink/25 text-3xl md:text-4xl mt-6" aria-hidden="true">創</span>
       </div>
       <div class="fs-frame items-center text-center">
         <div class="fs-big flex flex-col items-center">
-          <svg class="w-[38vw] max-w-[280px] h-auto text-paper opacity-90" viewBox="0 0 1584 1473" aria-hidden="true"><use href="#mk"/></svg>
-          <span class="jp text-paper/50 text-lg tracking-[0.3em] mr-[-0.3em] mt-7">まやー工房</span>
+          <svg class="w-[38vw] max-w-[280px] h-auto text-ink opacity-90" viewBox="0 0 1584 1473" aria-hidden="true"><use href="#mk"/></svg>
+          <span class="jp text-ink/50 text-lg tracking-[0.3em] mr-[-0.3em] mt-7">まやー工房</span>
         </div>
       </div>
     </div></div>
@@ -697,7 +702,7 @@ main#top{ overflow-x:clip; }
     <p class="display font-extrabold text-[5.7vw] md:text-[4vw] leading-[1.08] text-ink" style="text-wrap:pretty; overflow-wrap:break-word;">
       <span class="reveal-line"><span data-i18n="man.l1">Marcas não precisam</span></span>
       <span class="reveal-line"><span data-i18n="man.l2">de mais agências.</span></span>
-      <span class="reveal-line"><span class="italic font-normal" data-i18n="man.l3">Precisam de um estúdio</span></span>
+      <span class="reveal-line"><span class="u-em" data-i18n="man.l3">Precisam de um estúdio</span></span>
       <span class="reveal-line"><span data-i18n="man.l4">que pensa imagem,</span></span>
       <span class="reveal-line"><span data-i18n="man.l5">anúncio e resultado</span></span>
       <span class="reveal-line"><span data-i18n="man.l6">ao mesmo tempo.</span></span>
@@ -710,27 +715,27 @@ main#top{ overflow-x:clip; }
 <section id="servicos">
 
 <!-- 01 · PERFORMANCE [DARK] -->
-<article class="sec sec--dark py-24 md:py-32 px-5 md:px-9 overflow-hidden">
+<article class="sec sec--light py-24 md:py-32 px-5 md:px-9 overflow-hidden">
   <div class="grid md:grid-cols-12 gap-10 md:gap-8 items-center max-w-[1500px] mx-auto">
     <div class="md:col-span-5">
-      <div class="flex items-baseline gap-4 mb-6"><span class="svc-num text-paper/25 text-[15vw] md:text-[7vw]" data-parallax="0.07">01</span><span class="kicker u-smoke" data-i18n="svc.perf.k">Resultado</span></div>
-      <h2 class="display text-paper text-[11vw] md:text-[4.2vw] leading-[0.92] mb-5"><span class="reveal-line"><span data-i18n="svc.perf.title">Performance</span></span></h2>
-      <p class="reveal display text-paper text-2xl md:text-3xl font-normal italic mb-4" data-i18n="svc.perf.verb">Otimizamos.</p>
-      <p class="reveal text-paper/60 text-[15px] md:text-[16px] leading-relaxed max-w-[40ch] mb-9 font-light" data-i18n="svc.perf.value">Anúncio medido em resultado de caixa, não em curtida. A pergunta é sempre a mesma: quanto virou venda.</p>
-      <ul class="text-paper/85 text-[15px]">
-        <li class="deliverable border-white/15 py-4 flex justify-between reveal"><span data-i18n="svc.perf.d1">Funil &amp; conversão</span><span class="u-smoke jp text-xs">01</span></li>
-        <li class="deliverable border-white/15 py-4 flex justify-between reveal"><span data-i18n="svc.perf.d2">Medição de ponta a ponta</span><span class="u-smoke jp text-xs">02</span></li>
-        <li class="deliverable border-white/15 py-4 flex justify-between reveal"><span data-i18n="svc.perf.d3">Ajuste contínuo</span><span class="u-smoke jp text-xs">03</span></li>
+      <div class="flex items-baseline gap-4 mb-6"><span class="svc-num text-ink/25 text-[15vw] md:text-[7vw]" data-parallax="0.07">01</span><span class="kicker u-smoke" data-i18n="svc.perf.k">Resultado</span></div>
+      <h2 class="display text-ink text-[11vw] md:text-[4.2vw] leading-[0.92] mb-5"><span class="reveal-line"><span data-i18n="svc.perf.title">Performance</span></span></h2>
+      <p class="reveal display text-ink text-2xl md:text-3xl font-normal mb-4" data-i18n="svc.perf.verb">Otimizamos.</p>
+      <p class="reveal text-ink/60 text-[15px] md:text-[16px] leading-relaxed max-w-[40ch] mb-9 font-light" data-i18n="svc.perf.value">Anúncio medido em resultado de caixa, não em curtida. A pergunta é sempre a mesma: quanto virou venda.</p>
+      <ul class="text-ink/85 text-[15px]">
+        <li class="deliverable border-ink/15 py-4 flex justify-between reveal"><span data-i18n="svc.perf.d1">Funil &amp; conversão</span><span class="u-smoke jp text-xs">01</span></li>
+        <li class="deliverable border-ink/15 py-4 flex justify-between reveal"><span data-i18n="svc.perf.d2">Medição de ponta a ponta</span><span class="u-smoke jp text-xs">02</span></li>
+        <li class="deliverable border-ink/15 py-4 flex justify-between reveal"><span data-i18n="svc.perf.d3">Ajuste contínuo</span><span class="u-smoke jp text-xs">03</span></li>
       </ul>
       <a href="#contato" data-magnetic class="btn-lead inline-flex mt-9 px-6 py-3 text-[13px]"><span data-i18n="svc.perf.cta">Medir o que importa</span></a>
     </div>
     <div class="md:col-span-7">
-      <div class="border border-white/12 p-6 md:p-8" data-parallax="0.06" data-tilt3d>
-        <div class="flex justify-between items-baseline gap-4 mb-6"><span class="kicker u-smoke" data-i18n="svc.perf.chart">O que a gente mede</span><span class="fdepth display text-paper text-3xl font-extrabold" data-i18n="svc.perf.metric">Venda</span></div>
+      <div class="border border-ink/12 p-6 md:p-8" data-parallax="0.06" data-tilt3d>
+        <div class="flex justify-between items-baseline gap-4 mb-6"><span class="kicker u-smoke" data-i18n="svc.perf.chart">O que a gente mede</span><span class="fdepth display text-ink text-3xl font-extrabold" data-i18n="svc.perf.metric">Venda</span></div>
         <svg viewBox="0 0 600 240" class="fdepth w-full" fill="none">
-          <line x1="0" y1="200" x2="600" y2="200" stroke="#F6F4EF" stroke-opacity="0.14"/><line x1="0" y1="130" x2="600" y2="130" stroke="#F6F4EF" stroke-opacity="0.07"/><line x1="0" y1="60" x2="600" y2="60" stroke="#F6F4EF" stroke-opacity="0.07"/>
-          <path class="chart-path" pathLength="1" d="M10 195 C90 190 130 170 200 150 C270 130 300 120 370 90 C440 60 500 40 590 18" stroke="#F6F4EF" stroke-width="2.5" stroke-linecap="round"/>
-          <circle id="chartDot" cx="590" cy="18" r="5" fill="#F6F4EF" opacity="0"/>
+          <line x1="0" y1="200" x2="600" y2="200" stroke="#0B0B0B" stroke-opacity="0.14"/><line x1="0" y1="130" x2="600" y2="130" stroke="#0B0B0B" stroke-opacity="0.07"/><line x1="0" y1="60" x2="600" y2="60" stroke="#0B0B0B" stroke-opacity="0.07"/>
+          <path class="chart-path" pathLength="1" d="M10 195 C90 190 130 170 200 150 C270 130 300 120 370 90 C440 60 500 40 590 18" stroke="#0B0B0B" stroke-width="2.5" stroke-linecap="round"/>
+          <circle id="chartDot" cx="590" cy="18" r="5" fill="#0B0B0B" opacity="0"/>
         </svg>
       </div>
     </div>
@@ -741,10 +746,10 @@ main#top{ overflow-x:clip; }
 <article class="sec sec--light py-24 md:py-32 px-5 md:px-9 overflow-hidden">
   <div class="grid md:grid-cols-12 gap-10 md:gap-8 items-center max-w-[1500px] mx-auto">
     <div class="md:col-span-7 order-2 md:order-1">
-      <div class="mock w-full rounded-sm shadow-[10px_10px_0_0_#0B0B0B]" data-parallax="-0.08" data-hoverscale data-float3d>
+      <div class="mock w-full" data-parallax="-0.08" data-hoverscale data-float3d>
         <div class="mock-bar flex items-center gap-2 px-4 py-3">
           <span class="w-2.5 h-2.5 rounded-full border border-ink"></span><span class="w-2.5 h-2.5 rounded-full border border-ink"></span><span class="w-2.5 h-2.5 rounded-full border border-ink"></span>
-          <span class="ml-3 text-[11px] text-smoke tracking-wide" style="font-family:'Bricolage Grotesque'">mayaastudio.com.br</span>
+          <span class="ml-3 text-[11px] text-smoke tracking-wide">mayaastudio.com.br</span>
         </div>
         <div class="p-6 md:p-8">
           <div class="mock-fill h-9 bg-ink mb-3 w-3/5" data-fill></div>
@@ -756,14 +761,14 @@ main#top{ overflow-x:clip; }
             <div class="mock-fill h-24 bg-ink/10 border border-ink/20 flex-1" data-fill></div>
             <div class="mock-fill h-24 bg-ink flex-1" data-fill></div>
           </div>
-          <div class="mock-fill mt-6 inline-block h-9 w-40 rounded-full bg-ink" data-fill></div>
+          <div class="mock-fill mt-6 inline-block h-9 w-40 bg-ink" data-fill></div>
         </div>
       </div>
     </div>
     <div class="md:col-span-5 order-1 md:order-2">
       <div class="flex items-baseline gap-4 mb-6"><span class="svc-num text-ink/15 text-[15vw] md:text-[7vw]" data-parallax="0.07">02</span><span class="kicker u-smoke" data-i18n="svc.mkt.k">Funil</span></div>
       <h2 class="display text-ink text-[11vw] md:text-[4.2vw] leading-[0.92] mb-5"><span class="reveal-line"><span data-i18n="svc.mkt.title">Marketing</span></span></h2>
-      <p class="reveal display text-ink text-2xl md:text-3xl font-normal italic mb-4" data-i18n="svc.mkt.verb">Construímos.</p>
+      <p class="reveal display text-ink text-2xl md:text-3xl font-normal mb-4" data-i18n="svc.mkt.verb">Construímos.</p>
       <p class="reveal text-ink/60 text-[15px] md:text-[16px] leading-relaxed max-w-[40ch] mb-9 font-light" data-i18n="svc.mkt.value">Página, formulário, oferta e funil que sustentam o anúncio. O clique chega num lugar pronto pra vender.</p>
       <ul class="text-ink/85 text-[15px]">
         <li class="deliverable border-ink/15 py-4 flex justify-between reveal"><span data-i18n="svc.mkt.d1">Landing pages &amp; sites</span><span class="u-smoke jp text-xs">01</span></li>
@@ -776,31 +781,31 @@ main#top{ overflow-x:clip; }
 </article>
 
 <!-- 03 · IA [DARK] -->
-<article class="sec sec--dark py-24 md:py-32 px-5 md:px-9 overflow-hidden">
+<article class="sec sec--light py-24 md:py-32 px-5 md:px-9 overflow-hidden">
   <div class="grid md:grid-cols-12 gap-10 md:gap-8 items-center max-w-[1500px] mx-auto">
     <div class="md:col-span-5">
-      <div class="flex items-baseline gap-4 mb-6"><span class="svc-num text-paper/25 text-[15vw] md:text-[7vw]" data-parallax="0.07">03</span><span class="kicker u-smoke" data-i18n="svc.ai.k">Ofício</span></div>
-      <h2 class="display text-paper text-[11vw] md:text-[4.2vw] leading-[0.92] mb-5"><span class="reveal-line"><span data-i18n="svc.ai.title">IA</span></span></h2>
-      <p class="reveal display text-paper text-2xl md:text-3xl font-normal italic mb-4" data-i18n="svc.ai.verb">Potencializamos.</p>
-      <p class="reveal text-paper/60 text-[15px] md:text-[16px] leading-relaxed max-w-[40ch] mb-9 font-light" data-i18n="svc.ai.value">IA é o ofício, não o produto. Entra no roteiro, no criativo e na leitura de campanha. Quem decide é sempre uma pessoa.</p>
-      <ul class="text-paper/85 text-[15px]">
-        <li class="deliverable border-white/15 py-4 flex justify-between reveal"><span data-i18n="svc.ai.d1">Roteiro &amp; variações de criativo</span><span class="u-smoke jp text-xs">01</span></li>
-        <li class="deliverable border-white/15 py-4 flex justify-between reveal"><span data-i18n="svc.ai.d2">Leitura de campanha</span><span class="u-smoke jp text-xs">02</span></li>
-        <li class="deliverable border-white/15 py-4 flex justify-between reveal"><span data-i18n="svc.ai.d3">Relatório que vira decisão</span><span class="u-smoke jp text-xs">03</span></li>
+      <div class="flex items-baseline gap-4 mb-6"><span class="svc-num text-ink/25 text-[15vw] md:text-[7vw]" data-parallax="0.07">03</span><span class="kicker u-smoke" data-i18n="svc.ai.k">Ofício</span></div>
+      <h2 class="display text-ink text-[11vw] md:text-[4.2vw] leading-[0.92] mb-5"><span class="reveal-line"><span data-i18n="svc.ai.title">IA</span></span></h2>
+      <p class="reveal display text-ink text-2xl md:text-3xl font-normal mb-4" data-i18n="svc.ai.verb">Potencializamos.</p>
+      <p class="reveal text-ink/60 text-[15px] md:text-[16px] leading-relaxed max-w-[40ch] mb-9 font-light" data-i18n="svc.ai.value">IA é o ofício, não o produto. Entra no roteiro, no criativo e na leitura de campanha. Quem decide é sempre uma pessoa.</p>
+      <ul class="text-ink/85 text-[15px]">
+        <li class="deliverable border-ink/15 py-4 flex justify-between reveal"><span data-i18n="svc.ai.d1">Roteiro &amp; variações de criativo</span><span class="u-smoke jp text-xs">01</span></li>
+        <li class="deliverable border-ink/15 py-4 flex justify-between reveal"><span data-i18n="svc.ai.d2">Leitura de campanha</span><span class="u-smoke jp text-xs">02</span></li>
+        <li class="deliverable border-ink/15 py-4 flex justify-between reveal"><span data-i18n="svc.ai.d3">Relatório que vira decisão</span><span class="u-smoke jp text-xs">03</span></li>
       </ul>
       <a href="#contato" data-magnetic class="btn-lead inline-flex mt-9 px-6 py-3 text-[13px]"><span data-i18n="svc.ai.cta">Levar IA pro anúncio</span></a>
     </div>
     <div class="md:col-span-7">
-      <div class="border border-white/12 p-6 md:p-10" data-parallax="0.08" data-tilt3d>
+      <div class="border border-ink/12 p-6 md:p-10" data-parallax="0.08" data-tilt3d>
         <div class="flex justify-between items-baseline gap-4 mb-8"><span class="kicker u-smoke" data-i18n="svc.ai.panel">Onde a IA entra</span><span class="kicker u-smoke" aria-hidden="true">AI · <span class="jp" lang="ja">知</span></span></div>
-        <div class="fdepth jp text-paper/85 text-[16vw] md:text-[6.4vw] leading-none mb-9" lang="ja" aria-hidden="true">人工知能</div>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-px bg-white/10 border border-white/10">
-          <div class="bg-ink p-4 md:p-5"><div class="u-smoke kicker mb-2">01</div><div class="text-paper/85 text-[14px]" data-i18n="svc.ai.s1">Roteiro</div></div>
-          <div class="bg-ink p-4 md:p-5"><div class="u-smoke kicker mb-2">02</div><div class="text-paper/85 text-[14px]" data-i18n="svc.ai.s2">Criativo</div></div>
-          <div class="bg-ink p-4 md:p-5"><div class="u-smoke kicker mb-2">03</div><div class="text-paper/85 text-[14px]" data-i18n="svc.ai.s3">Campanha</div></div>
-          <div class="bg-ink p-4 md:p-5"><div class="u-smoke kicker mb-2">04</div><div class="text-paper/85 text-[14px]" data-i18n="svc.ai.s4">Relatório</div></div>
+        <div class="fdepth jp text-ink/85 text-[16vw] md:text-[6.4vw] leading-none mb-9" lang="ja" aria-hidden="true">知</div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-px bg-ink/10 border border-ink/10">
+          <div class="bg-paper p-4 md:p-5"><div class="u-smoke kicker mb-2">01</div><div class="text-ink/85 text-[14px]" data-i18n="svc.ai.s1">Roteiro</div></div>
+          <div class="bg-paper p-4 md:p-5"><div class="u-smoke kicker mb-2">02</div><div class="text-ink/85 text-[14px]" data-i18n="svc.ai.s2">Criativo</div></div>
+          <div class="bg-paper p-4 md:p-5"><div class="u-smoke kicker mb-2">03</div><div class="text-ink/85 text-[14px]" data-i18n="svc.ai.s3">Campanha</div></div>
+          <div class="bg-paper p-4 md:p-5"><div class="u-smoke kicker mb-2">04</div><div class="text-ink/85 text-[14px]" data-i18n="svc.ai.s4">Relatório</div></div>
         </div>
-        <p class="text-paper/55 text-[13px] mt-6 font-light" data-i18n="svc.ai.human">Direção humana em cada etapa.</p>
+        <p class="text-ink/55 text-[13px] mt-6 font-light" data-i18n="svc.ai.human">Direção humana em cada etapa.</p>
       </div>
     </div>
   </div>
@@ -825,7 +830,7 @@ main#top{ overflow-x:clip; }
     <div class="md:col-span-5 order-1 md:order-2">
       <div class="flex items-baseline gap-4 mb-6"><span class="svc-num text-ink/15 text-[15vw] md:text-[7vw]" data-parallax="0.07">04</span><span class="kicker u-smoke" data-i18n="svc.ads.k">Aquisição</span></div>
       <h2 class="display text-ink text-[11vw] md:text-[4.2vw] leading-[0.92] mb-5"><span class="reveal-line"><span data-i18n="svc.ads.title">Tráfego pago</span></span></h2>
-      <p class="reveal display text-ink text-2xl md:text-3xl font-normal italic mb-4" data-i18n="svc.ads.verb">Escalamos.</p>
+      <p class="reveal display text-ink text-2xl md:text-3xl font-normal mb-4" data-i18n="svc.ads.verb">Escalamos.</p>
       <p class="reveal text-ink/60 text-[15px] md:text-[16px] leading-relaxed max-w-[40ch] mb-9 font-light" data-i18n="svc.ads.value">Gestão de campanhas com a venda como régua. Verba lida campanha por campanha, não no total do mês.</p>
       <ul class="text-ink/85 text-[15px]">
         <li class="deliverable border-ink/15 py-4 flex justify-between reveal"><span data-i18n="svc.ads.d1">Meta &amp; Google Ads</span><span class="u-smoke jp text-xs">01</span></li>
@@ -843,7 +848,7 @@ main#top{ overflow-x:clip; }
     <div class="md:col-span-5">
       <div class="flex items-baseline gap-4 mb-6"><span class="svc-num text-paper/25 text-[15vw] md:text-[7vw]" data-parallax="0.07">05</span><span class="kicker u-smoke" data-i18n="svc.av.k">Estúdio</span></div>
       <h2 class="display text-paper text-[11vw] md:text-[4.6vw] leading-[0.92] mb-5"><span class="reveal-line"><span data-i18n="svc.av.title">Audiovisual</span></span></h2>
-      <p class="reveal display text-paper/90 text-2xl md:text-3xl font-normal italic mb-4" data-i18n="svc.av.verb">Criamos.</p>
+      <p class="reveal display text-paper/90 text-2xl md:text-3xl font-normal mb-4" data-i18n="svc.av.verb">Criamos.</p>
       <p class="reveal text-paper/60 text-[15px] md:text-[16px] leading-relaxed max-w-[40ch] mb-9 font-light" data-i18n="svc.av.value">Câmera, direção e movimento. Criativo em vídeo feito para anúncio, que se assiste inteiro.</p>
       <ul class="text-paper/85 text-[15px]">
         <li class="deliverable border-white/15 py-4 flex justify-between reveal"><span data-i18n="svc.av.d1">Direção &amp; roteiro</span><span class="u-smoke jp text-xs">01</span></li>
@@ -857,7 +862,7 @@ main#top{ overflow-x:clip; }
            Toca mudo e em loop só enquanto está na tela (IntersectionObserver); pausa, som e tela cheia pelos botões.
            Em prefers-reduced-motion não toca sozinho (fica no poster). Com WebGL, um grão por shader reage à rolagem e ao cursor;
            sem WebGL fica o grão em CSS. O case da Alumee (vela Mel + modal com o embed) foi para a seção Cases. -->
-      <div id="reelBox" class="reel relative w-full max-w-[540px] md:ml-auto aspect-[4/5] bg-[#141414] border border-white/10 overflow-hidden" data-parallax="0.1" data-hoverscale data-float3d>
+      <div id="reelBox" class="reel relative w-full max-w-[540px] md:ml-auto aspect-[4/5] bg-[#0B0B0B] border border-white/10 overflow-hidden" data-parallax="0.1" data-hoverscale data-float3d>
         <video id="reelVideo" class="reel-video" src="assets/portfolio/reel-surreal.mp4" poster="assets/portfolio/reel-surreal-poster.jpg" muted autoplay loop playsinline preload="metadata" width="720" height="1280" aria-label="Filme com IA para a BVBA Supply: um gato numa galeria vê tinta dourada escorrer de um quadro para um piso espelhado" data-i18n-aria="reel2.aria"></video>
         <script>
         /* roda no parse: em reduced-motion não deixa o autoplay começar; fora da tela o vídeo pausa */
@@ -955,7 +960,7 @@ main#top{ overflow-x:clip; }
       <a class="case-tile block aspect-[4/5] flex items-center justify-center reveal" href="/cases/bvba-surrealismo/" data-tilt3d data-cursor="Ver case" data-i18n-cursor="cases.view"><div class="case-shine" aria-hidden="true"></div><div class="case-main relative z-[2] w-full h-full flex flex-col justify-between text-left p-6 md:p-7"><div class="kicker u-smoke" data-i18n="cases.c1k">Moda · Fashion film com IA</div><div class="fdepth flex items-center justify-center"><img width="481" height="160" src="assets/clients/bvba.png" alt="BVBA Supply" class="w-[72%] max-w-[220px] h-auto" loading="lazy" decoding="async" /></div><div><div class="display text-ink text-xl leading-tight">BVBA Supply®</div><div class="u-smoke text-[12px] mt-1" data-i18n="cases.c1d">O surrealismo</div></div></div><div class="case-alt"><img width="481" height="160" src="assets/clients/bvba.png" alt="" class="w-[56%] max-w-[180px] h-auto invert" loading="lazy" decoding="async" /><div class="kicker text-paper/80 mt-3"><span data-i18n="cases.view">Ver case</span> →</div></div></a>
       <!-- CASE IOSE · longe dos tiles 12,55× e 45 (conta anonimizada) de propósito: no desktop fica no canto oposto, no tablet e no celular o card da Alumee separa os dois -->
       <a class="case-tile block reveal aspect-[4/5] lg:col-span-2 lg:col-start-3 lg:row-start-3 lg:aspect-[8/5]" href="/cases/iose-trafego-pago/" data-tilt3d data-cursor="Ver case" data-i18n-cursor="cases.view"><div class="case-shine" aria-hidden="true"></div><div class="case-main relative z-[2] w-full h-full flex flex-col lg:flex-row text-left"><div class="fdepth relative overflow-hidden flex-1 min-h-0 border-b border-line lg:flex-none lg:h-full lg:aspect-[4/5] lg:border-b-0 lg:border-r"><img src="assets/cases/iose-trafego-pago/cover.jpg" width="800" height="1000" alt="Anúncio do IOSE para o curso Projeto de Linhas de Transmissão, com o professor em frente a uma torre" data-i18n-alt="cases.ioa" class="absolute inset-0 w-full h-full object-cover object-top" loading="lazy" decoding="async" /></div><div class="flex flex-col justify-between gap-3 p-6 md:p-7 lg:flex-1"><div class="kicker u-smoke" data-i18n="cases.iok">Educação técnica · Gestão de tráfego pago</div><div><div class="display text-ink text-xl leading-tight">IOSE</div><div class="u-smoke text-[12px] mt-1" data-i18n="cases.iod">Estrutura por curso e criativo por formato</div></div></div></div><div class="case-alt"><div class="display text-paper text-5xl font-extrabold">IOSE</div><div class="kicker text-paper/80 mt-3"><span data-i18n="cases.view">Ver case</span> →</div></div></a>
-      <a class="case-tile block aspect-[4/5] flex items-center justify-center reveal" href="/portfolio/" data-tilt3d data-cursor="Portfólio" data-i18n-cursor="nav.portfolio"><div class="case-shine" aria-hidden="true"></div><div class="case-main relative z-[2] w-full h-full flex flex-col justify-between text-left p-6 md:p-7"><div class="kicker u-smoke" data-i18n="cases.pk">Portfólio completo</div><div class="fdepth jp text-ink font-bold text-6xl md:text-5xl lg:text-6xl leading-none" aria-hidden="true">作</div><div><div class="display text-ink text-xl leading-tight" data-i18n="cases.pt">Ver todo o portfólio</div><div class="u-smoke text-[12px] mt-1" data-i18n="cases.pd">Cada case com desafio, solução e o que foi feito</div></div></div><div class="case-alt"><div class="display text-paper text-4xl font-extrabold px-6" data-i18n="cases.pt">Ver todo o portfólio</div></div></a>
+      <a class="case-tile block aspect-[4/5] flex items-center justify-center reveal" href="/portfolio/" data-tilt3d data-cursor="Portfólio" data-i18n-cursor="nav.portfolio"><div class="case-shine" aria-hidden="true"></div><div class="case-main relative z-[2] w-full h-full flex flex-col justify-between text-left p-6 md:p-7"><div class="kicker u-smoke" data-i18n="cases.pk">Portfólio completo</div><div class="fdepth jp text-ink font-bold text-6xl md:text-5xl lg:text-6xl leading-none" aria-hidden="true">創</div><div><div class="display text-ink text-xl leading-tight" data-i18n="cases.pt">Ver todo o portfólio</div><div class="u-smoke text-[12px] mt-1" data-i18n="cases.pd">Cada case com desafio, solução e o que foi feito</div></div></div><div class="case-alt"><div class="display text-paper text-4xl font-extrabold px-6" data-i18n="cases.pt">Ver todo o portfólio</div></div></a>
       <a class="case-tile block aspect-[4/5] lg:col-span-2 lg:col-start-1 lg:row-start-3 lg:aspect-[8/5] flex items-center justify-center reveal" href="#contato" data-tilt3d data-cursor="Pedir diagnóstico" data-i18n-cursor="cases.c4alt"><div class="case-shine" aria-hidden="true"></div><div class="case-main relative z-[2] w-full h-full flex flex-col justify-between text-left p-6 md:p-7"><div class="kicker u-smoke" data-i18n="cases.c4k">Próximo case</div><div class="fdepth display text-ink font-extrabold text-6xl md:text-5xl lg:text-6xl leading-none" aria-hidden="true">→</div><div><div class="display text-ink text-xl leading-tight" data-i18n="cases.alt">Seu projeto aqui</div><div class="u-smoke text-[12px] mt-1" data-i18n="cases.c4d">Já anuncia? Começa pelo diagnóstico.</div></div></div><div class="case-alt"><div class="display text-paper text-4xl font-extrabold" data-i18n="cases.c4alt">Pedir diagnóstico</div></div></a>
     </div>
   </div>
@@ -963,9 +968,6 @@ main#top{ overflow-x:clip; }
 
 <!-- ===================== MA · interlúdio [DARK] · separa Cases e Modelo (claros) ===================== -->
 <section id="ma" class="sec sec--dark relative overflow-hidden text-center py-24 md:py-32 px-5">
-  <span class="jp absolute left-[8%] top-[14%] text-paper/[0.05] text-6xl md:text-8xl pointer-events-none select-none" data-parallax="0.22" data-depth="0.8" aria-hidden="true">創</span>
-  <span class="jp absolute right-[10%] top-[22%] text-paper/[0.05] text-5xl md:text-7xl pointer-events-none select-none" data-parallax="0.3" data-depth="1.1" aria-hidden="true">知</span>
-  <span class="jp absolute left-[16%] bottom-[12%] text-paper/[0.05] text-5xl md:text-7xl pointer-events-none select-none" data-parallax="0.16" data-depth="0.6" aria-hidden="true">光</span>
   <div id="maKanji" class="jp text-paper/[0.07] leading-none select-none pointer-events-none mx-auto" style="font-size:min(52vw,30rem)" aria-hidden="true">間</div>
   <p id="maLine" class="kicker u-smoke absolute inset-0 flex items-center justify-center px-6" data-i18n="ma.line">O espaço entre o conceito e a conversão</p>
 </section>
@@ -973,18 +975,18 @@ main#top{ overflow-x:clip; }
 <!-- ===================== MODELO IA [LIGHT] · Ana Lauren, 100% IA (collab @analauren.ai, post 24/09/2026) =====================
      Seção própria: a Ana é oferta licenciável, com CTA próprio. -->
 <section id="modelo" class="sec sec--light relative overflow-hidden py-24 md:py-36 px-5 md:px-9">
-  <span class="jp absolute right-[6%] top-[8%] text-ink/[0.05] text-7xl md:text-9xl pointer-events-none select-none" data-parallax="0.2" data-depth="0.9" aria-hidden="true">像</span>
+  <span class="jp absolute right-[6%] top-[8%] text-ink/[0.05] text-7xl md:text-9xl pointer-events-none select-none" data-parallax="0.2" data-depth="0.9" aria-hidden="true">知</span>
   <div class="max-w-[1500px] mx-auto relative">
     <div class="grid md:grid-cols-12 gap-8 md:gap-8 items-end mb-12 md:mb-20">
       <div class="md:col-span-7">
         <div class="kicker u-smoke reveal mb-6" data-i18n="ana.k">IA · Audiovisual · Modelo sintética</div>
         <h2 class="display text-ink text-[13vw] md:text-[6vw] leading-[0.92]">
           <span class="reveal-line"><span data-i18n="ana.l1">Ana Lauren</span></span>
-          <span class="reveal-line"><span class="italic font-normal" data-i18n="ana.l2">é 100% IA.</span></span>
+          <span class="reveal-line"><span class="u-em" data-i18n="ana.l2">é 100% IA.</span></span>
         </h2>
       </div>
       <div class="md:col-span-5">
-        <div class="reveal inline-flex items-center gap-2.5 border border-ink/25 rounded-full px-4 py-2 mb-6">
+        <div class="reveal inline-flex items-center gap-2.5 border border-ink/25 px-4 py-2 mb-6">
           <span class="chip-dot chip-dot--ink" aria-hidden="true"></span>
           <span class="text-[11px] tracking-[0.18em] uppercase text-ink/80" data-i18n="ana.badge">Nenhuma pessoa real nestas fotos</span>
         </div>
@@ -997,17 +999,17 @@ main#top{ overflow-x:clip; }
       <figure class="ana-card" role="listitem" data-tilt3d data-cursor="100% IA" data-i18n-cursor="ana.tag">
         <span class="ana-tag fdepth" data-i18n="ana.tag">100% IA</span>
         <div class="ana-frame"><img class="ana-img" src="assets/portfolio/ana-01.jpg" width="1086" height="1448" alt="Ana Lauren, modelo gerada por IA, de vestido preto em uma festa à noite, plano aberto" data-i18n-alt="ana.a1" loading="lazy" decoding="async" /></div>
-        <figcaption class="flex justify-between kicker u-smoke mt-4"><span>01 · <span data-i18n="ana.c1">Plano aberto</span></span><span aria-hidden="true">AI · <span class="jp" lang="ja">像</span></span></figcaption>
+        <figcaption class="flex justify-between kicker u-smoke mt-4"><span>01 · <span data-i18n="ana.c1">Plano aberto</span></span><span aria-hidden="true">AI · <span class="jp" lang="ja">知</span></span></figcaption>
       </figure>
       <figure class="ana-card" role="listitem" data-tilt3d data-cursor="100% IA" data-i18n-cursor="ana.tag">
         <span class="ana-tag fdepth" data-i18n="ana.tag">100% IA</span>
         <div class="ana-frame"><img class="ana-img" src="assets/portfolio/ana-02.jpg" width="1086" height="1448" alt="Ana Lauren, modelo gerada por IA, sorrindo em close" data-i18n-alt="ana.a2" loading="lazy" decoding="async" /></div>
-        <figcaption class="flex justify-between kicker u-smoke mt-4"><span>02 · <span data-i18n="ana.c2">Close</span></span><span aria-hidden="true">AI · <span class="jp" lang="ja">像</span></span></figcaption>
+        <figcaption class="flex justify-between kicker u-smoke mt-4"><span>02 · <span data-i18n="ana.c2">Close</span></span><span aria-hidden="true">AI · <span class="jp" lang="ja">知</span></span></figcaption>
       </figure>
       <figure class="ana-card" role="listitem" data-tilt3d data-cursor="100% IA" data-i18n-cursor="ana.tag">
         <span class="ana-tag fdepth" data-i18n="ana.tag">100% IA</span>
         <div class="ana-frame"><img class="ana-img" src="assets/portfolio/ana-03.jpg" width="1086" height="1448" alt="Ana Lauren, modelo gerada por IA, em plano médio segurando a bolsa" data-i18n-alt="ana.a3" loading="lazy" decoding="async" /></div>
-        <figcaption class="flex justify-between kicker u-smoke mt-4"><span>03 · <span data-i18n="ana.c3">Plano médio</span></span><span aria-hidden="true">AI · <span class="jp" lang="ja">像</span></span></figcaption>
+        <figcaption class="flex justify-between kicker u-smoke mt-4"><span>03 · <span data-i18n="ana.c3">Plano médio</span></span><span aria-hidden="true">AI · <span class="jp" lang="ja">知</span></span></figcaption>
       </figure>
     </div>
     <div class="md:hidden flex justify-between kicker u-smoke mt-5" aria-hidden="true"><span id="anaCount">01 / 03</span><span data-i18n="fs.drag">Arraste →</span></div>
@@ -1021,19 +1023,19 @@ main#top{ overflow-x:clip; }
 </section>
 
 <!-- ===================== MÉTODO [DARK] ===================== -->
-<section id="metodo" class="sec sec--dark py-24 md:py-36 px-5 md:px-9">
+<section id="metodo" class="sec sec--light py-24 md:py-36 px-5 md:px-9">
   <div class="max-w-[1500px] mx-auto">
     <div class="kicker u-smoke reveal mb-4">Método</div>
-    <h2 class="display text-paper text-[12vw] md:text-[5.4vw] leading-none mb-16 md:mb-24 max-w-[18ch]"><span class="reveal-line"><span data-i18n="method.title">Do conceito à conversão.</span></span></h2>
-    <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-px bg-white/10 border border-white/10">
-      <div class="card3d bg-ink p-8 md:p-9" data-tilt3d><div class="svc-num text-paper/20 text-5xl mb-8">01</div><h3 class="display text-paper text-2xl mb-3" data-i18n="method.s1t">Diagnóstico</h3><p class="text-paper/55 text-[14px] leading-relaxed font-light" data-i18n="method.s1d">Lemos a conta que já roda: o que gasta, o que traz contato, o que vende.</p></div>
-      <div class="card3d bg-ink p-8 md:p-9" data-tilt3d><div class="svc-num text-paper/20 text-5xl mb-8">02</div><h3 class="display text-paper text-2xl mb-3" data-i18n="method.s2t">Direção</h3><p class="text-paper/55 text-[14px] leading-relaxed font-light" data-i18n="method.s2d">Conceito criativo e plano de mídia na mesma mesa.</p></div>
-      <div class="card3d bg-ink p-8 md:p-9" data-tilt3d><div class="svc-num text-paper/20 text-5xl mb-8">03</div><h3 class="display text-paper text-2xl mb-3" data-i18n="method.s3t">Produção</h3><p class="text-paper/55 text-[14px] leading-relaxed font-light" data-i18n="method.s3d">Criativo, página e campanha feitos para conversar.</p></div>
-      <div class="card3d bg-ink p-8 md:p-9" data-tilt3d><div class="svc-num text-paper/20 text-5xl mb-8">04</div><h3 class="display text-paper text-2xl mb-3" data-i18n="method.s4t">Performance</h3><p class="text-paper/55 text-[14px] leading-relaxed font-light" data-i18n="method.s4d">Medimos, otimizamos e escalamos o que funciona.</p></div>
+    <h2 class="display text-ink text-[12vw] md:text-[5.4vw] leading-none mb-16 md:mb-24 max-w-[18ch]"><span class="reveal-line"><span data-i18n="method.title">Do conceito à conversão.</span></span></h2>
+    <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-px bg-ink/10 border border-ink/10">
+      <div class="card3d bg-paper p-8 md:p-9" data-tilt3d><div class="svc-num text-ink/20 text-5xl mb-8">01</div><h3 class="display text-ink text-2xl mb-3" data-i18n="method.s1t">Diagnóstico</h3><p class="text-ink/55 text-[14px] leading-relaxed font-light" data-i18n="method.s1d">Lemos a conta que já roda: o que gasta, o que traz contato, o que vende.</p></div>
+      <div class="card3d bg-paper p-8 md:p-9" data-tilt3d><div class="svc-num text-ink/20 text-5xl mb-8">02</div><h3 class="display text-ink text-2xl mb-3" data-i18n="method.s2t">Direção</h3><p class="text-ink/55 text-[14px] leading-relaxed font-light" data-i18n="method.s2d">Conceito criativo e plano de mídia na mesma mesa.</p></div>
+      <div class="card3d bg-paper p-8 md:p-9" data-tilt3d><div class="svc-num text-ink/20 text-5xl mb-8">03</div><h3 class="display text-ink text-2xl mb-3" data-i18n="method.s3t">Produção</h3><p class="text-ink/55 text-[14px] leading-relaxed font-light" data-i18n="method.s3d">Criativo, página e campanha feitos para conversar.</p></div>
+      <div class="card3d bg-paper p-8 md:p-9" data-tilt3d><div class="svc-num text-ink/20 text-5xl mb-8">04</div><h3 class="display text-ink text-2xl mb-3" data-i18n="method.s4t">Performance</h3><p class="text-ink/55 text-[14px] leading-relaxed font-light" data-i18n="method.s4d">Medimos, otimizamos e escalamos o que funciona.</p></div>
     </div>
-    <div class="border border-white/10 border-t-0 bg-ink p-8 md:p-9 md:flex items-center justify-between gap-10 reveal">
-      <div class="flex items-baseline gap-4 shrink-0"><span class="jp text-paper/25 text-3xl" aria-hidden="true">人工知能</span><h3 class="display text-paper text-2xl" data-i18n="method.ai.t">IA</h3></div>
-      <p class="text-paper/55 text-[14px] leading-relaxed font-light max-w-[64ch] mt-4 md:mt-0" data-i18n="method.ai.d">IA é o ofício, não o produto. Usamos os melhores modelos em cada etapa: roteiro, criativo, mídia e análise. Sempre com direção humana e rigor de estúdio.</p>
+    <div class="border border-ink/10 border-t-0 bg-paper p-8 md:p-9 md:flex items-center justify-between gap-10 reveal">
+      <div class="flex items-baseline gap-4 shrink-0"><span class="jp text-ink/25 text-3xl" aria-hidden="true">知</span><h3 class="display text-ink text-2xl" data-i18n="method.ai.t">IA</h3></div>
+      <p class="text-ink/55 text-[14px] leading-relaxed font-light max-w-[64ch] mt-4 md:mt-0" data-i18n="method.ai.d">IA é o ofício, não o produto. Usamos os melhores modelos em cada etapa: roteiro, criativo, mídia e análise. Sempre com direção humana e rigor de estúdio.</p>
     </div>
   </div>
 </section>
@@ -1077,7 +1079,7 @@ main#top{ overflow-x:clip; }
       <div class="kicker u-smoke reveal mb-6">Contato</div>
       <h2 class="display text-paper text-[11vw] md:text-[5.4vw] leading-[0.95] mb-8">
         <span class="reveal-line"><span data-i18n="contact.l1">Já anuncia?</span></span>
-        <span class="reveal-line"><span class="italic font-normal" data-i18n="contact.l2">Traz a conta pra mesa.</span></span>
+        <span class="reveal-line"><span class="u-em" data-i18n="contact.l2">Traz a conta pra mesa.</span></span>
       </h2>
       <p class="reveal text-paper/60 text-[16px] leading-relaxed max-w-[40ch] mb-8 font-light" data-i18n="contact.sub">Manda a palavra CONTA no direct do Instagram. A gente começa pelo diagnóstico do que já roda. Prefere e-mail? Usa o formulário.</p>
       <a href="https://www.instagram.com/mayaastudio.br/" target="_blank" rel="noopener" data-magnetic class="reveal btn-lead inline-flex items-center gap-3 px-7 py-4 text-[14px] mb-10"><span data-i18n="contact.ig">Manda CONTA no direct</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 17L17 7M9 7h8v8"/></svg></a>
@@ -1147,7 +1149,7 @@ main#top{ overflow-x:clip; }
       <button type="button" class="reel-modal__close" data-reel-close aria-label="Fechar" data-i18n-aria="reel.close"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
     </div>
     <div id="reelEmbed" class="reel-modal__embed">
-      <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DbZFaIlBBCR/" data-instgrm-version="14" style="background:#141414; border:0; margin:0; padding:0; width:100%;">
+      <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DbZFaIlBBCR/" data-instgrm-version="14" style="background:#0B0B0B; border:0; margin:0; padding:0; width:100%;">
         <a href="https://www.instagram.com/reel/DbZFaIlBBCR/" target="_blank" rel="noopener" class="flex flex-col items-center justify-center gap-4 text-center text-paper/80 px-6 py-16 min-h-[260px]">
           <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#F6F4EF" stroke-width="0.9" aria-hidden="true"><circle cx="12" cy="12" r="11"/><path d="M10 8.5l6 3.5-6 3.5z" fill="#F6F4EF" stroke="none"/></svg>
           <span class="kicker" data-i18n="reel.loading">Carregando o reel do Instagram</span>
@@ -1581,7 +1583,7 @@ window.addEventListener('load',()=>{
       { cx: 0.62, cy: 0.05, cz:-0.2, sc:0.72, tx:-0.7, tz:0.9,  sp:0.10 },
       { cx:-0.05, cy: 0.52, cz:0.45, sc:0.38, tx:0.4,  tz:-1.1, sp:0.18 }
     ];
-    const COL=['rgba(246,244,239,1)','rgba(139,133,122,1)','rgba(122,31,44,1)'];
+    const COL=['rgba(11,11,11,1)','rgba(107,104,100,1)','rgba(107,104,100,1)'];
     GAL.forEach(g=>{ g.ctx=Math.cos(g.tx); g.stx=Math.sin(g.tx); g.ctz=Math.cos(g.tz); g.stz=Math.sin(g.tz); });
     const P=[];
     for(let i=0;i<N;i++){
@@ -1780,7 +1782,7 @@ window.addEventListener('load',()=>{
     /* transição claro/escuro: a seção clara entra como folha de papel de cantos arredondados sobre a tinta
        e assenta reta no topo; ao sair para uma seção escura, os cantos de baixo se soltam */
     const themed=[...document.querySelectorAll('main .sec--light, main .sec--dark')].filter(el=>!el.parentElement.closest('.sec--light,.sec--dark'));
-    const R=()=>Math.round(Math.min(48,Math.max(18,innerWidth*0.032)));
+    const R=()=>0;
     themed.forEach((el,i)=>{
       if(!el.classList.contains('sec--light')) return;
       const prev=themed[i-1], next=themed[i+1];
