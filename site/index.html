@@ -77,6 +77,11 @@ img{ user-select:none; -webkit-user-drag:none; }
 .reveal{ opacity:0; transform:translateY(34px); will-change:transform,opacity; }
 .reveal-line{ display:block; overflow:hidden; padding-bottom:.08em; }
 .reveal-line > span{ display:block; transform:translateY(110%); will-change:transform; }
+/* v20: título partido em letras; a palavra não quebra no meio */
+.reveal-line > .has-ch{ transform:none; }
+.wd{ display:inline-block; white-space:nowrap; }
+.ch{ display:inline-block; will-change:transform; }
+.no-anim .ch,.rm .ch{ transform:none; }
 
 /* Cursor */
 #cursor,#cursorDot{ position:fixed; top:0; left:0; z-index:9999; pointer-events:none; mix-blend-mode:difference; }
@@ -1241,6 +1246,14 @@ if (REDUCED) document.documentElement.classList.add('rm');
 /* v17: prefers-reduced-motion virou "movimento suave" (reduzir, não eliminar). Entradas continuam, mais curtas e sem
    deslocamento grande; saem parallax, tilt 3D, WebGL, partículas, Lenis e autoplay do vídeo. */
 
+/* v20: parte cada título em palavras > letras (o texto vem do i18n, então reparte após trocar idioma) */
+const CH_SEL='#hero h1 .reveal-line > [data-i18n], main h2 .reveal-line > [data-i18n], #estudio .display .reveal-line > [data-i18n]';
+function splitChars(){
+  document.querySelectorAll(CH_SEL).forEach(el=>{
+    const t=el.textContent; el.classList.add('has-ch'); el.setAttribute('aria-label',t);
+    el.innerHTML=t.split(' ').map(w=>'<span class="wd" aria-hidden="true">'+[...w].map(c=>'<span class="ch">'+c+'</span>').join('')+'</span>').join(' ');
+  });
+}
 let lang='pt-BR';
 function applyLang(l){
   lang=l; document.documentElement.lang=l;
@@ -1256,7 +1269,7 @@ function runPreloader(done){
   if(!window.gsap){ document.documentElement.classList.add('no-anim'); done(); return; }
   if(REDUCED){
     /* versão curta (~1,3 s): só fade, sem a cortina subindo */
-    gsap.set('#hero .reveal-line span',{ y:'30%', opacity:0 });
+    gsap.set('#hero .reveal-line > span',{ y:'0%' }); gsap.set('#hero .ch',{ opacity:0 });
     gsap.set('#plMark',{ opacity:0 }); gsap.set('#preloader .pl-word span',{ y:'0%', opacity:0 });
     gsap.timeline()
       .to('#plMark',{ opacity:1, duration:.45, ease:'power2.out' })
@@ -1291,18 +1304,19 @@ function heroIntro(){
   if(!window.gsap){ window.__heroReady=true; return; }
   const tl=gsap.timeline({ onComplete:()=>{ window.__heroReady=true; } });
   if(REDUCED){
-    tl.fromTo('#hero .reveal-line span',{ y:'30%', opacity:0 },{ y:'0%', opacity:1, duration:.7, stagger:.08, ease:'power2.out' })
+    tl.to('#hero .ch',{ opacity:1, duration:.5, stagger:.012, ease:'power2.out' })
       .to('#hero .reveal',{ opacity:1, duration:.6, stagger:.06, ease:'power2.out' },'-=0.45')
       .fromTo('#heroMark',{ opacity:0 },{ opacity:0.035, duration:.9, ease:'power2.out' },'-=0.6');
     return;
   }
-  tl.fromTo('#hero .reveal-line span',{ y:'110%', rotateX:-55, transformOrigin:'0% 100%', transformPerspective:520 },{ y:'0%', rotateX:0, duration:1.1, stagger:0.09, ease:'expo.out' })
+  gsap.set('#hero .reveal-line > span',{ y:'0%' });
+  tl.fromTo('#hero .ch',{ yPercent:118, rotate:9, transformOrigin:'0% 100%' },{ yPercent:0, rotate:0, duration:1.25, stagger:0.028, ease:'expo.out' })
     .to('#hero .reveal',{ y:0, opacity:1, duration:0.9, stagger:0.08, ease:'power3.out' },'-=0.7')
     .fromTo('#heroMark',{ opacity:0, scale:1.06 },{ opacity:0.035, scale:1, duration:1.4, ease:'power2.out' },'-=1');
 }
 
 window.addEventListener('load',()=>{
-  applyLang('pt-BR');
+  applyLang('pt-BR'); splitChars();
   /* tipografia japonesa correta: Han unification escolhe glifos JA via lang=ja */
   document.querySelectorAll('.jp').forEach(el=>{ if(!el.hasAttribute('lang')) el.setAttribute('lang','ja'); });
   /* anti-blink: a marca do hero nasce invisível e só entra no fade da intro */
@@ -1363,7 +1377,9 @@ window.addEventListener('load',()=>{
     ScrollTrigger.addEventListener('refresh',cacheTheme);
 
     if(!REDUCED){
-      gsap.utils.toArray('.reveal-line span').forEach(s=>{ if(s.closest('#hero')||s.closest('#manifesto')) return; gsap.fromTo(s,{ y:'110%', rotateX:-55, transformOrigin:'0% 100%', transformPerspective:520 },{ y:'0%', rotateX:0, duration:1.05, ease:'expo.out', scrollTrigger:{ trigger:s, start:'top 90%' }}); });
+      gsap.utils.toArray(document.querySelectorAll('main h2, #estudio p.display')).forEach(h=>{ if(h.closest('#hero')) return; const cs=h.querySelectorAll('.ch'); if(!cs.length) return;
+        gsap.fromTo(cs,{ yPercent:118, rotate:9, transformOrigin:'0% 100%' },{ yPercent:0, rotate:0, duration:1.15, stagger:0.022, ease:'expo.out', scrollTrigger:{ trigger:h, start:'top 88%' } }); });
+      gsap.utils.toArray('.reveal-line > span:not(.has-ch)').forEach(s=>{ if(s.closest('#hero')||s.closest('#manifesto')) return; gsap.fromTo(s,{ y:'110%', rotateX:-55, transformOrigin:'0% 100%', transformPerspective:520 },{ y:'0%', rotateX:0, duration:1.05, ease:'expo.out', scrollTrigger:{ trigger:s, start:'top 90%' }}); });
       ScrollTrigger.batch('.reveal',{ start:'top 92%', onEnter:b=>gsap.to(b,{ y:0, opacity:1, duration:0.9, stagger:0.08, ease:'power3.out', overwrite:true }) });
       gsap.utils.toArray('[data-parallax]').forEach(el=>{ const a=parseFloat(el.dataset.parallax); gsap.fromTo(el,{yPercent:a*36},{yPercent:-a*36,ease:'none',scrollTrigger:{trigger:el,start:'top bottom',end:'bottom top',scrub:1}}); });
       gsap.utils.toArray('[data-fill]').forEach((el,i)=>{ gsap.to(el,{ scaleX:1, duration:0.7, delay:i*0.06, ease:'power3.out', scrollTrigger:{ trigger:el, start:'top 92%' }}); });
@@ -1372,7 +1388,7 @@ window.addEventListener('load',()=>{
       if(cp){ gsap.to(cp,{ strokeDashoffset:0, duration:1.6, ease:'power2.inOut', scrollTrigger:{ trigger:cp, start:'top 85%' }}); gsap.to('#chartDot',{ opacity:1, duration:0.4, delay:1.4, scrollTrigger:{ trigger:cp, start:'top 85%' }}); gsap.to('#chartDot',{ attr:{ r:8 }, yoyo:true, repeat:-1, duration:0.9, ease:'sine.inOut', delay:2 }); }
     } else {
       /* movimento suave: as mesmas entradas (títulos, fades, barras, linhas, gráfico), curtas e sem giro nem deslocamento grande */
-      gsap.utils.toArray('.reveal-line span').forEach(s=>{ if(s.closest('#hero')||s.closest('#manifesto')) return; gsap.fromTo(s,{ y:'30%', opacity:0 },{ y:'0%', opacity:1, duration:0.7, ease:'power2.out', scrollTrigger:{ trigger:s, start:'top 92%' }}); });
+      gsap.utils.toArray('.reveal-line > span').forEach(s=>{ if(s.closest('#hero')||s.closest('#manifesto')) return; gsap.fromTo(s,{ y:'30%', opacity:0 },{ y:'0%', opacity:1, duration:0.7, ease:'power2.out', scrollTrigger:{ trigger:s, start:'top 92%' }}); });
       ScrollTrigger.batch('.reveal',{ start:'top 94%', onEnter:b=>gsap.to(b,{ opacity:1, duration:0.55, stagger:0.05, ease:'power2.out', overwrite:true }) });
       gsap.utils.toArray('[data-fill]').forEach((el,i)=>{ gsap.to(el,{ scaleX:1, duration:0.5, delay:i*0.04, ease:'power2.out', scrollTrigger:{ trigger:el, start:'top 94%' }}); });
       gsap.utils.toArray('.bar').forEach((b,i)=>{ gsap.fromTo(b,{ scaleY:0 },{ scaleY:1, duration:0.6, delay:i*0.05, ease:'power2.out', scrollTrigger:{ trigger:b, start:'top 94%' } }); });
@@ -1476,8 +1492,9 @@ window.addEventListener('load',()=>{
     /* ---------- v19: Tinta como virada. Scrub 1:1 com a rolagem: interrompe e volta junto com o dedo ---------- */
     if(!REDUCED){
       gsap.utils.toArray('main > section.sec--dark, #servicos > .sec--dark').forEach(sec=>{
-        gsap.fromTo(sec,{ clipPath:'inset(9% 4.5% 9% 4.5%)' },{ clipPath:'inset(0% 0% 0% 0%)', ease:'none',
-          scrollTrigger:{ trigger:sec, start:'top bottom', end:'top 18%', scrub:true, invalidateOnRefresh:true } });
+        gsap.fromTo(sec,{ clipPath:'circle(0% at 50% 0%)' },{ clipPath:'circle(125% at 50% 0%)', ease:'power1.in',
+          scrollTrigger:{ trigger:sec, start:'top bottom', end:'top 8%', scrub:true, invalidateOnRefresh:true },
+          onComplete:()=>{ sec.style.clipPath='none'; }, onReverseComplete:()=>{} });
       });
     }
 
@@ -1679,7 +1696,7 @@ window.addEventListener('load',()=>{
     if(window.gsap) gsap.to('#cueDot',{ attr:{ cy:13 }, duration:REDUCED?1.6:1.05, ease:'power2.inOut', repeat:-1, yoyo:true });
   }
 
-  document.getElementById('langToggle').addEventListener('click',()=>{ applyLang(lang==='pt-BR'?'en':'pt-BR'); if(window.__splitManifesto) window.__splitManifesto(); if(window.ScrollTrigger) ScrollTrigger.refresh(); });
+  document.getElementById('langToggle').addEventListener('click',()=>{ applyLang(lang==='pt-BR'?'en':'pt-BR'); splitChars(); if(window.gsap) gsap.set('.ch',{ yPercent:0, rotate:0, opacity:1 }); if(window.__splitManifesto) window.__splitManifesto(); if(window.ScrollTrigger) ScrollTrigger.refresh(); });
 });
 </script>
 
@@ -1831,11 +1848,11 @@ window.addEventListener('load',()=>{
     const sweep=()=>{
       if(!window.__heroReady) return;
       const lim=innerHeight*0.85;
-      document.querySelectorAll('.reveal, .reveal-line span, #metodo .card3d').forEach(el=>{
+      document.querySelectorAll('.reveal, .reveal-line > span:not(.has-ch), .ch, #metodo .card3d').forEach(el=>{
         if(g.isTweening(el) || el.closest('#hero') || (el.closest('#manifesto') && el.closest('.reveal-line'))) return;
         const r=el.getBoundingClientRect(); if(r.top>lim || !r.height) return;
         const cs=getComputedStyle(el), op=+cs.opacity, m=cs.transform!=='none'?new DOMMatrixReadOnly(cs.transform):null;
-        if(op<0.05 || (m && Math.abs(m.f)>r.height*0.5)) g.to(el,{ opacity:1, y:0, rotateX:0, duration:0.45, ease:'power2.out', overwrite:'auto' });
+        if(op<0.05 || (m && Math.abs(m.f)>r.height*0.5)) g.to(el,{ opacity:1, y:0, yPercent:0, rotate:0, rotateX:0, duration:0.45, ease:'power2.out', overwrite:'auto' });
       });
     };
     ST.addEventListener('scrollEnd',sweep);
