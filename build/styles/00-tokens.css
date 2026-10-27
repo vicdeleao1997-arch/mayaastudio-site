@@ -1,9 +1,9 @@
 /* Tokens · brandbook MAYAA "papel e tinta, nada além" (§2.1) */
-/* Fontes no próprio site (tools/fontes.py): Archivo variável 400 a 600 e Shippori Mincho 400/700, latin +
-   só os glifos japoneses usados. Sem Google Fonts: nada de terceiro bloqueando o 1.º paint. */
-@font-face{font-family:"Archivo";src:url(/assets/fonts/archivo.woff2) format("woff2");font-weight:400 600;font-style:normal;font-display:swap}
-@font-face{font-family:"Shippori Mincho";src:url(/assets/fonts/shippori-400.woff2) format("woff2");font-weight:400;font-style:normal;font-display:swap}
-@font-face{font-family:"Shippori Mincho";src:url(/assets/fonts/shippori-700.woff2) format("woff2");font-weight:700;font-style:normal;font-display:swap}
+/* Fontes no próprio site (tools/fontes.py): Lato 400, 700 e 900 (OFL), latin. Sem Google Fonts: nada de terceiro
+   bloqueando o 1.º paint. */
+@font-face{font-family:"Lato";src:url(/assets/fonts/lato-400.woff2) format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Lato";src:url(/assets/fonts/lato-700.woff2) format("woff2");font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:"Lato";src:url(/assets/fonts/lato-900.woff2) format("woff2");font-weight:900;font-style:normal;font-display:swap}
 :root{
   /* cor · papel e tinta, nada além */
   --tinta:#0B0B0B; --papel:#F6F4EF; --cartao:#EEEBE4; --linha:#DAD5CB; --fumaca:#6B6864;
@@ -12,10 +12,8 @@
   /* fumaça sobre papel = 5,0:1 (AA) · sobre cartão = 4,7:1 (AA) · NUNCA fumaça sobre tinta (3,5:1) */
 
   /* tipo */
-  --f-display:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",Georgia,serif;
-  /* Shippori logo depois da Archivo: kanji e kana dentro de rótulo ou de texto corrido caem na Shippori, não numa
-     fonte chinesa do sistema (Microsoft YaHei). A Archivo não tem glifo japonês, então nada mais muda. */
-  --f-body:"Archivo","Shippori Mincho",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --f-display:"Lato",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;   /* título: Lato 700 (900 no destaque) */
+  --f-body:"Lato",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
   --fs-mega:   clamp(3.25rem, 1.6rem + 7.4vw, 9.5rem);   /* H1 da home · 52px a 152px */
   --fs-display:clamp(2.25rem, 1.2rem + 4.6vw, 6.25rem);  /* manifesto, frases grandes, CTA final */
   --fs-h1:     clamp(2.5rem, 1.3rem + 5.2vw, 7rem);      /* H1 das páginas internas */
@@ -26,10 +24,8 @@
   --fs-small:  .875rem;
   --fs-label:  clamp(.75rem, .66rem + .12vw, .78rem);      /* mínimo 12 px */
   --fs-num:    clamp(5rem, 2rem + 15vw, 16rem);          /* 12,55× */
-  --fs-kanji:  clamp(3.5rem, 2rem + 6vw, 8rem);
-  --fs-kanji-xl:clamp(6rem, 3rem + 14vw, 18rem);
   --lh-display:1.04; --lh-title:1.1; --lh-body:1.6; --lh-label:1.4;
-  --tr-label:.24em; --tr-brand:.18em; --tr-display:-.01em;
+  --tr-label:.24em; --tr-brand:.18em; --tr-display:-.02em;
 
   /* espaço */
   --s-1:.25rem; --s-2:.5rem; --s-3:.75rem; --s-4:1rem; --s-5:1.5rem;
@@ -62,6 +58,6 @@
   /* camadas */
   --z-header:80; --z-frame:90; --z-menu:100; --z-skip:110;
 }
-/* H1 da home em tela estreita (medido com o .ttf: "à conversão." em Shippori Bold a 52px = 317px;
+/* H1 da home em tela estreita (medido com o .ttf: "à conversão." em Lato Black a 52px, folga de sobra;
    numa tela de 360px sobram 316px). 13,4vw = 48px em 360 e 43px em 320: cabe em 2 linhas. */
 @media (max-width:400px){ .t-mega{font-size:min(var(--fs-mega),13.4vw)} }

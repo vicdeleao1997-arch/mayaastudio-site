@@ -11,7 +11,6 @@ from . import config, dados
 
 VOID = {"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "source", "track", "wbr"}
 SKIP_TEXT = {"script", "style", "template"}
-KANJI_OK = set("間知築創磨展")
 
 
 # ── mini-DOM ─────────────────────────────────────────────────────────────────
@@ -367,32 +366,17 @@ def run(pages, written: list[Path], strict: bool = True, partial: bool = False) 
         if kb > 120:
             E(f"[13] {where}: HTML com {kb:.0f} KB (máx. 120)")
 
-        # 14 · kanji
-        for n in body_nodes:
-            if "kanji" in n.classes():
-                k = norm(n.text())
-                if k not in KANJI_OK:
-                    E(f"[14] {where}: kanji fora da prancha: {k!r}")
 
-    # 16 · glifo japonês que a fonte do site não tem (a Shippori é recortada: rodar tools/fontes.py)
-    fonte = config.SITE / "assets/fonts/shippori-400.woff2"
-    if not fonte.exists():
-        E("[16] site/assets/fonts/shippori-400.woff2 ausente (py build/tools/fontes.py)")
-    else:
-        try:
-            from fontTools.ttLib import TTFont
-            cmap = TTFont(fonte).getBestCmap()
-        except Exception as e:  # sem fontTools/brotli: só avisa
-            cmap = None
-            warns.append(f"[16] não deu para ler a fonte ({e})")
-        if cmap is not None:
-            falta = set()
-            for f in written:
-                if f.suffix == ".html" and f.exists():
-                    falta |= {ch for ch in f.read_text(encoding="utf-8")
-                              if (0x3000 <= ord(ch) <= 0x30FF or 0x3400 <= ord(ch) <= 0x9FFF) and ord(ch) not in cmap}
-            if falta:
-                E(f"[16] glifo japonês fora da fonte do site: {' '.join(sorted(falta))} (py build/tools/fontes.py)")
+    # 16 · identidade em Lato, sem japonês: nenhum caractere japonês no HTML e a fonte do site presente
+    for peso in (400, 700, 900):
+        if not (config.SITE / f"assets/fonts/lato-{peso}.woff2").exists():
+            E(f"[16] site/assets/fonts/lato-{peso}.woff2 ausente (py build/tools/fontes.py)")
+    for f in written:
+        if f.suffix == ".html" and f.exists():
+            jp = {ch for ch in f.read_text(encoding="utf-8")
+                  if 0x3000 <= ord(ch) <= 0x30FF or 0x3400 <= ord(ch) <= 0x9FFF or 0xFF00 <= ord(ch) <= 0xFFEF}
+            if jp:
+                E(f"[16] {f.name}: caractere japonês na página: {' '.join(sorted(jp))}")
 
     for asset, lim in (("assets/css/main.css", 60), ("assets/js/main.js", 60)):
         f = config.SITE / asset

@@ -49,11 +49,11 @@ SERVICES = {
    url="/servicos/marketing/", service_type="Marketing de conversão"),
 }
 PILARES = [  # ordem canônica · não reordenar
- dict(nome="Performance", kanji=("磨","otimizar"), verbo="Otimizamos.", frase="Anúncio medido em resultado de caixa, não em curtida. A pergunta é sempre a mesma: quanto virou venda.", onde=("Tráfego pago e performance","/servicos/trafego-pago/")),
- dict(nome="Marketing", kanji=("築","construir"), verbo="Construímos.", frase="Página, formulário, oferta e mensagem que sustentam o anúncio. O clique chega num lugar pronto para vender.", onde=("Marketing","/servicos/marketing/")),
- dict(nome="IA", kanji=("知","saber · IA"), verbo="Dirigimos.", frase="IA é o ofício, não o produto. Entra no roteiro, no criativo e na leitura da campanha, sempre com direção humana.", onde=("Nos três serviços","/servicos/")),
- dict(nome="Tráfego pago", kanji=("展","escalar"), verbo="Escalamos.", frase="Gestão de campanhas em Meta Ads e Google Ads com a venda como régua. Verba lida campanha por campanha, não no total do mês.", onde=("Tráfego pago e performance","/servicos/trafego-pago/")),
- dict(nome="Audiovisual", kanji=("創","criar"), verbo="Criamos.", frase="Câmera, direção e movimento. Criativo em vídeo e imagem feito para anúncio e para ser assistido até o fim.", onde=("Audiovisual com IA","/servicos/audiovisual-com-ia/")),
+ dict(nome="Performance", verbo="Otimizamos.", frase="Anúncio medido em resultado de caixa, não em curtida. A pergunta é sempre a mesma: quanto virou venda.", onde=("Tráfego pago e performance","/servicos/trafego-pago/")),
+ dict(nome="Marketing", verbo="Construímos.", frase="Página, formulário, oferta e mensagem que sustentam o anúncio. O clique chega num lugar pronto para vender.", onde=("Marketing","/servicos/marketing/")),
+ dict(nome="IA", verbo="Dirigimos.", frase="IA é o ofício, não o produto. Entra no roteiro, no criativo e na leitura da campanha, sempre com direção humana.", onde=("Nos três serviços","/servicos/")),
+ dict(nome="Tráfego pago", verbo="Escalamos.", frase="Gestão de campanhas em Meta Ads e Google Ads com a venda como régua. Verba lida campanha por campanha, não no total do mês.", onde=("Tráfego pago e performance","/servicos/trafego-pago/")),
+ dict(nome="Audiovisual", verbo="Criamos.", frase="Câmera, direção e movimento. Criativo em vídeo e imagem feito para anúncio e para ser assistido até o fim.", onde=("Audiovisual com IA","/servicos/audiovisual-com-ia/")),
 ]
 PILARES_LINHA = "Performance · Marketing · IA · Tráfego pago · Audiovisual"
 CLIENT_LOGOS = [  # arquivo em /assets/clients/ (tinta/*.webp sai de tools/logos.py; fonte: <nome>.png), alt, escala da altura base

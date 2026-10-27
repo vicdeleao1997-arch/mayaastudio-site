@@ -3,9 +3,8 @@
 Imagens de compartilhamento 1200×630 (C3 · SPEC §6.5 e §5.2).
 
 Desenho único, papel e tinta: fundo papel; moldura de 1,5 px em --linha a 20 px da borda (passe-partout);
-no alto à esquerda o gato + "MAYAA STUDIO" (Archivo espaçado); rótulo em Archivo 20 px espaçado, fumaça;
-título em Shippori Bold até 76 px, no máximo 2 linhas (reduz até caber); embaixo "mayaastudio.com.br" e "まやー工房".
-- Home, serviços, pilar e privacidade: o kanji da página em Shippori 420 px, cor --linha, à direita.
+no alto à esquerda o gato + "MAYAA STUDIO" (Lato espaçado); rótulo em Lato 20 px espaçado, fumaça;
+título em Lato Black até 76 px, no máximo 2 linhas (reduz até caber); embaixo "mayaastudio.com.br".
 - Cases e portfólio: imagem à direita em 45% da largura, altura total, sob a moldura.
 
     py build/tools/og.py            # gera todas
@@ -33,24 +32,24 @@ FRAME_IN = 20          # a moldura fica a 20 px da borda
 PAD = 64               # margem do texto
 IMG_W = round(W * .45)  # 540 px de imagem à direita
 
-# chave → (arquivo de saída, rótulo, linhas do título, kanji | imagens)
+# chave → (arquivo de saída, rótulo, linhas do título | imagens)
 OG = {
     "og-mayaa": dict(out="assets/og/og-mayaa.jpg", label="Tráfego pago com IA · São Paulo",
-                     lines=["Do conceito", "à conversão."], kanji="間"),
+                     lines=["Do conceito", "à conversão."]),
     "og-servicos": dict(out="assets/og/og-servicos.jpg", label="Serviços · 03",
-                        lines=["Três serviços,", "um estúdio."], kanji="間"),
+                        lines=["Três serviços,", "um estúdio."]),
     "og-servicos-trafego-pago": dict(out="assets/og/og-servicos-trafego-pago.jpg",
                                      label="Serviço 01 · Tráfego pago e performance",
-                                     lines=["Tráfego pago, lido", "campanha por campanha."], kanji="展"),
+                                     lines=["Tráfego pago, lido", "campanha por campanha."]),
     "og-servicos-audiovisual-com-ia": dict(out="assets/og/og-servicos-audiovisual-com-ia.jpg",
                                            label="Serviço 02 · Audiovisual com IA",
-                                           lines=["Audiovisual com IA,", "com direção."], kanji="創"),
+                                           lines=["Audiovisual com IA,", "com direção."]),
     "og-servicos-marketing": dict(out="assets/og/og-servicos-marketing.jpg", label="Serviço 03 · Marketing",
-                                  lines=["O clique precisa", "chegar a algum lugar."], kanji="築"),
+                                  lines=["O clique precisa", "chegar a algum lugar."]),
     "og-trafego-pago-com-ia": dict(out="assets/og/og-trafego-pago-com-ia.jpg", label="Guia · Tráfego pago com IA",
-                                   lines=["Tráfego pago", "com IA."], kanji="知"),
+                                   lines=["Tráfego pago", "com IA."]),
     "og-privacidade": dict(out="assets/og/og-privacidade.jpg", label="LGPD · Lei 13.709/2018",
-                           lines=["Política de", "privacidade."], kanji="間"),
+                           lines=["Política de", "privacidade."]),
     "og-portfolio": dict(out="assets/og/og-portfolio.jpg", label="Portfólio · 04 cases",
                          lines=["Trabalhos", "do estúdio."],
                          imgs=[("assets/cases/bvba-surrealismo/cover.jpg", (.5, .5)),
@@ -83,17 +82,9 @@ def _fonte(nome: str) -> Path:
     raise SystemExit(f"fonte ausente: {nome} (copie de {FONTS_ALT} para {FONTS})")
 
 
-def shippori(size: int, bold: bool = False) -> ImageFont.FreeTypeFont:
-    return ImageFont.truetype(str(_fonte("Shippori-Bold.ttf" if bold else "Shippori-Regular.ttf")), size)
-
-
-def archivo(size: int, weight: int = 500) -> ImageFont.FreeTypeFont:
-    f = ImageFont.truetype(str(_fonte("Archivo.ttf")), size)
-    try:
-        f.set_variation_by_axes([weight, 100])
-    except Exception:
-        pass
-    return f
+def lato(size: int, weight: int = 400) -> ImageFont.FreeTypeFont:
+    arq = {400: "Lato-Regular.ttf", 700: "Lato-Bold.ttf", 900: "Lato-Black.ttf"}[weight]
+    return ImageFont.truetype(str(_fonte(arq)), size)
 
 
 # ── desenho ──────────────────────────────────────────────────────────────────
@@ -124,11 +115,11 @@ def wrap_label(font, text: str, maxw: float, track: float) -> list[str]:
 def fit_title(lines: list[str], maxw: float, start: int = 76, minimo: int = 48):
     size = start
     while size > minimo:
-        f = shippori(size, bold=True)
+        f = lato(size, 900)
         if all(f.getlength(l) <= maxw for l in lines):
             return f
         size -= 2
-    return shippori(minimo, bold=True)
+    return lato(minimo, 900)
 
 
 def cover(im: Image.Image, w: int, h: int, focus=(.5, .5)) -> Image.Image:
@@ -166,23 +157,14 @@ def render(key: str) -> Image.Image:
             t = cfg["tag"].upper()
             caixa = IMG_W - 32 - FRAME_IN - 24 - 36          # largura útil do selo dentro da imagem
             tam = 15
-            while tam > 10 and tracked_width(archivo(tam, 600), t, tr) > caixa:
+            while tam > 10 and tracked_width(lato(tam, 700), t, tr) > caixa:
                 tam -= 1
-            f = archivo(tam, 600)
+            f = lato(tam, 700)
             tw = tracked_width(f, t, tr)
             bx0, by1 = x0 + 32, H - FRAME_IN - 28
             bx1, by0 = bx0 + tw + 36, by1 - 44
             d.rectangle([bx0, by0, bx1, by1], fill=PAPEL, outline=TINTA, width=1)
             draw_tracked(d, (bx0 + 18, by0 + (44 - tam) // 2 - 2), t, f, TINTA, tr)
-
-    # kanji grande em --linha, à direita (serviços, pilar, home, privacidade)
-    if cfg.get("kanji"):
-        fk = shippori(420)
-        bb = d.textbbox((0, 0), cfg["kanji"], font=fk)
-        kw, kh = bb[2] - bb[0], bb[3] - bb[1]
-        kx = W - PAD - kw - bb[0] + 8
-        ky = (H - kh) // 2 - bb[1] + 10
-        d.text((kx, ky), cfg["kanji"], font=fk, fill=LINHA)
 
     # passe-partout: margem de papel + fio de 1,5 px em --linha (por cima da imagem, como no site)
     d.rectangle([0, 0, W, FRAME_IN - 1], fill=PAPEL)
@@ -199,14 +181,12 @@ def render(key: str) -> Image.Image:
     mark = Image.open(SITE / "assets/mayaa-mark-ink.png").convert("RGBA")
     mark = mark.resize((56, round(mark.height * 56 / mark.width)), Image.LANCZOS)
     im.paste(mark, (PAD, 52), mark)
-    fb = archivo(19, 600)
+    fb = lato(19, 700)
     draw_tracked(d, (PAD + 56 + 16, 52 + (mark.height - 19) // 2 - 2), "MAYAA STUDIO", fb, TINTA, .18)
 
     # rótulo + título, alinhados pela base
     maxw = text_right - PAD
-    if cfg.get("kanji"):
-        maxw = 900   # o título pode passar por cima do kanji (fundo em --linha), sem cobri-lo inteiro
-    fl = archivo(20, 500)
+    fl = lato(20, 700)
     lab = wrap_label(fl, cfg["label"], maxw, .2)
     ft = fit_title(cfg["lines"], maxw)
     lh = round(ft.size * 1.08)
@@ -218,13 +198,10 @@ def render(key: str) -> Image.Image:
     for i, l in enumerate(cfg["lines"]):
         d.text((PAD, y_title0 + i * lh), l, font=ft, fill=TINTA)
 
-    # rodapé: endereço à esquerda, まやー工房 à direita (da coluna de texto)
-    fu = archivo(18, 500)
+    # rodapé: endereço à esquerda
+    fu = lato(18, 700)
     yb = H - FRAME_IN - 52
     draw_tracked(d, (PAD, yb), "mayaastudio.com.br", fu, FUMACA, .04)
-    fk2 = shippori(22)
-    kana = "まやー工房"
-    d.text((text_right - fk2.getlength(kana), yb - 3), kana, font=fk2, fill=FUMACA)
     # fio fino acima do rodapé
     d.line([(PAD, yb - 22), (text_right, yb - 22)], fill=LINHA, width=1)
     return im

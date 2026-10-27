@@ -14,9 +14,9 @@ img,picture,video,svg,canvas{display:block;max-width:100%}
 img,video{height:auto}
 h1,h2,h3,h4,p,ol,ul,dl,dd,figure,blockquote{margin:0}
 ol,ul{padding:0;list-style:none}
-h1,h2,h3,h4{font-family:var(--f-display);font-weight:400;letter-spacing:var(--tr-display);line-height:var(--lh-title);text-wrap:balance}
+h1,h2,h3,h4{font-family:var(--f-display);font-weight:700;letter-spacing:var(--tr-display);line-height:var(--lh-title);text-wrap:balance}
 b,strong{font-weight:700}
-p b,p strong,li b,li strong{font-weight:600}
+p b,p strong,li b,li strong{font-weight:700}
 p{text-wrap:pretty;max-width:var(--measure)}
 a{color:inherit;text-decoration-thickness:1px;text-underline-offset:.25em}
 a:hover{text-decoration-thickness:1px}
@@ -33,7 +33,7 @@ table{border-collapse:collapse;width:100%}
 th{text-align:left;font-weight:500}
 [hidden]{display:none!important}
 .skip{position:fixed;left:calc(var(--frame) + 8px);top:calc(var(--frame) + 8px);z-index:var(--z-skip);
-  background:var(--tinta);color:var(--papel);padding:.9em 1.3em;font:500 var(--fs-label)/1 var(--f-body);
+  background:var(--tinta);color:var(--papel);padding:.9em 1.3em;font:700 var(--fs-label)/1 var(--f-body);
   letter-spacing:var(--tr-label);text-transform:uppercase;text-decoration:none;transform:translateY(-200%)}
 .skip:focus,.skip:focus-visible{transform:none;outline-color:var(--papel)}
 /* transição entre páginas (View Transitions entre documentos, sem JS): a antiga sobe 16 px e some (.18s, power4.in);
@@ -55,7 +55,6 @@ th{text-align:left;font-weight:500}
   ::view-transition-group(obra){animation-duration:.4s;animation-timing-function:var(--ease-out)}
   ::view-transition-old(obra),::view-transition-new(obra){height:100%;object-fit:cover}
   .hd{view-transition-name:hd}
-  .hd__kana{transition:clip-path var(--dur-2) var(--ease-out),opacity var(--dur-2)}
   /* processo no celular: cartões que se empilham (o próximo cobre o anterior; 50-scroll.js encolhe o coberto) */
   @media (max-width:639px){.proc__step{position:sticky;top:calc(var(--header-h) + var(--frame) + var(--i)*8px);background:var(--papel)}}
   [data-vt-open]{view-transition-name:obra}

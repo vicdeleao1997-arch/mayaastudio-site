@@ -42,7 +42,7 @@
           onLeave: fire, onRefresh: at } });
   }
 
-  /* Processo. >= 1024: a trilha (fio de 2 px no topo) anda com a rolagem e cada passo acende quando ela chega (o kanji
+  /* Processo. >= 1024: a trilha (fio de 2 px no topo) anda com a rolagem e cada passo acende quando ela chega (o número
      sai da tinta nessa hora; título e texto nunca apagam). Celular: cartões presos (sticky, CSS) e o coberto encolhe
      para .94 e cai para .6 só enquanto o próximo passa por cima dele. */
   function proc(g) {

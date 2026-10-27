@@ -51,13 +51,11 @@
 
 /* abertura dos serviços com coluna direita: lista (tráfego, marketing) ou o reel 9:16 (audiovisual) */
 .srv-hero-list .deliv__txt{font-weight:500}
-/* tráfego e marketing: kanji do pilar no alto da coluna direita, marcadores pela base (a coluna vai do rótulo ao CTA) */
+/* tráfego e marketing: marcadores pela base da coluna direita (a coluna vai do rótulo ao CTA) */
 @media (min-width:1024px){
   .ph__side:has(> .srv-hero-side){align-self:stretch}
-  .srv-hero-side{height:100%;display:flex;flex-direction:column;justify-content:space-between;gap:var(--s-7)}
-  .srv-hero-k{align-self:flex-end;align-items:flex-end}
+  .srv-hero-side{height:100%;display:flex;flex-direction:column;justify-content:flex-end;gap:var(--s-7)}
 }
-@media (max-width:1023px){.srv-hero-k{display:none}}
 .srv-hero-vid .vid{max-width:calc(58svh * 9 / 16);margin-left:auto}
 @media (max-width:1023px){.srv-hero-vid .vid{max-width:min(100%, 20rem);margin-left:0}}
 
@@ -90,4 +88,4 @@
 .srv-rel__list{display:flex;flex-wrap:wrap;gap:var(--s-5) var(--s-8);margin-top:var(--s-6)}
 .srv-sec--rel{padding-bottom:0}
 
-/* pilares (kanji em bloco), caminho do clique <1024, foco do vídeo e marcadores no celular: absorvidos pelo núcleo (30-components.css) */
+/* pilares (em bloco), caminho do clique <1024, foco do vídeo e marcadores no celular: absorvidos pelo núcleo (30-components.css) */

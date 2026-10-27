@@ -13,10 +13,10 @@ REEL_ALT = "Reel da BVBA Supply: o ouro escorre das molduras de um museu enquant
 
 # ── utilidades locais ────────────────────────────────────────────────────────
 
-def _hero_side(char: str, meaning: str, slug: str) -> str:
-    """Coluna direita da abertura (tráfego, marketing): kanji do pilar no alto e os marcadores pela base, para o
-    quarto superior direito não ficar vazio no desktop. O kanji some abaixo de 1024 (50-servicos.css)."""
-    return (f'<div class="srv-hero-side">{c.kanji(char, meaning, size="lg", cls="srv-hero-k", reveal=None)}'
+def _hero_side(slug: str) -> str:
+    """Coluna direita da abertura (tráfego, marketing): os marcadores pela base, para o quarto superior direito não
+    ficar vazio no desktop."""
+    return (f'<div class="srv-hero-side">'
             f'{c.deliv_list(dados.SERVICES[slug]["marcadores"], cls="srv-hero-list")}</div>')
 
 def og(path: str) -> str:
@@ -176,7 +176,7 @@ def trafego() -> Page:
                     "A régua é a venda, não a curtida.",
                     crumbs=trilha,
                     ctas=(c.btn("Manda CONTA no direct", config.IG_DM, external=True),),
-                    side=_hero_side("磨", "otimizar", slug)),
+                    side=_hero_side(slug)),
         what_we_do(["Da conta que já roda", ("a uma decisão clara.", "b")],
                    "Começamos lendo o que existe: campanhas, criativos, página e o caminho até a venda. Depois "
                    "organizamos a conta para que cada campanha possa ser lida sozinha. Só então mexemos na verba.",
@@ -347,7 +347,7 @@ def marketing() -> Page:
                     crumbs=trilha,
                     ctas=(c.btn("Manda CONTA no direct", config.IG_DM, external=True),),
                     # sem peça própria de página nesta página: a ordem fica; o herói leva os marcadores à direita
-                    side=_hero_side("築", "construir", slug)),
+                    side=_hero_side(slug)),
         what_we_do(["Tudo o que acontece", ("depois do anúncio.", "b")],
                    "Um bom anúncio leva a pessoa até você. O resto do caminho decide se ela compra. Construímos esse "
                    "caminho junto com a campanha, para que cada passo possa ser medido.",

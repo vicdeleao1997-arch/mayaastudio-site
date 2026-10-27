@@ -48,7 +48,7 @@ def header(nav_active: str = "", path: str = "", cta_label: str = CTA_TOPO["CONT
     longo = " hd--cta-longo" if len(cta_label) > len(CTA_TOPO["CONTA"]) else ""   # 360 a 389 px: nome, CTA e Menu apertam (30-components.css)
     return (f'<header class="hd{longo}" data-header>'
             f'<a class="hd__brand" href="/" aria-label="MAYAA STUDIO, início">{_mark("hd__mark")}'
-            f'<span class="hd__name">MAYAA STUDIO</span><span class="hd__kana" lang="ja">まやー工房</span></a>'
+            f'<span class="hd__name">MAYAA STUDIO</span></a>'
             f'<nav class="hd__nav" aria-label="Principal">{"".join(links)}</nav>'
             f'<a class="hd__cta" href="{esc(config.IG_DM)}" target="_blank" rel="noopener" data-magnet>'
             f'<span class="hd__cta-t">{esc(cta_label)}</span>{c.sr(tail)}'
@@ -68,7 +68,7 @@ def menu(path: str = "") -> str:
             f'<li>{c.link_arrow("Instagram", config.IG, external=True)}</li>'
             f'<li>{c.link_arrow("LinkedIn", config.LINKEDIN, external=True)}</li>'
             f'<li><a class="menu__mail" href="{esc(config.MAILTO_GERAL)}">{esc(config.EMAIL)}</a></li></ul>'
-            f'<p class="label menu__sig"><span lang="ja">まやー工房</span> · São Paulo</p>')
+            f'<p class="label menu__sig">São Paulo</p>')
     return (f'<div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Menu" hidden>'
             f'<div class="menu__top"><a class="hd__brand" href="/" aria-label="MAYAA STUDIO, início">{_mark("hd__mark")}'
             f'<span class="hd__name">MAYAA STUDIO</span></a>'
@@ -98,9 +98,9 @@ def footer(contato_aqui: bool) -> str:
     cont_html = [ext("Direct · Manda CONTA", config.IG_DM), ext("Instagram", config.IG), ext("LinkedIn", config.LINKEDIN),
                  f'<a class="ft__mail" href="{esc(config.MAILTO_GERAL)}">{esc(config.EMAIL)}</a>']
     return (f'<footer class="ft on-tinta" id="rodape">'
-            f'{c.marquee_text("まやー工房 · Do conceito à conversão · MAYAA STUDIO · ", cls="ft__mq")}'
+            f'{c.marquee_text("Do conceito à conversão · MAYAA STUDIO · ", cls="ft__mq")}'
             f'<div class="wrap grid ft__grid" data-reveal="stagger">'
-            f'<div class="ft__brand"><svg class="ft__lk" data-reveal="ink" data-from="bottom" role="img" aria-label="MAYAA STUDIO, まやー工房" viewBox="520 470 2130 2210">'
+            f'<div class="ft__brand"><svg class="ft__lk" data-reveal="ink" data-from="bottom" role="img" aria-label="MAYAA STUDIO" viewBox="520 470 2130 2210">'
             f'<use href="/assets/brand/sprite.svg#lk" width="3171" height="3171"/></svg>'
             f'<p class="ft__claim">Estúdio de tráfego pago com IA em São Paulo. Do conceito à conversão.</p>'
             f'{c.pillars_line(cls="ft__pil")}</div>'

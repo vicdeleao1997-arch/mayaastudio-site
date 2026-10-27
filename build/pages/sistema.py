@@ -11,9 +11,8 @@ H1 = ["Esta página", ("não existe.", "b")]
 def pages():
     body = (
         '<section class="ph ph--404" data-hero><div class="wrap"><div class="grid ph__grid err__grid">'
-        f'{c.label("404 · ma", cls="ph__label")}'
+        f'{c.label("404", cls="ph__label")}'
         f'{c.title(H1, tag="h1", size="h1", cls="ph__title", enter=True)}'
-        f'{c.kanji("間", "ma · espaço", size="xl", cls="err__kanji")}'
         '<p class="lead ph__lead" data-reveal="fade" data-delay=".12">O endereço pode ter mudado. Aqui, o espaço vazio '
         'também é conteúdo, mas não era isto que você procurava.</p>'
         '</div>'

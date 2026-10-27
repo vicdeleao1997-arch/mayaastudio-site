@@ -21,14 +21,11 @@ def hero() -> str:
         (None, "Marketing", "#marketing", "↓"),
     ], cls="home-hero__index")   # Portfólio fica no cabeçalho
     dep = ' data-depth-group="hero" data-depth-start="top top"'
-    kanji = c.kanji("間", "ma · o espaço entre o conceito e a conversão", size="xl", cls="home-hero__kanji", reveal=None,
-                    extra=' data-depth="-12" data-depth-m="-6"' + dep)
     return (
         '<section class="home-hero" id="topo" data-hero><div class="wrap home-hero__in">'
         f'<div class="home-hero__top"><p class="label" data-depth="0" data-depth-o=".2"{dep}>Tráfego pago com IA · São Paulo</p></div>'
         '<div class="grid home-hero__grid">'
         f'{c.title(H1, tag="h1", size="mega", cls="home-hero__title", enter=True)}'
-        f'<div class="home-hero__k" data-reveal="ink" data-delay=".1">{kanji}</div>'
         '</div>'
         '<div class="grid home-hero__foot">'
         '<div class="home-hero__body">'
@@ -49,7 +46,7 @@ def sobre() -> str:
     texto = c.paras([
         "A MAYAA é um estúdio de tráfego pago com IA em São Paulo. Criamos o criativo, construímos o caminho do "
         "clique e cuidamos da campanha. O mesmo time, do conceito à conversão.",
-        "A estética vem do 間 (ma): o valor do espaço, do silêncio e da precisão. Menos ruído, mais intenção.",
+        "A estética é de espaço, silêncio e precisão. Menos ruído, mais intenção.",
         "Tsu dirige a criação e o audiovisual. Victor cuida do tráfego pago e da performance. Quem começa o seu "
         "projeto é quem segue nele.",
     ])
@@ -116,15 +113,15 @@ def trabalhos() -> str:
 
 def processo() -> str:
     return c.process("Processo", ["Cinco movimentos.", ("Uma régua: a venda.", "b")], [
-        dict(num="01", kanji="知", meaning="saber", title="Diagnóstico",
+        dict(num="01", meaning="saber", title="Diagnóstico",
              text="Lemos a conta que já roda: o que gasta, o que traz contato e o que vende."),
-        dict(num="02", kanji="築", meaning="construir", title="Estrutura",
+        dict(num="02", meaning="construir", title="Estrutura",
              text="Campanha, página e formulário montados para que cada passo possa ser lido."),
-        dict(num="03", kanji="創", meaning="criar", title="Criação",
+        dict(num="03", meaning="criar", title="Criação",
              text="Criativo em vídeo e imagem, um para cada formato, com direção humana e IA no ofício."),
-        dict(num="04", kanji="磨", meaning="otimizar", title="Otimização",
+        dict(num="04", meaning="otimizar", title="Otimização",
              text="Campanha por campanha: o que traz venda continua, o que não traz sai."),
-        dict(num="05", kanji="展", meaning="escalar", title="Escala",
+        dict(num="05", meaning="escalar", title="Escala",
              text="A verba cresce onde a leitura mostrou resultado, nunca no escuro."),
     ], extra_ids=("metodo",))
 

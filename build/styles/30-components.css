@@ -1,17 +1,17 @@
 /* Componentes (§2.5 a §2.7) */
 
 /* ── tipos de texto ─────────────────────────────────────────────────────── */
-.t-mega,.t-h1,.t-display,.t-h2,.t-h3{font-family:var(--f-display);font-weight:400;letter-spacing:var(--tr-display);text-wrap:balance}
+.t-mega,.t-h1,.t-display,.t-h2,.t-h3{font-family:var(--f-display);font-weight:700;letter-spacing:var(--tr-display);text-wrap:balance}
 .t-mega{font-size:var(--fs-mega);line-height:var(--lh-display);letter-spacing:-.02em}
 @media (max-width:400px){.t-mega{font-size:min(var(--fs-mega),13.4vw)}}
 .t-h1{font-size:var(--fs-h1);line-height:var(--lh-display);letter-spacing:-.015em}
 .t-display{font-size:var(--fs-display);line-height:var(--lh-display);letter-spacing:-.015em}
 .t-h2{font-size:var(--fs-h2);line-height:var(--lh-title)}
 .t-h3{font-size:var(--fs-h3);line-height:var(--lh-title)}
-.t-mega b,.t-h1 b,.t-display b,.t-h2 b,.t-h3 b{font-weight:700}
+.t-mega b,.t-h1 b,.t-display b,.t-h2 b,.t-h3 b{font-weight:900}
 .lead{font-size:var(--fs-lead);line-height:1.45;max-width:var(--measure-lead)}
 .value{font-size:var(--fs-lead);font-weight:500;line-height:1.35;color:var(--fumaca)}
-.label{font:500 var(--fs-label)/var(--lh-label) var(--f-body);letter-spacing:var(--tr-label);text-transform:uppercase;
+.label{font:700 var(--fs-label)/var(--lh-label) var(--f-body);letter-spacing:var(--tr-label);text-transform:uppercase;
   color:var(--fumaca);font-variant-numeric:tabular-nums}
 p.label{max-width:none}
 .nw{white-space:nowrap}
@@ -29,7 +29,7 @@ p.label{max-width:none}
 @media (max-width:479px){.label{letter-spacing:.16em}}
 .on-tinta .label--rule::before{background:var(--papel-18)}
 .small{font-size:var(--fs-small);line-height:1.6}
-/* máscara de linha: a Shippori desce ~.23em abaixo da base (p, g, y, ç, vírgula). Com --lh-display 1.04 sobram só
+/* máscara de linha: a Lato desce ~.23em abaixo da base (p, g, y, ç, vírgula). Com --lh-display 1.04 sobram só
    .08em de caixa abaixo da base; o respiro de .24em (compensado na margem) deixa a perna inteira sem mudar o
    espaço entre as linhas. A revelação esconde a linha a 150% (JS e CSS) para nada espiar pelo respiro. */
 .line{display:block;overflow:hidden;padding-block:.08em .24em;margin-block:-.08em -.26em}
@@ -49,7 +49,7 @@ p.label{max-width:none}
 .ico--play{width:.8em;height:.8em;vertical-align:-.06em}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:.9em;max-width:100%;min-height:2.75rem;padding:1.05em 1.6em;
   background:var(--tinta);color:var(--papel);border:1px solid var(--tinta);border-radius:0;
-  font:500 var(--fs-label)/1.3 var(--f-body);letter-spacing:var(--tr-label);text-transform:uppercase;text-decoration:none;
+  font:700 var(--fs-label)/1.3 var(--f-body);letter-spacing:var(--tr-label);text-transform:uppercase;text-decoration:none;
   text-align:left;transition:background-color var(--dur-1),color var(--dur-1),border-color var(--dur-1),scale var(--d0) var(--ease-out);cursor:pointer}
 .btn:hover,.btn:focus-visible{background:var(--papel);color:var(--tinta)}
 .btn:active{scale:var(--tap)}   /* propriedade 'scale' (não transform): soma-se ao desvio do ímã; vale também no reduzido */
@@ -66,7 +66,7 @@ p.label{max-width:none}
 @media (max-width:479px){.btn{letter-spacing:.14em;padding:1em 1.2em}}
 
 .link-arrow{position:relative;display:inline-flex;align-items:last baseline;gap:.55em;padding-bottom:.4em;
-  font:500 var(--fs-label)/1.4 var(--f-body);letter-spacing:var(--tr-label);text-transform:uppercase;
+  font:700 var(--fs-label)/1.4 var(--f-body);letter-spacing:var(--tr-label);text-transform:uppercase;
   color:var(--tinta);text-decoration:none}
 .link-arrow::before,.link-arrow::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--linha)}
 .link-arrow::after{background:currentColor;transform:scaleX(0);transform-origin:left;transition:transform var(--dur-2) var(--ease-out)}
@@ -100,13 +100,10 @@ a:hover > .link-arrow::after,.link-arrow:hover::after,.link-arrow:focus-visible:
 .hd.is-hidden{transform:translateY(calc(-100% - var(--frame)))}
 .hd__brand{display:inline-flex;align-items:center;gap:.7rem;text-decoration:none;color:var(--tinta);min-width:0}
 .hd__mark{width:32px;height:auto;aspect-ratio:1584/1473;flex:none;color:var(--tinta)}   /* 26 px virava borrão em tela 1x */
-.hd__name{font:600 .8125rem/1 var(--f-body);letter-spacing:var(--tr-brand);white-space:nowrap}
-.hd__kana{font:400 .875rem/1 var(--f-display);letter-spacing:.14em;color:var(--fumaca);white-space:nowrap}
-/* kana recolhe da direita para a esquerda ao rolar (a caixa fica: o CTA não se mexe) · fio de leitura (cases, guia) */
-.hd.is-scrolled .hd__kana{clip-path:inset(0 100% 0 0);opacity:0}
+.hd__name{font:700 .8125rem/1 var(--f-body);letter-spacing:var(--tr-brand);white-space:nowrap}
 .hd__prog{position:absolute;inset:auto 0 0;height:2px;background:currentColor;transform-origin:0;transform:scaleX(0)}
 .hd__nav{margin-left:auto;display:flex;gap:2.25rem}
-.hd__nav a,.hd__cta{position:relative;font:500 var(--fs-label)/1 var(--f-body);letter-spacing:var(--tr-label);
+.hd__nav a,.hd__cta{position:relative;font:700 var(--fs-label)/1 var(--f-body);letter-spacing:var(--tr-label);
   text-transform:uppercase;text-decoration:none;color:var(--tinta);padding-block:.6em}
 .hd__nav a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:currentColor;
   transform:scaleX(0);transform-origin:left;transition:transform var(--dur-2) var(--ease-out)}
@@ -129,8 +126,8 @@ a:hover > .link-arrow::after,.link-arrow:hover::after,.link-arrow:focus-visible:
   /* abaixo de 900 o cabeçalho não some ao rolar (10-header.js): o CTA fica sempre à vista */
   .hd.is-hidden{transform:none}
 }
-/* 360 a 419: primeiro some o kana; depois o CTA e a marca apertam (sem ícone, menos espaçamento), sem quebrar linha */
-@media (max-width:419px){.hd__kana{display:none}
+/* 360 a 419: o CTA e a marca apertam (sem ícone, menos espaçamento), sem quebrar linha */
+@media (max-width:419px){
   .hd{gap:var(--s-2)}.hd__brand{gap:.45rem}.hd__name{letter-spacing:.08em;font-size:.75rem}
   .hd__cta{padding-inline:.7em;letter-spacing:.06em}.hd__cta-a{display:none}.js .hd__menu{margin-left:var(--s-3)}}
 /* rótulo longo ("Falar no direct", "Manda MODELO") até 389 px: nome, CTA e Menu apertam mais um passo,
@@ -151,7 +148,7 @@ a:hover > .link-arrow::after,.link-arrow:hover::after,.link-arrow:focus-visible:
 .menu__nav{padding:var(--s-6) calc(var(--gutter) - var(--frame)) var(--s-5)}
 .menu__list li + li a{border-top:1px solid var(--linha)}
 .menu__list a{display:flex;align-items:baseline;gap:var(--s-4);padding-block:.32em;text-decoration:none;
-  font:400 var(--fs-h2)/1.15 var(--f-display);letter-spacing:var(--tr-display)}
+  font:700 var(--fs-h2)/1.15 var(--f-display);letter-spacing:var(--tr-display)}
 .menu__list a[aria-current] .menu__t{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.18em}
 .menu__num{min-width:2.4em}
 .menu__foot{margin-top:auto;padding:var(--s-5) calc(var(--gutter) - var(--frame)) var(--s-6);border-top:1px solid var(--linha)}
@@ -161,19 +158,11 @@ a:hover > .link-arrow::after,.link-arrow:hover::after,.link-arrow:focus-visible:
 @media (max-width:899px){.menu__list a{font-size:clamp(1.6rem,1.1rem + 2.9vw,2.6rem)}}
 @media (max-height:640px){.menu__list a{font-size:1.4rem}}
 
-/* ── kanji ──────────────────────────────────────────────────────────────── */
-.kanji-fig{display:inline-flex;flex-direction:column;align-items:flex-start;gap:var(--s-3)}
-.kanji{font-family:var(--f-display);font-weight:400;line-height:1;color:var(--tinta);font-size:var(--fs-kanji)}
-.kanji-fig--md .kanji{font-size:clamp(2.75rem,2rem + 2.4vw,4.5rem)}
-.kanji-fig--lg .kanji{font-size:var(--fs-kanji)}
-.kanji-fig--xl .kanji{font-size:var(--fs-kanji-xl);color:var(--linha)}
-.on-tinta .kanji-fig--xl .kanji{color:var(--papel-18)}
-
 /* ── índice numerado ────────────────────────────────────────────────────── */
 .index__list{margin-top:var(--s-4);border-bottom:1px solid var(--linha)}
 .index__item a{display:grid;grid-template-columns:4.25rem minmax(0,1fr) auto;align-items:baseline;gap:var(--s-3);
   padding-block:.85rem;border-top:1px solid var(--linha);text-decoration:none;transition:border-color var(--dur-2)}
-.index__txt{font:500 var(--fs-lead)/1.3 var(--f-body);transition:transform var(--dur-2) var(--ease-out)}
+.index__txt{font:700 var(--fs-lead)/1.3 var(--f-body);transition:transform var(--dur-2) var(--ease-out)}
 .index__arrow{font-size:var(--fs-lead);line-height:1;transition:transform var(--dur-2) var(--ease-out)}
 .index__item a:hover,.index__item a:focus-visible{border-top-color:var(--tinta)}
 .index__item a:hover .index__txt,.index__item a:focus-visible .index__txt{transform:translateX(8px)}
@@ -214,7 +203,7 @@ a:hover > .link-arrow::after,.link-arrow:hover::after,.link-arrow:focus-visible:
 /* marquee de texto (rodapé) */
 .mqt{padding-block:var(--s-7) var(--s-5);border-bottom:1px solid var(--papel-18)}
 .mqt .mq__viewport{margin-top:0}
-.mqt__track{font:400 var(--fs-h2)/1.15 var(--f-display);color:var(--papel-72);white-space:nowrap;max-width:none;gap:0;padding-right:0}
+.mqt__track{font:700 var(--fs-h2)/1.15 var(--f-display);color:var(--papel-72);white-space:nowrap;max-width:none;gap:0;padding-right:0}
 .mqt__unit{padding-right:.35em}
 .mqt__head{justify-content:flex-end;margin-top:var(--s-4)}
 
@@ -306,7 +295,7 @@ html.fx-on .fig-link:hover [data-fx] img,html.fx-on .case-card__link:hover [data
 .steps--path .step{flex:1 1 0;position:relative;display:flex;flex-direction:column;gap:var(--s-2);padding:var(--s-5) var(--s-6) var(--s-5) 0}
 .steps--path .step + .step{padding-left:var(--s-5);border-left:1px solid var(--linha)}
 .steps--path .step:not(:last-child)::after{transform:translateX(var(--ax,0));content:"→" / "";position:absolute;right:var(--s-4);top:var(--s-5);color:var(--fumaca);font-size:var(--fs-lead);line-height:1}
-.steps--path .step__t{font:400 var(--fs-h3)/1.15 var(--f-display)}
+.steps--path .step__t{font:700 var(--fs-h3)/1.15 var(--f-display)}
 .steps--path .step__x{color:var(--tinta);max-width:28ch}
 @media (max-width:1023px){
   .steps--path{flex-direction:column;border-bottom:0}
@@ -321,7 +310,7 @@ html.fx-on .fig-link:hover [data-fx] img,html.fx-on .case-card__link:hover [data
 .llist a{display:grid;grid-template-columns:3.25rem minmax(0,1fr) auto;align-items:baseline;gap:var(--s-3);
   padding-block:1.1rem;border-top:1px solid var(--linha);text-decoration:none;transition:border-color var(--dur-2)}
 .llist__b{display:flex;flex-wrap:wrap;align-items:baseline;gap:.2em 1.1em;transition:transform var(--dur-2) var(--ease-out)}
-.llist__t{font:400 var(--fs-h3)/1.2 var(--f-display)}
+.llist__t{font:700 var(--fs-h3)/1.2 var(--f-display)}
 .llist__a{font-size:var(--fs-lead);line-height:1}
 .llist a:hover,.llist a:focus-visible{border-top-color:var(--tinta)}
 .llist a:hover .llist__b,.llist a:focus-visible .llist__b{transform:translateX(8px)}
@@ -373,12 +362,7 @@ html.fx-on .fig-link:hover [data-fx] img,html.fx-on .case-card__link:hover [data
 .proc__card{display:flex;flex-direction:column;gap:var(--s-5)}
 /* trilha (>= 1024, 50-scroll.js liga .is-trail): o fio avança com a rolagem e cada passo acende quando ele chega */
 .is-trail::before{content:"";position:absolute;inset:-1px 0 auto;height:2px;background:var(--tinta);transform-origin:0;transform:scaleX(var(--p,0))}
-.is-trail .proc__kanji{opacity:.25;transition:opacity var(--dur-2)}
-.is-trail .is-lit .proc__kanji{opacity:1}
 .proc__step:first-child{border-left:0;padding-left:0}
-/* regra de cor do kanji: tinta no kanji de conceito (processo, serviços, pilares, aberturas); linha só no
-   kanji decorativo gigante (.kanji-fig--xl) */
-.proc__kanji{font-size:clamp(3rem,2rem + 3vw,5.25rem);color:var(--tinta)}
 .proc__body{display:flex;flex-direction:column;gap:var(--s-2)}
 .proc__num{color:var(--tinta)}
 .proc__t{margin-top:var(--s-2)}
@@ -388,11 +372,10 @@ html.fx-on .fig-link:hover [data-fx] img,html.fx-on .case-card__link:hover [data
   .proc__step,.proc__step:first-child{border-left:0;border-top:1px solid var(--linha);padding:var(--s-5) var(--s-4) var(--s-6) 0}
 }
 @media (max-width:639px){
-  /* celular: linhas com filete; kanji de 56 px à esquerda, capítulo e número na mesma linha, título e texto */
+  /* celular: linhas com filete; capítulo e número na mesma linha, título e texto */
   .proc__steps{grid-template-columns:minmax(0,1fr);margin-top:var(--s-6);border-bottom:1px solid var(--linha)}
   .proc__step,.proc__step:first-child{padding:var(--s-4) 0 var(--s-5)}
   .proc__card{flex-direction:row;align-items:flex-start;gap:var(--s-4)}
-  .proc__kanji{flex:none;width:56px;font-size:2.5rem;line-height:1}
   .proc__body{flex-direction:row;flex-wrap:wrap;align-items:baseline;gap:var(--s-1) var(--s-3);min-width:0}
   .proc__t,.proc__x{flex-basis:100%}
   .proc__t{margin-top:var(--s-1)}
@@ -405,7 +388,7 @@ html.fx-on .fig-link:hover [data-fx] img,html.fx-on .case-card__link:hover [data
 .proof__fig{grid-column:1 / span 6;display:flex;flex-direction:column;gap:var(--s-3)}
 /* line-height 1 + folga embaixo: a perna da vírgula de «12,55» não invade a legenda (.proof__unit) */
 .proof__num{display:flex;align-items:baseline;white-space:nowrap;max-width:none;padding-bottom:.14em;
-  font:400 var(--fs-num)/1 var(--f-display);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+  font:700 var(--fs-num)/1 var(--f-display);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
 .proof__x{font-size:.55em;margin-left:.04em}
 /* fio de 2 px que cresce com a contagem (sem JS: inteiro) */
 .proof__num,.proof__stats dt{position:relative}
@@ -423,7 +406,7 @@ dt .proof__rule{width:1.5em}
   padding-top:var(--s-4);border-top:1px solid var(--papel-18)}
 .sec--cartao.proof .proof__stats{border-top-color:var(--linha)}
 .proof__more{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s-4) var(--s-6);margin-top:var(--s-3)}
-.proof__stats dt{font:400 var(--fs-h2)/1 var(--f-display);font-variant-numeric:tabular-nums}
+.proof__stats dt{font:700 var(--fs-h2)/1 var(--f-display);font-variant-numeric:tabular-nums}
 .proof__stats dd{margin-top:var(--s-2);font-size:var(--fs-small);color:var(--papel-72)}
 .proof__disc{color:var(--papel-72)}
 .sec--cartao.proof .proof__stats dd,.sec--cartao.proof .proof__disc{color:var(--fumaca)}
@@ -448,7 +431,7 @@ dt .proof__rule{width:1.5em}
 .ft__grid{padding-block:var(--s-9) var(--s-8);row-gap:var(--s-7)}
 .ft__brand{grid-column:1 / span 5;display:flex;flex-direction:column;gap:var(--s-5)}
 .ft__lk{width:140px;height:auto;aspect-ratio:2130/2210;color:var(--papel)}
-.ft__claim{font:400 var(--fs-h3)/1.3 var(--f-display);max-width:26ch}
+.ft__claim{font:700 var(--fs-h3)/1.3 var(--f-display);max-width:26ch}
 .ft__pil{text-wrap:balance}
 .ft__col--nav{grid-column:7 / span 2}.ft__col--srv{grid-column:9 / span 2}.ft__col--ct{grid-column:11 / span 2}
 .ft__h{margin-bottom:var(--s-4)}
@@ -475,7 +458,6 @@ dt .proof__rule{width:1.5em}
 .ph__grid{row-gap:var(--s-5);align-items:start}   /* sem fio embaixo: o fio do rótulo da seção seguinte já separa */
 .ph__label{grid-column:1 / span 10}
 .ph__title{grid-column:1 / span 10}
-.ph__kanji{grid-column:11 / span 2;grid-row:2 / span 2;justify-self:end}
 .ph__lead{grid-column:1 / span 7;margin-top:var(--s-4)}
 .ph__ctas{grid-column:1 / -1;display:flex;flex-wrap:wrap;align-items:flex-end;gap:var(--s-5) var(--s-6);margin-top:var(--s-5)}
 .ph__ficha{grid-column:9 / span 4;grid-row:3 / span 2;margin-top:var(--s-4)}
@@ -493,7 +475,6 @@ dt .proof__rule{width:1.5em}
 .ph__top > .ph__label{text-align:right}
 .ph--case .ph__grid{border-bottom:0;padding-bottom:0}
 .ph--case .ph__title{grid-row:1}
-.ph--case .ph__kanji{grid-row:1 / span 2}
 .ph--case .ph__lead{grid-row:2;grid-column:1 / span 8;margin-top:var(--s-2)}
 .ph--case .badge{grid-row:3;align-self:start}
 .ph--case .ph__ficha{grid-row:2 / span 2}
@@ -502,15 +483,11 @@ dt .proof__rule{width:1.5em}
 .badge{grid-column:1 / span 7;justify-self:start;background:var(--cartao);color:var(--tinta);padding:.5em .8em}   /* selo, não botão */
 @media (max-width:1023px){
   .ph__label,.ph__title,.ph__lead,.ph__ficha,.badge{grid-column:1 / -1;grid-row:auto}
-  .ph__kanji{grid-column:1 / -1;grid-row:auto;justify-self:start;order:-1}
   /* 27/09: a regra de desktop ".ph--case .ph__lead{grid-column:1 / span 8}" vencia esta por especificidade e criava
      4 colunas implícitas de 0 px (+ 4 vãos) no celular, estreitando o H1 em 64 px e cortando a última linha a 320 px. */
   .ph--case .ph__lead{grid-row:auto;grid-column:1 / -1}
-  .ph--case .ph__title,.ph--case .ph__kanji,.ph--case .ph__lead,.ph--case .badge,.ph--case .ph__ficha{grid-row:auto}
-  /* celular: kanji pequeno acima do H1, com o significado ao lado (o H1 fica com a largura toda) */
-  .ph--case .ph__kanji{flex-direction:row;align-items:center;gap:var(--s-3)}
-  .ph--case .ph__kanji .kanji{font-size:clamp(2.5rem,2rem + 2vw,3.25rem)}
-  .ph__top > .ph__label{text-align:left}
+  .ph--case .ph__title,.ph--case .ph__lead,.ph--case .badge,.ph--case .ph__ficha{grid-row:auto}
+    .ph__top > .ph__label{text-align:left}
 }
 .ficha{border-bottom:1px solid var(--linha)}
 /* ficha em faixa (abaixo da imagem de abertura do case) */
@@ -583,7 +560,7 @@ dt .proof__rule{width:1.5em}
 .faq__item summary{display:grid;grid-template-columns:3rem minmax(0,1fr) 1.5rem;align-items:baseline;gap:var(--s-3);
   padding-block:1.25rem;cursor:pointer;list-style:none}
 .faq__item summary::-webkit-details-marker{display:none}
-.faq__q{font:400 var(--fs-h3)/1.25 var(--f-display)}
+.faq__q{font:700 var(--fs-h3)/1.25 var(--f-display)}
 .faq__icon{position:relative;width:14px;height:14px;align-self:center;transition:transform var(--dur-2) var(--ease-out)}
 .faq__icon::before,.faq__icon::after{content:"";position:absolute;background:currentColor}
 .faq__icon::before{left:0;right:0;top:50%;height:1px}
@@ -613,11 +590,11 @@ dt .proof__rule{width:1.5em}
 
 /* ── tabela dos pilares ─────────────────────────────────────────────────── */
 .pillars{border-bottom:1px solid var(--linha)}
-.pillars thead th{font:500 var(--fs-label)/1.4 var(--f-body);letter-spacing:var(--tr-label);text-transform:uppercase;color:var(--fumaca);
+.pillars thead th{font:700 var(--fs-label)/1.4 var(--f-body);letter-spacing:var(--tr-label);text-transform:uppercase;color:var(--fumaca);
   padding:0 var(--s-4) var(--s-3) 0}
 .pillars tbody tr{border-top:1px solid var(--linha)}
 .pillars th[scope=row],.pillars td{padding:var(--s-5) var(--s-4) var(--s-5) 0;vertical-align:top}
-.pillars__nome{font:400 var(--fs-h3)/1.2 var(--f-display)}
+.pillars__nome{font:700 var(--fs-h3)/1.2 var(--f-display)}
 .pillars__v{font-weight:500}
 .pillars__f{max-width:46ch}
 @media (max-width:1023px){

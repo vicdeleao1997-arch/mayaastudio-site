@@ -13,11 +13,10 @@ from . import config, dados
 from .html import attrs, cls as _cls, esc
 from .media import SIZES, dims, picture
 
-KANJI_OK = {"間", "知", "築", "創", "磨", "展"}
 _ARROW_EXT = "↗"   # só marcador interno: no HTML sai ICO_OUT (R1-04)
 
-# ↗ e ▶ não existem na Archivo nem na Shippori: o navegador desenhava com fonte do sistema (Segoe UI Symbol no
-# Windows). Viram SVG em traço (currentColor, 1.5 px fixos). A seta → continua texto: a Archivo tem esse glifo.
+# ↗ e ▶ não existem na Lato: o navegador desenhava com fonte do sistema (Segoe UI Symbol no
+# Windows). Viram SVG em traço (currentColor, 1.5 px fixos). A seta → continua texto: a Lato tem esse glifo.
 ICO_OUT = ('<svg class="ico ico--out" viewBox="0 0 10 10" width="10" height="10" aria-hidden="true" focusable="false">'
            '<path d="M1.8 8.2 8.2 1.8M3 1.8h5.2V7"/></svg>')
 ICO_PLAY = ('<svg class="ico ico--play" viewBox="0 0 10 10" width="10" height="10" aria-hidden="true" focusable="false">'
@@ -154,19 +153,7 @@ def mail_cta(mailto: str, kind: str = "ghost", pre: str | None = None, after: st
             f'<span class="sr" aria-live="polite" data-copy-status></span></div></div>')
 
 
-# ── kanji e índice ───────────────────────────────────────────────────────────
-def kanji(char: str, meaning: str, size: str = "md", cls: str = "", reveal: str | None = "ink",
-          caption: bool = True, extra: str = "") -> str:
-    """Kanji com legenda só do significado ("escalar", "ma · espaço"), como na prancha: o caractere não se repete
-    na legenda. Só os seis da prancha."""
-    if char not in KANJI_OK:
-        raise ValueError(f"kanji fora da prancha: {char}")
-    cap = f'<figcaption class="label kanji-fig__cap">{esc(meaning)}</figcaption>' if caption else ""
-    return (f'<figure{attrs(cls=_cls("kanji-fig", "kanji-fig--" + size, cls), data_reveal=reveal)}{extra}>'
-            f'<span class="kanji" lang="ja" aria-hidden="true">{esc(char)}</span>{cap}</figure>')
-
-
-_kanji = kanji  # alias: funções com parâmetro `kanji` usam este nome
+# ── índice ───────────────────────────────────────────────────────────────────
 
 
 def index_nav(items, title: str = "Índice · Serviços", cls: str = "", aria_label: str = "Índice dos serviços") -> str:
@@ -433,7 +420,7 @@ def section(*parts, id: str | None = None, tone: str | None = None, cls: str = "
 def service_block(id: str, value: str, title_lines, text, items=None, cta: str | None = None,
                   cta2: str | None = None, media: str = "", extra_ids=(), tone: str = "papel",
                   label_text: str = "Serviço") -> str:
-    """Bloco de serviço. cta/cta2/media: HTML pronto. Sem número e sem kanji (os kanji ficam no Processo).
+    """Bloco de serviço. cta/cta2/media: HTML pronto. Sem número e sem número.
     Sem `items`, a mídia vai para a coluna lateral (svc__side): os três blocos com o mesmo esqueleto, sem coluna morta."""
     side = deliv_list(items) if items else (media or "")
     if not items:
@@ -469,15 +456,11 @@ def manifesto(lines, sub: str, images, id: str = "manifesto", label_text: str = 
 
 
 def process(label_text: str, lines, steps_, id: str = "processo", extra_ids=(), num: str | None = None) -> str:
-    """Processo com kanji. steps_ = [dict(num="01", kanji="知", meaning="saber", title="Diagnóstico", text="…")]."""
+    """Processo. steps_ = [dict(num="01", meaning="saber", title="Diagnóstico", text="…")]."""
     lis = []
     for i, s in enumerate(steps_):
-        k = s["kanji"]
-        if k not in KANJI_OK:
-            raise ValueError(f"kanji fora da prancha: {k}")
         # .proc__card: o empilhamento do celular (scrub) fica no cartão; a cascata (stagger) fica no li
         lis.append(f'<li class="proc__step" style="--i:{i}"><div class="proc__card">'
-                   f'<span class="kanji proc__kanji" lang="ja" aria-hidden="true" data-reveal="ink">{esc(k)}</span>'
                    f'<div class="proc__body"><p class="label proc__cap">{esc(s["meaning"])}</p>'
                    f'<p class="label proc__num">{esc(s["num"])}</p><h3 class="t-h3 proc__t">{esc(s["title"])}</h3>'
                    f'<p class="small proc__x">{esc(s["text"])}</p></div></div></li>')
@@ -577,28 +560,26 @@ def breadcrumb(items) -> str:
     return f'<nav class="crumbs label" aria-label="Trilha"><ol>{"".join(lis)}</ol></nav>'
 
 
-def _hero_curto(crumbs, label_text: str, lines, lead: str | None, kanji, extra: str = "", sep: str = " ",
+def _hero_curto(crumbs, label_text: str, lines, lead: str | None, extra: str = "", sep: str = " ",
                 h1_cls: str = "", cls: str = "") -> str:
-    """Abertura curta (cases e portfólio): trilha e rótulo na mesma linha, H1 + kanji, texto logo abaixo, sem fio.
+    """Abertura curta (cases e portfólio): trilha e rótulo na mesma linha, H1, texto logo abaixo, sem fio.
     O conteúdo principal (imagem de abertura, grade de cases) entra na 1.ª dobra."""
-    k = _kanji(kanji[0], kanji[1], size="lg", cls="ph__kanji") if kanji else ""
     lead_html = f'<p class="lead ph__lead" data-reveal="fade" data-delay=".12">{esc(lead)}</p>' if lead else ""
     return (f'<section class="{_cls("ph ph--case", cls)}" data-hero><div class="wrap">'
             f'<div class="ph__top">{breadcrumb(crumbs)}{label(label_text, cls="ph__label")}</div>'
             f'<div class="grid ph__grid">'
-            f'{title(lines, tag="h1", size="h1", cls=_cls("ph__title", h1_cls), sep=sep, enter=True)}{k}'
+            f'{title(lines, tag="h1", size="h1", cls=_cls("ph__title", h1_cls), sep=sep, enter=True)}'
             f'{lead_html}{extra}</div></div></section>')
 
 
-def page_hero(label_text: str, lines, lead: str | None, kanji=None, ctas=(), crumbs=(), extra: str = "",
+def page_hero(label_text: str, lines, lead: str | None, ctas=(), crumbs=(), extra: str = "",
               h1_cls: str = "", sep: str = " ", compact: bool = False, side: str = "") -> str:
-    """Abertura de página interna: breadcrumb, rótulo, H1 (col 1-10), kanji (11-12), lead (1-7), CTAs, fio.
+    """Abertura de página interna: breadcrumb, rótulo, H1 (col 1-10), lead (1-7), CTAs, fio.
     compact=True: abertura curta (a dos cases), para o conteúdo entrar na 1.ª dobra (ex.: portfólio).
     side (HTML): mídia ou lista na coluna direita (col 9 a 12, ≥1024); o texto fica nas colunas 1 a 7."""
     if compact and crumbs:
-        return _hero_curto(crumbs, label_text, lines, lead, kanji, extra="".join(ctas) + extra, sep=sep,
+        return _hero_curto(crumbs, label_text, lines, lead, extra="".join(ctas) + extra, sep=sep,
                            h1_cls=h1_cls, cls="ph--compact")
-    k = _kanji(kanji[0], kanji[1], size="lg", cls="ph__kanji") if kanji else ""
     c = "".join(ctas)
     lead_html = f'<p class="lead ph__lead" data-reveal="fade" data-delay=".12">{esc(lead)}</p>' if lead else ""
     ctas_html = f'<div class="ph__ctas" data-reveal="fade" data-delay=".18">{c}</div>' if c else ""
@@ -606,7 +587,7 @@ def page_hero(label_text: str, lines, lead: str | None, kanji=None, ctas=(), cru
     crumbs_html = breadcrumb(crumbs) if crumbs else ""
     return (f'<section class="{_cls("ph", "ph--side" if side else "")}" data-hero><div class="wrap">{crumbs_html}'
             f'<div class="grid ph__grid">{label(label_text, cls="ph__label")}'
-            f'{title(lines, tag="h1", size="h1", cls=_cls("ph__title", h1_cls), sep=sep, enter=True)}{k}'
+            f'{title(lines, tag="h1", size="h1", cls=_cls("ph__title", h1_cls), sep=sep, enter=True)}'
             f'{lead_html}{ctas_html}{side_html}{extra}</div></div></section>')
 
 
@@ -624,7 +605,7 @@ _CASE_HERO = {
 
 def case_hero(slug: str, lead: str, ficha_rows=None, badge: str | None = None, lines=None,
               label_text: str | None = None, sep: str | None = None, side: str = "", side_after: str = "") -> str:
-    """Abertura de case, curta como a da NUMIS: trilha e rótulo na mesma linha, H1 e texto de abertura (sem kanji).
+    """Abertura de case, curta como a da NUMIS: trilha e rótulo na mesma linha, H1 e texto de abertura .
     A imagem de abertura vem logo depois (na 1.ª dobra) e a ficha técnica vai junto dela (`ficha(rows,
     cls="ficha--row")` na página). ficha_rows aqui é opcional (fica à direita do texto, como antes).
     side (HTML): imagem de abertura dentro da própria abertura, na coluna direita desde o topo do H1 (≥1024; classe
@@ -640,7 +621,7 @@ def case_hero(slug: str, lead: str, ficha_rows=None, badge: str | None = None, l
     open_html = ((f'<div class="ph__open-media">{side}</div>' if side else "")
                  + (f'<div class="ph__open-ficha">{side_after}</div>' if side_after else ""))
     return _hero_curto([("Início", "/"), ("Portfólio", "/portfolio/"), (cz["marca"], None)], lab, lines, lead,
-                       None, extra=bdg + fic_html + open_html, sep=sep, cls="ph--open" if side else "")
+                       extra=bdg + fic_html + open_html, sep=sep, cls="ph--open" if side else "")
 
 
 def case_card(slug: str, size: str = "lg", heading: str = "h2", show_line: bool = True,
@@ -667,7 +648,7 @@ def case_card(slug: str, size: str = "lg", heading: str = "h2", show_line: bool 
             f'</a></article>')
 
 
-def case_series(num: str, title_text: str, text: str | None, items, kanji=None, layout: str = "auto",
+def case_series(num: str, title_text: str, text: str | None, items, layout: str = "auto",
                 id: str | None = None, label_text: str | None = None, cls: str = "",
                 text_html: str | None = None, media_first: bool = False, after: str = "") -> str:
     """Série de imagens de case. items: dict(src, alt, caption, num, fx=True) ou HTML pronto (video/ig_embed).
@@ -691,11 +672,10 @@ def case_series(num: str, title_text: str, text: str | None, items, kanji=None, 
                 ratio=it.get("ratio"), fx=it.get("fx", True), sizes=it.get("sizes", sizes),
                 priority=it.get("priority", False), link=it.get("link"),
                 delay=round(min(i * .08, .5), 2) if cols else None) + "</div>")
-    k = _kanji(kanji[0], kanji[1], size="md", cls="cs__kanji") if kanji else ""
     corpo = text_html if text_html is not None else (esc(text) if text else "")
     txt = f'<p class="small cs__text" data-reveal="fade">{corpo}</p>' if corpo else ""
     lab = label_text or f"Série {num}"
-    head_html = (f'<header class="cs__head">{label(lab, cls="label--rule label--5")}{k}'
+    head_html = (f'<header class="cs__head">{label(lab, cls="label--rule label--5")}'
                  f'{title([title_text], size="h3", cls="cs__title")}{txt}</header>')
     media_html = f'<div class="cs__media">{"".join(media)}</div>'
     corpo_html = media_html + head_html if media_first else head_html + media_html

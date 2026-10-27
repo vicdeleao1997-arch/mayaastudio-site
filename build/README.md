@@ -15,7 +15,7 @@ py build/tools/bandas_e_icones.py         # faixas da home + favicon/ícones/man
 py build/tools/indexnow.py --seco         # mostra o envio do IndexNow (o envio real só depois de publicado, com ok do Victor)
 py build/tools/og_chrome.py               # imagens og 1200×630 (gerador OFICIAL; Chrome headless; --so mayaa,privacidade)
 py build/tools/derive_images.py           # versões -800 e .webp das imagens dos cases (pula o que já existe)
-py build/tools/fontes.py                  # fontes do site (woff2 recortado): rodar de novo se entrar kanji novo (check 16)
+py build/tools/fontes.py                  # fontes do site: Lato 400/700/900 em woff2 (site/assets/fonts)
 py build/tools/logos.py                   # logos de clientes em tinta, no tamanho exibido (fonte: assets/clients/*.png)
 py build/tools/svg_leve.py                # sprite.svg e favicon.svg leves (fonte de alta fidelidade em build/brand/)
 ```
@@ -31,7 +31,7 @@ O build:
 Nunca apaga nada de `site/`. Não toca `site/CNAME`.
 
 Imagens og: o gerador oficial é `tools/og_chrome.py`. `tools/_og_pillow.py` é a alternativa em Pillow (mesmos nomes
-de saída; só roda com `--alternativo`). Fontes: `build/fonts/*.ttf` fica fora do git (17 MB); sem elas as ferramentas
+de saída; só roda com `--alternativo`). Fontes: `build/fonts/*.ttf` (Lato 400/700/900) fica fora do git; sem elas as ferramentas
 usam `C:/Users/vicde/mayaa-leads/assets`. `site/assets/mayaa-mark-ink.png` é fonte do gato das og: não apagar.
 
 ## Página nova = um módulo em `pages/`
@@ -44,7 +44,7 @@ from lib.page import Page
 def pages():
     h1 = ["Título", ("em negrito.", "b")]
     body = (
-        c.page_hero("Rótulo · 01", h1, "Lead da página.", kanji=("創", "criar"),
+        c.page_hero("Rótulo · 01", h1, "Lead da página.",
                     crumbs=[("Início", "/"), ("Minha página", None)])
         + c.section(c.head("O que fazemos", num="01", lines=["Linha", ("negrito.", "b")], text="Parágrafo."),
                     c.deliv_list(["Item um", "Item dois"]))
@@ -90,16 +90,15 @@ Parâmetros marcados HTML recebem o retorno de outro componente (`c.btn(...)`, `
 | `head(label_text, num, lines, text)` · `section(*html, id, tone, cls, extra_ids)` · `paras(text)` | atalhos de seção (`tone`: None, "cartao", "tinta") |
 | `btn(text, href, kind="primary"\|"ghost", sr=None)` · `link_arrow(text, href, sr=None)` · `text_link(text, href)` | seta automática: → interno, ↗ externo (nova aba + aviso para leitor de tela), ↓ âncora `#x` |
 | `mail_cta(config.MAILTO_*, kind="ghost", pre=None)` | e-mail visível + "Copiar e-mail" |
-| `kanji(char, meaning, size="md"\|"lg"\|"xl")` | só 間 知 築 創 磨 展 |
-| `index_nav(items)` · `marquee_logos()` · `band(src, alt, cap_left, cap_right=(txt, href), pos="50% 55%", height="alta")` | `marquee_logos`: parede estática a partir de 1024 px, marquee abaixo (sem animação com movimento reduzido). `band(height="cine")`: faixa min(62svh, 620px), 16:9 no celular (home) |
+||| `index_nav(items)` · `marquee_logos()` · `band(src, alt, cap_left, cap_right=(txt, href), pos="50% 55%", height="alta")` | `marquee_logos`: parede estática a partir de 1024 px, marquee abaixo (sem animação com movimento reduzido). `band(height="cine")`: faixa min(62svh, 620px), 16:9 no celular (home) |
 | `figure(src, alt, caption, num, style="tec"\|"desc", ratio, fx, link)` · `image_grid(items, cols, ratio, offset)` | `tec`: "Editorial · 02"; `desc`: "01 · Descrição". `fx=False` em peça com texto |
 | `video(src, poster, label, caption, num, link=(txt, href))` · `ig_embed(url, kind, what, link_text)` | |
 | `deliv_list(items)` · `steps(items, layout="grid"\|"path")` · `note(text, link=(txt, href))` · `list_links(items)` | `steps`: str, `(título, texto)` ou dict |
 | `service_block(...)` · `manifesto(...)` · `process(...)` · `proof(tone, num_label, link, cta=False)` | `proof` tem texto fixo; com `num_label` (pilar) some o link "Como lemos uma conta"; `cta=True` põe o direct ao lado da prova (home). `service_block` sem `items` põe a mídia na coluna lateral |
 | `cta_final(label, lines, text, primary, secondary, note)` · `cta("CONTA"\|"PROJETO"\|"COLECAO"\|"MODELO", label, secondary=None)` | `cta()` já traz o texto de §3.0.4 |
-| `breadcrumb(items)` · `page_hero(label, lines, lead, kanji, ctas, crumbs, extra, side="")` | `side` (HTML): mídia ou lista na coluna direita da abertura (col 9 a 12) |
+| `breadcrumb(items)` · `page_hero(label, lines, lead, ctas, crumbs, extra, side="")` | `side` (HTML): mídia ou lista na coluna direita da abertura (col 9 a 12) |
 | `case_hero(slug, lead, ficha_rows, badge=None)` · `ficha(rows)` · `case_card(slug, size, heading, fx=None)` | rótulo e H1 saem de `CASES` (exceções da BVBA e da Ana já embutidas; `lines=`/`label_text=` forçam). `fx=None` lê `cover_fx` de `CASES` (IOSE = sem distorção, capa com texto) |
-| `case_series(num, title, text, items, kanji, layout="auto", cls="", text_html=None)` · `next_case(slug)` | `text_html`: texto com link já em HTML. Mídia de proporção natural: envolver em `.case-fit` com `style="--ar:L/A"`. `next_case` recebe o case ATUAL e mostra o próximo da ordem, com capa 21:9 (`_NC_CAPA`); o IOSE fica tipográfico |
+| `case_series(num, title, text, items, layout="auto", cls="", text_html=None)` · `next_case(slug)` | `text_html`: texto com link já em HTML. Mídia de proporção natural: envolver em `.case-fit` com `style="--ar:L/A"`. `next_case` recebe o case ATUAL e mostra o próximo da ordem, com capa 21:9 (`_NC_CAPA`); o IOSE fica tipográfico |
 | `faq(items, label, lines, id="perguntas")` | parágrafo pode ser `(texto, href)` para virar link; `seo.faq_jsonld(items)` usa o mesmo `items` |
 | `service_row(slug)` · `pillars_table()` · `pillars_line()` | |
 

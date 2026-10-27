@@ -54,5 +54,5 @@ CDN = {
     "ogl": "https://cdn.jsdelivr.net/npm/ogl@1.0.11/+esm",
 }
 # Fontes no próprio site (site/assets/fonts, geradas por tools/fontes.py; @font-face em styles/00-tokens.css).
-# As três aparecem na 1.ª dobra de toda página (texto em Archivo, título em Shippori Regular e Bold).
-FONTS_PRELOAD = ("archivo", "shippori-400", "shippori-700")
+# As três aparecem na 1.ª dobra de toda página (texto em Lato 400, título em Lato 700 e 900).
+FONTS_PRELOAD = ("lato-400", "lato-700", "lato-900")

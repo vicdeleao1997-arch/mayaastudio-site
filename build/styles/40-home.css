@@ -6,9 +6,6 @@
 .home-hero__top{display:flex;justify-content:space-between;align-items:baseline;gap:var(--s-4)}
 .home-hero__grid{margin-top:var(--s-8);align-items:start;row-gap:var(--s-5)}
 .home-hero__title{grid-column:1 / span 9}
-.home-hero__k{grid-column:10 / span 3;justify-self:end;margin-top:-.12em}
-.home-hero__kanji{align-items:flex-end}
-.home-hero__kanji .kanji-fig__cap{width:max-content;max-width:42ch;text-align:right;text-wrap:balance}   /* no máximo 2 linhas */
 .home-hero__foot{margin-top:auto;padding-top:var(--s-8);align-items:end;row-gap:var(--s-6)}
 .home-hero__body{grid-column:1 / span 6;grid-row:1;display:flex;flex-direction:column;align-items:flex-start;gap:var(--s-5)}
 .home-hero__idx{grid-column:8 / span 5;grid-row:1 / span 2}
@@ -19,10 +16,7 @@
 @media (max-width:1023px){
   .home-hero{min-height:auto}
   .home-hero__title{grid-column:1 / -1}
-  .home-hero__k{position:absolute;top:3.5rem;right:var(--gutter);margin:0}
   .home-hero__in{position:relative}
-  .home-hero__kanji .kanji{font-size:clamp(3.5rem,2rem + 7vw,6rem)}
-  .home-hero__kanji .kanji-fig__cap{display:none}
   .home-hero__body,.home-hero__idx{grid-column:1 / -1;grid-row:auto}
   .home-hero__scroll{display:none}   /* abaixo da dobra no celular, "Role ↓" já não convida a rolar */
   .home-hero__foot{padding-top:var(--s-6)}
@@ -37,7 +31,6 @@
   .home-hero__idx{display:none}
   .home .mq{padding-block:var(--s-6) var(--s-6)}
   .home .mq__viewport{margin-top:var(--s-5)}
-  .home-hero__k{top:2.4rem;right:var(--gutter)}
   .home-hero__grid{margin-top:var(--s-6)}
 }
 
@@ -92,12 +85,8 @@
 /* 404 */
 .err .ph{min-height:80svh}
 .err__grid{border-bottom:0;padding-bottom:var(--s-6)}
-.err__kanji{grid-column:10 / span 3;grid-row:1 / span 3;justify-self:end;align-items:flex-end}
-/* rótulo e H1 em 9 colunas: com 10 eles colidiam com o kanji (col. 10) e desciam para baixo dele */
 @media (min-width:1024px){.err__grid .ph__label,.err__grid .ph__title{grid-column:1 / span 9}}
-.err__kanji .kanji-fig__cap{text-align:right}
 .err__links{margin-top:var(--s-6);max-width:52rem}
-@media (max-width:1023px){.err__kanji{grid-column:1 / -1;grid-row:auto;order:-1;justify-self:start;align-items:flex-start}.err__kanji .kanji-fig__cap{text-align:left}.err__kanji .kanji{font-size:clamp(5rem,3rem + 10vw,9rem)}}
 
 /* celular (≤639): home mais curta sem tirar bloco (28/09) */
 @media (max-width:639px){

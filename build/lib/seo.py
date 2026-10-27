@@ -16,7 +16,7 @@ def url(path: str) -> str:
 def organization() -> dict:
     o = {
         "@type": "Organization", "@id": ORG_ID,
-        "name": "MAYAA STUDIO", "alternateName": "まやー工房",
+        "name": "MAYAA STUDIO",
         "url": f"{config.SITE_URL}/", "logo": url("/assets/brand/logo-mayaa-512.png"),
         "image": url("/assets/og/og-mayaa.jpg"), "email": config.EMAIL,
         "description": "Estúdio de tráfego pago com IA em São Paulo. " + dados.PILARES_LINHA + ".",
