@@ -24,3 +24,6 @@ QA e screenshots desta revisão: `qa/victor-20261113/`. Nenhuma rotina, anúncio
 
 ## Publicação autorizada em 13/11
 Victor solicitou «Publique o site para eu conferir». O deploy usa GitHub Pages existente; não migrar a hospedagem nesta etapa. Por enquanto, os CTAs de e-commerce usam o Instagram do Victor: a rota automática respondeu 404 na checagem pré-publicação. Restaurar o link do diagnóstico apenas após seu backend e agenda funcionarem em produção.
+
+## Revisão vigente — Performance & IA para empresas
+Victor pediu Humanizer em todo o site, clientes no lugar dos projetos e oferta principal Performance & IA para empresas. Aplicado em build/performance-ia.py; catálogo público em build/clientes-publicos.json. /portfolio/ mantém URL e agora mostra clientes. BVBA é marca própria e as marcas do Grupo Yanguí ficam agrupadas. QA qa/performance-ia-20261113. Texto de Instagram entregue para colar por escolha do Victor. Os detalhes acima sobre a galeria de projetos descrevem versões anteriores.

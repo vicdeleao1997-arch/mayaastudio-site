@@ -22,7 +22,7 @@
     translations.forEach(({el,pt,en:english}) => { el.innerHTML = en ? english : pt; });
     language.textContent = en ? 'PT' : 'EN';
     language.setAttribute('aria-label', en ? 'Ler em português' : 'Read in English');
-    document.title = en ? 'MAYAA by Victor Mey · Paid media, creative work and AI' : 'MAYAA por Victor Mey · Tráfego, criação e IA';
+    document.title = en ? 'Performance & AI for businesses | MAYAA by Victor Mey' : 'Performance & IA para empresas | MAYAA por Victor Mey';
     setMenu(false);
   });
   if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {

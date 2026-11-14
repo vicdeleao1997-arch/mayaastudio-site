@@ -4,10 +4,12 @@ Referências inspecionadas e aprovadas pelo Victor: Dennis Snellenberg(pessoa vi
 
 Tokens preservados: Poppins400–800, fundo#F6F6F8/#E9E9ED/#DCDDE2, texto#26262B/#141417, apoio#5F5F68, branco, laranja#FF6A1A. Sem copiar paletas ou ativos das referências. NomeMAYAA + assinaturaVictor no cabeçalho e no rodapé.
 
-Composição: abertura com título em duas/três linhas e retrato real; portfólio logo abaixo, uma imagem larga e uma vertical, terceirocase em faixa editorial. Mobile linear, com autor e ação antes da galeria. Não usar foto como mero avatar pequeno. Mesmos componentes de autoria, legenda e botões nas páginas internas.
+Composição vigente: Performance & IA para empresas na abertura, junto do retrato real. Contato como ação principal; clientes como prova de trajetória. Painel de logos reais e nomes tipográficos, com as marcas do Grupo Yanguí agrupadas; BVBA em faixa própria. Mobile linear, dois clientes por linha, CTA legível e retrato mantido. Referências anteriores orientam autoria e respiro; a ordem nova de Victor substitui a galeria de projetos.
 
-Wireframe: [navegação] → [MAYAA/porVictor + retrato] → [BVBA amplo | Alumee vertical] → [AnaLauren imagem + contexto] → [serviços em linhas] → [método] → [Victor e responsabilidade] → [contato geral + diagnóstico específico] → [rodapé]. Página/portfolio abre com título+assinatura e põe os trabalhos antes das marcas da trajetória.
+Wireframe vigente: [navegação] → [Performance & IA + Victor] → [clientes e trajetória] → [Performance / IA, dois serviços] → [como trabalho] → [sobre Victor] → [contato] → [FAQ e rodapé]. /portfolio/ é a página de clientes. O painel de marcas é uma lista de identidades, não cartões de benefícios. Sem inventar símbolos para nomes sem logo.
 
 Movimento: preservar hover transform/opacity e reveal curto; sem loader, marquee, carrossel automático ou scroll capturado. Respeitar prefers-reduced-motion e navegação semJavaScript. Dials contextualizados: variance7,motion3,density3. LentesXquads: UXDesigner e BradFrost.
 
 Foto: foto_provisoria_772.png deVictor já disponível; conversão AVIF com fallback WebP apenas para entrega web, sem geração ou retoque. Avatar de perfil segue próprio arquivo. Cases mantêm o material existente e seus escopos factuais.
+
+QA e revisão atuais: qa/performance-ia-20261113/. Humanizer + voz do Victor e Xquads Donald Miller/Emily Heyward, David Ogilvy e UX Designer. Instagram entregue como texto para colar.

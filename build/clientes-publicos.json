@@ -1,0 +1,120 @@
+[
+  {
+    "name": "Da Terrinha Alimentos",
+    "logo": "/assets/clients/daterrinha.webp",
+    "relation": "cliente"
+  },
+  {
+    "name": "Laurenti · Grupo Elgin",
+    "logo": "/assets/clients/laurenti-elgin.webp",
+    "relation": "cliente"
+  },
+  {
+    "name": "Fink Mobility",
+    "logo": "/assets/clients/fink.webp",
+    "relation": "cliente"
+  },
+  {
+    "name": "BuyTicket",
+    "logo": "/assets/clients/buyticket.webp",
+    "relation": "cliente"
+  },
+  {
+    "name": "Seal Sistemas",
+    "logo": "/assets/clients/seal.webp",
+    "relation": "cliente"
+  },
+  {
+    "name": "Onda Eco",
+    "logo": "/assets/clients/ondaeco.webp",
+    "relation": "cliente"
+  },
+  {
+    "name": "Paluama Corretora de Seguros",
+    "logo": "/assets/clients/paluama.webp",
+    "relation": "cliente"
+  },
+  {
+    "name": "Grupo O Setor Elétrico",
+    "logo": "/assets/clients/osetor.webp",
+    "relation": "cliente"
+  },
+  {
+    "name": "UMA · Raquel Blay",
+    "logo": "/assets/clients/uma.webp",
+    "relation": "cliente"
+  },
+  {
+    "name": "Domez",
+    "logo": "/assets/clients/domez.webp",
+    "relation": "cliente"
+  },
+  {
+    "name": "Biossys",
+    "logo": "/assets/clients/biossys.webp",
+    "relation": "cliente"
+  },
+  {
+    "name": "Concept Be Safe",
+    "logo": "/assets/clients/concept.webp",
+    "relation": "cliente"
+  },
+  {
+    "name": "Rental Mobility",
+    "logo": "/assets/clients/rental.webp",
+    "relation": "cliente"
+  },
+  {
+    "name": "Viamar",
+    "logo": "/assets/clients/viamar.webp",
+    "relation": "cliente"
+  },
+  {
+    "name": "Alumee",
+    "relation": "cliente"
+  },
+  {
+    "name": "Entre Nuvens",
+    "relation": "cliente"
+  },
+  {
+    "name": "Allegrini Baby",
+    "relation": "cliente"
+  },
+  {
+    "name": "SOMM Vinhos",
+    "relation": "cliente"
+  },
+  {
+    "name": "Grupo Yanguí",
+    "relation": "cliente"
+  },
+  {
+    "name": "Yokohama TWS",
+    "relation": "cliente"
+  },
+  {
+    "name": "SINDLOC-SP",
+    "relation": "cliente"
+  },
+  {
+    "name": "Spark Lighting",
+    "relation": "marca_do_grupo",
+    "group": "Grupo Yanguí"
+  },
+  {
+    "name": "Actyon Torque",
+    "relation": "marca_do_grupo",
+    "group": "Grupo Yanguí"
+  },
+  {
+    "name": "Urban Spray & Art",
+    "relation": "marca_do_grupo",
+    "group": "Grupo Yanguí"
+  },
+  {
+    "name": "BVBA Supply",
+    "logo": "/assets/clients/bvba.webp",
+    "relation": "marca_propria"
+  }
+]

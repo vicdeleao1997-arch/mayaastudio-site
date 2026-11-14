@@ -1,9 +1,11 @@
 # MAYAA por Victor Mey
 
-Site institucional e portfólio de tráfego pago, produção criativa e IA aplicada, liderado por Victor. Público: empresários que querem avaliar o trabalho e conversar sobre um projeto. Pedido e direção aprovados em13/11/2026: MAYAA junto do nome de Victor; referências Dennis Snellenberg, Worth Agency e Norm Architects.
+Mensagem principal definida por Victor em 13/11/2026: **Performance & IA para empresas**. Duas frentes: gestão de anúncios e criativos; implantação de IA nas rotinas do time, com proposta própria. Site voltado a empresários, com contato direto com Victor pelo Instagram ou e-mail.
 
-O site precisa responder quem faz, o que entrega e como conversar. Prioridade: autoria visível → trabalho verificável → contexto e método → contato. Portfólio geral não exige ser loja online. O diagnóstico de e-commerce é um caminho específico, não a única porta de entrada.
+A home deve mostrar a oferta, quem faz, clientes atendidos, serviços e como conversar. Os projetos deixam a galeria principal. /portfolio/ passa a apresentar clientes, preservando a URL existente. Cases continuam disponíveis nas URLs antigas.
 
-Conteúdo real: três cases existentes, foto real de Victor, perfil@victormey.ai. Não inventar números, clientes, depoimentos ou tamanho de equipe. As marcas da trajetória não implicam contratação direta da MAYAA.
+Clientes: nomes confirmados em build/clientes-publicos.json; agências parceiras e exclusões anteriores não entram na lista pública. Grupo Yanguí reúne suas três marcas; BVBA é marca própria, não cliente externo. Não atribuir mídia paga ou IA a todos, nem inventar resultados. Fontes privadas e ressalvas permanecem no vault.
 
-Stack existente: HTML/CSS/JavaScript estáticos emsite/. Home canônica embuild/victor-home.html. Funil separado, sem mudanças de backend nesta revisão. Publicação requer autorização separada.
+Voz: Humanizer + amostras de Victor no vault. Usar para, está, retorno; eliminar metáforas, slogans repetidos e gíria inventada. Instagram: nome e bio serão entregues para Victor colar, conforme sua escolha explícita.
+
+Stack estática em site/, GitHub Pages. Home canônica build/victor-home.html; atualização de conteúdo build/performance-ia.py. Backend e agenda separados e pendentes; contatos públicos funcionam via Instagram. Autorização de publicação dada nesta conversa e revisão solicitada após o site publicado.
