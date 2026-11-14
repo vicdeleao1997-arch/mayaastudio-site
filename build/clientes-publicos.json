@@ -60,6 +60,11 @@
     "relation": "cliente"
   },
   {
+    "name": "Grupo Yanguí",
+    "relation": "cliente",
+    "logo": "/assets/clients/grupo-yangui.webp"
+  },
+  {
     "name": "Rental Mobility",
     "logo": "/assets/clients/rental.webp",
     "relation": "cliente"
@@ -79,38 +84,77 @@
   },
   {
     "name": "Allegrini Baby",
-    "relation": "cliente"
+    "relation": "cliente",
+    "logo": "/assets/clients/allegrini-baby.webp"
   },
   {
     "name": "SOMM Vinhos",
-    "relation": "cliente"
-  },
-  {
-    "name": "Grupo Yanguí",
-    "relation": "cliente"
+    "relation": "cliente",
+    "logo": "/assets/clients/somm-vinhos.webp"
   },
   {
     "name": "Yokohama TWS",
-    "relation": "cliente"
+    "relation": "cliente",
+    "logo": "/assets/clients/yokohama-tws.webp"
   },
   {
     "name": "SINDLOC-SP",
+    "relation": "cliente",
+    "logo": "/assets/clients/sindloc-sp.webp"
+  },
+  {
+    "name": "PHBR Medical",
+    "logo": "/assets/clients/phbr-medical.webp",
+    "relation": "cliente"
+  },
+  {
+    "name": "Ultramalhas",
+    "logo": "/assets/clients/ultramalhas.webp",
+    "relation": "cliente"
+  },
+  {
+    "name": "Studio Zeca Marques",
+    "logo": "/assets/clients/studio-zeca-marques.webp",
+    "relation": "cliente"
+  },
+  {
+    "name": "MNBR Arquitetos",
+    "logo": "/assets/clients/mnbr-arquitetos.webp",
+    "relation": "cliente"
+  },
+  {
+    "name": "Play by Scaffold",
+    "logo": "/assets/clients/play-by-scaffold.webp",
+    "relation": "cliente"
+  },
+  {
+    "name": "Elwing",
+    "logo": "/assets/clients/elwing.webp",
+    "relation": "cliente"
+  },
+  {
+    "name": "Baesh",
+    "logo": "/assets/clients/baesh.webp",
+    "logo_background": "dark",
     "relation": "cliente"
   },
   {
     "name": "Spark Lighting",
     "relation": "marca_do_grupo",
-    "group": "Grupo Yanguí"
+    "group": "Grupo Yanguí",
+    "logo": "/assets/clients/spark-lighting.webp"
   },
   {
     "name": "Actyon Torque",
     "relation": "marca_do_grupo",
-    "group": "Grupo Yanguí"
+    "group": "Grupo Yanguí",
+    "logo": "/assets/clients/actyon-torque.webp"
   },
   {
     "name": "Urban Spray & Art",
     "relation": "marca_do_grupo",
-    "group": "Grupo Yanguí"
+    "group": "Grupo Yanguí",
+    "logo": "/assets/clients/urban-spray-art.webp"
   },
   {
     "name": "BVBA Supply",

@@ -7,17 +7,35 @@ from html import escape
 ROOT = Path(__file__).resolve().parents[1]
 clients = json.loads((ROOT / 'build/clientes-publicos.json').read_text(encoding='utf-8'))
 
+def logo_image(logo):
+    return f'<img src="{escape(logo)}" alt="" loading="lazy" decoding="async">'
+
+
 def grid():
     items = []
-    for c in clients:
-        if c['relation'] != 'cliente':
+    for client in clients:
+        if client['relation'] != 'cliente':
             continue
-        name = escape(c['name'])
-        logo = c.get('logo')
-        children = [escape(x['name']) for x in clients if x.get('group') == c['name']]
-        media = f'<img src="{logo}" alt="" loading="lazy" decoding="async">' if logo else f'<span class="client-wordmark" aria-hidden="true">{name}</span>'
-        sub = f'<span class="client-brands">{" · ".join(children)}</span>' if children else ''
-        items.append(f'<li class="client-tile{ " client-tile--text" if not logo else ""}{ " client-tile--group" if children else ""}"><div class="client-mark">{media}</div><span class="client-name">{name}</span>{sub}</li>')
+        name = escape(client['name'])
+        logo = client.get('logo')
+        children = [brand for brand in clients if brand.get('group') == client['name']]
+        classes = ['client-tile']
+        if logo:
+            mark_class = ' client-mark--dark' if client.get('logo_background') == 'dark' else ''
+            media = f'<div class="client-mark{mark_class}">{logo_image(logo)}</div>'
+        else:
+            classes.append('client-tile--text')
+            media = ''
+        brands = ''
+        if children:
+            classes.append('client-tile--group')
+            brand_items = []
+            for brand in children:
+                brand_name = escape(brand['name'])
+                brand_logo = logo_image(brand['logo']) if brand.get('logo') else ''
+                brand_items.append(f'<li>{brand_logo}<span>{brand_name}</span></li>')
+            brands = f'<ul class="client-brands" aria-label="{name}">{"".join(brand_items)}</ul>'
+        items.append(f'<li class="{" ".join(classes)}">{media}<span class="client-name">{name}</span>{brands}</li>')
     return '<ul class="client-grid">' + '\n'.join(items) + '</ul>'
 
 source = (ROOT / 'build/victor-home.html').read_text(encoding='utf-8')
