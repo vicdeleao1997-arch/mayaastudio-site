@@ -2,6 +2,7 @@
 from pathlib import Path
 import json
 import re
+from hashlib import sha256
 from html import escape
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -109,8 +110,9 @@ main = '''
 # Um único CSS na home evita encadear folhas durante a primeira renderização.
 css = '\n'.join((ROOT / 'site/assets/victor' / name).read_text(encoding='utf-8') for name in ['theme.css', 'agency.css', 'clients.css'])
 (ROOT / 'site/assets/victor/landing.css').write_text(css, encoding='utf-8')
-head = re.sub(r'<link rel="stylesheet" href="/assets/victor/(?:theme|agency|clients|landing)\.css">', '', head)
-head = head.replace('</head>', '<link rel="stylesheet" href="/assets/victor/landing.css">\n</head>')
+head = re.sub(r'<link rel="stylesheet" href="/assets/victor/(?:theme|agency|clients|landing)\.css(?:\?[^"\s]*)?">', '', head)
+css_version = sha256((ROOT / 'site/assets/victor/landing.css').read_bytes()).hexdigest()[:12]
+head = head.replace('</head>', f'<link rel="stylesheet" href="/assets/victor/landing.css?v={css_version}">\n</head>')
 home = head + '<body id="top">' + header + main + footer
 (ROOT/'build/victor-home.html').write_text(home, encoding='utf-8')
 (ROOT/'site/index.html').write_text(home, encoding='utf-8')
@@ -121,6 +123,8 @@ s = s.replace('Trabalhos</a>', 'Clientes</a>').replace('Portfólio | MAYAA por V
 desc = 'Clientes que Victor Mey já atendeu diretamente e em projetos com agências. Conheça sua trajetória em marketing e a MAYAA.'
 s = s.replace('Portfólio de Victor Mey: fashion film com IA, campanha de lançamento, modelo sintética licenciável e gestão de tráfego pago. Um case por página.', desc)
 s = s.replace('<link rel="stylesheet" href="/assets/victor/portfolio.css" />', '<link rel="stylesheet" href="/assets/victor/clients.css" />')
+clients_version = sha256((ROOT / 'site/assets/victor/clients.css').read_bytes()).hexdigest()[:12]
+s = re.sub(r'/assets/victor/clients\.css(?:\?[^"\s]*)?', f'/assets/victor/clients.css?v={clients_version}', s)
 schema = json.loads(re.search(r'<script type="application/ld\+json">(.*?)</script>', s, re.S)[1])
 for item in schema['@graph']:
     if item['@type'] == 'CollectionPage':
