@@ -42,7 +42,7 @@ def grid():
 source = (ROOT / 'build/victor-home.html').read_text(encoding='utf-8')
 head = source.split('<body id="top">')[0]
 head = re.sub(r'<title>.*?</title>', '<title>Performance &amp; IA para empresas | MAYAA por Victor Mey</title>', head)
-description = 'Sou Victor Mey. Trabalho com gestão de anúncios, criativos e implantação de IA na rotina das empresas. Conheça os clientes que já atendi.'
+description = 'Sou Victor Mey. Trabalho com gestão de anúncios, criativos e implantação de IA na rotina das empresas. Conheça alguns dos clientes que já passaram por aqui.'
 head = re.sub(r'(<meta name="description" content=")[^"]*', lambda m: m[1]+description, head)
 head = re.sub(r'(<meta property="og:title" content=")[^"]*', lambda m: m[1]+'Performance &amp; IA para empresas | MAYAA por Victor Mey', head)
 head = re.sub(r'(<meta property="og:description" content=")[^"]*', lambda m: m[1]+description, head)
@@ -72,7 +72,7 @@ main = '''
  <div class="wrap expertise-strip"><span class="mono" data-en="HOW I CAN HELP">COMO POSSO AJUDAR</span><div class="expertise-list"><span data-en="Paid media">Tráfego pago</span><span aria-hidden="true">/</span><span data-en="Ad creative">Criativos</span><span aria-hidden="true">/</span><span data-en="AI at work">IA na empresa</span></div></div>
  <section id="clientes" class="wrap section clients-section" aria-labelledby="clients-title">
   <span id="recentes" class="anchor-alias" aria-hidden="true"></span>
-  <div class="section-heading"><div><p class="eyebrow" data-en="My experience">Minha trajetória</p><h2 id="clients-title" data-en="Clients I've<br>worked with.">Clientes que<br>já atendi.</h2></div><div><p data-en="I've worked with these companies directly and through agencies, at different points in my career.">Atendi essas empresas diretamente e em projetos com outras agências, em diferentes momentos da minha carreira.</p><a class="text-link" href="/portfolio/"><span data-en="More about my experience">Conhecer minha trajetória</span><span aria-hidden="true">↗</span></a></div></div>
+  <div class="section-heading"><div><p class="eyebrow" data-en="My experience">Minha trajetória</p><h2 id="clients-title" data-en="Some of the clients<br>I've worked with.">Alguns dos clientes que<br>já passaram por aqui.</h2></div><div><p data-en="I've worked with these companies directly and on projects with agencies.">Trabalhei com essas empresas diretamente e em projetos com agências.</p><a class="text-link" href="/portfolio/"><span data-en="More about my experience">Conhecer minha trajetória</span><span aria-hidden="true">↗</span></a></div></div>
   CLIENTGRID
   <div class="own-brand"><img src="/assets/clients/bvba.png" alt="BVBA Supply" width="481" height="160" loading="lazy"><p data-en="I'm also the founder of <strong>BVBA Supply</strong>, my clothing brand. There, I work on the store, marketing and day-to-day operations.">Também sou fundador da <strong>BVBA Supply</strong>, minha marca de roupas. Lá, acompanho a loja, o marketing e a operação no dia a dia.</p></div>
  </section>
@@ -120,8 +120,9 @@ home = head + '<body id="top">' + header + main + footer
 p = ROOT/'site/portfolio/index.html'
 s = p.read_text(encoding='utf-8')
 s = s.replace('Trabalhos</a>', 'Clientes</a>').replace('Portfólio | MAYAA por Victor Mey', 'Clientes | MAYAA por Victor Mey')
-desc = 'Clientes que Victor Mey já atendeu diretamente e em projetos com agências. Conheça sua trajetória em marketing e a MAYAA.'
+desc = 'Conheça alguns dos clientes que já passaram pela trajetória de Victor Mey, em trabalhos diretos e em projetos com agências.'
 s = s.replace('Portfólio de Victor Mey: fashion film com IA, campanha de lançamento, modelo sintética licenciável e gestão de tráfego pago. Um case por página.', desc)
+s = re.sub(r'(<meta (?:name="description"|property="og:description") content=")[^"]*', lambda m: m[1] + desc, s)
 s = s.replace('<link rel="stylesheet" href="/assets/victor/portfolio.css" />', '<link rel="stylesheet" href="/assets/victor/clients.css" />')
 clients_version = sha256((ROOT / 'site/assets/victor/clients.css').read_bytes()).hexdigest()[:12]
 s = re.sub(r'/assets/victor/clients\.css(?:\?[^"\s]*)?', f'/assets/victor/clients.css?v={clients_version}', s)
@@ -134,7 +135,7 @@ for item in schema['@graph']:
     if item['@type'] == 'BreadcrumbList': item['itemListElement'][1]['name'] = 'Clientes'
 s = re.sub(r'(<script type="application/ld\+json">).*?(</script>)', lambda m: m[1]+json.dumps(schema,ensure_ascii=False)+m[2], s, flags=re.S)
 body = '''<main id="conteudo">
-<section class="sec clients-intro"><div class="wrap"><nav class="crumbs" aria-label="Caminho"><a href="/">Início</a><span aria-hidden="true">/</span><span aria-current="page">Clientes</span></nav><p class="kicker">A trajetória de Victor Mey</p><h1>Clientes que<br>já atendi.</h1><p class="lead muted">Trabalhei com essas empresas em momentos diferentes da minha carreira, em atendimentos diretos e em equipes de agências.</p></div></section>
+<section class="sec clients-intro"><div class="wrap"><nav class="crumbs" aria-label="Caminho"><a href="/">Início</a><span aria-hidden="true">/</span><span aria-current="page">Clientes</span></nav><p class="kicker">A trajetória de Victor Mey</p><h1>Alguns dos clientes que<br>já passaram por aqui.</h1><p class="lead muted">Trabalhei com essas empresas diretamente e em projetos com agências.</p></div></section>
 <section class="sec clients-directory" aria-label="Clientes atendidos"><div class="wrap">CLIENTGRID
 <div class="own-brand"><img src="/assets/clients/bvba.png" alt="BVBA Supply" width="481" height="160" loading="lazy"><div><h2>Minha marca: BVBA Supply.</h2><p>Sou fundador da BVBA. Além do trabalho com clientes, acompanho a loja, as campanhas e a operação da minha marca de roupas.</p></div></div></div></section>
 <section class="sec cta-band"><div class="wrap"><p class="kicker">Performance &amp; IA para empresas</p><h2 class="display h-lg">Vamos falar<br>da sua empresa?</h2><p class="lead muted">Me conte como você trabalha hoje e o que quer melhorar.</p><div class="cta-row"><a class="btn" href="https://www.instagram.com/victormey.ai/" target="_blank" rel="noopener noreferrer">Falar com Victor <span aria-hidden="true">↗</span></a><a href="/#servicos" class="nav-link">Conhecer os serviços</a></div></div></section>

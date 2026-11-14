@@ -75,11 +75,8 @@
     "relation": "cliente"
   },
   {
-    "name": "Alumee",
-    "relation": "cliente"
-  },
-  {
     "name": "Entre Nuvens",
+    "logo": "/assets/clients/entre-nuvens.webp",
     "relation": "cliente"
   },
   {
@@ -113,11 +110,6 @@
     "relation": "cliente"
   },
   {
-    "name": "Studio Zeca Marques",
-    "logo": "/assets/clients/studio-zeca-marques.webp",
-    "relation": "cliente"
-  },
-  {
     "name": "MNBR Arquitetos",
     "logo": "/assets/clients/mnbr-arquitetos.webp",
     "relation": "cliente"
@@ -125,17 +117,6 @@
   {
     "name": "Play by Scaffold",
     "logo": "/assets/clients/play-by-scaffold.webp",
-    "relation": "cliente"
-  },
-  {
-    "name": "Elwing",
-    "logo": "/assets/clients/elwing.webp",
-    "relation": "cliente"
-  },
-  {
-    "name": "Baesh",
-    "logo": "/assets/clients/baesh.webp",
-    "logo_background": "dark",
     "relation": "cliente"
   },
   {
