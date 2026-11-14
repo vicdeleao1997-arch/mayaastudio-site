@@ -1,0 +1,55 @@
+[
+  {
+    "antipattern": "gpt-thin-border-wide-shadow",
+    "name": "Hairline border with wide shadow",
+    "description": "A hairline border paired with a wide, diffuse shadow is a recurring generated-UI signature. Commit to one — a defined edge or a soft elevation — rather than both at once.",
+    "severity": "advisory",
+    "category": "slop",
+    "file": "http://127.0.0.1:8843/",
+    "line": 0,
+    "snippet": "1px border + 26px shadow blur",
+    "advisory": true
+  },
+  {
+    "antipattern": "gpt-thin-border-wide-shadow",
+    "name": "Hairline border with wide shadow",
+    "description": "A hairline border paired with a wide, diffuse shadow is a recurring generated-UI signature. Commit to one — a defined edge or a soft elevation — rather than both at once.",
+    "severity": "advisory",
+    "category": "slop",
+    "file": "http://127.0.0.1:8843/",
+    "line": 0,
+    "snippet": "1px border + 26px shadow blur",
+    "advisory": true
+  },
+  {
+    "antipattern": "gpt-thin-border-wide-shadow",
+    "name": "Hairline border with wide shadow",
+    "description": "A hairline border paired with a wide, diffuse shadow is a recurring generated-UI signature. Commit to one — a defined edge or a soft elevation — rather than both at once.",
+    "severity": "advisory",
+    "category": "slop",
+    "file": "http://127.0.0.1:8843/",
+    "line": 0,
+    "snippet": "1px border + 26px shadow blur",
+    "advisory": true
+  },
+  {
+    "antipattern": "heading-rhythm",
+    "name": "Heading crowded against the previous block",
+    "description": "A heading binds to the content it introduces, so the rendered space above it should exceed the space below it. When headings across a page sit as close or closer to the block above than to their own content, every section reads as if it captions the previous one. Open up the space above each heading.",
+    "severity": "warning",
+    "category": "quality",
+    "file": "http://127.0.0.1:8843/",
+    "line": 0,
+    "snippet": "h2 \"A campanha é parte da conversa.\" has 0px above vs 45px below — it reads as bound to the block above (2 headings on page)"
+  },
+  {
+    "antipattern": "heading-rhythm",
+    "name": "Heading crowded against the previous block",
+    "description": "A heading binds to the content it introduces, so the rendered space above it should exceed the space below it. When headings across a page sit as close or closer to the block above than to their own content, every section reads as if it captions the previous one. Open up the space above each heading.",
+    "severity": "warning",
+    "category": "quality",
+    "file": "http://127.0.0.1:8843/",
+    "line": 0,
+    "snippet": "h3 \"Criativos com IA\" has 32px above vs 93px below — it reads as bound to the block above (2 headings on page)"
+  }
+]

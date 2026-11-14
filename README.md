@@ -1,5 +1,11 @@
 # mayaastudio-site
 
+## Identidade pública atual — MAYAA por Victor Mey
+
+O redesign de13/11/2026 segue as referências escolhidas pela skill `referencias-de-site` e aprovadas pelo Victor: presença pessoal de Dennis Snellenberg, galeria de Worth Agency e apresentação visual de Norm Architects. Assinatura **MAYAA por Victor Mey**, com a identidade clara de@victormey.ai nas sete páginas. Fontes canônicas e manutenção: [`build/VICTOR-IDENTITY.md`](build/VICTOR-IDENTITY.md). Geradores anteriores estão bloqueados contra sobrescrita. Publicação autorizada pelo Victor em 13/11/2026: «Publique o site para eu conferir». Push em `main` publica via GitHub Pages. Enquanto a agenda não estiver conectada, os contatos públicos levam ao Instagram de Victor.
+
+Validação e prévias atuais: [`qa/portfolio-20261113/ENTREGA.md`](qa/portfolio-20261113/ENTREGA.md). Direção: [`DESIGN.md`](DESIGN.md). Para prévia: `python -m http.server 8843 --bind 127.0.0.1 --directory site`.
+
 Repositório único da MAYAA STUDIO. Reúne dois projetos que antes viviam em
 repositórios separados; cada um ocupa sua própria pasta.
 

@@ -156,6 +156,9 @@ ROBOTS = "User-agent: *\nAllow: /\n\nSitemap: https://mayaastudio.com.br/sitemap
 
 
 def main() -> int:
+    if (BUILD / 'VICTOR-IDENTITY.md').exists():
+        print('Build legado bloqueado: preserva a identidade Victor. Consulte build/VICTOR-IDENTITY.md.')
+        return 2
     for stream in (sys.stdout, sys.stderr):
         try:
             stream.reconfigure(encoding="utf-8")

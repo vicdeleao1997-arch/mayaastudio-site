@@ -1,0 +1,1165 @@
+{
+  "pages": [
+    {
+      "route": "/",
+      "width": 1440,
+      "status": 200,
+      "title": "MAYAA por Victor Mey · Tráfego, criação e IA",
+      "h1": 1,
+      "overflow": false,
+      "font": "Poppins, sans-serif",
+      "brand": "MAYAA.\npor Victor Mey",
+      "brokenImages": [],
+      "badAnchors": [],
+      "schemas": [
+        {
+          "@context": "https://schema.org",
+          "@type": "Person",
+          "@id": "https://mayaastudio.com.br/#victor",
+          "name": "Victor Mey",
+          "url": "https://mayaastudio.com.br/",
+          "image": "https://mayaastudio.com.br/assets/victor/avatar.png",
+          "jobTitle": "Especialista em tráfego pago e IA aplicada",
+          "email": "contato@mayaastudio.com.br",
+          "sameAs": [
+            "https://www.instagram.com/victormey.ai/"
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/portfolio/",
+      "width": 1440,
+      "status": 200,
+      "title": "Portfólio | MAYAA por Victor Mey",
+      "h1": 1,
+      "overflow": false,
+      "font": "Poppins, sans-serif",
+      "brand": "MAYAA.\npor Victor Mey",
+      "brokenImages": [],
+      "badAnchors": [],
+      "schemas": [
+        {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "Person",
+              "@id": "https://mayaastudio.com.br/#person",
+              "name": "Victor Mey",
+              "url": "https://mayaastudio.com.br/",
+              "email": "contato@mayaastudio.com.br",
+              "sameAs": [
+                "https://www.instagram.com/victormey.ai/"
+              ],
+              "image": "https://mayaastudio.com.br/assets/victor/og-mayaa-victor.png"
+            },
+            {
+              "@type": "CollectionPage",
+              "@id": "https://mayaastudio.com.br/portfolio/",
+              "url": "https://mayaastudio.com.br/portfolio/",
+              "name": "Portfólio | MAYAA por Victor Mey",
+              "description": "Portfólio de Victor Mey: fashion film com IA, campanha de lançamento, modelo sintética licenciável e gestão de tráfego pago. Um case por página.",
+              "inLanguage": "pt-BR",
+              "isPartOf": {
+                "@type": "WebSite",
+                "name": "MAYAA por Victor Mey",
+                "url": "https://mayaastudio.com.br/"
+              },
+              "mainEntity": {
+                "@type": "ItemList",
+                "itemListElement": [
+                  {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "url": "https://mayaastudio.com.br/cases/bvba-surrealismo/",
+                    "name": "BVBA Supply · O surrealismo"
+                  },
+                  {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "url": "https://mayaastudio.com.br/cases/alumee-vela-mel/",
+                    "name": "Alumee · vela Mel"
+                  },
+                  {
+                    "@type": "ListItem",
+                    "position": 3,
+                    "url": "https://mayaastudio.com.br/cases/ana-lauren-modelo-ia/",
+                    "name": "Ana Lauren · 100% IA"
+                  }
+                ]
+              },
+              "breadcrumb": {
+                "@id": "https://mayaastudio.com.br/portfolio/#breadcrumb"
+              }
+            },
+            {
+              "@type": "BreadcrumbList",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Início",
+                  "item": "https://mayaastudio.com.br/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "Portfólio",
+                  "item": "https://mayaastudio.com.br/portfolio/"
+                }
+              ],
+              "@id": "https://mayaastudio.com.br/portfolio/#breadcrumb"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/trafego-pago-com-ia/",
+      "width": 1440,
+      "status": 200,
+      "title": "Tráfego pago com IA | MAYAA por Victor Mey",
+      "h1": 1,
+      "overflow": false,
+      "font": "Poppins, sans-serif",
+      "brand": "MAYAA.\npor Victor Mey",
+      "brokenImages": [],
+      "badAnchors": [],
+      "schemas": [
+        {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "Person",
+              "@id": "https://mayaastudio.com.br/#person",
+              "name": "Victor Mey",
+              "url": "https://mayaastudio.com.br/",
+              "email": "contato@mayaastudio.com.br",
+              "sameAs": [
+                "https://www.instagram.com/victormey.ai/"
+              ],
+              "image": "https://mayaastudio.com.br/assets/victor/og-mayaa-victor.png"
+            },
+            {
+              "@type": "WebPage",
+              "@id": "https://mayaastudio.com.br/trafego-pago-com-ia/",
+              "url": "https://mayaastudio.com.br/trafego-pago-com-ia/",
+              "name": "Tráfego pago com IA | MAYAA por Victor Mey",
+              "description": "Tráfego pago com IA em Meta e Google Ads, medido pela venda e não pela curtida. Como eu trabalho, os cinco pilares, cases e perguntas frequentes.",
+              "inLanguage": "pt-BR",
+              "isPartOf": {
+                "@type": "WebSite",
+                "name": "MAYAA por Victor Mey",
+                "url": "https://mayaastudio.com.br/"
+              },
+              "about": {
+                "@id": "https://mayaastudio.com.br/trafego-pago-com-ia/#servico"
+              },
+              "breadcrumb": {
+                "@id": "https://mayaastudio.com.br/trafego-pago-com-ia/#breadcrumb"
+              }
+            },
+            {
+              "@type": "Service",
+              "@id": "https://mayaastudio.com.br/trafego-pago-com-ia/#servico",
+              "name": "Tráfego pago com IA",
+              "serviceType": "Gestão de tráfego pago",
+              "provider": {
+                "@id": "https://mayaastudio.com.br/#person"
+              },
+              "areaServed": "BR",
+              "description": "Tráfego pago com IA em Meta e Google Ads, medido pela venda e não pela curtida. Como eu trabalho, os cinco pilares, cases e perguntas frequentes."
+            },
+            {
+              "@type": "FAQPage",
+              "@id": "https://mayaastudio.com.br/trafego-pago-com-ia/#faq",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "Quanto preciso investir para começar?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Depende do valor do que você vende, da sua margem e de onde você anuncia hoje. Não existe um número bom para todo mundo. Eu atendo empresas que já anunciam. O primeiro passo é um diagnóstico da conta que já roda: o que gasta, o que traz contato e o que vende. Só depois disso faz sentido falar em verba."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "A conta de anúncio fica no nome de quem?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "No seu. A conta de anúncio, as campanhas e o histórico são da sua empresa. Eu entro como parceiro no seu gerenciador de anúncios, com acesso próprio, sem pedir a sua senha. Você vê tudo o que é feito e pode tirar o acesso quando quiser."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Como você mede resultado?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Com o relatório da plataforma lado a lado com o caixa. A plataforma mostra o que ela consegue enxergar; a venda que fecha no WhatsApp ou no balcão muitas vezes fica de fora. Por isso a leitura olha as duas linhas, campanha por campanha, e termina numa decisão: o que continua e o que sai."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Onde a IA entra?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "No roteiro, nas variações de criativo, na produção de imagem e vídeo e na leitura das campanhas. A IA não decide sozinha. Toda decisão de verba e de criativo passa por uma pessoa. Quando uma peça usa uma pessoa criada por IA, isso é dito."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Você trabalha com Meta Ads e Google Ads?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Sim. Meta (Instagram e Facebook) e Google Ads. A escolha do canal sai do diagnóstico: onde o seu cliente procura e onde a sua venda fecha."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "O que acontece se a gente parar?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "O histórico fica com você. Como a conta de anúncio está no seu nome, campanhas, públicos e relatórios continuam lá. O encerramento segue as condições combinadas no contrato. O acesso ao gerenciador pode ser removido por você."
+                  }
+                }
+              ]
+            },
+            {
+              "@type": "BreadcrumbList",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Início",
+                  "item": "https://mayaastudio.com.br/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "Tráfego pago com IA",
+                  "item": "https://mayaastudio.com.br/trafego-pago-com-ia/"
+                }
+              ],
+              "@id": "https://mayaastudio.com.br/trafego-pago-com-ia/#breadcrumb"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/privacidade/",
+      "width": 1440,
+      "status": 200,
+      "title": "Política de privacidade | MAYAA por Victor Mey",
+      "h1": 1,
+      "overflow": false,
+      "font": "Poppins, sans-serif",
+      "brand": "MAYAA.\npor Victor Mey",
+      "brokenImages": [],
+      "badAnchors": [],
+      "schemas": [
+        {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "Person",
+              "@id": "https://mayaastudio.com.br/#person",
+              "name": "Victor Mey",
+              "url": "https://mayaastudio.com.br/",
+              "email": "contato@mayaastudio.com.br",
+              "sameAs": [
+                "https://www.instagram.com/victormey.ai/"
+              ],
+              "image": "https://mayaastudio.com.br/assets/victor/og-mayaa-victor.png"
+            },
+            {
+              "@type": "WebPage",
+              "@id": "https://mayaastudio.com.br/privacidade/",
+              "url": "https://mayaastudio.com.br/privacidade/",
+              "name": "Política de privacidade | MAYAA por Victor Mey",
+              "description": "Como o site de Victor Mey trata dados pessoais: contatos por e-mail e Instagram, hospedagem, conteúdos externos sob solicitação e os seus direitos pela LGPD.",
+              "inLanguage": "pt-BR",
+              "dateModified": "2026-09-26",
+              "isPartOf": {
+                "@type": "WebSite",
+                "name": "MAYAA por Victor Mey",
+                "url": "https://mayaastudio.com.br/"
+              },
+              "publisher": {
+                "@id": "https://mayaastudio.com.br/#person"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/cases/bvba-surrealismo/",
+      "width": 1440,
+      "status": 200,
+      "title": "BVBA Supply · O surrealismo | MAYAA por Victor Mey",
+      "h1": 1,
+      "overflow": false,
+      "font": "Poppins, sans-serif",
+      "brand": "MAYAA.\npor Victor Mey",
+      "brokenImages": [],
+      "badAnchors": [],
+      "schemas": [
+        {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "Person",
+              "@id": "https://mayaastudio.com.br/#person",
+              "name": "Victor Mey",
+              "url": "https://mayaastudio.com.br/",
+              "email": "contato@mayaastudio.com.br",
+              "sameAs": [
+                "https://www.instagram.com/victormey.ai/"
+              ],
+              "image": "https://mayaastudio.com.br/assets/victor/og-mayaa-victor.png"
+            },
+            {
+              "@type": "WebPage",
+              "@id": "https://mayaastudio.com.br/cases/bvba-surrealismo/",
+              "url": "https://mayaastudio.com.br/cases/bvba-surrealismo/",
+              "name": "BVBA Supply · O surrealismo | MAYAA por Victor Mey",
+              "description": "Case BVBA Supply, O surrealismo: fashion film e editorial de moda com IA num museu que cede. Peça real no corpo real, cenário construído depois, com direção.",
+              "inLanguage": "pt-BR",
+              "isPartOf": {
+                "@type": "WebSite",
+                "name": "MAYAA por Victor Mey",
+                "url": "https://mayaastudio.com.br/"
+              },
+              "primaryImageOfPage": "https://mayaastudio.com.br/assets/cases/bvba-surrealismo/ensaio-03.jpg",
+              "breadcrumb": {
+                "@id": "https://mayaastudio.com.br/cases/bvba-surrealismo/#breadcrumb"
+              },
+              "mainEntity": {
+                "@id": "https://mayaastudio.com.br/cases/bvba-surrealismo/#case"
+              }
+            },
+            {
+              "@type": "CreativeWork",
+              "@id": "https://mayaastudio.com.br/cases/bvba-surrealismo/#case",
+              "name": "BVBA Supply · O surrealismo",
+              "about": "Moda",
+              "genre": "Fashion film e editorial com IA",
+              "description": "Case BVBA Supply, O surrealismo: fashion film e editorial de moda com IA num museu que cede. Peça real no corpo real, cenário construído depois, com direção.",
+              "inLanguage": "pt-BR",
+              "dateCreated": "2026",
+              "creator": {
+                "@id": "https://mayaastudio.com.br/#person"
+              },
+              "image": [
+                "https://mayaastudio.com.br/assets/cases/bvba-surrealismo/ensaio-03.jpg",
+                "https://mayaastudio.com.br/assets/cases/bvba-surrealismo/ensaio-01.jpg",
+                "https://mayaastudio.com.br/assets/cases/bvba-surrealismo/sala-03.jpg"
+              ],
+              "video": {
+                "@type": "VideoObject",
+                "name": "BVBA Supply · O surrealismo · reel",
+                "description": "Reel vertical de 15 segundos da campanha O surrealismo.",
+                "thumbnailUrl": "https://mayaastudio.com.br/assets/portfolio/reel-surreal-poster.jpg",
+                "contentUrl": "https://mayaastudio.com.br/assets/portfolio/reel-surreal.mp4",
+                "uploadDate": "2026-08-02"
+              }
+            },
+            {
+              "@type": "BreadcrumbList",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Início",
+                  "item": "https://mayaastudio.com.br/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "Portfólio",
+                  "item": "https://mayaastudio.com.br/portfolio/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 3,
+                  "name": "BVBA Supply",
+                  "item": "https://mayaastudio.com.br/cases/bvba-surrealismo/"
+                }
+              ],
+              "@id": "https://mayaastudio.com.br/cases/bvba-surrealismo/#breadcrumb"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/cases/alumee-vela-mel/",
+      "width": 1440,
+      "status": 200,
+      "title": "Alumee · vela Mel | MAYAA por Victor Mey",
+      "h1": 1,
+      "overflow": false,
+      "font": "Poppins, sans-serif",
+      "brand": "MAYAA.\npor Victor Mey",
+      "brokenImages": [],
+      "badAnchors": [],
+      "schemas": [
+        {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "Person",
+              "@id": "https://mayaastudio.com.br/#person",
+              "name": "Victor Mey",
+              "url": "https://mayaastudio.com.br/",
+              "email": "contato@mayaastudio.com.br",
+              "sameAs": [
+                "https://www.instagram.com/victormey.ai/"
+              ],
+              "image": "https://mayaastudio.com.br/assets/victor/og-mayaa-victor.png"
+            },
+            {
+              "@type": "WebPage",
+              "@id": "https://mayaastudio.com.br/cases/alumee-vela-mel/",
+              "url": "https://mayaastudio.com.br/cases/alumee-vela-mel/",
+              "name": "Alumee · vela Mel | MAYAA por Victor Mey",
+              "description": "Case Alumee, vela Mel: campanha de lançamento de velas artesanais com cenas criadas por IA a partir do produto real, com rótulo, vidro e madeira preservados.",
+              "inLanguage": "pt-BR",
+              "isPartOf": {
+                "@type": "WebSite",
+                "name": "MAYAA por Victor Mey",
+                "url": "https://mayaastudio.com.br/"
+              },
+              "primaryImageOfPage": "https://mayaastudio.com.br/assets/cases/alumee-vela-mel/mel-01.jpg",
+              "breadcrumb": {
+                "@id": "https://mayaastudio.com.br/cases/alumee-vela-mel/#breadcrumb"
+              },
+              "mainEntity": {
+                "@id": "https://mayaastudio.com.br/cases/alumee-vela-mel/#case"
+              }
+            },
+            {
+              "@type": "CreativeWork",
+              "@id": "https://mayaastudio.com.br/cases/alumee-vela-mel/#case",
+              "name": "Alumee · vela Mel",
+              "about": "Velas artesanais",
+              "genre": "Campanha de lançamento com IA",
+              "description": "Case Alumee, vela Mel: campanha de lançamento de velas artesanais com cenas criadas por IA a partir do produto real, com rótulo, vidro e madeira preservados.",
+              "inLanguage": "pt-BR",
+              "dateCreated": "2026",
+              "creator": {
+                "@id": "https://mayaastudio.com.br/#person"
+              },
+              "image": [
+                "https://mayaastudio.com.br/assets/cases/alumee-vela-mel/mel-01.jpg",
+                "https://mayaastudio.com.br/assets/cases/alumee-vela-mel/mel-02.jpg",
+                "https://mayaastudio.com.br/assets/cases/alumee-vela-mel/cha-01.jpg"
+              ]
+            },
+            {
+              "@type": "BreadcrumbList",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Início",
+                  "item": "https://mayaastudio.com.br/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "Portfólio",
+                  "item": "https://mayaastudio.com.br/portfolio/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 3,
+                  "name": "Alumee",
+                  "item": "https://mayaastudio.com.br/cases/alumee-vela-mel/"
+                }
+              ],
+              "@id": "https://mayaastudio.com.br/cases/alumee-vela-mel/#breadcrumb"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/cases/ana-lauren-modelo-ia/",
+      "width": 1440,
+      "status": 200,
+      "title": "Ana Lauren · modelo 100% IA | MAYAA por Victor Mey",
+      "h1": 1,
+      "overflow": false,
+      "font": "Poppins, sans-serif",
+      "brand": "MAYAA.\npor Victor Mey",
+      "brokenImages": [],
+      "badAnchors": [],
+      "schemas": [
+        {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "Person",
+              "@id": "https://mayaastudio.com.br/#person",
+              "name": "Victor Mey",
+              "url": "https://mayaastudio.com.br/",
+              "email": "contato@mayaastudio.com.br",
+              "sameAs": [
+                "https://www.instagram.com/victormey.ai/"
+              ],
+              "image": "https://mayaastudio.com.br/assets/victor/og-mayaa-victor.png"
+            },
+            {
+              "@type": "WebPage",
+              "@id": "https://mayaastudio.com.br/cases/ana-lauren-modelo-ia/",
+              "url": "https://mayaastudio.com.br/cases/ana-lauren-modelo-ia/",
+              "name": "Ana Lauren · 100% IA | MAYAA por Victor Mey",
+              "description": "Ana Lauren é uma modelo sintética criada do zero por Victor com IA, licenciável para criativo de anúncio e UGC. Nenhuma pessoa real nestas fotos.",
+              "inLanguage": "pt-BR",
+              "isPartOf": {
+                "@type": "WebSite",
+                "name": "MAYAA por Victor Mey",
+                "url": "https://mayaastudio.com.br/"
+              },
+              "primaryImageOfPage": "https://mayaastudio.com.br/assets/portfolio/ana-01.jpg",
+              "breadcrumb": {
+                "@id": "https://mayaastudio.com.br/cases/ana-lauren-modelo-ia/#breadcrumb"
+              },
+              "mainEntity": {
+                "@id": "https://mayaastudio.com.br/cases/ana-lauren-modelo-ia/#case"
+              }
+            },
+            {
+              "@type": "CreativeWork",
+              "@id": "https://mayaastudio.com.br/cases/ana-lauren-modelo-ia/#case",
+              "name": "Ana Lauren · 100% IA",
+              "about": "Criativo para anúncio",
+              "genre": "Modelo sintética licenciável",
+              "description": "Ana Lauren é uma modelo sintética criada do zero por Victor com IA, licenciável para criativo de anúncio e UGC. Nenhuma pessoa real nestas fotos.",
+              "inLanguage": "pt-BR",
+              "dateCreated": "2026",
+              "creator": {
+                "@id": "https://mayaastudio.com.br/#person"
+              },
+              "image": [
+                "https://mayaastudio.com.br/assets/portfolio/ana-01.jpg",
+                "https://mayaastudio.com.br/assets/portfolio/ana-02.jpg",
+                "https://mayaastudio.com.br/assets/portfolio/ana-03.jpg"
+              ]
+            },
+            {
+              "@type": "BreadcrumbList",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Início",
+                  "item": "https://mayaastudio.com.br/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "Portfólio",
+                  "item": "https://mayaastudio.com.br/portfolio/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 3,
+                  "name": "Ana Lauren",
+                  "item": "https://mayaastudio.com.br/cases/ana-lauren-modelo-ia/"
+                }
+              ],
+              "@id": "https://mayaastudio.com.br/cases/ana-lauren-modelo-ia/#breadcrumb"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/",
+      "width": 390,
+      "status": 200,
+      "title": "MAYAA por Victor Mey · Tráfego, criação e IA",
+      "h1": 1,
+      "overflow": false,
+      "font": "Poppins, sans-serif",
+      "brand": "MAYAA.\npor Victor Mey",
+      "brokenImages": [],
+      "badAnchors": [],
+      "schemas": [
+        {
+          "@context": "https://schema.org",
+          "@type": "Person",
+          "@id": "https://mayaastudio.com.br/#victor",
+          "name": "Victor Mey",
+          "url": "https://mayaastudio.com.br/",
+          "image": "https://mayaastudio.com.br/assets/victor/avatar.png",
+          "jobTitle": "Especialista em tráfego pago e IA aplicada",
+          "email": "contato@mayaastudio.com.br",
+          "sameAs": [
+            "https://www.instagram.com/victormey.ai/"
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/portfolio/",
+      "width": 390,
+      "status": 200,
+      "title": "Portfólio | MAYAA por Victor Mey",
+      "h1": 1,
+      "overflow": false,
+      "font": "Poppins, sans-serif",
+      "brand": "MAYAA.\npor Victor Mey",
+      "brokenImages": [],
+      "badAnchors": [],
+      "schemas": [
+        {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "Person",
+              "@id": "https://mayaastudio.com.br/#person",
+              "name": "Victor Mey",
+              "url": "https://mayaastudio.com.br/",
+              "email": "contato@mayaastudio.com.br",
+              "sameAs": [
+                "https://www.instagram.com/victormey.ai/"
+              ],
+              "image": "https://mayaastudio.com.br/assets/victor/og-mayaa-victor.png"
+            },
+            {
+              "@type": "CollectionPage",
+              "@id": "https://mayaastudio.com.br/portfolio/",
+              "url": "https://mayaastudio.com.br/portfolio/",
+              "name": "Portfólio | MAYAA por Victor Mey",
+              "description": "Portfólio de Victor Mey: fashion film com IA, campanha de lançamento, modelo sintética licenciável e gestão de tráfego pago. Um case por página.",
+              "inLanguage": "pt-BR",
+              "isPartOf": {
+                "@type": "WebSite",
+                "name": "MAYAA por Victor Mey",
+                "url": "https://mayaastudio.com.br/"
+              },
+              "mainEntity": {
+                "@type": "ItemList",
+                "itemListElement": [
+                  {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "url": "https://mayaastudio.com.br/cases/bvba-surrealismo/",
+                    "name": "BVBA Supply · O surrealismo"
+                  },
+                  {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "url": "https://mayaastudio.com.br/cases/alumee-vela-mel/",
+                    "name": "Alumee · vela Mel"
+                  },
+                  {
+                    "@type": "ListItem",
+                    "position": 3,
+                    "url": "https://mayaastudio.com.br/cases/ana-lauren-modelo-ia/",
+                    "name": "Ana Lauren · 100% IA"
+                  }
+                ]
+              },
+              "breadcrumb": {
+                "@id": "https://mayaastudio.com.br/portfolio/#breadcrumb"
+              }
+            },
+            {
+              "@type": "BreadcrumbList",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Início",
+                  "item": "https://mayaastudio.com.br/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "Portfólio",
+                  "item": "https://mayaastudio.com.br/portfolio/"
+                }
+              ],
+              "@id": "https://mayaastudio.com.br/portfolio/#breadcrumb"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/trafego-pago-com-ia/",
+      "width": 390,
+      "status": 200,
+      "title": "Tráfego pago com IA | MAYAA por Victor Mey",
+      "h1": 1,
+      "overflow": false,
+      "font": "Poppins, sans-serif",
+      "brand": "MAYAA.\npor Victor Mey",
+      "brokenImages": [],
+      "badAnchors": [],
+      "schemas": [
+        {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "Person",
+              "@id": "https://mayaastudio.com.br/#person",
+              "name": "Victor Mey",
+              "url": "https://mayaastudio.com.br/",
+              "email": "contato@mayaastudio.com.br",
+              "sameAs": [
+                "https://www.instagram.com/victormey.ai/"
+              ],
+              "image": "https://mayaastudio.com.br/assets/victor/og-mayaa-victor.png"
+            },
+            {
+              "@type": "WebPage",
+              "@id": "https://mayaastudio.com.br/trafego-pago-com-ia/",
+              "url": "https://mayaastudio.com.br/trafego-pago-com-ia/",
+              "name": "Tráfego pago com IA | MAYAA por Victor Mey",
+              "description": "Tráfego pago com IA em Meta e Google Ads, medido pela venda e não pela curtida. Como eu trabalho, os cinco pilares, cases e perguntas frequentes.",
+              "inLanguage": "pt-BR",
+              "isPartOf": {
+                "@type": "WebSite",
+                "name": "MAYAA por Victor Mey",
+                "url": "https://mayaastudio.com.br/"
+              },
+              "about": {
+                "@id": "https://mayaastudio.com.br/trafego-pago-com-ia/#servico"
+              },
+              "breadcrumb": {
+                "@id": "https://mayaastudio.com.br/trafego-pago-com-ia/#breadcrumb"
+              }
+            },
+            {
+              "@type": "Service",
+              "@id": "https://mayaastudio.com.br/trafego-pago-com-ia/#servico",
+              "name": "Tráfego pago com IA",
+              "serviceType": "Gestão de tráfego pago",
+              "provider": {
+                "@id": "https://mayaastudio.com.br/#person"
+              },
+              "areaServed": "BR",
+              "description": "Tráfego pago com IA em Meta e Google Ads, medido pela venda e não pela curtida. Como eu trabalho, os cinco pilares, cases e perguntas frequentes."
+            },
+            {
+              "@type": "FAQPage",
+              "@id": "https://mayaastudio.com.br/trafego-pago-com-ia/#faq",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "Quanto preciso investir para começar?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Depende do valor do que você vende, da sua margem e de onde você anuncia hoje. Não existe um número bom para todo mundo. Eu atendo empresas que já anunciam. O primeiro passo é um diagnóstico da conta que já roda: o que gasta, o que traz contato e o que vende. Só depois disso faz sentido falar em verba."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "A conta de anúncio fica no nome de quem?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "No seu. A conta de anúncio, as campanhas e o histórico são da sua empresa. Eu entro como parceiro no seu gerenciador de anúncios, com acesso próprio, sem pedir a sua senha. Você vê tudo o que é feito e pode tirar o acesso quando quiser."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Como você mede resultado?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Com o relatório da plataforma lado a lado com o caixa. A plataforma mostra o que ela consegue enxergar; a venda que fecha no WhatsApp ou no balcão muitas vezes fica de fora. Por isso a leitura olha as duas linhas, campanha por campanha, e termina numa decisão: o que continua e o que sai."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Onde a IA entra?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "No roteiro, nas variações de criativo, na produção de imagem e vídeo e na leitura das campanhas. A IA não decide sozinha. Toda decisão de verba e de criativo passa por uma pessoa. Quando uma peça usa uma pessoa criada por IA, isso é dito."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Você trabalha com Meta Ads e Google Ads?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Sim. Meta (Instagram e Facebook) e Google Ads. A escolha do canal sai do diagnóstico: onde o seu cliente procura e onde a sua venda fecha."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "O que acontece se a gente parar?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "O histórico fica com você. Como a conta de anúncio está no seu nome, campanhas, públicos e relatórios continuam lá. O encerramento segue as condições combinadas no contrato. O acesso ao gerenciador pode ser removido por você."
+                  }
+                }
+              ]
+            },
+            {
+              "@type": "BreadcrumbList",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Início",
+                  "item": "https://mayaastudio.com.br/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "Tráfego pago com IA",
+                  "item": "https://mayaastudio.com.br/trafego-pago-com-ia/"
+                }
+              ],
+              "@id": "https://mayaastudio.com.br/trafego-pago-com-ia/#breadcrumb"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/privacidade/",
+      "width": 390,
+      "status": 200,
+      "title": "Política de privacidade | MAYAA por Victor Mey",
+      "h1": 1,
+      "overflow": false,
+      "font": "Poppins, sans-serif",
+      "brand": "MAYAA.\npor Victor Mey",
+      "brokenImages": [],
+      "badAnchors": [],
+      "schemas": [
+        {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "Person",
+              "@id": "https://mayaastudio.com.br/#person",
+              "name": "Victor Mey",
+              "url": "https://mayaastudio.com.br/",
+              "email": "contato@mayaastudio.com.br",
+              "sameAs": [
+                "https://www.instagram.com/victormey.ai/"
+              ],
+              "image": "https://mayaastudio.com.br/assets/victor/og-mayaa-victor.png"
+            },
+            {
+              "@type": "WebPage",
+              "@id": "https://mayaastudio.com.br/privacidade/",
+              "url": "https://mayaastudio.com.br/privacidade/",
+              "name": "Política de privacidade | MAYAA por Victor Mey",
+              "description": "Como o site de Victor Mey trata dados pessoais: contatos por e-mail e Instagram, hospedagem, conteúdos externos sob solicitação e os seus direitos pela LGPD.",
+              "inLanguage": "pt-BR",
+              "dateModified": "2026-09-26",
+              "isPartOf": {
+                "@type": "WebSite",
+                "name": "MAYAA por Victor Mey",
+                "url": "https://mayaastudio.com.br/"
+              },
+              "publisher": {
+                "@id": "https://mayaastudio.com.br/#person"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/cases/bvba-surrealismo/",
+      "width": 390,
+      "status": 200,
+      "title": "BVBA Supply · O surrealismo | MAYAA por Victor Mey",
+      "h1": 1,
+      "overflow": false,
+      "font": "Poppins, sans-serif",
+      "brand": "MAYAA.\npor Victor Mey",
+      "brokenImages": [],
+      "badAnchors": [],
+      "schemas": [
+        {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "Person",
+              "@id": "https://mayaastudio.com.br/#person",
+              "name": "Victor Mey",
+              "url": "https://mayaastudio.com.br/",
+              "email": "contato@mayaastudio.com.br",
+              "sameAs": [
+                "https://www.instagram.com/victormey.ai/"
+              ],
+              "image": "https://mayaastudio.com.br/assets/victor/og-mayaa-victor.png"
+            },
+            {
+              "@type": "WebPage",
+              "@id": "https://mayaastudio.com.br/cases/bvba-surrealismo/",
+              "url": "https://mayaastudio.com.br/cases/bvba-surrealismo/",
+              "name": "BVBA Supply · O surrealismo | MAYAA por Victor Mey",
+              "description": "Case BVBA Supply, O surrealismo: fashion film e editorial de moda com IA num museu que cede. Peça real no corpo real, cenário construído depois, com direção.",
+              "inLanguage": "pt-BR",
+              "isPartOf": {
+                "@type": "WebSite",
+                "name": "MAYAA por Victor Mey",
+                "url": "https://mayaastudio.com.br/"
+              },
+              "primaryImageOfPage": "https://mayaastudio.com.br/assets/cases/bvba-surrealismo/ensaio-03.jpg",
+              "breadcrumb": {
+                "@id": "https://mayaastudio.com.br/cases/bvba-surrealismo/#breadcrumb"
+              },
+              "mainEntity": {
+                "@id": "https://mayaastudio.com.br/cases/bvba-surrealismo/#case"
+              }
+            },
+            {
+              "@type": "CreativeWork",
+              "@id": "https://mayaastudio.com.br/cases/bvba-surrealismo/#case",
+              "name": "BVBA Supply · O surrealismo",
+              "about": "Moda",
+              "genre": "Fashion film e editorial com IA",
+              "description": "Case BVBA Supply, O surrealismo: fashion film e editorial de moda com IA num museu que cede. Peça real no corpo real, cenário construído depois, com direção.",
+              "inLanguage": "pt-BR",
+              "dateCreated": "2026",
+              "creator": {
+                "@id": "https://mayaastudio.com.br/#person"
+              },
+              "image": [
+                "https://mayaastudio.com.br/assets/cases/bvba-surrealismo/ensaio-03.jpg",
+                "https://mayaastudio.com.br/assets/cases/bvba-surrealismo/ensaio-01.jpg",
+                "https://mayaastudio.com.br/assets/cases/bvba-surrealismo/sala-03.jpg"
+              ],
+              "video": {
+                "@type": "VideoObject",
+                "name": "BVBA Supply · O surrealismo · reel",
+                "description": "Reel vertical de 15 segundos da campanha O surrealismo.",
+                "thumbnailUrl": "https://mayaastudio.com.br/assets/portfolio/reel-surreal-poster.jpg",
+                "contentUrl": "https://mayaastudio.com.br/assets/portfolio/reel-surreal.mp4",
+                "uploadDate": "2026-08-02"
+              }
+            },
+            {
+              "@type": "BreadcrumbList",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Início",
+                  "item": "https://mayaastudio.com.br/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "Portfólio",
+                  "item": "https://mayaastudio.com.br/portfolio/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 3,
+                  "name": "BVBA Supply",
+                  "item": "https://mayaastudio.com.br/cases/bvba-surrealismo/"
+                }
+              ],
+              "@id": "https://mayaastudio.com.br/cases/bvba-surrealismo/#breadcrumb"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/cases/alumee-vela-mel/",
+      "width": 390,
+      "status": 200,
+      "title": "Alumee · vela Mel | MAYAA por Victor Mey",
+      "h1": 1,
+      "overflow": false,
+      "font": "Poppins, sans-serif",
+      "brand": "MAYAA.\npor Victor Mey",
+      "brokenImages": [],
+      "badAnchors": [],
+      "schemas": [
+        {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "Person",
+              "@id": "https://mayaastudio.com.br/#person",
+              "name": "Victor Mey",
+              "url": "https://mayaastudio.com.br/",
+              "email": "contato@mayaastudio.com.br",
+              "sameAs": [
+                "https://www.instagram.com/victormey.ai/"
+              ],
+              "image": "https://mayaastudio.com.br/assets/victor/og-mayaa-victor.png"
+            },
+            {
+              "@type": "WebPage",
+              "@id": "https://mayaastudio.com.br/cases/alumee-vela-mel/",
+              "url": "https://mayaastudio.com.br/cases/alumee-vela-mel/",
+              "name": "Alumee · vela Mel | MAYAA por Victor Mey",
+              "description": "Case Alumee, vela Mel: campanha de lançamento de velas artesanais com cenas criadas por IA a partir do produto real, com rótulo, vidro e madeira preservados.",
+              "inLanguage": "pt-BR",
+              "isPartOf": {
+                "@type": "WebSite",
+                "name": "MAYAA por Victor Mey",
+                "url": "https://mayaastudio.com.br/"
+              },
+              "primaryImageOfPage": "https://mayaastudio.com.br/assets/cases/alumee-vela-mel/mel-01.jpg",
+              "breadcrumb": {
+                "@id": "https://mayaastudio.com.br/cases/alumee-vela-mel/#breadcrumb"
+              },
+              "mainEntity": {
+                "@id": "https://mayaastudio.com.br/cases/alumee-vela-mel/#case"
+              }
+            },
+            {
+              "@type": "CreativeWork",
+              "@id": "https://mayaastudio.com.br/cases/alumee-vela-mel/#case",
+              "name": "Alumee · vela Mel",
+              "about": "Velas artesanais",
+              "genre": "Campanha de lançamento com IA",
+              "description": "Case Alumee, vela Mel: campanha de lançamento de velas artesanais com cenas criadas por IA a partir do produto real, com rótulo, vidro e madeira preservados.",
+              "inLanguage": "pt-BR",
+              "dateCreated": "2026",
+              "creator": {
+                "@id": "https://mayaastudio.com.br/#person"
+              },
+              "image": [
+                "https://mayaastudio.com.br/assets/cases/alumee-vela-mel/mel-01.jpg",
+                "https://mayaastudio.com.br/assets/cases/alumee-vela-mel/mel-02.jpg",
+                "https://mayaastudio.com.br/assets/cases/alumee-vela-mel/cha-01.jpg"
+              ]
+            },
+            {
+              "@type": "BreadcrumbList",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Início",
+                  "item": "https://mayaastudio.com.br/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "Portfólio",
+                  "item": "https://mayaastudio.com.br/portfolio/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 3,
+                  "name": "Alumee",
+                  "item": "https://mayaastudio.com.br/cases/alumee-vela-mel/"
+                }
+              ],
+              "@id": "https://mayaastudio.com.br/cases/alumee-vela-mel/#breadcrumb"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/cases/ana-lauren-modelo-ia/",
+      "width": 390,
+      "status": 200,
+      "title": "Ana Lauren · modelo 100% IA | MAYAA por Victor Mey",
+      "h1": 1,
+      "overflow": false,
+      "font": "Poppins, sans-serif",
+      "brand": "MAYAA.\npor Victor Mey",
+      "brokenImages": [],
+      "badAnchors": [],
+      "schemas": [
+        {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "Person",
+              "@id": "https://mayaastudio.com.br/#person",
+              "name": "Victor Mey",
+              "url": "https://mayaastudio.com.br/",
+              "email": "contato@mayaastudio.com.br",
+              "sameAs": [
+                "https://www.instagram.com/victormey.ai/"
+              ],
+              "image": "https://mayaastudio.com.br/assets/victor/og-mayaa-victor.png"
+            },
+            {
+              "@type": "WebPage",
+              "@id": "https://mayaastudio.com.br/cases/ana-lauren-modelo-ia/",
+              "url": "https://mayaastudio.com.br/cases/ana-lauren-modelo-ia/",
+              "name": "Ana Lauren · 100% IA | MAYAA por Victor Mey",
+              "description": "Ana Lauren é uma modelo sintética criada do zero por Victor com IA, licenciável para criativo de anúncio e UGC. Nenhuma pessoa real nestas fotos.",
+              "inLanguage": "pt-BR",
+              "isPartOf": {
+                "@type": "WebSite",
+                "name": "MAYAA por Victor Mey",
+                "url": "https://mayaastudio.com.br/"
+              },
+              "primaryImageOfPage": "https://mayaastudio.com.br/assets/portfolio/ana-01.jpg",
+              "breadcrumb": {
+                "@id": "https://mayaastudio.com.br/cases/ana-lauren-modelo-ia/#breadcrumb"
+              },
+              "mainEntity": {
+                "@id": "https://mayaastudio.com.br/cases/ana-lauren-modelo-ia/#case"
+              }
+            },
+            {
+              "@type": "CreativeWork",
+              "@id": "https://mayaastudio.com.br/cases/ana-lauren-modelo-ia/#case",
+              "name": "Ana Lauren · 100% IA",
+              "about": "Criativo para anúncio",
+              "genre": "Modelo sintética licenciável",
+              "description": "Ana Lauren é uma modelo sintética criada do zero por Victor com IA, licenciável para criativo de anúncio e UGC. Nenhuma pessoa real nestas fotos.",
+              "inLanguage": "pt-BR",
+              "dateCreated": "2026",
+              "creator": {
+                "@id": "https://mayaastudio.com.br/#person"
+              },
+              "image": [
+                "https://mayaastudio.com.br/assets/portfolio/ana-01.jpg",
+                "https://mayaastudio.com.br/assets/portfolio/ana-02.jpg",
+                "https://mayaastudio.com.br/assets/portfolio/ana-03.jpg"
+              ]
+            },
+            {
+              "@type": "BreadcrumbList",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Início",
+                  "item": "https://mayaastudio.com.br/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "Portfólio",
+                  "item": "https://mayaastudio.com.br/portfolio/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 3,
+                  "name": "Ana Lauren",
+                  "item": "https://mayaastudio.com.br/cases/ana-lauren-modelo-ia/"
+                }
+              ],
+              "@id": "https://mayaastudio.com.br/cases/ana-lauren-modelo-ia/#breadcrumb"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "interactions": [
+    "Home: menu e Escape com foco; PT/EN; CTA projetos; contato geral e diagnóstico separados; FAQ",
+    "Portfólio: menu; caso abre; autoria visível",
+    "Home acessível sem JavaScript",
+    "Reduced motion respeitado"
+  ],
+  "errors": []
+}

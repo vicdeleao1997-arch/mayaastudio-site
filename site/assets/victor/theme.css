@@ -1,0 +1,6 @@
+@font-face{font-family:Poppins;src:url("/assets/victor/poppins-400.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:Poppins;src:url("/assets/victor/poppins-500.woff2") format("woff2");font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:Poppins;src:url("/assets/victor/poppins-600.woff2") format("woff2");font-weight:600;font-style:normal;font-display:swap}
+@font-face{font-family:Poppins;src:url("/assets/victor/poppins-700.woff2") format("woff2");font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:Poppins;src:url("/assets/victor/poppins-800.woff2") format("woff2");font-weight:800;font-style:normal;font-display:swap}
+:root{--paper:#E9E9ED;--ink:#26262B;--heading:#141417;--accent:#FF6A1A;--muted:#5F5F68;--white:#fff;--line:#D6D6DC;--display:Poppins,sans-serif;--body:Poppins,sans-serif;--mono:Poppins,sans-serif;--ease:cubic-bezier(.22,1,.36,1)}
