@@ -1,3 +1,5 @@
+> Atualização vigente, 14/11/2026: padrão aprovado em `docs/brandbook.md`; fonte da home `build/victor-home.html`, sincronizada por `python build/sync-home.py`. Serviços aparecem antes da seleção de seis clientes; trajetória completa preservada em `/portfolio/`. Tokens compartilhados em `site/assets/brand/mayaa-tokens.css`. Publicação continua no GitHub Pages. Os trechos abaixo preservam o histórico anterior.
+
 # Direção aprovada · MAYAA por Victor Mey
 
 Referências inspecionadas e aprovadas pelo Victor: Dennis Snellenberg(pessoa visível), WorthAgency(projetos em larguras distintas) e NormArchitects(imagem e contexto). Folha canônica no vault: VICTOR — FDE/Referências de site — 2026-11-13.md. AwesomeDesignMD/Apple contribui somente princípio de fotografia protagonista e interface discreta, subordinado à folha e ao feed.

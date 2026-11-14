@@ -1,3 +1,5 @@
+> Atualização vigente, 14/11/2026: padrão aprovado em `docs/brandbook.md`; fonte da home `build/victor-home.html`, sincronizada por `python build/sync-home.py`. Serviços aparecem antes da seleção de seis clientes; trajetória completa preservada em `/portfolio/`. Tokens compartilhados em `site/assets/brand/mayaa-tokens.css`. Publicação continua no GitHub Pages. Os trechos abaixo preservam o histórico anterior.
+
 # MAYAA por Victor Mey
 
 Mensagem principal definida por Victor em 13/11/2026: **Performance & IA para empresas**. Duas frentes: gestão de anúncios e criativos; implantação de IA nas rotinas do time, com proposta própria. Site voltado a empresários, com contato direto com Victor pelo Instagram ou e-mail.

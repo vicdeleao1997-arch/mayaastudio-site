@@ -1,0 +1,229 @@
+{
+  "$description": "Padrão autorizado por Victor em14/11/2026: Aplique em tudo. Estado de aplicação por canal documentado separadamente.",
+  "primitive": {
+    "color": {
+      "paper": {
+        "$type": "color",
+        "$value": "#F6F6F8"
+      },
+      "grey": {
+        "$type": "color",
+        "$value": "#E9E9ED"
+      },
+      "greyDeep": {
+        "$type": "color",
+        "$value": "#DCDDE2"
+      },
+      "white": {
+        "$type": "color",
+        "$value": "#FFFFFF"
+      },
+      "ink": {
+        "$type": "color",
+        "$value": "#26262B"
+      },
+      "strong": {
+        "$type": "color",
+        "$value": "#141417"
+      },
+      "muted": {
+        "$type": "color",
+        "$value": "#5F5F68"
+      },
+      "orange": {
+        "$type": "color",
+        "$value": "#FF6A1A"
+      },
+      "orangeIndicator": {
+        "$type": "color",
+        "$value": "#ED4F00"
+      },
+      "orangeText": {
+        "$type": "color",
+        "$value": "#B93B03"
+      },
+      "controlBorder": {
+        "$type": "color",
+        "$value": "#868690"
+      }
+    },
+    "font": {
+      "family": {
+        "$type": "fontFamily",
+        "$value": [
+          "Poppins",
+          "sans-serif"
+        ]
+      }
+    },
+    "space": {
+      "4": {
+        "$type": "dimension",
+        "$value": {
+          "value": 4,
+          "unit": "px"
+        }
+      },
+      "8": {
+        "$type": "dimension",
+        "$value": {
+          "value": 8,
+          "unit": "px"
+        }
+      },
+      "12": {
+        "$type": "dimension",
+        "$value": {
+          "value": 12,
+          "unit": "px"
+        }
+      },
+      "16": {
+        "$type": "dimension",
+        "$value": {
+          "value": 16,
+          "unit": "px"
+        }
+      },
+      "24": {
+        "$type": "dimension",
+        "$value": {
+          "value": 24,
+          "unit": "px"
+        }
+      },
+      "32": {
+        "$type": "dimension",
+        "$value": {
+          "value": 32,
+          "unit": "px"
+        }
+      },
+      "48": {
+        "$type": "dimension",
+        "$value": {
+          "value": 48,
+          "unit": "px"
+        }
+      },
+      "64": {
+        "$type": "dimension",
+        "$value": {
+          "value": 64,
+          "unit": "px"
+        }
+      },
+      "96": {
+        "$type": "dimension",
+        "$value": {
+          "value": 96,
+          "unit": "px"
+        }
+      }
+    }
+  },
+  "semantic": {
+    "color": {
+      "canvas": {
+        "$type": "color",
+        "$value": "{primitive.color.paper}"
+      },
+      "surface": {
+        "$type": "color",
+        "$value": "{primitive.color.white}"
+      },
+      "textPrimary": {
+        "$type": "color",
+        "$value": "{primitive.color.ink}"
+      },
+      "textStrong": {
+        "$type": "color",
+        "$value": "{primitive.color.strong}"
+      },
+      "textSecondary": {
+        "$type": "color",
+        "$value": "{primitive.color.muted}"
+      },
+      "brandAccent": {
+        "$type": "color",
+        "$value": "{primitive.color.orange}"
+      },
+      "textAccent": {
+        "$type": "color",
+        "$value": "{primitive.color.orangeText}"
+      },
+      "actionIndicator": {
+        "$type": "color",
+        "$value": "{primitive.color.orangeIndicator}"
+      },
+      "controlBorder": {
+        "$type": "color",
+        "$value": "{primitive.color.controlBorder}"
+      },
+      "focus": {
+        "$type": "color",
+        "$value": "{primitive.color.ink}"
+      }
+    }
+  },
+  "component": {
+    "buttonPrimary": {
+      "background": {
+        "$type": "color",
+        "$value": "{semantic.color.surface}"
+      },
+      "text": {
+        "$type": "color",
+        "$value": "{semantic.color.textPrimary}"
+      },
+      "indicator": {
+        "$type": "color",
+        "$value": "{semantic.color.brandAccent}"
+      },
+      "height": {
+        "$type": "dimension",
+        "$value": {
+          "value": 56,
+          "unit": "px"
+        }
+      },
+      "radius": {
+        "$type": "dimension",
+        "$value": {
+          "value": 999,
+          "unit": "px"
+        }
+      }
+    },
+    "input": {
+      "background": {
+        "$type": "color",
+        "$value": "{semantic.color.canvas}"
+      },
+      "border": {
+        "$type": "color",
+        "$value": "{semantic.color.controlBorder}"
+      },
+      "radius": {
+        "$type": "dimension",
+        "$value": {
+          "value": 12,
+          "unit": "px"
+        }
+      }
+    },
+    "card": {
+      "background": {
+        "$type": "color",
+        "$value": "{semantic.color.surface}"
+      },
+      "radius": {
+        "$type": "dimension",
+        "$value": {
+          "value": 24,
+          "unit": "px"
+        }
+      }
+    }
+  }
+}

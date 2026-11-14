@@ -6,6 +6,8 @@ from hashlib import sha256
 from html import escape
 
 ROOT = Path(__file__).resolve().parents[1]
+if (ROOT / 'docs/brandbook.md').exists():
+    raise SystemExit('Migração histórica concluída. Edite build/victor-home.html e execute python build/sync-home.py; o catálogo completo permanece em /portfolio/.')
 clients = json.loads((ROOT / 'build/clientes-publicos.json').read_text(encoding='utf-8'))
 
 def logo_image(logo):

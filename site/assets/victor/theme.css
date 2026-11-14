@@ -3,4 +3,6 @@
 @font-face{font-family:Poppins;src:url("/assets/victor/poppins-600.woff2") format("woff2");font-weight:600;font-style:normal;font-display:swap}
 @font-face{font-family:Poppins;src:url("/assets/victor/poppins-700.woff2") format("woff2");font-weight:700;font-style:normal;font-display:swap}
 @font-face{font-family:Poppins;src:url("/assets/victor/poppins-800.woff2") format("woff2");font-weight:800;font-style:normal;font-display:swap}
-:root{--paper:#E9E9ED;--ink:#26262B;--heading:#141417;--accent:#FF6A1A;--muted:#5F5F68;--white:#fff;--line:#D6D6DC;--display:Poppins,sans-serif;--body:Poppins,sans-serif;--mono:Poppins,sans-serif;--ease:cubic-bezier(.22,1,.36,1)}
+:root{--paper:var(--mayaa-neutral);--ink:var(--mayaa-text-primary);--heading:var(--mayaa-text-strong);--accent:var(--mayaa-brand-accent);--muted:var(--mayaa-text-secondary);--white:var(--mayaa-surface);--line:#D6D6DC;--display:var(--mayaa-font-family);--body:var(--mayaa-font-family);--mono:var(--mayaa-font-family);--ease:cubic-bezier(.22,1,.36,1)}
+::selection{background:var(--mayaa-text-primary);color:var(--mayaa-surface)}
+:focus-visible{outline:3px solid var(--mayaa-focus);outline-offset:5px}

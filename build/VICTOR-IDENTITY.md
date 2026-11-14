@@ -1,3 +1,5 @@
+> Atualização vigente, 14/11/2026: padrão aprovado em `docs/brandbook.md`; fonte da home `build/victor-home.html`, sincronizada por `python build/sync-home.py`. Serviços aparecem antes da seleção de seis clientes; trajetória completa preservada em `/portfolio/`. Tokens compartilhados em `site/assets/brand/mayaa-tokens.css`. Publicação continua no GitHub Pages. Os trechos abaixo preservam o histórico anterior.
+
 # Identidade Victor · 13/11/2026
 
 **Direção atual aprovada: MAYAA por Victor Mey.** Depois da pesquisa pela skill `referencias-de-site`, Victor confirmou «Pode seguir»: Dennis Snellenberg para presença pessoal, Worth Agency para galeria e Norm Architects para contexto das imagens. Esta decisão mantém a paleta/Poppins do feed e torna Victor o rosto e líder da agência no site. Substitui o trecho histórico abaixo que retirava MAYAA da assinatura.

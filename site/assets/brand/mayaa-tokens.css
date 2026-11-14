@@ -1,0 +1,33 @@
+/* MAYAA por Victor Mey — tokens aprovados em 14/11/2026.
+ * Fonte: design-tokens.json; SHA-256 5e383bba7a98d8e44337fec0d36cefa46ca5b980fd04472aae7e1ff5e21ee406
+ * Separar o acento de marca do indicador funcional preserva o contraste. */
+:root {
+  --mayaa-canvas: #F6F6F8;
+  --mayaa-neutral: #E9E9ED;
+  --mayaa-neutral-deep: #DCDDE2;
+  --mayaa-surface: #FFFFFF;
+  --mayaa-text-primary: #26262B;
+  --mayaa-text-strong: #141417;
+  --mayaa-text-secondary: #5F5F68;
+  --mayaa-brand-accent: #FF6A1A;
+  --mayaa-action-indicator: #ED4F00;
+  --mayaa-text-accent: #B93B03;
+  --mayaa-control-border: #868690;
+  --mayaa-focus: #26262B;
+  --mayaa-font-family: Poppins, system-ui, sans-serif;
+  --mayaa-space-4: 4px;
+  --mayaa-space-8: 8px;
+  --mayaa-space-12: 12px;
+  --mayaa-space-16: 16px;
+  --mayaa-space-24: 24px;
+  --mayaa-space-32: 32px;
+  --mayaa-space-48: 48px;
+  --mayaa-space-64: 64px;
+  --mayaa-space-96: 96px;
+  --mayaa-control-radius: 12px;
+  --mayaa-card-radius: 24px;
+  --mayaa-card-radius-large: 28px;
+  --mayaa-button-radius: 999px;
+  --mayaa-button-height: 56px;
+  --mayaa-target-compact: 44px;
+}
