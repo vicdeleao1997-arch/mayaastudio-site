@@ -175,6 +175,7 @@ main{position:relative;z-index:1}
 .stat span{color:var(--muted)}
 .stat--solid{background:var(--white);box-shadow:0 30px 80px rgba(20,20,23,.12)}
 .stat--solid b{color:var(--orange-deep)}
+.stat--solid b::before{content:"+"}
 
 /* 8 · sobre */
 .about__grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(24px,5vw,72px);align-items:center}
