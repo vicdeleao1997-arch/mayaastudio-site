@@ -227,7 +227,8 @@ main{position:relative;z-index:1}
   .logos{grid-template-columns:repeat(2,1fr)}
   .dash__cards{grid-template-columns:1fr}
   .foot__cols{gap:32px}
-  .stack__card,.stat{position:relative;top:auto!important}
+  .stack__card{top:88px}.stack__card:nth-child(2){top:100px}.stack__card:nth-child(3){top:112px}.stack__card:nth-child(4){top:124px}.stack__card:nth-child(5){top:136px}
+  .stat{top:88px;min-height:160px}.stat:nth-child(2){top:100px}.stat:nth-child(3){top:112px}.stat:nth-child(4){top:124px}
 }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}

@@ -84,7 +84,7 @@
   }));
 
   // pilhas presas: o cartão de baixo encolhe e escurece quando o próximo chega
-  ScrollTrigger.matchMedia({ '(min-width: 521px)': () => {
+  ScrollTrigger.matchMedia({ 'all': () => {
     ['.stack__card', '.stat'].forEach(sel => {
       const cards = gsap.utils.toArray(sel);
       cards.forEach((c, i) => {

@@ -15,7 +15,7 @@ const canvas = document.getElementById('gl');
 const small = matchMedia('(max-width: 720px)').matches;
 
 // aparelho fraco ou economia de dados: fica só o fundo em CSS
-if (navigator.connection?.saveData || (navigator.hardwareConcurrency || 8) <= 4) { canvas.remove(); throw new Error('MAYAA: 3D desligado neste aparelho'); }
+if (navigator.connection?.saveData) { canvas.remove(); throw new Error('MAYAA: 3D desligado neste aparelho'); }
 let renderer;
 try {
   renderer = new THREE.WebGLRenderer({ canvas, antialias: !small, powerPreference: 'high-performance' });
@@ -115,7 +115,7 @@ const cur = { ...POSES.hero };
 const composer = new EffectComposer(renderer);
 composer.addPass(new RenderPass(scene, camera));
 const bokeh = new BokehPass(scene, camera, { focus: 12, aperture: small ? .0015 : .003, maxblur: small ? .006 : .011 });
-if (!small) composer.addPass(bokeh); // no celular, sem desfoque (renderiza a cena de novo)
+composer.addPass(bokeh);
 composer.addPass(new OutputPass());
 
 function resize() {
@@ -126,7 +126,11 @@ function resize() {
 addEventListener('resize', resize); resize();
 
 const mouse = new THREE.Vector2();
-addEventListener('pointermove', e => mouse.set(e.clientX / innerWidth - .5, e.clientY / innerHeight - .5), { passive: true });
+addEventListener('pointermove', e => { if (e.pointerType === 'mouse') mouse.set(e.clientX / innerWidth - .5, e.clientY / innerHeight - .5); }, { passive: true });
+// toque: sem cursor, a câmera passeia sozinha e acompanha a inclinação do celular quando o aparelho deixa
+const touch = !matchMedia('(pointer:fine)').matches;
+let tilt = null;
+if (touch) addEventListener('deviceorientation', e => { if (e.gamma != null) tilt = { x: Math.max(-.5, Math.min(.5, e.gamma / 60)), y: Math.max(-.5, Math.min(.5, (e.beta - 45) / 90)) }; }, { passive: true });
 let visible = true;
 document.addEventListener('visibilitychange', () => { visible = !document.hidden; });
 
@@ -138,6 +142,7 @@ function frame() {
   const k = M.reduce ? 1 : 1 - Math.pow(.03, dt);
   for (const key in cur) cur[key] = lerp(cur[key], target[key], k);
 
+  if (touch && !M.reduce) { if (tilt) mouse.set(tilt.x, tilt.y); else mouse.set(Math.sin(t * .25) * .35, Math.cos(t * .2) * .25); }
   const p = M.reduce ? 0 : M.progress;
   // grupo rígido: a rolagem gira e desce o conjunto inteiro, nunca peça contra peça
   group.position.set(cur.x, cur.y - p * 1.2, cur.z);
