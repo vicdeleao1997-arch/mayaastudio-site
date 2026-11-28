@@ -98,7 +98,7 @@
   // contadores
   gsap.utils.toArray('[data-count]').forEach(el => {
     const to = +el.dataset.count, o = { v: 0 };
-    gsap.to(o, { v: to, duration: 1.6, ease: 'power2.out', onUpdate: () => el.textContent = Math.round(o.v),
+    gsap.to(o, { v: to, duration: 1.6, ease: 'power2.out', onUpdate: () => el.textContent = (el.dataset.pre || '') + Math.round(o.v) + (el.dataset.suf || ''),
       scrollTrigger: { trigger: el, start: 'top 90%' } });
   });
 
