@@ -171,7 +171,7 @@ main{position:relative;z-index:1}
 .stats__list{display:flex;flex-direction:column;gap:16px}
 .stat{border-radius:var(--r-lg);padding:28px 30px;min-height:200px;display:flex;flex-direction:column;justify-content:space-between;position:sticky;top:18vh}
 .stat:nth-child(2){top:calc(18vh + 14px)}.stat:nth-child(3){top:calc(18vh + 28px)}.stat:nth-child(4){top:calc(18vh + 42px)}.stat:nth-child(5){top:calc(18vh + 56px)}
-.stat b{font-size:clamp(3.4rem,7vw,5.6rem);line-height:1;font-weight:600;letter-spacing:-.05em}
+.stat b{white-space:nowrap;font-size:clamp(2.4rem,4.6vw,4.4rem);line-height:1;font-weight:600;letter-spacing:-.05em}
 .stat span{color:var(--muted)}
 .stat--solid{background:var(--white);box-shadow:0 30px 80px rgba(20,20,23,.12)}
 .stat--solid b{color:var(--orange-deep)}
