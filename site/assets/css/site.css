@@ -177,14 +177,7 @@ main{position:relative;z-index:1}
 .stat--solid b{color:var(--orange-deep)}
 .stat--solid b::before{content:"+"}
 .stats__note{font-size:.85rem;color:var(--muted);margin:8px 4px 0;line-height:1.5}
-/* 4b · agentes de IA */
-.ia{padding-block:14vh}
-.ia .lead{max-width:62ch;margin-inline:auto}
-.ia__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px}
-.ia__card{padding:28px 30px;border-radius:var(--r-lg)}
-.ia__card h3{margin:14px 0 10px}
-.ia__proof{max-width:60ch;margin:40px auto 28px;text-align:center;font-weight:500}
-@media (max-width:860px){.ia__grid{grid-template-columns:1fr}}
+
 
 /* 8 · sobre */
 .about__grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(24px,5vw,72px);align-items:center}
